@@ -1,0 +1,73 @@
+.welcome {
+    /*background: url("/img/welcome/bg.jpg");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: contain;*/
+}
+
+.welcome__project-image img{
+    height: auto;
+    width: 100%;
+}
+
+
+
+.welcome__project-details {
+    padding: 10px 15px 20px 15px;
+    background-color: #3C3C3C;
+}
+
+.welcome__project-header,
+.welcome__project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.welcome__project-title,
+.welcome__project-square,
+.welcome__project-price {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #fff;
+}
+
+.welcome__project-square {
+    width: 97px;
+    height: 40px;
+    border: 2px solid #EDB528;
+    box-sizing: border-box;
+    border-radius: 20px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.welcome__project-square sup {
+    font-size: 11px;
+    vertical-align: super;
+}
+
+.welcome__project-footer {
+    margin-top: 20px;
+}
+
+.welcome__project-description {
+    display: none;
+}
+
+.welcome__project-price-info {
+    font-size: 12px;
+    line-height: 20px;
+    display: inline-block;
+    font-weight: normal;
+}
+
+@media (min-width: 768px) {
+    .welcome__container{
+        padding-top: 400px ;
+    }
+
+    .welcome__project-image {
+        display: none;
+    }
+}

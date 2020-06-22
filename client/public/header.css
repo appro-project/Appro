@@ -47,6 +47,12 @@ body {
     margin: 0 auto;
 }
 
+/*TODO: Container should have padding on all screens */
+@media min {
+
+} 
+
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -177,7 +183,7 @@ body {
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1440px) {
     .header__container {
         height: 140px;
         padding: 30px 20px 25px 20px;
