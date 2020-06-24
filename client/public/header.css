@@ -57,7 +57,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     overflow: hidden;
 }
 
@@ -90,6 +90,13 @@ body {
     line-height: 17px;
     width: 75%;
 }
+
+.header__logo img {
+    width: 130px;
+    height: 30px;
+}
+
+
 
 .header__top-item-phone {
     display: none;
@@ -142,6 +149,9 @@ body {
 @media (min-width: 768px) {
     .header {
         background: rgba(60, 60, 60, 0.8);
+        position: absolute;
+        top: 0;
+        width: 100%;
     }
 
     .header__container {
@@ -189,9 +199,18 @@ body {
         padding: 30px 20px 25px 20px;
     }
 
+    .header__logo img {
+        width: 258px;
+        height: 59px;
+        position: absolute;
+        top: 31px;
+    }
+
     .icon-menu {
         display: none;
     }
+
+
 
     .menu__list {
         margin-top: 23px;

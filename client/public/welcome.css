@@ -7,9 +7,8 @@
 .welcome__project-image img{
     height: auto;
     width: 100%;
+    object-fit: cover;
 }
-
-
 
 .welcome__project-details {
     padding: 10px 15px 20px 15px;
@@ -58,16 +57,12 @@
 .welcome__project-price-info {
     font-size: 12px;
     line-height: 20px;
-    display: inline-block;
+    display: block;
     font-weight: normal;
 }
 
 @media (min-width: 768px) {
-    .welcome__container{
-        padding-top: 400px ;
-    }
-
-    .welcome__project-image {
-        display: none;
+    .welcome__project-image img{
+        min-height: 440px;
     }
 }
