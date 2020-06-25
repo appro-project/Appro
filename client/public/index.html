@@ -14,6 +14,7 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+    <!--    TODO: Add manifest-->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -27,6 +28,7 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="welcome.css">
+    <link rel="stylesheet" href="popular.css">
 
     <title>React App</title>
 </head>
@@ -64,11 +66,12 @@
 
     <main class="content">
         <section class="welcome">
-            <div class="welcome__container">
-                <div class="welcome__project-image">
-                    <img src="img/welcome/bg.jpg" alt="">
-                </div>
+            <div class="welcome__project-image">
+                <img src="img/welcome/bg.jpg" alt="">
+                <div class="overlay"></div>
+            </div>
 
+            <div class="welcome__project-details-wrapper">
                 <div class="welcome__project-details">
                     <div class="welcome__project-header">
                         <div class="welcome__project-title">
@@ -88,16 +91,32 @@
                     <div class="welcome__project-footer">
                         <div class="welcome__project-price">
                             21 000 грн.
-                            <span class="welcome__project-price-info" >цена проекта</span>
+                            <span class="welcome__project-price-info">цена проекта</span>
                         </div>
 
                         <a href="#" class="welcome__project-link button">Подробнее</a>
                     </div>
                 </div>
             </div>
-
-            <div class="scroll-down"></div>
+            <div class="slider-control">
+                <div class="slider-control__body">
+                    <div class="slider-control__button prev-slide"></div>
+                    <div class="slider-control__button next-slide"></div>
+                </div>
+            </div>
+            <div class="scroll-down">
+                <div class="scroll-down__button"></div>
+            </div>
         </section>
+
+        <section class="popular">
+            <div class="popular__container _container">
+                <div class="popular__title _main-title">
+
+                </div>
+            </div>
+        </section>
+
     </main>
 
 </div>

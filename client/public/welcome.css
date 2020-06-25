@@ -1,10 +1,16 @@
-.welcome {
-    /*background: url("/img/welcome/bg.jpg");*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: contain;*/
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(51, 51, 51, 0.1);;
 }
 
-.welcome__project-image img{
+.welcome__project-image img {
     height: auto;
     width: 100%;
     object-fit: cover;
@@ -13,6 +19,7 @@
 .welcome__project-details {
     padding: 10px 15px 20px 15px;
     background-color: #3C3C3C;
+    color: #fff;
 }
 
 .welcome__project-header,
@@ -28,7 +35,6 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 22px;
-    color: #fff;
 }
 
 .welcome__project-square {
@@ -62,7 +68,233 @@
 }
 
 @media (min-width: 768px) {
-    .welcome__project-image img{
-        min-height: 440px;
+    .welcome {
+        position: relative;
     }
+
+    .welcome__project-details {
+        background: rgba(60, 60, 60, 0.8);
+        position: absolute;
+        bottom: 20px;
+        right: 86px;
+        width: 370px;
+        height: 260px;
+        padding: 14px 20px 20px 20px;
+
+    }
+
+    /*TODO: Непонятки со шрифтом*/
+    .welcome__project-description {
+        margin-top: 11px;
+        line-height: 20px;
+        font-size: 12px;
+        display: block;
+    }
+
+    .welcome__project-image img {
+        min-height: 480px;
+    }
+
+    .slider-control__button {
+        width: 42px;
+        height: 42px;
+        border-radius: 100%;
+        border: 2px solid #FFFFFF;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .slider-control__button:before {
+        content: "";
+        display: block;
+        border: 1px solid #FFFFFF;
+        width: 10px;
+        transform: rotate(45deg);
+        position: absolute;
+    }
+
+    .slider-control__button:after {
+        content: "";
+        display: block;
+        border: 1px solid #FFFFFF;
+        width: 10px;
+        transform: rotate(-45deg);
+        position: absolute;
+    }
+
+    .next-slide {
+        right: 24px;
+        bottom: 129px
+    }
+
+    .next-slide:before {
+        top: 14px;
+        right: 12px;
+    }
+
+    .next-slide:after {
+        top: 22px;
+        right: 12px;
+    }
+
+    .prev-slide {
+        left: 24px;
+        bottom: 129px
+    }
+
+    .prev-slide:before {
+        top: 14px;
+        left: 12px;
+        transform: rotate(-45deg);
+    }
+
+    .prev-slide:after {
+        top: 22px;
+        left: 12px;
+        transform: rotate(45deg);
+    }
+
+    .scroll-down {
+        display: none;
+    }
+}
+
+@media (min-width: 1440px) {
+    .welcome {
+        min-height: 100vh;
+    }
+
+    .welcome__project-image,
+    .welcome__project-image img {
+        height: 100vh;
+    }
+
+    .welcome__project-details-wrapper {
+        position: absolute;
+        left: 0;
+        right: 0;
+        max-width: 1580px;
+        margin: 0 auto;
+        padding-right: 24px;
+        padding-left: 16px;
+        bottom: 0;
+    }
+
+    .welcome__project-details {
+        position: static;
+        margin-left: auto;
+        margin-bottom: 40px;;
+    }
+
+    .slider-control {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        max-width: 1580px;
+        margin: 0 auto;
+
+    }
+
+    .slider-control__body {
+        height: 100%;
+        position: relative;
+    }
+
+    .slider-control__button {
+        top: 50%;
+    }
+
+    .next-slide,
+    .prev-slide {
+        height: 50px;
+        width: 50px;
+    }
+
+    .next-slide {
+        float: right;
+    }
+
+    .prev-slide {
+        float: left;
+    }
+
+    .slider-control__button:before,
+    .slider-control__button:after {
+        width: 12px;
+    }
+
+    .prev-slide:before {
+        top: 17px;
+        left: 15px;
+    }
+
+    .prev-slide:after {
+        top: 26px;
+        left: 15px;
+    }
+
+    .next-slide:before {
+        top: 17px;
+        right: 15px;
+    }
+
+    .next-slide:after {
+        top: 26px;
+        right: 15px;
+    }
+
+    .scroll-down {
+        display: block;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .scroll-down__button {
+        width: 32px;
+        height: 32px;
+        border-radius: 100%;
+        border: 2px solid #FFFFFF;
+        cursor: pointer;
+        margin: 0 auto 40px;
+        position: relative;
+    }
+
+    .scroll-down__button:before {
+        content: "";
+        display: block;
+        border: 1px solid #FFFFFF;
+        width: 7px;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 14px;
+        left: 6px;
+    }
+
+    .scroll-down__button:after{
+        content: "";
+        display: block;
+        border: 1px solid #FFFFFF;
+        width: 8px;
+        transform: rotate(-45deg);
+        position: absolute;
+        top: 14px;
+        right: 6px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .next-slide {
+        margin-right: -80px;
+    }
+
+    .prev-slide {
+        margin-left: -80px;
+    }
+
+
+
 }

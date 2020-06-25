@@ -45,11 +45,16 @@ body {
     /* TODO: replace max-width with scss variable */
     max-width: 1580px;
     margin: 0 auto;
+    padding-right: 24px;
+    padding-left: 16px;
 }
 
 /*TODO: Container should have padding on all screens */
-@media min {
-
+@media (min-width: 768px)  {
+    ._container {
+        padding-right: 29px;
+        padding-left: 24px;
+    }
 } 
 
 
@@ -70,7 +75,8 @@ body {
     height: 130px;
     display: flex;
     flex-direction: column;
-    padding: 16px 24px 20px 16px;
+    padding-top: 16px;
+    padding-bottom:  20px;
 }
 
 .header__top {
@@ -150,13 +156,15 @@ body {
     .header {
         background: rgba(60, 60, 60, 0.8);
         position: absolute;
+        z-index: 2;
         top: 0;
         width: 100%;
     }
 
     .header__container {
         height: 80px;
-        padding: 20px 29px 16px 24px;
+        padding-top: 20px;
+        padding-bottom:  16px;
     }
 
     .header__top {
