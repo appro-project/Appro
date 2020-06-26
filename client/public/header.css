@@ -50,13 +50,27 @@ body {
 }
 
 /*TODO: Container should have padding on all screens */
-@media (min-width: 768px)  {
+@media (min-width: 768px) {
     ._container {
         padding-right: 29px;
         padding-left: 24px;
     }
-} 
+}
 
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(51, 51, 51, 0.1);
+}
+
+.overlay--60 {
+    background-color: rgba(60, 60, 60, 0.1);
+}
 
 .wrapper {
     display: flex;
@@ -76,7 +90,7 @@ body {
     display: flex;
     flex-direction: column;
     padding-top: 16px;
-    padding-bottom:  20px;
+    padding-bottom: 20px;
 }
 
 .header__top {
@@ -101,7 +115,6 @@ body {
     width: 130px;
     height: 30px;
 }
-
 
 
 .header__top-item-phone {
@@ -164,7 +177,7 @@ body {
     .header__container {
         height: 80px;
         padding-top: 20px;
-        padding-bottom:  16px;
+        padding-bottom: 16px;
     }
 
     .header__top {
@@ -217,7 +230,6 @@ body {
     .icon-menu {
         display: none;
     }
-
 
 
     .menu__list {

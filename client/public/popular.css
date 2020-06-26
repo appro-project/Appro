@@ -1,0 +1,131 @@
+.popular-categories__container {
+    padding: 50px 10px;
+}
+
+.popular-categories__title {
+    text-align: center;
+}
+
+._main-title {
+    font-weight: 600;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: #202020;
+    line-height: 27px;
+}
+
+.popular-categories__items {
+    margin-top: 25px;
+}
+
+.popular-categories__item {
+    margin-top: 20px;
+}
+
+.popular-categories__item-body {
+    position: relative;
+}
+
+.popular-categories__item img {
+    height: auto;
+    width: 100%;
+}
+
+.popular-categories__item-title {
+    padding: 14px 0 0 20px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(60, 60, 60, 0.6);
+
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+    .popular-categories__container {
+        padding: 50px 24px;
+    }
+
+    .popular-categories__title {
+        text-align: left;
+        display: flex;
+    }
+
+    ._main-title {
+        font-size: 32px;
+        line-height: 39px;
+        position: relative;
+        overflow: hidden;
+    }
+
+
+    /*TODO: Width should be fixed?*/
+    ._main-title:after {
+        content: "";
+        display: inline-block;
+        height: 2px;
+        background-color: #FFB000;
+        flex: 1 1 auto;
+        align-self: flex-end;
+        margin-bottom: 7px;
+        margin-left: 10px;
+    }
+
+    .popular-categories__items {
+        margin-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .popular-categories__item {
+        margin-top: 30px;
+        width: 50%;
+    }
+
+    .popular-categories__item:nth-child(odd) {
+        padding-right: 10px;
+    }
+
+    .popular-categories__item:nth-child(even) {
+        padding-left: 10px;
+    }
+
+    .popular-categories__item:nth-child(-n+2) {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1440px) {
+    ._main-title {
+        font-size: 64px;
+        line-height: 79px;
+    }
+
+    ._main-title:after {
+        margin-bottom: 17px;
+        margin-left: 20px;
+    }
+
+    .popular-categories__item:nth-child(-n+3) {
+        padding: 0 10px;
+    }
+
+    .popular-categories__item:nth-child(1) {
+        margin-left: -10px;
+    }
+
+    .popular-categories__item:nth-child(3) {
+        margin-right: -10px;
+    }
+
+    .popular-categories__item:nth-child(-n+3) {
+        margin-top: 0;
+        width: 33.3%;
+    }
+}
