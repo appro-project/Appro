@@ -27,9 +27,8 @@
 }
 
 .popular-categories__item img {
-    height: 380px;
+    height: auto;
     width: 100%;
-    object-fit: cover;
 }
 
 .popular-categories__item-title {
@@ -150,5 +149,11 @@
         font-size: 24px;
         line-height: 30px;
         padding: 20px 30px;
+    }
+
+    .popular-categories__item img {
+        height: 380px;
+        width: 100%;
+        object-fit: cover;
     }
 }
