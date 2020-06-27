@@ -49,7 +49,6 @@
 }
 
 @media (min-width: 1440px) {
-
     .about__body {
         justify-content: flex-start;
     }

@@ -1,0 +1,52 @@
+.principles__container {
+    padding-bottom: 50px;
+}
+
+.principles__item {
+    width: calc(100vw - 32px);
+    height: calc(100vw - 32px);
+    margin-bottom: 20px;
+}
+
+.principles__item-body {
+    padding: 11% 20px 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(60, 60, 60, 0.4);;
+}
+
+.principles__item--strength {
+    background: url("img/principles/strength.jpg") center center;
+    background-size: cover;
+}
+
+.principles__item--beauty {
+    background: url("img/principles/beauty.jpg") center center;
+    background-size: cover;
+}
+
+.principles__item--benefit {
+    background: url("img/principles/benefit.jpg") center center;
+    background-size: cover;
+}
+
+.principles__item-title {
+    z-index: 5;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 44px;
+
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+    margin-bottom: 8%;
+}
+
+.principles__item-description {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 25px;
+
+    color: #FFFFFF;
+}
+
