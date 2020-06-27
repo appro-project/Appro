@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 html, body {
     height: 100%;
@@ -18,7 +18,7 @@ body {
     display: block;
     width: 147px;
     height: 40px;
-    background-color: #EDB528;
+    background-color: #FFB000;
     color: #202020;
     text-align: center;
     line-height: 40px;
@@ -35,25 +35,30 @@ body {
     font-weight: 600;
     font-size: 16px;
     color: #fff;
-    border: 2px solid #EDB528;
+    border: 2px solid #FFB000;
     box-sizing: border-box;
     border-radius: 4px;
     background-color: transparent;
+    line-height: 36px;
 }
 
 ._container {
     /* TODO: replace max-width with scss variable */
     max-width: 1580px;
     margin: 0 auto;
-    padding-right: 24px;
-    padding-left: 16px;
+    padding: 0 16px;
 }
 
 /*TODO: Container should have padding on all screens */
 @media (min-width: 768px) {
     ._container {
-        padding-right: 29px;
-        padding-left: 24px;
+        padding: 0 24px;
+    }
+}
+
+@media (min-width: 1440px) {
+    ._container {
+        padding: 0 30px;
     }
 }
 
@@ -65,10 +70,6 @@ body {
     right: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba(51, 51, 51, 0.1);
-}
-
-.overlay--60 {
     background-color: rgba(60, 60, 60, 0.1);
 }
 

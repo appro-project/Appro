@@ -65,6 +65,7 @@
     }
 
     .welcome__project-details {
+        z-index: 1;
         background: rgba(60, 60, 60, 0.8);
         position: absolute;
         bottom: 20px;
@@ -75,11 +76,10 @@
 
     }
 
-    /*TODO: Непонятки со шрифтом*/
     .welcome__project-description {
         margin-top: 11px;
         line-height: 20px;
-        font-size: 12px;
+        font-size: 14px;
         display: block;
     }
 

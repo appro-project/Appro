@@ -27,8 +27,9 @@
 }
 
 .popular-categories__item img {
-    height: auto;
+    height: 380px;
     width: 100%;
+    object-fit: cover;
 }
 
 .popular-categories__item-title {
@@ -63,8 +64,6 @@
         overflow: hidden;
     }
 
-
-    /*TODO: Width should be fixed?*/
     ._main-title:after {
         content: "";
         display: inline-block;
@@ -88,16 +87,18 @@
         width: 50%;
     }
 
+    .popular-categories__item:nth-child(-n+2) {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
     .popular-categories__item:nth-child(odd) {
         padding-right: 10px;
     }
 
     .popular-categories__item:nth-child(even) {
         padding-left: 10px;
-    }
-
-    .popular-categories__item:nth-child(-n+2) {
-        margin-top: 0;
     }
 }
 
@@ -112,20 +113,42 @@
         margin-left: 20px;
     }
 
-    .popular-categories__item:nth-child(-n+3) {
-        padding: 0 10px;
+    .popular-categories__item {
+        padding: 0 20px;
+        margin-top: 40px;
     }
 
-    .popular-categories__item:nth-child(1) {
-        margin-left: -10px;
+    .popular-categories__item:nth-child(1),
+    .popular-categories__item:nth-child(4),
+    .popular-categories__item:nth-child(6) {
+        padding-left: 0;
     }
 
-    .popular-categories__item:nth-child(3) {
-        margin-right: -10px;
+    .popular-categories__item:nth-child(3),
+    .popular-categories__item:nth-child(5),
+    .popular-categories__item:nth-child(8) {
+        padding-right: 0;
     }
+
+    .popular-categories__item:nth-child(4) img,
+    .popular-categories__item:nth-child(5) img{
+        height: 480px;
+    }
+
 
     .popular-categories__item:nth-child(-n+3) {
         margin-top: 0;
-        width: 33.3%;
+        width: 33.3333%;
+    }
+
+    .popular-categories__item:nth-last-child(-n+3) {
+        width: 33.3333%;
+    }
+
+    .popular-categories__item-title {
+        height: 70px;
+        font-size: 24px;
+        line-height: 30px;
+        padding: 20px 30px;
     }
 }
