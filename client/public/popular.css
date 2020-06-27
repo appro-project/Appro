@@ -1,21 +1,6 @@
 .popular-categories__container {
-    padding: 50px 10px;
-}
-
-.popular-categories__title {
-    text-align: center;
-}
-
-._main-title {
-    font-weight: 600;
-    font-size: 22px;
-    text-transform: uppercase;
-    color: #202020;
-    line-height: 27px;
-}
-
-.popular-categories__items {
-    margin-top: 25px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .popular-categories__item {
@@ -31,6 +16,7 @@
     width: 100%;
 }
 
+/*TODO: I make them unselectable, is it ok? */
 .popular-categories__item-title {
     padding: 14px 0 0 20px;
     height: 50px;
@@ -44,38 +30,25 @@
     line-height: 22px;
     text-transform: uppercase;
     color: #FFFFFF;
+    cursor: pointer;
+    user-select: none;
+}
+
+.popular-categories__item-title:hover {
+    background-color: #EDB528;
+}
+
+.popular-categories__item-title:active {
+    background-color: #E1A91C;
 }
 
 @media (min-width: 768px) {
-    .popular-categories__container {
-        padding: 50px 24px;
-    }
-
     .popular-categories__title {
         text-align: left;
         display: flex;
     }
 
-    ._main-title {
-        font-size: 32px;
-        line-height: 39px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    ._main-title:after {
-        content: "";
-        display: inline-block;
-        height: 2px;
-        background-color: #FFB000;
-        flex: 1 1 auto;
-        align-self: flex-end;
-        margin-bottom: 7px;
-        margin-left: 10px;
-    }
-
     .popular-categories__items {
-        margin-top: 40px;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -102,16 +75,6 @@
 }
 
 @media (min-width: 1440px) {
-    ._main-title {
-        font-size: 64px;
-        line-height: 79px;
-    }
-
-    ._main-title:after {
-        margin-bottom: 17px;
-        margin-left: 20px;
-    }
-
     .popular-categories__item {
         padding: 0 20px;
         margin-top: 40px;

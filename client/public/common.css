@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.lock {
+    overflow: hidden;
+}
+
+@media (min-width: 1440px) {
+    body.lock {
+        overflow: auto;
+    }
+}
+
+/* TODO: Maybe use @extend from SCSS */
+
+.button {
+    display: block;
+    width: 147px;
+    height: 40px;
+    background-color: #FFB000;
+    color: #202020;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.button:hover {
+    color: #fff;
+    background-color: #FFCF42;
+}
+
+.button:active {
+    color: #fff;
+    background-color: #E1A91C;
+}
+
+/* TODO: should we rename to button--transparent?*/
+.button--header {
+    text-transform: none;
+    width: 210px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    border: 2px solid #FFB000;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: transparent;
+    line-height: 36px;
+}
+
+.button--header:hover {
+    background-color: #EDB528;
+}
+
+.button--header:active {
+    background-color: #E1A91C;
+}
+
+._container {
+    /* TODO: replace max-width with scss variable */
+    max-width: 1580px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/*TODO: Container should have padding on all screens */
+@media (min-width: 768px) {
+    ._container {
+        padding: 0 24px;
+    }
+}
+
+@media (min-width: 1440px) {
+    ._container {
+        padding: 0 30px;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(60, 60, 60, 0.1);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .arrow:hover {
+        background-color: #fff;
+    }
+
+    .arrow:active {
+        background-color: #EDB528;
+        border-color: #EDB528;
+    }
+
+    .arrow:hover::before,
+    .arrow:hover::after,
+    .arrow:active::before,
+    .arrow:active::after {
+        border: 1px solid #E5E5E5;
+    }
+}
+
+
+._main-title {
+    font-weight: 600;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: #202020;
+    line-height: 27px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    ._main-title {
+        margin-bottom: 32px;
+        text-align: left;
+        display: flex;
+        font-size: 32px;
+        line-height: 39px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    ._main-title:after {
+        content: "";
+        display: inline-block;
+        height: 2px;
+        background-color: #FFB000;
+        flex: 1 1 auto;
+        align-self: flex-end;
+        margin-bottom: 7px;
+        margin-left: 10px;
+    }
+}
+
+@media (min-width: 1440px) {
+    ._main-title {
+        margin-bottom: 63px;
+    }
+
+    ._main-title {
+        font-size: 64px;
+        line-height: 79px;
+    }
+
+    ._main-title:after {
+        margin-bottom: 17px;
+        margin-left: 20px;
+    }
+}

@@ -1,95 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
-html, body {
-    height: 100%;
-}
-
-body {
-    font-size: 16px;
-
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-}
-
-.lock {
-    overflow: hidden;
-}
-
-@media (min-width: 1440px) {
-    body.lock {
-        overflow: auto;
-    }
-}
-
-/* TODO: Maybe use @extend from SCSS */
-
-.button {
-    display: block;
-    width: 147px;
-    height: 40px;
-    background-color: #FFB000;
-    color: #202020;
-    text-align: center;
-    line-height: 40px;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-}
-
-.button--header {
-    text-transform: none;
-    width: 210px;
-    font-weight: 600;
-    font-size: 16px;
-    color: #fff;
-    border: 2px solid #FFB000;
-    box-sizing: border-box;
-    border-radius: 4px;
-    background-color: transparent;
-    line-height: 36px;
-}
-
-._container {
-    /* TODO: replace max-width with scss variable */
-    max-width: 1580px;
-    margin: 0 auto;
-    padding: 0 16px;
-}
-
-/*TODO: Container should have padding on all screens */
-@media (min-width: 768px) {
-    ._container {
-        padding: 0 24px;
-    }
-}
-
-@media (min-width: 1440px) {
-    ._container {
-        padding: 0 30px;
-    }
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(60, 60, 60, 0.1);
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
-    overflow: hidden;
-}
 
 
 .header {
@@ -350,6 +258,7 @@ body {
         padding: 0;
         display: block;
         background-color: transparent;
+        overflow: hidden;
     }
 
     .menu__header,

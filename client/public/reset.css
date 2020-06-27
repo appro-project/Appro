@@ -373,6 +373,8 @@ textarea {
     padding: 0.2em 0;
 }
 
-a:focus {
+a:focus,
+a:active{
     text-decoration: none;
+    outline: none;
 }

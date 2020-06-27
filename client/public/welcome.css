@@ -64,8 +64,11 @@
         position: relative;
     }
 
-    .welcome__project-details {
+    .welcome__project-details-wrapper {
         z-index: 1;
+    }
+
+    .welcome__project-details {
         background: rgba(60, 60, 60, 0.8);
         position: absolute;
         bottom: 20px;
@@ -86,6 +89,7 @@
     .welcome__project-image img {
         min-height: 480px;
     }
+
 
     .slider-control {
         position: absolute;
@@ -131,7 +135,7 @@
     }
 
     .next-slide {
-        margin-right:  24px;
+        margin-right: 24px;
     }
 
     .next-slide:before {
@@ -145,7 +149,7 @@
     }
 
     .prev-slide {
-        margin-left:  24px;
+        margin-left: 24px;
     }
 
     .prev-slide:before {
@@ -199,11 +203,11 @@
     }
 
     .next-slide {
-        margin-right: calc((100% - 1440px) / 4) ;
+        margin-right: calc((100% - 1390px) / 4);
     }
 
     .prev-slide {
-        margin-left: calc((100% - 1440px) / 4) ;
+        margin-left: calc((100% - 1390px) / 4);
     }
 
     .slider-control__button:before,
@@ -239,6 +243,7 @@
     }
 
     .scroll-down__button {
+        z-index: 5;
         width: 32px;
         height: 32px;
         border-radius: 100%;
@@ -259,7 +264,7 @@
         left: 6px;
     }
 
-    .scroll-down__button:after{
+    .scroll-down__button:after {
         content: "";
         display: block;
         border: 1px solid #FFFFFF;
