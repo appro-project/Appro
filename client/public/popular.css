@@ -75,6 +75,10 @@
 }
 
 @media (min-width: 1440px) {
+    .popular-categories__container {
+        padding-bottom: 8   0px;
+    }
+
     .popular-categories__item {
         padding: 0 20px;
         margin-top: 40px;

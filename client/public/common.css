@@ -39,6 +39,7 @@ body {
     border-radius: 4px;
 }
 
+
 .button:focus {
     outline: none;
 }
@@ -73,6 +74,12 @@ body {
 
 .button--header:active {
     background-color: #E1A91C;
+}
+
+@media (min-width: 768px) {
+    .button--big {
+        
+    }
 }
 
 ._container {
@@ -140,7 +147,6 @@ body {
     color: #202020;
     line-height: 27px;
     margin-bottom: 24px;
-    text-align: center;
 }
 
 @media (min-width: 768px) {

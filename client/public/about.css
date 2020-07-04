@@ -49,6 +49,10 @@
 }
 
 @media (min-width: 1440px) {
+    .about__container {
+        padding-bottom: 80px;
+    }
+
     .about__body {
         justify-content: flex-start;
     }

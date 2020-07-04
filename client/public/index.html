@@ -32,6 +32,10 @@
     <link rel="stylesheet" href="popular.css">
     <link rel="stylesheet" href="about.css">
     <link rel="stylesheet" href="principles.css">
+    <link rel="stylesheet" href="feedback.css">
+
+
+    <link rel="stylesheet" href="footer.css">
 
     <title>React App</title>
 </head>
@@ -300,9 +304,8 @@
                                 Красота
                             </div>
                             <div class="principles__item-description">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut
-                                labore et dolore magna aliqua.
+                                Самый ответственный критерий, отвечающий за визуальное восприятие, гармоничный симбиоз
+                                функциональности и конструктивной стороны с формированием определенного стиля.
                             </div>
                         </div>
                     </div>
@@ -310,7 +313,62 @@
             </div>
         </section>
 
+        <section class="feedback">
+            <div class="feedback__container _container">
+                <div class="feedback_header">
+                    Остались вопросы? Напишите нам!
+                </div>
+
+                <div class="feedback__body">
+                    <form action="" class="feedback__form">
+                        <div class="feedback__name-input">
+                            <input type="text" placeholder="Имя">
+                        </div>
+                        <div class="feedback__name-input">
+                            <input type="text" placeholder="E-mail">
+                        </div>
+                        <div class="feedback__name-input">
+                            <input type="text" placeholder="Номер телефона (необязательно)">
+                        </div>
+                        <div class="feedback__name-input">
+                            <input type="text" placeholder="Ваше сообщение">
+                        </div>
+                        <div class="button button--big">Отправить</div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <footer class="footer">
+        <div class="footer__container _container">
+            <div class="footer__logo">
+                <img src="img/logo.svg" alt="logo">
+                <div class="footer__logo-slogan">
+                    польза, прочность, красота
+                </div>
+            </div>
+
+            <nav class="footer__nav">
+                <ul class="footer__menu-list">
+                    <li><a href="#" class="footer__menu-link">Главная</a></li>
+                    <li><a href="#" class="footer__menu-link">Каталог домов</a></li>
+                    <li><a href="#" class="footer__menu-link">Индивидуальный проект</a></li>
+                    <li><a href="#" class="footer__menu-link">Реализованные проекты</a></li>
+                    <li><a href="#" class="footer__menu-link">Дополнительные услуги</a></li>
+                    <li><a href="#" class="footer__menu-link">О нас</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer__address">
+                <div class="footer__address-item">г. Ирпень, ул. Героев Сталинграда, 13</div>
+                <div class="footer__address-item">+38 (066) 39-53-654</div>
+                <div class="footer__address-item">© 2020 Архитектурное Бюро.</div>
+            </div>
+
+        </div>
+    </footer>
 
 </div>
 
