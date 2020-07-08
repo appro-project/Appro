@@ -20,6 +20,7 @@
     padding: 20px;
     width: 100%;
     max-width: 328px;
+    border: 1px solid #979797;
 }
 
 .feedback__input input::placeholder {
