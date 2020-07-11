@@ -25,7 +25,7 @@ const Menu = (props: Props) => {
         <nav className={classes["menu__body"]}>
             <ul className={classes["menu__list"]}>
                 {menuLinks.map((link, index) =>
-                    <MenuItem key={index} name={link.name}/>)}
+                    <MenuItem key={index} name={link.name} url={link.url}/>)}
             </ul>
         </nav>
 

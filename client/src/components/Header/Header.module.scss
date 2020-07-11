@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .header {
   background-color: #3C3C3C;
 }
@@ -21,8 +23,10 @@
   color: #fff;
 }
 
+// TODO: Should be clickable
 .header__logo {
   width: 75%;
+  display: block;
 }
 
 .header__logo-img {
@@ -42,4 +46,66 @@
 .header__top-item-lang {
   font-weight: 500;
   margin-right: 3px;
+}
+
+@media (min-width: $tablet-width) {
+  .header {
+    background: rgba(60, 60, 60, 0.8);
+    position: absolute;
+    //z-index: 2;
+    top: 0;
+    width: 100%;
+  }
+
+  .header__container {
+    height: 80px;
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .header__top {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .header__logo {
+    margin-right: auto;
+    width: auto;
+  }
+
+  .header__top-item-contact,
+  .header__top-item-menu {
+    margin-top: 0px;
+  }
+
+  .header__top-item {
+    margin-left: 30px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .header__top-item-phone {
+    display: block;
+  }
+}
+
+
+@media (min-width: $desktop-width) {
+  .header__container {
+    height: 140px;
+    padding: 30px 20px 0 20px;
+  }
+
+  .header__logo-img {
+    width: 258px;
+    height: 59px;
+    position: absolute;
+    top: 31px;
+  }
+
+  .header__top-item-menu {
+    display: none;
+  }
 }
