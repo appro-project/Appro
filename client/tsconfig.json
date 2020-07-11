@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "jsx": "preserve",
+    "strict": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "baseUrl": "src",
+    "paths": {
+      "containers/*": ["./containers/*"],
+      "components/*": ["./components/*"],
+      "actions/*": ["./actions/*"],
+      "styles/*": ["./styles/*"],
+      "assets/*": ["./assets/*"],
+      "models/*": ["./models/*"],
+      "~/*": ["./*"]
+    },
+    "plugins": [
+      { "name": "tslint-language-service" }
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".cache-loader"
+  ]
+}
