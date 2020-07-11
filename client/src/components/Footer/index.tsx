@@ -1,37 +1,13 @@
 import React from "react";
-import Container from "../../containers/hoc/Container/Container";
+import Container from "containers/hoc/Container";
 
 import {ReactComponent as Logo} from '../../assets/img/logo.svg';
+import {menuLinks, contactInfo, MenuLinkInfo} from "../../constants";
 
 import classes from "./Footer.module.scss";
 
-interface MenuLinkInfo {
-    name: string;
-    //TODO: Should not be optional!
-    url?: string;
-}
-
-interface ContactInfo {
-    address: string;
-    phone: string;
-    copyright: string;
-}
-
 const slogan: string = "польза, прочность, красота";
-const menuLinks: MenuLinkInfo[] = [
-    {name: "Главная", url: "/"},
-    {name: "Каталог домов", url: "/catalogue"},
-    {name: "Индивидуальный проект", url: "/individual"},
-    {name: "Реализованные проекты", url: "/finished"},
-    {name: "Дополнительные услуги", url: "/additional"},
-    {name: "О нас", url: "/about"},
-];
 
-const contactInfo: ContactInfo = {
-    address: "г. Ирпень, ул. Героев Сталинграда, 13",
-    phone: "+38 (066) 39-53-654",
-    copyright: "© 2020 Архитектурное Бюро."
-}
 
 const Footer = () => {
     return <footer className={classes['footer']}>
@@ -66,7 +42,7 @@ const Footer = () => {
 
 // TODO: How can we pass object here?
 const MenuItem = (props: MenuLinkInfo) => {
-    return <li><a href="#" className={classes["footer__menu-link"]}>{props.name}</a></li>;
+    return <li><a href={props.url} className={classes["footer__menu-link"]}>{props.name}</a></li>;
 }
 
 export default Footer;

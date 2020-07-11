@@ -1,0 +1,50 @@
+.button {
+  display: block;
+  width: 147px;
+  height: 40px;
+  background-color: #FFB000;
+  color: #202020;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+
+.button:focus {
+  outline: none;
+}
+
+.button:hover {
+  color: #fff;
+  background-color: #FFCF42;
+}
+
+.button:active {
+  color: #fff;
+  background-color: #E1A91C;
+}
+
+.button--transparent {
+  text-transform: none;
+  width: 210px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  border: 2px solid #FFB000;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: transparent;
+  line-height: 36px;
+}
+
+.button--transparent:hover {
+  background-color: #EDB528;
+}
+
+.button--transparent:active {
+  background-color: #E1A91C;
+}

@@ -12,22 +12,30 @@
     "sourceMap": true,
     "inlineSourceMap": false,
     "baseUrl": "src",
-    "paths": {
-      "containers/*": ["./containers/*"],
-      "components/*": ["./components/*"],
-      "actions/*": ["./actions/*"],
-      "styles/*": ["./styles/*"],
-      "assets/*": ["./assets/*"],
-      "models/*": ["./models/*"],
-      "~/*": ["./*"]
-    },
     "plugins": [
-      { "name": "tslint-language-service" }
-    ]
+      {
+        "name": "tslint-language-service"
+      }
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "exclude": [
     "node_modules",
     "dist",
     ".cache-loader"
+  ],
+  "include": [
+    "src"
   ]
 }

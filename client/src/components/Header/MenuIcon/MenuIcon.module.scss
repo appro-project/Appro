@@ -1,0 +1,28 @@
+.menu-icon {
+  display: block;
+  height: 21px;
+  width: 30px;
+  position: relative;
+}
+
+.menu-icon:before,
+.menu-icon:after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  background-color: #fff;
+}
+
+.menu-icon:after {
+  bottom: 0;
+}
+
+.menu-icon span {
+  width: 100%;
+  background-color: #fff;
+  height: 3px;
+  position: absolute;
+  top: 9px;
+}

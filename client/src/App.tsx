@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from "./containers/hoc/Layout/Layout";
+import Layout from "containers/hoc/Layout";
 
 function App() {
     return (

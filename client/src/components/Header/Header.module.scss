@@ -1,0 +1,45 @@
+.header {
+  background-color: #3C3C3C;
+}
+
+.header__container {
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
+.header__top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.header__top-item {
+  color: #fff;
+}
+
+.header__logo {
+  width: 75%;
+}
+
+.header__logo-img {
+  width: 130px;
+  height: 30px;
+}
+
+.header__top-item-phone {
+  display: none;
+}
+
+.header__top-item-contact,
+.header__top-item-menu {
+  margin-top: 20px;
+}
+
+.header__top-item-lang {
+  font-weight: 500;
+  margin-right: 3px;
+}
