@@ -5,7 +5,8 @@ import {ReactComponent as Logo} from 'assets/img/logo.svg';
 import {menuLinks, contactInfo, MenuLinkInfo} from "constants/index";
 
 interface Props {
-    isOpened?: boolean;
+    isOpened: boolean;
+    closeMenu(): void;
 }
 
 const Menu = (props: Props) => {
@@ -19,7 +20,7 @@ const Menu = (props: Props) => {
             <a className={classes["menu__logo"]} href="/">
                 <Logo/>
             </a>
-            <div className={classes["menu__close"]}/>
+            <div className={classes["menu__close"]} onClick={props.closeMenu}/>
         </div>
         <nav className={classes["menu__body"]}>
             <ul className={classes["menu__list"]}>

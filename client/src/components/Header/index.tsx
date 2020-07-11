@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {ReactComponent as Logo} from '../../assets/img/logo.svg';
 import classes from "./Header.module.scss";
 import Container from "containers/hoc/Container";
@@ -7,6 +7,8 @@ import MenuIcon from "components/Header/MenuIcon";
 import Menu from "./Menu";
 
 const Header = () => {
+    const [isOpened, setIsOpened] = useState(false);
+
     return <header className={classes['header']}>
         <Container>
             <div className={classes['header__container']}>
@@ -26,12 +28,13 @@ const Header = () => {
                             <Button title={"Обратная связь"} buttonType={ButtonType.TRANSPARENT}/>
                         </a>
                     </div>
-                    <div className={createHeaderTopItemClass("header__top-item-menu")}>
+                    <div className={createHeaderTopItemClass("header__top-item-menu")}
+                         onClick={() => setIsOpened(true)}>
                         <MenuIcon/>
                     </div>
                 </div>
 
-                <Menu/>
+                <Menu isOpened={isOpened} closeMenu={()=> setIsOpened(false)}/>
 
             </div>
         </Container>
