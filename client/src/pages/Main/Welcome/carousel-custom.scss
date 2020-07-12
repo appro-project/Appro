@@ -1,0 +1,44 @@
+@import "../../../variables";
+
+.carousel .control-dots {
+  bottom: 130px;
+}
+
+.control-arrow {
+  display: none;
+}
+
+@media (min-width: $tablet-width) {
+  .carousel .control-dots {
+    display: none;
+  }
+
+  .carousel.carousel-slider .control-arrow {
+    display: block;
+    background: none;
+    opacity: 1;
+    top: 100px;
+
+    &:hover, &:focus {
+      background: none;
+    }
+
+    &:before {
+      display: none;
+    }
+
+    svg {
+      color: #fff;
+    }
+  }
+
+  .slider-control__prev {
+    top: 80px;
+    left: 8px;
+  }
+
+  .slider-control__next {
+    top: 80px;
+    right: 8px;
+  }
+}

@@ -24,7 +24,8 @@ const Footer = () => {
                     <ul className={classes["footer__menu-list"]}>
                         {menuLinks.map((link, index) =>
                             <MenuItem key={index}
-                                      name={link.name}/>)}
+                                      name={link.name}
+                                      url={link.url}/>)}
                     </ul>
                 </nav>
 

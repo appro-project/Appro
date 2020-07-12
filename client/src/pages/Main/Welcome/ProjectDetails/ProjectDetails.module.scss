@@ -1,0 +1,72 @@
+@import "../../../../variables";
+
+.project-details {
+  padding: 10px 15px 20px 15px;
+  background-color: #3C3C3C;
+  color: #fff;
+}
+
+.project-details__header,
+.project-details__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-details__title,
+.project-details__square,
+.project-details__price {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.project-details__square {
+  width: 97px;
+  height: 40px;
+  border: 2px solid $main-orange;
+  border-radius: 20px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.project-details__square sup {
+  font-size: 11px;
+  vertical-align: super;
+}
+
+.project-details__footer {
+  margin-top: 20px;
+}
+
+.project-details__description {
+  display: none;
+}
+
+.project-details__price-info {
+  font-size: 12px;
+  line-height: 20px;
+  display: block;
+  font-weight: normal;
+  text-align: left;
+}
+
+@media (min-width: $tablet-width) {
+  .project-details {
+    background: rgba(60, 60, 60, 0.8);
+    position: absolute;
+    bottom: 20px;
+    right: 86px;
+    width: 370px;
+    height: 260px;
+    padding: 14px 20px 20px 20px;
+  }
+
+  .project-details__description {
+    margin-top: 11px;
+    line-height: 20px;
+    font-size: 14px;
+    display: block;
+    text-align: left;
+  }
+}

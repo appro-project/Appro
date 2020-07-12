@@ -1,7 +1,6 @@
 export interface MenuLinkInfo {
     name: string;
-    //TODO: Should not be optional!
-    url?: string;
+    url: string;
 }
 
 export interface ContactInfo {

@@ -23,8 +23,7 @@ const Header = () => {
                     <a className={createHeaderTopItemClass("header__top-item-lang")} href="#">RU</a>
 
                     <div className={createHeaderTopItemClass("header__top-item-contact")}>
-                        <a className={["button", "button--header"].join(" ")}
-                           href="#">
+                        <a href="#">
                             <Button title={"Обратная связь"} buttonType={ButtonType.TRANSPARENT}/>
                         </a>
                     </div>
@@ -34,7 +33,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                <Menu isOpened={isOpened} closeMenu={()=> setIsOpened(false)}/>
+                <Menu isOpened={isOpened} closeMenu={() => setIsOpened(false)}/>
 
             </div>
         </Container>
