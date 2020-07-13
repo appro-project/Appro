@@ -19,6 +19,7 @@
     opacity: 1;
     top: 100px;
 
+
     &:hover, &:focus {
       background: none;
     }
@@ -29,6 +30,30 @@
 
     svg {
       color: #fff;
+      height: 42px;
+      width: 42px;
+
+      &:hover {
+        fill: #fff;
+
+        #arrow {
+          stroke: #E5E5E5;
+        }
+      }
+
+      &:active {
+        fill: $main-orange;
+
+        #arrow {
+          stroke: #fff;
+        }
+
+        #circle {
+          stroke: $main-orange;
+        }
+      }
+
+
     }
   }
 
@@ -40,5 +65,22 @@
   .slider-control__next {
     top: 80px;
     right: 8px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .carousel.carousel-slider .control-arrow {
+    svg {
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  .slider-control__next {
+    right: 1.5%;
+  }
+
+  .slider-control__prev {
+    left: 1.5%;
   }
 }

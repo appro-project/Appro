@@ -17,7 +17,8 @@ const sliderProps = () => ({
     showThumbs: false,
     showStatus: false,
     infiniteLoop: true,
-    autoPlay: true,
+    autoPlay: false,
+    interval: 4000,
     renderArrowPrev,
     renderArrowNext
 });
@@ -33,32 +34,34 @@ export interface ProjectDetailsData {
 
 const renderArrowPrev = (clickHandler: () => void, hasPrev: boolean, label: string) => {
     const arrowClasses = ['slider-control__prev', "control-arrow"];
-    return <button onClick={()=> clickHandler()} aria-label="prev slide / item"
-                   className={arrowClasses.join(" ")} >
+    return <button onClick={() => clickHandler()} aria-label="prev slide / item"
+                   className={arrowClasses.join(" ")}>
         <SliderPrev/>
     </button>;
 }
 
-const renderArrowNext= (clickHandler: () => void, hasPrev: boolean, label: string) => {
+const renderArrowNext = (clickHandler: () => void, hasPrev: boolean, label: string) => {
     const arrowClasses = ['slider-control__next', "control-arrow"];
-    return <button onClick={()=> clickHandler()} aria-label="next slide / item"
-                   className={arrowClasses.join(" ")} >
+    return <button onClick={() => clickHandler()} aria-label="next slide / item"
+                   className={arrowClasses.join(" ")}>
         <SliderNext/>
     </button>;
 }
 
 const Welcome = () => {
-    return <section className={classes['welcome']} >
+
+    return <section className={classes['welcome']}>
         <Carousel {...sliderProps()} >
 
-            {projectsData.map(project =>
-                <div>
+            {projectsData.map((project, index) =>
+                <div key={index}>
                     <div className={classes["welcome__project-image"]}>
                         <img src={project.image} alt="slide 1"/>
                         <Overlay/>
                     </div>
-
-                    <ProjectDetails project={project}/>
+                    <div className={classes["welcome__project-details-wrapper"]}>
+                        <ProjectDetails project={project}/>
+                    </div>
                 </div>
             )}
 

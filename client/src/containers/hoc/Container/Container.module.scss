@@ -1,7 +1,21 @@
+@import "../../../variables";
+
 .container {
   /* TODO: replace max-width with scss variable */
   max-width: 1580px;
   margin: 0 auto;
   padding: 0 16px;
   outline: 1px solid red;
+}
+
+@media (min-width: $tablet-width) {
+  .container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .container {
+    padding: 0 30px;
+  }
 }
