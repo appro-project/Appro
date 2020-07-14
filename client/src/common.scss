@@ -1,0 +1,42 @@
+@import "variables";
+
+._main-title {
+  font-weight: 600;
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #202020;
+  line-height: 27px;
+}
+
+@media (min-width: $tablet-width) {
+  ._main-title {
+    display: flex;
+    font-size: 32px;
+    line-height: 39px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .title-underscore:after {
+    content: "";
+    display: inline-block;
+    height: 2px;
+    background-color: #FFB000;
+    flex: 1 1 auto;
+    align-self: flex-end;
+    margin-bottom: 7px;
+    margin-left: 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  ._main-title {
+    font-size: 64px;
+    line-height: 79px;
+  }
+
+  .title-underscore:after {
+    margin-bottom: 17px;
+    margin-left: 20px;
+  }
+}

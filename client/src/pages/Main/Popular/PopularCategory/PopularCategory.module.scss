@@ -1,0 +1,122 @@
+@import "../../../../variables";
+
+$orange-with-opacity: rgba(237, 181, 40, 0.8);
+
+.popular-category {
+  margin-bottom: 20px;
+  outline: 1px solid #E1A91C;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.popular-category__body {
+  position: relative;
+  height: 100%;
+}
+
+.popular-category__img-wrapper {
+  height: 100%;
+}
+
+.popular-category img {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  object-fit: cover;
+}
+
+/*TODO: I make them unselectable, is it ok? */
+.popular-category__title {
+  padding: 14px 0 0 20px;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(60, 60, 60, 0.6);
+
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  cursor: pointer;
+  user-select: none;
+}
+
+.popular-category__title:hover {
+  background-color: $main-orange;
+}
+
+.popular-category__title:active {
+  background-color: #E1A91C;
+}
+
+@media (min-width: $tablet-width) {
+  .popular-category {
+    margin-bottom: 30px;
+    width: 50%;
+  }
+
+  .popular-category:nth-last-child(-n+2) {
+    margin-bottom: 0;
+  }
+}
+
+
+@media (min-width: $tablet-width) and (max-width: $desktop-width) {
+  .popular-category:nth-child(odd) {
+    padding-right: 10px;
+  }
+
+  .popular-category:nth-child(even) {
+    padding-left: 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .popular-category {
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+
+  .popular-category:nth-child(1),
+  .popular-category:nth-child(4),
+  .popular-category:nth-child(6) {
+    padding-left: 0;
+  }
+
+  .popular-category:nth-child(3),
+  .popular-category:nth-child(5),
+  .popular-category:nth-child(8) {
+    padding-right: 0;
+  }
+
+  .popular-category:nth-child(4) img,
+  .popular-category:nth-child(5) img{
+    height: 480px;
+  }
+
+  .popular-category:nth-last-child(-n+3) {
+    margin-bottom: 0;
+    width: 33.3333%;
+  }
+
+  .popular-category:nth-child(-n+3) {
+    width: 33.3333%;
+  }
+
+  .popular-category__title {
+    height: 70px;
+    font-size: 24px;
+    line-height: 30px;
+    padding: 20px 30px;
+  }
+
+  .popular-category img {
+    height: 380px;
+    width: 100%;
+    object-fit: cover;
+  }
+}

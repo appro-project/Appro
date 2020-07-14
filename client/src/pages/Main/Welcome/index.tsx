@@ -23,6 +23,7 @@ const sliderProps = () => ({
     renderArrowNext
 });
 
+// TODO: Maybe I should create folder entities?
 export interface ProjectDetailsData {
     image?: string;
     title: string;

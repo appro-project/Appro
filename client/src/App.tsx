@@ -1,11 +1,11 @@
 import React from 'react';
 import Layout from "containers/hoc/Layout";
-import Main from "./pages/Main/Main";
+import Index from "./pages/Main";
 
 function App() {
     return (
         <Layout>
-            <Main/>
+            <Index/>
         </Layout>
     );
 }
