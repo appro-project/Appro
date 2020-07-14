@@ -4,7 +4,6 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
 
 .popular-category {
   margin-bottom: 20px;
-  outline: 1px solid #E1A91C;
 
   &:last-child {
     margin-bottom: 0;
@@ -45,6 +44,7 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
   user-select: none;
 }
 
+//TODO: Fix hover effect
 .popular-category__title:hover {
   background-color: $main-orange;
 }

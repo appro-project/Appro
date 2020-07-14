@@ -1,0 +1,66 @@
+@import "../../../../variables";
+
+.principle {
+  width: 328px;
+  height: 320px;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.principle__body {
+  padding: 35px 20px 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(60, 60, 60, 0.4);
+}
+
+.principle__title {
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 44px;
+
+  text-transform: uppercase;
+
+  color: #FFFFFF;
+  margin-bottom: 8%;
+}
+
+.principle__description {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+
+  color: #FFFFFF;
+}
+
+@media (min-width: $tablet-width) {
+
+  .principle {
+    width: 350px;
+    height: 320px;
+    margin: 0 10px 30px;
+  }
+
+  .principle__description {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  // TODO: Fix on 1490px
+  .principle {
+    height: 440px;
+    margin: 0 20px 40px;
+  }
+
+  .principle__body {
+    padding: 115px 64px 0 52px;
+  }
+
+  .principle__description {
+    font-size: 16px;
+  }
+}
