@@ -35,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "tslint": "^6.1.2",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-language-service": "^0.9.9",
     "tslint-react": "^5.0.0",
