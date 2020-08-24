@@ -49,9 +49,10 @@
   }
 }
 
-@media (min-width: $desktop-width) {
+@media (min-width: $desktop-width-extended) {
   // TODO: Fix on 1490px
   .principle {
+    width: 480px;
     height: 440px;
     margin: 0 20px 40px;
   }

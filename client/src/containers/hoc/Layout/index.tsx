@@ -12,7 +12,7 @@ interface Props {
 const Layout = (props: Props) => {
     return <Wrapper>
         <Header/>
-        <main className={ classes.content}>{ props.children }</main>
+        <main className={ classes.content }>{ props.children }</main>
         <Footer/>
     </Wrapper>;
 };

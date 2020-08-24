@@ -1,13 +1,13 @@
-import React, {ReactNode} from "react";
+import React, { ReactNode } from 'react';
 
-import classes from "./Wrapper.module.scss";
+import classes from './Wrapper.module.scss';
 
 interface Props {
-    children: ReactNode
+    children: ReactNode;
 }
 
 const Wrapper = (props: Props) => {
-    return <div className={classes['wrapper']}>{props.children}</div>;
-}
+    return <div className={ classes['wrapper'] }>{ props.children }</div>;
+};
 
 export default Wrapper;

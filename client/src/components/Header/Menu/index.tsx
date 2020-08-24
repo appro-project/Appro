@@ -6,6 +6,7 @@ import {menuLinks, contactInfo, MenuLinkInfo} from "constants/index";
 
 interface Props {
     isOpened: boolean;
+
     closeMenu(): void;
 }
 

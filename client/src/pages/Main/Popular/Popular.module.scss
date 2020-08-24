@@ -1,6 +1,10 @@
 @import "../../../common";
 @import "../../../variables";
 
+.popular-categories {
+
+}
+
 .popular-categories__container {
   padding-top: 50px;
   padding-bottom: 50px;
@@ -12,7 +16,7 @@
   margin-bottom: 24px;
 }
 
-@media (min-width:$tablet-width) {
+@media (min-width: $tablet-width) {
   .popular-categories__title {
     margin-bottom: 32px;
   }

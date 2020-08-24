@@ -11,7 +11,7 @@ const PrincipleItem = (prop: Props) => {
     const { principleItem } = prop;
 
     const backgroundStyles = {
-        backgroundImage: `url(${ principleItem .backgroundUrl })`,
+        backgroundImage: `url(${principleItem.backgroundUrl})`,
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
     };

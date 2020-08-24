@@ -5,6 +5,7 @@
   ],
   "rulesDirectory": [ "vrsource-tslint-rules/rules" ],
   "rules": {
+    "jsx-no-lambda": false,
     "prefer-literal": [
       true,
       "object", // 3.1
@@ -28,7 +29,7 @@
     "use-named-parameter": true, // 7.6
     "no-for-in-array": true, // 11.1
     "no-for-in": true, // 11.1
-    "no-string-literal": true, // 12.1, 12.2
+    "no-string-literal": false, // 12.1, 12.2
     "prefer-case-blocks": true, // 15.5
     "import-name": false,
 
