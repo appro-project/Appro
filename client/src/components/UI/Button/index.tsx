@@ -4,6 +4,7 @@ import classes from './Button.module.scss';
 export enum ButtonType {
     DEFAULT,
     TRANSPARENT = 'transparent',
+    BIG = 'big',
 }
 
 interface Props {
@@ -19,6 +20,10 @@ const Button = (props: Props) => {
     const activeClasses = [classes['button']];
     if (props.buttonType && props.buttonType === ButtonType.TRANSPARENT) {
         activeClasses.push(classes['button--transparent']);
+    }
+
+    if (props.buttonType && props.buttonType === ButtonType.BIG) {
+        activeClasses.push(classes['button--big']);
     }
 
     return <div className={ activeClasses.join(' ') }>{ props.title }</div>;

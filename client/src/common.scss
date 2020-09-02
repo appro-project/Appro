@@ -8,6 +8,11 @@
   line-height: 27px;
 }
 
+.responsive-image {
+  width: 100%;
+  height: auto;
+}
+
 @media (min-width: $tablet-width) {
   ._main-title {
     display: flex;

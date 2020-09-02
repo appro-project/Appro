@@ -1,0 +1,33 @@
+@import "../../../variables";
+
+.text-input {
+  margin-bottom: 20px;
+}
+
+.text-input input {
+  padding: 20px;
+  width: 100%;
+  max-width: 328px;
+  border: 1px solid #979797;
+}
+
+/*TODO: какой тут цвет текста? */
+.text-input input::placeholder {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #979797;
+}
+
+@media (min-width: $tablet-width) {
+  .text-input input {
+    max-width: 412px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .text-input input {
+    max-width: 494px;
+  }
+}

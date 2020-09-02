@@ -3,14 +3,51 @@
 
 .feedback {
   padding-bottom: 50px;
+  padding-top: 50px;
 }
 
-.feedback__header-test {
+.feedback__header {
   @extend ._main-title;
-  @extend .title-underscore;
-  margin-bottom: 27px;
+   margin-bottom: 27px;
 }
 
 .feedback__input {
   margin-bottom: 20px;
+}
+
+@media (min-width: $tablet-width) {
+  .feedback {
+    padding-bottom: 70px;
+
+    background: url("../../../assets/img/feedback/letter-tablet.png") no-repeat;
+    background-position-x: right;
+    background-position-y: 30px;
+    background-size: contain;
+  }
+
+  .feedback__header {
+    margin-bottom: 32px;
+  }
+}
+
+@media (min-width:$desktop-width) {
+  .feedback {
+    background-image: url("../../../assets/img/feedback/letter-desktop.png");
+    padding-bottom: 110px;
+    padding-top: 80px;
+  }
+
+  .feedback__header {
+    margin-bottom: 63px;
+  }
+
+  .feedback__body {
+    padding-left: 128px;
+  }
+
+  .feedback_header {
+    margin-bottom: 63px;
+    font-size: 64px;
+    line-height: 79px;
+  }
 }

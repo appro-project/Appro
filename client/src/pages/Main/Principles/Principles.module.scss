@@ -1,10 +1,6 @@
 @import "../../../common";
 @import "../../../variables";
 
-.principles__container {
-  padding-bottom: 50px;
-}
-
 .principles__title {
   @extend ._main-title;
   @extend .title-underscore;
@@ -25,11 +21,6 @@
 }
 
 @media (min-width: $desktop-width) {
-
-  .principles__container {
-    padding-bottom: 80px;
-  }
-
   .principles__title {
     margin-bottom: 63px;
   }

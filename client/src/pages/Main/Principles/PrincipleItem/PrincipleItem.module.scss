@@ -49,12 +49,11 @@
   }
 }
 
-@media (min-width: $desktop-width-extended) {
-  // TODO: Fix on 1490px
+@media (min-width: $desktop-width) {
   .principle {
-    width: 480px;
+    margin: 0 20px;
+    width: 430px;
     height: 440px;
-    margin: 0 20px 40px;
   }
 
   .principle__body {
@@ -63,5 +62,12 @@
 
   .principle__description {
     font-size: 16px;
+  }
+}
+
+@media (min-width: $desktop-width-extended) {
+  // TODO: Fix on 1490px
+  .principle {
+    width: 480px;
   }
 }

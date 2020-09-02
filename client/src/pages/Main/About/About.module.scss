@@ -1,0 +1,83 @@
+@import "../../../common";
+@import "../../../variables";
+
+.about {
+  padding-bottom: 50px;
+}
+
+.about__title {
+  @extend ._main-title;
+  @extend .title-underscore;
+  margin-bottom: 27px;
+}
+
+.about__photo img,
+.about__certificate img {
+  @extend .responsive-image;
+  max-height: 300px;
+  object-fit: contain;
+  object-position: left;
+  box-shadow: 10px 10px $dark-orange;
+}
+
+.about__photo {
+  margin-bottom: 10px;
+}
+
+.about__certificate {
+  cursor: pointer;
+  margin-bottom: 42px;
+}
+
+.about__description-text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 25px;
+
+  color: #202020;
+}
+
+.about__description-text p:first-child,
+.about__description-text p:last-child,
+.about__description-text p:nth-last-child(2){
+  margin-bottom: 23px;
+}
+
+// TODO: Refactor this!
+@media (min-width: $tablet-width) {
+  .about__body {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .about__photo,
+  .about__certificate {
+    display: inline-block;
+  }
+
+  .about__photo {
+    max-width: 450px;
+    img {
+      max-height: 325px;
+    }
+  }
+
+  .about__certificate {
+    max-width: 228px;
+
+    img {
+      max-height: 325px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .about__body {
+    flex-wrap: nowrap;
+  }
+
+  .about__certificate {
+    margin-right: 44px;
+    margin-bottom: 0;
+  }
+}
