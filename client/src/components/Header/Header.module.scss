@@ -51,11 +51,13 @@
 
 @media (min-width: $tablet-width) {
   .header {
-    background: rgba(60, 60, 60, 0.8);
     position: absolute;
-    //z-index: 2;
     top: 0;
     width: 100%;
+  }
+
+  .header--transparent {
+    background: rgba(60, 60, 60, 0.8);
   }
 
   .header__container {
