@@ -1,0 +1,98 @@
+@import "../../../common";
+@import "../../../variables";
+
+.differences {
+  background-color: #3C3C3C;
+
+  padding: 250px 10px 30px;
+  position: relative;
+
+  p {
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.differences__title {
+  display: none;
+}
+
+.differences__image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    max-height: 240px;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .differences {
+    padding: 15px 0 20px 26px;
+    max-width: 100%;
+    min-height: 500px;
+
+    p {
+      font-size: 18px;
+      line-height: 30px;
+
+      :first-child {
+        width: 50%;
+      }
+    }
+  }
+
+  .differences__title {
+    display: block;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 33px;
+    color: #fff;
+  }
+
+  .differences__image-wrapper {
+    position: relative;
+    max-width: 47%;
+    margin-left: 20px;
+    float: right;
+
+    img {
+      max-height: 380px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .differences {
+    padding: 66px 0 80px 40px;
+
+    background-image: url("../../../assets/img/individual/differences/wall.png");
+    background-repeat: no-repeat ;
+    background-position-x: right;
+    background-position-y: 0;
+    background-size: contain;
+
+    p {
+      width: 50%;
+    }
+  }
+
+  .differences__image-wrapper {
+    position: absolute;
+    top: -70px;
+    left: calc(100% - 700px);
+    max-width: 622px;
+  }
+}

@@ -1,5 +1,5 @@
-import house_1 from '../../../assets/img/welcome/house_1.jpg';
-import house_2 from '../../../assets/img/welcome/house_2.jpg';
+import house_1 from '../../../assets/img/main/welcome/house_1.jpg';
+import house_2 from '../../../assets/img/main/welcome/house_2.jpg';
 
 import { ProjectDetailsData } from './index';
 

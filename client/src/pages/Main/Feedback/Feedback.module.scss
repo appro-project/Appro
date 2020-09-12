@@ -19,7 +19,7 @@
   .feedback {
     padding-bottom: 70px;
 
-    background: url("../../../assets/img/feedback/letter-tablet.png") no-repeat;
+    background: url("../../../assets/img/main/feedback/letter-tablet.png") no-repeat;
     background-position-x: right;
     background-position-y: 30px;
     background-size: contain;
@@ -32,7 +32,7 @@
 
 @media (min-width:$desktop-width) {
   .feedback {
-    background-image: url("../../../assets/img/feedback/letter-desktop.png");
+    background-image: url("../../../assets/img/main/feedback/letter-desktop.png");
     padding-bottom: 110px;
     padding-top: 80px;
   }

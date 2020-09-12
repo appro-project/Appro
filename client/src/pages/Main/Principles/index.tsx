@@ -3,9 +3,9 @@ import Container from '../../../containers/hoc/Container';
 
 import classes from './Principles.module.scss';
 
-import benefitImage from 'assets/img/principles/benefit.jpg';
-import beautyImage from 'assets/img/principles/beauty.jpg';
-import strengthImage from 'assets/img/principles/strength.jpg';
+import benefitImage from 'assets/img/main/principles/benefit.jpg';
+import beautyImage from 'assets/img/main/principles/beauty.jpg';
+import strengthImage from 'assets/img/main/principles/strength.jpg';
 import PrincipleItem from './PrincipleItem';
 
 export interface PrincipleItemData {

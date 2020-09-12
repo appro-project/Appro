@@ -50,14 +50,11 @@
 }
 
 @media (min-width: $tablet-width) {
-  .header {
+  .header--transparent {
+    background: rgba(60, 60, 60, 0.8);
     position: absolute;
     top: 0;
     width: 100%;
-  }
-
-  .header--transparent {
-    background: rgba(60, 60, 60, 0.8);
   }
 
   .header__container {

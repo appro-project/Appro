@@ -1,8 +1,8 @@
 import React from 'react';
 
 import classes from './Welcome.module.scss';
-import { ReactComponent as SliderPrev } from 'assets/img/welcome/slider-prev.svg';
-import { ReactComponent as SliderNext } from 'assets/img/welcome/slider-next.svg';
+import { ReactComponent as SliderPrev } from 'assets/img/main/welcome/slider-prev.svg';
+import { ReactComponent as SliderNext } from 'assets/img/main/welcome/slider-next.svg';
 
 import ProjectDetails from './ProjectDetails';
 

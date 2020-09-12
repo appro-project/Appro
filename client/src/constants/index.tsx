@@ -12,7 +12,7 @@ export interface ContactInfo {
 export const menuLinks: MenuLinkInfo[] = [
     { name: 'Главная', url: '/' },
     { name: 'Каталог домов', url: '/catalogue' },
-    { name: 'Индивидуальный проект', url: '/individual' },
+    { name: 'Индивидуальный проект', url: '/individual-project' },
     { name: 'Реализованные проекты', url: '/finished' },
     { name: 'Дополнительные услуги', url: '/additional' },
     { name: 'О нас', url: '/about' },

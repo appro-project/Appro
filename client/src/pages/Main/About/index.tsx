@@ -4,8 +4,8 @@ import classes from './About.module.scss';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
-import team_photo from '../../../assets/img/about/team_photo.jpg';
-import certificate from '../../../assets/img/about/certificate.jpg';
+import team_photo from '../../../assets/img/main/about/team_photo.jpg';
+import certificate from '../../../assets/img/main/about/certificate.jpg';
 import Container from '../../../containers/hoc/Container';
 import Button from '../../../components/UI/Button';
 

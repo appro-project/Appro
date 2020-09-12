@@ -1,0 +1,48 @@
+@import "../../common";
+@import "../../variables";
+
+.individual-project__header {
+  @extend ._main-title;
+  @extend .title-underscore;
+  margin-top: 44px;
+  margin-bottom: 26px;
+}
+
+.individual-project__description {
+  font-size: 18px;
+  line-height: 30px;
+  color: #202020;
+  max-width: 1265px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.individual-project__differences-wrapper {
+  margin: 20px 0;
+}
+
+
+@media (min-width: $tablet-width) {
+  .individual-project__header {
+    margin-top: 24px;
+  }
+
+  .individual-project__differences-wrapper {
+    margin-top: 30px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .individual-project__header {
+    margin-top: 38px;
+    margin-bottom: 47px;
+    font-size: 48px;
+  }
+
+  .individual-project__differences-wrapper {
+    margin: 100px 0 60px;
+  }
+}
