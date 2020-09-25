@@ -1,0 +1,106 @@
+@import "../../../common";
+@import "../../../variables";
+
+.steps__title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #202020;
+  margin-bottom: 25px;
+}
+
+.steps__step-item {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.steps__step-number {
+  background: $dark-orange;
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 50px;
+
+  border-radius: 50%;
+  color: #FAFAFA;
+  margin-bottom: 30px;
+}
+
+.steps__step-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+
+  color: #202020;
+  margin-bottom: 10px;
+}
+
+.steps__step-description {
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+
+  color: #202020;
+}
+
+@media (min-width: $tablet-width) {
+  .steps__step-items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .steps__step-item {
+    width: 50%;
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .steps__title {
+    margin-bottom: 44px;
+  }
+
+  .steps__step-items {
+    flex-wrap: nowrap;
+  }
+
+  .steps__step-item {
+    width: 25%;
+    margin-bottom: 0;
+    position: relative;
+
+    &:first-child {
+      &:before {
+        display: none;
+      }
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+
+    &:before, &:after {
+      content: "";
+      width: 45%;
+      display: block;
+      border-bottom: 2px solid $dark-orange;
+      position: absolute;
+      top: 24px;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+    &:after {
+      right: 0;
+    }
+  }
+
+}

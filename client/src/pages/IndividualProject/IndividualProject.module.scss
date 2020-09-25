@@ -24,6 +24,9 @@
   margin: 20px 0;
 }
 
+.individual-project__steps-wrapper {
+  margin: 38px 0;
+}
 
 @media (min-width: $tablet-width) {
   .individual-project__header {
@@ -44,5 +47,9 @@
 
   .individual-project__differences-wrapper {
     margin: 100px 0 60px;
+  }
+
+  .individual-project__steps-wrapper {
+    margin: 58px 0;
   }
 }

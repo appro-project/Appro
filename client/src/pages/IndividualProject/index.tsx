@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './IndividualProject.module.scss';
 import Container from 'containers/hoc/Container';
 import Differences from './Differences';
+import Steps from './Steps';
 
 const IndividualProject = () => {
   return <React.Fragment>
@@ -32,7 +33,9 @@ const IndividualProject = () => {
         входят в состав проекта, помогут нам точно определить сметную стоимость строительства.
       </p>
 
-
+      <div className={ classes['individual-project__steps-wrapper'] }>
+        <Steps/>
+      </div>
     </Container>
   </React.Fragment>;
 };
