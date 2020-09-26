@@ -11,7 +11,7 @@ import './carousel-custom.scss';
 import { Carousel } from 'react-responsive-carousel';
 import Overlay from '../../../components/UI/Overlay';
 
-import projectsData from './projectsData';
+import projectsData from '../../../mock/projectsData';
 
 const sliderProps = () => ({
     renderArrowPrev,
@@ -22,16 +22,6 @@ const sliderProps = () => ({
     autoPlay: false,
     interval: 4000,
 });
-
-// TODO: Maybe I should create folder entities?
-export interface ProjectDetailsData {
-    image?: string;
-    title: string;
-    square: number;
-    description: string;
-    price: string;
-    detailsUrl: string;
-}
 
 const renderArrowPrev = (clickHandler: () => void, hasPrev: boolean, label: string) => {
     const arrowClasses = ['slider-control__prev', 'control-arrow'];
@@ -73,7 +63,3 @@ const Welcome = () => {
 };
 
 export default Welcome;
-
-//     <div className="scroll-down">
-//         <div className="arrow scroll-down__button"></div>
-//     </div>

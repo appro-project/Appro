@@ -5,6 +5,7 @@ export enum ButtonType {
     DEFAULT,
     TRANSPARENT = 'transparent',
     BIG = 'big',
+    SMALL = 'small',
 }
 
 interface Props {
@@ -24,6 +25,10 @@ const Button = (props: Props) => {
 
     if (props.buttonType && props.buttonType === ButtonType.BIG) {
         activeClasses.push(classes['button--big']);
+    }
+
+    if (props.buttonType && props.buttonType === ButtonType.SMALL) {
+        activeClasses.push(classes['button--small']);
     }
 
     return <div className={ activeClasses.join(' ') }>{ props.title }</div>;

@@ -24,7 +24,6 @@
   color: #fff;
 }
 
-// TODO: Should be clickable
 .header__logo {
   width: 75%;
   display: block;
@@ -98,11 +97,20 @@
     padding: 30px 20px 0 20px;
   }
 
+  .header__top {
+    position: relative;
+  }
+
+  .header__logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+  }
+
   .header__logo-img {
     width: 258px;
     height: 59px;
-    position: absolute;
-    top: 31px;
   }
 
   .header__top-item-menu {

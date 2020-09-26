@@ -5,7 +5,7 @@
   width: 147px;
   height: 40px;
   background-color: #FFB000;
-  color: #202020;
+  color: $text-dark;
   text-align: center;
   line-height: 40px;
   font-weight: 500;
@@ -22,6 +22,14 @@
   height: 60px;
   line-height: 60px;
   font-size: 18px;
+}
+
+.button--small {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 30px;
+  width:  104px;
+  height: 30px;
 }
 
 .button:focus {
@@ -68,5 +76,11 @@
 @media (min-width: $desktop-width) {
   .button--big {
     max-width: 494px;
+  }
+
+  .button--small {
+    width:  147px;
+    height: 40px;
+    line-height: 40px;
   }
 }

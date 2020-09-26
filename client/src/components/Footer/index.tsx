@@ -1,10 +1,11 @@
 import React from 'react';
 import Container from 'containers/hoc/Container';
 
-import { ReactComponent as Logo } from '../../assets/img/logo.svg';
-import { menuLinks, contactInfo, MenuLinkInfo } from '../../constants';
+import {ReactComponent as Logo} from '../../assets/img/logo.svg';
+import {contactInfo, MenuLinkInfo, menuLinks} from '../../constants';
 
 import classes from './Footer.module.scss';
+import Button, {ButtonType} from '../UI/Button';
 
 const slogan = 'польза, прочность, красота';
 

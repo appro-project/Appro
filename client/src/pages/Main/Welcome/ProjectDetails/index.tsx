@@ -1,22 +1,28 @@
 import React from 'react';
-import { ProjectDetailsData } from '../index';
+
 import Button from '../../../../components/UI/Button';
 
 import classes from './ProjectDetails.module.scss';
+import { ProjectPreviewDetails } from '../../../../entity/ProjectData';
 
 interface Props {
-    project: ProjectDetailsData;
+    project: ProjectPreviewDetails;
+}
+
+interface Props {
+    project: ProjectPreviewDetails;
 }
 
 const ProjectDetails = (props: Props) => {
-    const projectData: ProjectDetailsData = props.project;
+    const projectData: ProjectPreviewDetails = props.project;
 
     return <div className={ classes['project-details'] }>
         <div className={ classes['project-details__header'] }>
             <div className={ classes['project-details__title'] }>
-                { projectData.title }
+               Проект { projectData.title }
             </div>
 
+            { /*TODO: Fix square*/ }
             <div className={ classes['project-details__square'] }>
                 { projectData.square } м<sup>2</sup>
             </div>
@@ -39,5 +45,3 @@ const ProjectDetails = (props: Props) => {
 };
 
 export default ProjectDetails;
-
-//

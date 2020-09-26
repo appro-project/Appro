@@ -1,18 +1,20 @@
 @import "../../../variables";
 
-.text-input {
+.text-area {
   margin-bottom: 20px;
 }
 
-.text-input input {
+.text-area textarea {
   font-family: 'Montserrat', serif;
   padding: 20px;
   width: 100%;
   max-width: 328px;
   border: 1px solid #979797;
+  height: 140px;
+  resize: none;
 }
 
-.text-input input::placeholder {
+.text-area textarea::placeholder {
   font-family: 'Montserrat', serif;
   font-weight: 500;
   font-size: 14px;
@@ -22,13 +24,13 @@
 }
 
 @media (min-width: $tablet-width) {
-  .text-input input {
+  .text-area textarea {
     max-width: 412px;
   }
 }
 
 @media (min-width: $desktop-width) {
-  .text-input input {
+  .text-area textarea {
     max-width: 494px;
   }
 }

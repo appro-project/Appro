@@ -4,12 +4,14 @@ import classes from './IndividualProject.module.scss';
 import Container from 'containers/hoc/Container';
 import Differences from './Differences';
 import Steps from './Steps';
+import Order from './Order';
+import VisitedProjects from '../../containers/VisitedProjects';
 
 const IndividualProject = () => {
   return <React.Fragment>
     <Container>
       <div className={ classes['individual-project__header'] }>
-        Индивидуальный проэкт
+        Индивидуальный проект
       </div>
       <p className={ classes['individual-project__description'] }>
         Проект жилого дома с индивидуальными требованиями заказчика – комплексный подход
@@ -36,7 +38,15 @@ const IndividualProject = () => {
       <div className={ classes['individual-project__steps-wrapper'] }>
         <Steps/>
       </div>
+
+      <div className={ classes['individual-project__order-wrapper'] }>
+        <Order/>
+      </div>
     </Container>
+    { /* Kind of page Footer, should be out of container */ }
+    <div className={ classes['individual-project__visited-wrapper'] }>
+      <VisitedProjects/>
+    </div>
   </React.Fragment>;
 };
 
