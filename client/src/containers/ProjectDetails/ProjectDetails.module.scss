@@ -1,0 +1,105 @@
+@import "../../common";
+@import "../../variables";
+
+.project-details {
+  margin-bottom: 30px;
+}
+
+.project-details__content {
+  position: relative;
+  max-width: 328px;
+}
+
+.project-details__img img {
+  object-fit: cover;
+  height: auto;
+  width: 100%;
+}
+
+.project-details__info {
+  height: 50px;
+  padding: 0 10px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $brown;
+  align-items: center;
+}
+
+.project-details__info sup {
+  font-size: 11px;
+  position: relative;
+  vertical-align: baseline;
+  top: -5px;
+}
+
+.project-details__info-text {
+  font-weight: 600;
+  font-size: 14px;
+  color: #FFFFFF;
+  line-height: 16px;
+
+  span {
+    display: none;
+  }
+}
+
+.project-details:last-child {
+  display: none;
+}
+
+@media (min-width: $tablet-width) {
+  .project-details:first-child {
+    margin-right: 20px;
+  }
+
+  .project-details__content {
+    position: relative;
+    max-width: 350px;
+  }
+
+  .project-details__info-text {
+    padding: 6px 0;
+
+    span {
+      display: inline;
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .project-details:last-child {
+    background-color: red;
+    display: block;
+  }
+
+  .visited-projects__title {
+    margin-bottom: 48px;
+  }
+
+  .project-details:last-child {
+    margin-left: 20px;
+  }
+
+  .project-details__content {
+    max-width: 490px;
+  }
+
+  .project-details__info {
+    padding: 0 20px 0 30px;
+    height: 70px;
+    font-size: 18px;
+  }
+
+  .project-details__info-text {
+    padding: 6px 0;
+    line-height: 18px;
+
+    span {
+      display: inline;
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+}

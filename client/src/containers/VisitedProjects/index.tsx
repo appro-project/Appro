@@ -2,7 +2,6 @@ import React from 'react';
 import classes from './VisitedProjects.module.scss';
 import Container from '../hoc/Container';
 
-import Button, { ButtonType } from '../../components/UI/Button';
 import { ProjectPreviewDetails } from '../../entity/ProjectData';
 import projectsData from '../../mock/projectsData';
 import ProjectDetails from '../ProjectDetails';

@@ -1,4 +1,6 @@
 export interface RangeOption {
+    minFrom: number;
+    maxTo: number;
     from: number;
     to: number;
     unit?: string;
@@ -7,11 +9,12 @@ export interface RangeOption {
 export interface SingleOption {
     name: string;
     uri: string;
+    isSelected: boolean;
 }
 
 export interface SearchOption {
-    name: string;
-    value: string | RangeOption;
+    id: string;
+    value: string | RangeOption | null;
     type: FilterType;
 }
 
@@ -20,8 +23,8 @@ export enum FilterType {
 }
 
 export interface CatalogueFilterInfo {
+    id: string;
     name: string;
-    uriParam: string;
     filterType: FilterType;
     options: SingleOption[] | RangeOption;
     tooltip?: string;
@@ -29,90 +32,70 @@ export interface CatalogueFilterInfo {
 
 const catalogueFiltersInfo: CatalogueFilterInfo[] = [
     {
+        id: 'area',
         name: 'Площадь, м2',
-        uriParam: 'area',
         filterType: FilterType.RANGE,
-        options: { from: 20, to: 500, unit: 'м2' },
+        options: { minFrom: 20, maxTo: 500, from: 20, to: 500, unit: 'м2' },
     },
     {
+        id: 'floor',
         name: 'Этажность',
-        uriParam: 'floor',
         filterType: FilterType.CHECKBOX,
         options: [
-            { name: 'все варианты', uri: 'all' },
-            { name: '1-этажные', uri: '1-floor' },
-            { name: '2-этажные', uri: '2-floor' },
-            { name: '3-этажные', uri: '3-floor' },
-            { name: 'с мансардой', uri: 'attic' },
-            { name: 'с подвалом', uri: 'basement' },
+            { name: 'все варианты', uri: 'all', isSelected: false },
+            { name: '1-этажные', uri: '1-floor', isSelected: false },
+            { name: '2-этажные', uri: '2-floor', isSelected: false },
+            { name: '3-этажные', uri: '3-floor', isSelected: false },
+            { name: 'с мансардой', uri: 'attic', isSelected: false },
+            { name: 'с подвалом', uri: 'basement', isSelected: false },
         ],
     },
     {
+        id: 'bedroom',
         name: 'Спальни',
-        uriParam: 'bedroom',
         filterType: FilterType.CHECKBOX,
         options: [
-            { name: 'все варианты', uri: 'all' },
-            { name: '1', uri: '1' },
-            { name: '2', uri: '2' },
-            { name: '3', uri: '3' },
-            { name: '4+', uri: '>4' },
+            { name: 'все варианты', uri: 'all', isSelected: false },
+            { name: '1', uri: '1', isSelected: false },
+            { name: '2', uri: '2', isSelected: false },
+            { name: '3', uri: '3', isSelected: false },
+            { name: '4+', uri: '>4', isSelected: false },
         ],
     },
     {
+        id: 'garage',
         name: 'Гараж',
-        uriParam: 'garage',
         filterType: FilterType.RADIO,
         options: [
-            { name: 'все варианты', uri: 'all' },
-            { name: 'с гаражем', uri: 'true' },
-            { name: 'без гаражем', uri: 'false' },
+            { name: 'все варианты', uri: 'all', isSelected: false },
+            { name: 'с гаражем', uri: 'true', isSelected: false },
+            { name: 'без гаражем', uri: 'false', isSelected: false },
         ],
     },
     {
+        id: 'project_price',
         name: 'Стоимость проекта, грн',
-        uriParam: 'project_price',
         filterType: FilterType.RANGE,
-        options: { from: 6500, to: 35500, unit: 'грн' },
+        options: { minFrom: 6500, maxTo: 35500, from: 6500, to: 35500, unit: 'грн' },
         tooltip: 'Проект дома включает 2 экземпляра чертежей, необходимых для проведения строительных работ и  получения разрешения на строительство, и содержит Архитектурный и Конструктивный разделы.',
     },
     {
+        id: 'building_price',
         name: 'Стоимость строительства, грн',
-        uriParam: 'building_price',
         filterType: FilterType.RANGE,
-        options: { from: 500000, to: 10850000, unit: 'грн' },
+        options: { minFrom: 500000, maxTo: 10850000, from: 500000, to: 10850000, unit: 'грн' },
         tooltip: 'Стоимость строительства рассчитана приблизительно, с учетом использования стандартных материалов для строительства. ',
     },
     {
+        id: 'style',
         name: 'Стиль',
-        uriParam: 'style',
         filterType: FilterType.CHECKBOX,
         options: [
-            { name: 'все варианты', uri: 'all' },
-            { name: 'классический', uri: 'classic' },
-            { name: 'современный', uri: 'modern' },
+            { name: 'все варианты', uri: 'all', isSelected: false },
+            { name: 'классический', uri: 'classic', isSelected: false },
+            { name: 'современный', uri: 'modern', isSelected: false },
         ],
     },
 ];
-
-const getDefaultSearchOptions = (): SearchOption[] => {
-    const searchOptions: SearchOption[] = [];
-    for (const catalogueFilterInfo of catalogueFiltersInfo) {
-        if (catalogueFilterInfo.filterType === FilterType.RANGE) {
-            searchOptions.push({
-                name: catalogueFilterInfo.uriParam,
-                value: {
-                    from: (catalogueFilterInfo.options as RangeOption).from,
-                    to: (catalogueFilterInfo.options as RangeOption).to,
-                },
-                type: catalogueFilterInfo.filterType,
-            });
-        }
-    }
-
-    return searchOptions;
-};
-
-export const defaultSearchOptions: SearchOption[] = getDefaultSearchOptions();
 
 export default catalogueFiltersInfo;

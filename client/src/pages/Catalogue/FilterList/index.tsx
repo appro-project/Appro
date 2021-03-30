@@ -1,37 +1,40 @@
-import React, { useState } from 'react';
-import classes from './CatalogueFilters.module.scss';
-import catalogueFiltersInfo, {
-    CatalogueFilterInfo, defaultSearchOptions,
+import React from 'react';
+import classes from './FilterList.module.scss';
+import {
+    CatalogueFilterInfo,
     FilterType,
     RangeOption, SearchOption,
     SingleOption,
 } from '../../../constants/filterData/catalogueFiltersInfo';
 
 interface Props {
+    filters: CatalogueFilterInfo[];
     applyFilter(searchOption: SearchOption, isChecked: boolean): void;
 }
 
-const CatalogueFilters = ({ applyFilter }: Props) => {
-    const data = [...catalogueFiltersInfo];
+const FilterList = ({ filters, applyFilter }: Props) => {
 
-    const [searchOptions] = useState(defaultSearchOptions);
-
-    const handleSearchOption = (filterName: string, uri: string, filterType: FilterType) => {
+    const handleSearchOption = (filterId: string, filterOptionUri: string,
+                                filterType: FilterType) => {
         const searchOption = {
-            name: filterName,
-            value: uri,
+            id: filterId,
+            value: filterOptionUri,
             type: filterType,
         };
 
-        const searchOptionIndex = searchOptions.findIndex(so => so.name === filterName);
-        const isChecked = (searchOptionIndex > -1);
-        if (isChecked) {
-            searchOptions.splice(searchOptionIndex, 1);
-        } else {
-            searchOptions.push(searchOption);
+        // todo: map!
+        const currentFilter = filters.find(cf => cf.id === filterId);
+
+        let isChecked = false;
+        for (const fo of currentFilter?.options as SingleOption[]) {
+            if (fo.uri === filterOptionUri) {
+                // todo: why changing props works?!
+                isChecked = fo.isSelected = !fo.isSelected;
+                break;
+            }
         }
 
-        applyFilter(searchOption, !isChecked);
+        applyFilter(searchOption, isChecked);
     };
 
     const renderList = (filterName: string, filterType: FilterType,
@@ -57,42 +60,47 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
         );
     };
 
-    const handleRangeOption = (filterName: string,
+    const handleRangeOption = (filterId: string,
                                filterRange: {rangeFrom: number | null, rangeTo: number | null},
-                               ) => {
+    ) => {
         const { rangeFrom, rangeTo } = filterRange;
 
-        let currentSearchOption = searchOptions
-            .find(so => so.name === filterName); // doesn't work for objects
-        if (currentSearchOption) {
-            if (rangeFrom) {
-                (currentSearchOption.value as RangeOption).from = rangeFrom;
-            }else if (rangeTo) {
-                (currentSearchOption.value as RangeOption).to = rangeTo;
-            }
-        } else {
-            currentSearchOption = {
-                name: filterName,
-                value: { from: rangeFrom || 0, to: rangeTo || -1 },
-                type: FilterType.RANGE,
-            };
-            searchOptions.push(currentSearchOption);
-        }
+        const currentFilter = filters
+            .find(cf => cf.id === filterId); // doesn't work for objects
+        if (!currentFilter) {
+            console.warn(`filter ${ filterId } is not in state`);
 
-        applyFilter(currentSearchOption, true);
+            return;
+        }
+        const options = (currentFilter.options as RangeOption);
+        // todo: validate min > max
+        if (rangeFrom) {
+            options.from = (rangeFrom < options.minFrom) ? (options.minFrom) : rangeFrom;
+        } else if (rangeTo) {
+            options.to = (rangeTo > options.maxTo) ? (options.maxTo) : rangeTo;
+        }
+        const searchOption = {
+            id: currentFilter.id,
+            value: options,
+            type: currentFilter.filterType,
+        };
+
+        applyFilter(searchOption, true);
     };
 
     const renderRange = (filterName: string, filterRange: RangeOption) => {
-        console.log(filterName, filterRange);
-
         return <div>
             <input onChange={ e => handleRangeOption(filterName,
-                                                     { rangeFrom: parseInt(e.target.value, 10),
-                                                         rangeTo: null }) }
+                                                     {
+                    rangeFrom: parseInt(e.target.value, 10),
+                    rangeTo: null,
+                }) }
                    value={ filterRange.from }/>
             <input onChange={ e => handleRangeOption(filterName,
-                                                     { rangeFrom:null,
-                    rangeTo:  parseInt(e.target.value, 10) }) }
+                                                     {
+                    rangeFrom: null,
+                    rangeTo: parseInt(e.target.value, 10),
+                }) }
                    value={ filterRange.to }/>
         </div>;
     };
@@ -102,7 +110,7 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
             case FilterType.CHECKBOX: {
                 return <React.Fragment>
                     <h3>{ filterInfo.name }</h3>
-                    { renderList(filterInfo.uriParam,
+                    { renderList(filterInfo.id,
                                  filterInfo.filterType,
                                  filterInfo.options as SingleOption[]) }
                 </React.Fragment>;
@@ -110,7 +118,7 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
             case FilterType.RADIO: {
                 return <React.Fragment>
                     <h3>{ filterInfo.name }</h3>
-                    { renderList(filterInfo.uriParam,
+                    { renderList(filterInfo.id,
                                  filterInfo.filterType,
                                  filterInfo.options as SingleOption[]) }
                 </React.Fragment>;
@@ -118,7 +126,7 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
             case FilterType.RANGE: {
                 return <React.Fragment>
                     <h3>{ filterInfo.name }</h3>
-                    { renderRange(filterInfo.uriParam, filterInfo.options as RangeOption) }
+                    { renderRange(filterInfo.id, filterInfo.options as RangeOption) }
                 </React.Fragment>;
             }
             default: {
@@ -131,7 +139,7 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
 
     return <div>
         <div className={ classes['filters-list__items'] }>
-            { data.map((filterInfo: CatalogueFilterInfo, idx: number) =>
+            { filters.map((filterInfo: CatalogueFilterInfo, idx: number) =>
                 renderFilterItem(filterInfo)) }
         </div>
         ;
@@ -139,4 +147,4 @@ const CatalogueFilters = ({ applyFilter }: Props) => {
     </div>;
 };
 
-export default CatalogueFilters;
+export default FilterList;

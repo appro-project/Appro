@@ -3,33 +3,33 @@ import { FilterType, RangeOption, SearchOption } from '../../constants/filterDat
 const getSearchUri = (searchOption: SearchOption,
                       isChecked: boolean,
                       searchParams: URLSearchParams): string => {
-    const { name, value, type } = searchOption;
+    const { id, value, type } = searchOption;
 
 // todo: simplify...
     if (isChecked) {
         if (type === FilterType.CHECKBOX) {
-            const existingValue = searchParams.get(name);
+            const existingValue = searchParams.get(id);
             if (existingValue) {
-                searchParams.set(name, `${ existingValue },${ value }`);
+                searchParams.set(id, `${ existingValue },${ value }`);
             } else {
-                searchParams.set(name, JSON.stringify(value));
+                searchParams.set(id, `${value}`);
             }
         } else if (type === FilterType.RADIO) {
-            searchParams.set(name, JSON.stringify(value));
+            searchParams.set(id, `${value}`);
         }else if (type === FilterType.RANGE) {
             const filterRange = value as RangeOption;
-            searchParams.set(name, `${filterRange.from}-${filterRange.to}`);
+            searchParams.set(id, `${filterRange.from}-${filterRange.to}`);
         }
     } else {
         if (type === FilterType.CHECKBOX) {
-            const existingValue = searchParams.get(name);
+            const existingValue = searchParams.get(id);
             if (existingValue) {
                 const newValueList = existingValue.split(',').filter(v => v !== value);
                 if (newValueList.length === 0) {
-                    searchParams.delete(name);
+                    searchParams.delete(id);
                 } else {
                     const newValue = newValueList.join(',');
-                    searchParams.set(name, newValue);
+                    searchParams.set(id, newValue);
                 }
             } else {
                 console.warn("Should not happen. If value was checked it's in the search list");
