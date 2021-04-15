@@ -31,7 +31,14 @@ const Button = (props: Props) => {
         activeClasses.push(classes['button--small']);
     }
 
-    return <div className={ activeClasses.join(' ') }>{ props.title }</div>;
+    return <div className={ activeClasses.join(' ') }
+                onClick={ () => {
+                    if (props.actionHandler) {
+                        props.actionHandler();
+                    }
+                } }>
+        { props.title }
+    </div>;
 };
 
 export default Button;

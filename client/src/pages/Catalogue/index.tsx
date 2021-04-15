@@ -5,21 +5,15 @@ import FilterList from './FilterList';
 import ProjectList from './ProjectList';
 import classes from './Catalogue.module.scss';
 import projectsData from '../../mock/projectsData';
-import { RouteComponentProps, withRouter } from 'react-router';
-import catalogueFiltersInfo,
-{ CatalogueFilterInfo, SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
-import { getSearchUri } from '../../services/data';
+import { SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
 import { ProjectPreviewDetails } from '../../entity/ProjectData';
 
 interface State {
-    filters: CatalogueFilterInfo[];
     projects: ProjectPreviewDetails[];
 }
 
-type Props =  RouteComponentProps<any>;
-
-class Catalogue extends Component<Props, State> {
-    state = { filters: [], projects: [] };
+class Catalogue extends Component<{}, State> {
+    state = { projects: [] };
 
     componentDidMount() {
         const projects = [...projectsData];
@@ -27,27 +21,16 @@ class Catalogue extends Component<Props, State> {
         projects.push(projectsData[0]);
         projects.push(projectsData[0]);
         projects.push(projectsData[0]);
-        const defaultFilters = [...catalogueFiltersInfo];
-        const urlFilters = new URLSearchParams(this.props.location.search);
-        const filters = this.mergeUrlAndDefaultFilters(urlFilters, defaultFilters);
-        this.setState({ ...this.state, filters, projects });
+        this.setState({ ...this.state, projects });
     }
 
-    applyFilter = (searchOption: SearchOption, isChecked: boolean) => {
-        const { location, history } = this.props;
-        const searchParams = new URLSearchParams(location.search);
-
-        const search = getSearchUri(searchOption, isChecked, searchParams);
-
-        history.push({
-            search,
-            pathname: location.pathname,
-        });
+    applyFilter = (searchParams: URLSearchParams) => {
+       console.log('filter applied', searchParams.toString());
     }
 
     // todo: breadcrumbs
     render() {
-        const { filters, projects } = this.state;
+        const { projects } = this.state;
 
         return <React.Fragment>
             <Container>
@@ -56,7 +39,7 @@ class Catalogue extends Component<Props, State> {
                     <div/>
                 </div>
                 <div className={ classes['catalogue-main'] }>
-                    <FilterList filters = { filters } applyFilter = { this.applyFilter }/>
+                    <FilterList applyFilter = { this.applyFilter }/>
                     <ProjectList projects={ projects }/>
                 </div>
                 <div className={ 'pagination' }/>
@@ -68,20 +51,6 @@ class Catalogue extends Component<Props, State> {
             ;
     }
 
-    private mergeUrlAndDefaultFilters(urlFilters: URLSearchParams,
-                                      defaultFilters: CatalogueFilterInfo[]):
-        CatalogueFilterInfo[] {
-        const filters = [...defaultFilters];
-        // todo: implement
-        for (const urlFilter of urlFilters) {
-            const filterId = urlFilter[0];
-            const filterValue = urlFilter[1];
-            console.log(filterId, filterValue);
-        }
-
-        return filters;
-    }
-
 }
 
-export default withRouter(Catalogue);
+export default Catalogue;
