@@ -5,15 +5,16 @@ import FilterList from './FilterList';
 import ProjectList from './ProjectList';
 import classes from './Catalogue.module.scss';
 import projectsData from '../../mock/projectsData';
-import { SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
 import { ProjectPreviewDetails } from '../../entity/ProjectData';
+import Breadcrumbs from '../../components/UI/Breadcrumbs';
+import CatalogueHeader from './CatalogueHeader';
 
 interface State {
     projects: ProjectPreviewDetails[];
 }
 
 class Catalogue extends Component<{}, State> {
-    state = { projects: [] };
+    state = { projects: [] as ProjectPreviewDetails[] };
 
     componentDidMount() {
         const projects = [...projectsData];
@@ -28,11 +29,16 @@ class Catalogue extends Component<{}, State> {
        console.log('filter applied', searchParams.toString());
     }
 
+    applySort = (searchParams: URLSearchParams) => {
+        console.log('filter applied', searchParams.toString());
+    }
+
     // todo: breadcrumbs
     render() {
         const { projects } = this.state;
 
         return <React.Fragment>
+            <Breadcrumbs/>
             <Container>
                 <div>
                     <h1>КАТАЛОГ ДОМОВ</h1>
@@ -40,7 +46,11 @@ class Catalogue extends Component<{}, State> {
                 </div>
                 <div className={ classes['catalogue-main'] }>
                     <FilterList applyFilter = { this.applyFilter }/>
-                    <ProjectList projects={ projects }/>
+                    <div>
+                        <CatalogueHeader count={ projects.length }
+                                         applySort={ this.applySort }/>
+                        <ProjectList projects={ projects }/>
+                    </div>
                 </div>
                 <div className={ 'pagination' }/>
                 { /*todo: check if can be extracted above*/ }

@@ -10,7 +10,7 @@ const projectsDetails: ProjectPreviewDetails[] = [{
     'составе помещений: холл, кухня-столовая, просторная гостиная с выходом на террасу, 5 спален,' +
     '3 санузла, постирочная, кладовые, котельная.',
   price: '21 000',
-  detailsUrl: '/somewhere',
+  detailsUrl: '/catalogue/1A50-1',
 }, {
   image: house_2,
   title: '2A75-3',
@@ -19,7 +19,7 @@ const projectsDetails: ProjectPreviewDetails[] = [{
     'составе помещений: холл, кухня-столовая, просторная гостиная с выходом на террасу, 5 спален,' +
     '3 санузла, постирочная, кладовые, котельная.',
   price: '55 000',
-  detailsUrl: '/somewhere',
+  detailsUrl: '/catalogue/2A75-3',
 }];
 
 export default projectsDetails;

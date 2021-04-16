@@ -6,9 +6,11 @@ import Differences from './Differences';
 import Steps from './Steps';
 import Order from './Order';
 import VisitedProjects from '../../containers/VisitedProjects';
+import Breadcrumbs from '../../components/UI/Breadcrumbs';
 
 const IndividualProject = () => {
   return <React.Fragment>
+    <Breadcrumbs/>
     <Container>
       <div className={ classes['individual-project__header'] }>
         Индивидуальный проект

@@ -2,13 +2,14 @@ import React from 'react';
 import classes from './ProjectDetails.module.scss';
 import { ProjectPreviewDetails } from '../../entity/ProjectData';
 import Button, { ButtonType } from '../../components/UI/Button';
+import { Link } from 'react-router-dom';
 
 interface Props{
     projectData: ProjectPreviewDetails;
 }
 
 const ProjectDetails = ({ projectData }: Props) => {
-    return <div className={ classes['project-details'] }>
+    return <Link to={ projectData.detailsUrl } className={ classes['project-details'] }>
         <div className={ classes['project-details__content'] }>
             <div className={ classes['project-details__img'] }>
                 <img src={ projectData.image } alt={ projectData.title }/>
@@ -34,7 +35,7 @@ const ProjectDetails = ({ projectData }: Props) => {
                 </div>
             </div>
         </div>
-    </div>;
+    </Link>;
 };
 
 export default ProjectDetails;

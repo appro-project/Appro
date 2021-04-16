@@ -5,6 +5,7 @@ import Catalogue from './pages/Catalogue';
 import IndividualProject from './pages/IndividualProject';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Project from './pages/Project';
 
 const App = () => {
   return (
@@ -19,6 +20,9 @@ const App = () => {
           </Route>
           <Route path={ '/catalogue' } exact = { true }>
             <Catalogue/>
+          </Route>
+          <Route path={ '/catalogue/:projectId' }>
+            <Project/>
           </Route>
         </Switch>
       </Layout>
