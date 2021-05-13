@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import catalogueSortInfo, { SortDirection } from '../../../../constants/sortData/catalogueSortInfo';
+import { FilterType } from '../../../../constants/filterData/catalogueFiltersInfo';
+import { getSortUri } from '../../../../services/data';
 
 interface Props {
     sortInfoId: string;
 
-//    applySort(search: URLSearchParams): void;
+    handleSort(id: string, direction: SortDirection): void;
 }
 
-const SortOption = ({ sortInfoId }: Props) => {
+const SortOption = ({ sortInfoId, handleSort }: Props) => {
     const sortInfo = catalogueSortInfo.get(sortInfoId);
     const [direction, setDirection] = useState(sortInfo?.direction);
-    if (!sortInfo) return undefined;
+    if (!sortInfo) return <React.Fragment/>;
 
     const sortClicked = () => {
         let newDirection;
@@ -20,7 +22,8 @@ const SortOption = ({ sortInfoId }: Props) => {
             newDirection = (direction === SortDirection.ASC) ?
                 (SortDirection.DESC) : (SortDirection.ASC);
         }
-        // applySort();
+
+        handleSort(sortInfoId, newDirection);
         setDirection(newDirection);
 
     };

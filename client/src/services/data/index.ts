@@ -1,4 +1,5 @@
 import { FilterType, RangeOption, SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
+import { SortDirection } from '../../constants/sortData/catalogueSortInfo';
 
 const getSearchUri = (searchOption: SearchOption,
                       isChecked: boolean,
@@ -40,4 +41,12 @@ const getSearchUri = (searchOption: SearchOption,
     return currentSearchParams;
 };
 
-export { getSearchUri };
+const getSortUri = (id: string,
+                    direction: SortDirection,
+                    currentSearchParams: URLSearchParams): URLSearchParams => {
+    currentSearchParams.set(id, direction.valueOf());
+
+    return currentSearchParams;
+};
+
+export { getSearchUri, getSortUri };

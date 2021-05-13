@@ -31,11 +31,12 @@ const RangeFilter = ({ filterId, initialRange, applyFilter }: Props) => {
     };
 
     const getInitialFrom = () => {
-        return (initialRange?.from) ? (getValidFrom(initialRange?.from)) : (String(option.minFrom));
+        return (initialRange?.from) ? (String(getValidFrom(initialRange?.from)))
+            : (String(option.minFrom));
     };
 
     const getInitialTo = () => {
-        return (initialRange?.to) ? (getValidTo(initialRange?.to)) : (String(option.maxTo));
+        return (initialRange?.to) ? (String(getValidTo(initialRange?.to))) : (String(option.maxTo));
     };
 
     const [from, setFrom] = useState(getInitialFrom());
@@ -48,8 +49,8 @@ const RangeFilter = ({ filterId, initialRange, applyFilter }: Props) => {
     }
 
     const rangeOptionOnClick = () => {
-        const validFrom = getValidFrom(initialRange?.from);
-        const validTo = getValidTo(initialRange?.to);
+        const validFrom = getValidFrom(from);
+        const validTo = getValidTo(to);
         setFrom(String(validFrom));
         setTo(String(validTo));
         const validRange = {

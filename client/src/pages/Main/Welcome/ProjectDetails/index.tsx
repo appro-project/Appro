@@ -24,7 +24,7 @@ const ProjectDetails = (props: Props) => {
 
             { /*TODO: Fix square*/ }
             <div className={ classes['project-details__square'] }>
-                { projectData.square } м<sup>2</sup>
+                { projectData.area } м<sup>2</sup>
             </div>
         </div>
         <div className={ classes['project-details__description'] }>

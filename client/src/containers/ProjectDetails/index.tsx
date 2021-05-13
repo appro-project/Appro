@@ -15,14 +15,14 @@ const ProjectDetails = ({ projectData }: Props) => {
                 <img src={ projectData.image } alt={ projectData.title }/>
             </div>
             <div className={ classes['project-details__info'] }>
-                { /*<span>{ projectData.title }</span>*/ }
+                 { /*<span>{ projectData.title }</span>*/ }
                 <div className={ classes['project-details__info-text'] }>
-                    1A-2
+                    { projectData.title }
                     <span><br/>проект</span>
                 </div>
 
                 <div className={ classes['project-details__info-text'] }>
-                    { projectData.square } м<sup>2</sup>
+                    { projectData.area } м<sup>2</sup>
                     <span><br/>площадь</span>
                 </div>
 
