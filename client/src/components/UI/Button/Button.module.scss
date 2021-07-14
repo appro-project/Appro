@@ -67,6 +67,33 @@
   background-color: #E1A91C;
 }
 
+.button--transparent:active {
+  background-color: #E1A91C;
+}
+
+.button--transparent-small {
+  text-transform: uppercase;
+  width: 50px;
+  font-weight: 600;
+  font-size: 12px;
+  border: 2px solid #FFB000;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: transparent;
+  line-height: 36px;
+  font-style: normal;
+
+  color: #202020;
+}
+
+.button--transparent-small:hover {
+  background-color: #EDB528;
+}
+
+.button--transparent-small:active {
+  background-color: #E1A91C;
+}
+
 @media (min-width: $tablet-width) {
   .button--big {
     max-width: 412px;

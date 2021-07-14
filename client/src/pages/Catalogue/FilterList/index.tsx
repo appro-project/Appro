@@ -89,7 +89,6 @@ class FilterList extends Component<Props, {}> {
                                     this.singleOptionClicked('style',
                                                              FilterType.CHECKBOX, option) }/>
             </div>
-            ;
 
         </div>;
     }

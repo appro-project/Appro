@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import classes from './RadioFilter.module.scss';
+import classes from '../FilterList.module.scss';
 import catalogueFiltersInfo, { SingleOption } from '../../../../constants/filterData/catalogueFiltersInfo';
 interface Props{
     filterId: string;
@@ -37,12 +37,17 @@ const RadioFilter = ({ filterId, initialOption, applyFilter }: Props) => {
         }
     };
 
-    return <div>
-        <h3>{ filterInfo.name }</h3>
-        <ul className={ classes['filter-list__checkbox'] }>
+    return <div className={ classes['filters-list__item'] }>
+        <h3 className={ classes['filters-list__item-header'] }>{ filterInfo.name }</h3>
+        <ul className={ classes['filter-list-radio'] }>
             {
                 (filterInfo.options as SingleOption[])
                     .map((filterOption, idx) => {
+                        const activeClasses = [classes['checkmark']];
+                        if (filterOption.isSelected) {
+                            activeClasses.push(classes['option_selected']);
+                        }
+
                         return (
                             <li key={ idx }
                                 className={ (filterOption.isSelected) ? 'selected' : '' }
@@ -50,6 +55,7 @@ const RadioFilter = ({ filterId, initialOption, applyFilter }: Props) => {
                                     filterOption,
                                 ) }>
                                 { filterOption.name }
+                                <span className={ activeClasses.join(' ') }/>
                             </li>
                         );
                     },

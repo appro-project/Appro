@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import classes from './RangeFilter.module.scss';
+import classes from '../FilterList.module.scss';
 import catalogueFiltersInfo, { RangeOption } from '../../../../constants/filterData/catalogueFiltersInfo';
-import Button from '../../../../components/UI/Button';
+import Button, { ButtonType } from '../../../../components/UI/Button';
 import { getNumberFromString } from '../../../../services/util';
 interface Props{
     filterId: string;
@@ -61,17 +61,17 @@ const RangeFilter = ({ filterId, initialRange, applyFilter }: Props) => {
         applyFilter(validRange);
     };
 
-    return <div>
-        <h3>{ filterInfo.name }</h3>
-        <div>
+    return <div className={ classes['filters-list__item'] }>
+        <h3 className={ classes['filters-list__item-header'] }>{ filterInfo.name }</h3>
+        <div className={ classes['filters-list__item-range'] }>
             <input onChange={ e => setFrom(e.target.value) }
                    value={ from }/>
             <input onChange={ e => setTo(e.target.value) }
                    value={ to }/>
-            <Button title={ 'OK' }
+            <Button title={ 'OK' } buttonType={ ButtonType.TRANSPARENT_SMALL }
                     actionHandler={ () => rangeOptionOnClick() }/>
 
-        </div>;
+        </div>
     </div>;
 };
 

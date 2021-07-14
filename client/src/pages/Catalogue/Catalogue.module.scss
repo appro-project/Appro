@@ -1,3 +1,33 @@
+@import "../../common";
+@import "../../variables";
+
 .catalogue-main{
   display: flex;
+}
+
+.catalogue__title {
+  @extend ._main-title;
+  @extend .title-underscore;
+  margin-bottom: 26px;
+}
+
+
+@media (min-width: $tablet-width) {
+  .catalogue__title {
+    margin-bottom: 32px;
+  }
+
+  .catalogue__items {
+    display: flex;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .catalogue__title {
+    font-size: 48px;
+  }
+
+  .catalogue__title {
+    margin-bottom: 48px;
+  }
 }

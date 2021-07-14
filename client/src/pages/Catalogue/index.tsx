@@ -80,7 +80,7 @@ class Catalogue extends Component<{}, State> {
             <Breadcrumbs/>
             <Container>
                 <div>
-                    <h1>КАТАЛОГ ДОМОВ</h1>
+                    <h1 className={ classes['catalogue__title'] }>КАТАЛОГ ДОМОВ</h1>
                     <div/>
                 </div>
                 <div className={ classes['catalogue-main'] }>

@@ -4,5 +4,7 @@
 @media (min-width: $tablet-width) {
   .project-list__items {
     display: flex; //by two !
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 }

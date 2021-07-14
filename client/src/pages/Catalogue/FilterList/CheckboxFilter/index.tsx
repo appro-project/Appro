@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import classes from './CheckboxFilter.module.scss';
+import classes from '../FilterList.module.scss';
 import catalogueFiltersInfo, {
     SingleOption,
 } from '../../../../constants/filterData/catalogueFiltersInfo';
@@ -52,15 +52,15 @@ const CheckboxFilter = ({ filterId, initialOptions, applyFilter }: Props) => {
         applyFilter(clickedOption);
     };
 
-    return <div>
-        <h3>{ filterInfo.name }</h3>
+    return <div className={ classes['filters-list__item'] }>
+        <h3 className={ classes['filters-list__item-header'] } >{ filterInfo.name }</h3>
         <ul className={ classes['filter-list__checkbox'] }>
             {
                 (filterInfo.options as SingleOption[])
                     .map((filterOption, idx) => {
                         return (
                             <li key={ idx }
-                                className={ (filterOption.isSelected) ? 'selected' : '' }
+                                className={ (filterOption.isSelected) ? 'option_selected' : '' }
                                 onClick={ () => optionOnClick(
                                     filterOption,
                                 ) }>

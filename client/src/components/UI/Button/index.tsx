@@ -6,6 +6,7 @@ export enum ButtonType {
     TRANSPARENT = 'transparent',
     BIG = 'big',
     SMALL = 'small',
+    TRANSPARENT_SMALL = 'transparent_small',
 }
 
 interface Props {
@@ -21,6 +22,10 @@ const Button = (props: Props) => {
     const activeClasses = [classes['button']];
     if (props.buttonType && props.buttonType === ButtonType.TRANSPARENT) {
         activeClasses.push(classes['button--transparent']);
+    }
+
+    if (props.buttonType && props.buttonType === ButtonType.TRANSPARENT_SMALL) {
+        activeClasses.push(classes['button--transparent-small']);
     }
 
     if (props.buttonType && props.buttonType === ButtonType.BIG) {
