@@ -82,9 +82,9 @@ class Catalogue extends Component<{}, State> {
   render() {
     const { projects, currentPage } = this.state;
 
-    const indexOfLastTodo = currentPage * projectsPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - projectsPerPage;
-    const currentProjects = projects.slice(indexOfFirstTodo, indexOfLastTodo);
+    const indexOfLastProject = currentPage * projectsPerPage;
+    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+    const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
 
     return <div className={ classes.Catalogue }>
       <Container>
