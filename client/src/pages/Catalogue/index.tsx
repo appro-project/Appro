@@ -8,16 +8,20 @@ import projectsData from '../../mock/catalogueProjectsData';
 import { ProjectPreviewDetails } from '../../entity/ProjectData';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
+import Pagination from '../../components/UI/Pagination';
+
+const projectsPerPage = 8;
 
 interface State {
   projects: ProjectPreviewDetails[];
+  currentPage: number;
 }
 
 class Catalogue extends Component<{}, State> {
-  state = { projects: [] as ProjectPreviewDetails[] };
+  state = { projects: [] as ProjectPreviewDetails[], currentPage: 1 };
 
   componentDidMount() {
-    const projects = [...projectsData];
+    const projects = [...projectsData, ...projectsData];
     this.setState({ ...this.state, projects });
   }
 
@@ -68,13 +72,19 @@ class Catalogue extends Component<{}, State> {
         });
       }
     });
-    console.log(currentProjects);
     this.setState({ ...this.state, projects: currentProjects });
   }
 
-  // todo: breadcrumbs
+  handlePageChange = (nextPage: number) => {
+    this.setState({ ...this.state, currentPage: nextPage });
+  }
+
   render() {
-    const { projects } = this.state;
+    const { projects, currentPage } = this.state;
+
+    const indexOfLastTodo = currentPage * projectsPerPage;
+    const indexOfFirstTodo = indexOfLastTodo - projectsPerPage;
+    const currentProjects = projects.slice(indexOfFirstTodo, indexOfLastTodo);
 
     return <div className={ classes.Catalogue }>
       <Container>
@@ -89,11 +99,13 @@ class Catalogue extends Component<{}, State> {
           <div>
             <CatalogueHeader count={ projects.length }
                              applySort={ this.applySort }/>
-            <ProjectList projects={ projects }/>
+            <ProjectList projects={ currentProjects }/>
           </div>
         </div>
-        { /*todo: pagination!*/ }
-        <div className={ 'pagination' }/>
+        <Pagination items={ projects }
+                    currentPage = { this.state.currentPage }
+                    itemsPerPage = { projectsPerPage }
+                    onPageChange = { this.handlePageChange } />
         { /*todo: check if can be extracted above*/ }
         <VisitedProjects/>
       </Container>
