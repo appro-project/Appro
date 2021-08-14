@@ -7,7 +7,7 @@ import {
 } from '../../../constants/filterData/catalogueFiltersInfo';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getSearchUri } from '../../../services/data';
-import RangeFilter from './RangeFilter';
+import RangeFilterBlock from './RangeFilter';
 import CheckboxFilterBlock from './CheckboxFilterBlock';
 import RadioFilterBlock from './RadioFilter';
 import { getValidRangeSearchParam } from '../../../services/util';
@@ -46,10 +46,10 @@ class FilterList extends Component<Props, {}> {
 
         return <div>
             <div className={ classes['filters-list__items'] }>
-                <RangeFilter filterId={ 'area' }
-                             initialRange = { areaInitRange ?
+                <RangeFilterBlock filterId={ 'area' }
+                                  initialRange = { areaInitRange ?
                                  areaInitRange : undefined }
-                             applyFilter={ option =>
+                                  applyFilter={ option =>
                                  this.rangeOptionClicked('area', option) }/>
                 <CheckboxFilterBlock filterId={ 'floor' }
                                      initialOptions={ floorInitFilter ?
@@ -70,16 +70,16 @@ class FilterList extends Component<Props, {}> {
                                   applyFilter={ option =>
                                  this.singleOptionClicked('garage',
                                                           FilterType.RADIO, option) }/>
-                <RangeFilter filterId={ 'project_price' }
-                             initialRange = { projectPriceInitRange ?
+                <RangeFilterBlock filterId={ 'project_price' }
+                                  initialRange = { projectPriceInitRange ?
                                  projectPriceInitRange : undefined }
-                             applyFilter={ option =>
+                                  applyFilter={ option =>
                                  this.rangeOptionClicked('project_price', option) }/>
 
-                <RangeFilter filterId={ 'building_price' }
-                             initialRange = { buildingPriceInitRange ?
+                <RangeFilterBlock filterId={ 'building_price' }
+                                  initialRange = { buildingPriceInitRange ?
                                  buildingPriceInitRange : undefined }
-                             applyFilter={ option =>
+                                  applyFilter={ option =>
                                  this.rangeOptionClicked('building_price', option) }/>
 
                 <CheckboxFilterBlock filterId={ 'style' }

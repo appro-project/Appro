@@ -9,6 +9,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-image-lightbox": "^5.1.1",
+    "react-range": "^1.8.11",
     "react-responsive-carousel": "^3.2.20",
     "react-router-breadcrumbs-hoc": "^3.3.1",
     "react-router-dom": "^5.2.0",

@@ -22,7 +22,7 @@ const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
 
   };
 
-  const [ option, setOption ] =
+  const [option, setOption] =
     useState(getInitialState());
 
   if (!filterInfo) {
@@ -51,7 +51,7 @@ const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
                        onClick={ () => optionOnClick(
                          filterOption,
                        ) }>
-                     <input className={classes.RadioFilterBlock_Radio}
+                     <input className={ classes.RadioFilterBlock_Radio }
                             type="radio" id={ filterOption.name }/>
                      <label htmlFor={ filterOption.name }>{ filterOption.name }</label>
                    </li>
