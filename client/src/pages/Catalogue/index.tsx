@@ -5,7 +5,7 @@ import FilterList from './FilterList';
 import ProjectList from './ProjectList';
 import classes from './Catalogue.module.scss';
 import projectsData from '../../mock/catalogueProjectsData';
-import { ProjectPreviewDetails } from '../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
 import Pagination from '../../components/UI/Pagination';

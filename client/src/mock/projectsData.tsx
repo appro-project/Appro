@@ -1,6 +1,6 @@
 import house_1 from '../assets/img/main/welcome/house_1.jpg';
 import house_2 from '../assets/img/main/welcome/house_2.jpg';
-import { ProjectPreviewDetails } from '../entity/ProjectData';
+import { ProjectPreviewDetails } from '../entity/ProjectPreviewDetails';
 
 const projectsDetails: ProjectPreviewDetails[] = [{
   mainImage: house_1,

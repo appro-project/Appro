@@ -6,7 +6,7 @@ import house_2A_1 from '../assets/img/catalogue/house_2A-1.jpg';
 import house_3A_1 from '../assets/img/catalogue/house_3A-1.jpg';
 import house_2B_2 from '../assets/img/catalogue/house_2B-2.jpg';
 import house_3F_3 from '../assets/img/catalogue/house_3F-3.jpg';
-import { ProjectPreviewDetails } from '../entity/ProjectData';
+import { ProjectPreviewDetails } from '../entity/ProjectPreviewDetails';
 
 const catalogueProjects: ProjectPreviewDetails[] = [{
     mainImage: house_1A_2,

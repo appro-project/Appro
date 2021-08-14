@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './ProjectList.module.scss';
-import { ProjectPreviewDetails } from '../../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../../entity/ProjectPreviewDetails';
 import ProjectDetails from '../../../containers/ProjectDetails';
 
 interface Props {

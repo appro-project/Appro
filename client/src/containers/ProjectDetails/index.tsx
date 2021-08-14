@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './ProjectDetails.module.scss';
-import { ProjectPreviewDetails } from '../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Button, { ButtonType } from '../../components/UI/Button';
 import { Link } from 'react-router-dom';
 
