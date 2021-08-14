@@ -69,7 +69,7 @@ catalogueFiltersInfo.set('garage', {
     options: [
         { name: 'все варианты', id: 'all', isSelected: false },
         { name: 'с гаражем', id: 'true', isSelected: false },
-        { name: 'без гаражем', id: 'false', isSelected: false },
+        { name: 'без гаража', id: 'false', isSelected: false },
     ],
 });
 catalogueFiltersInfo.set('project_price', {

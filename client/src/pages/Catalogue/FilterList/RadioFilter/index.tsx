@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import classes from '../FilterList.module.scss';
+import classes from './RadioFilterBlock.module.scss';
 import catalogueFiltersInfo, { SingleOption } from '../../../../constants/filterData/catalogueFiltersInfo';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   applyFilter(option: SingleOption): void;
 }
 
-const RadioFilter = ({ filterId, initialOption, applyFilter }: Props) => {
+const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
 
   const getInitialState = () => {
@@ -39,27 +39,21 @@ const RadioFilter = ({ filterId, initialOption, applyFilter }: Props) => {
     }
   };
 
-  return <div className={ classes['filters-list__item'] }>
-    <h3 className={ classes['filters-list__item-header'] }>{ filterInfo.name }</h3>
-    <ul className={ classes['filter-list-radio'] }>
+  return <div className={ classes.RadioFilterBlock }>
+    <h3 className={ classes.RadioFilterBlock_Header }>{ filterInfo.name }</h3>
+    <ul className={ classes.RadioFilterBlock_List }>
       {
         (filterInfo.options as SingleOption[])
           .map((filterOption, idx) => {
-                 const activeClasses = [ classes['checkmark'] ];
-                 if (filterOption.isSelected) {
-                   activeClasses.push(classes['option_selected']);
-                 }
-
                  return (
                    <li key={ idx }
-                       className={ (filterOption.isSelected) ? 'selected' : '' }
+                       className={ classes.RadioFilterBlock_Item }
                        onClick={ () => optionOnClick(
                          filterOption,
                        ) }>
-                     <input type="checkbox" className="custom-checkbox" id={ filterOption.name }/>
+                     <input className={classes.RadioFilterBlock_Radio}
+                            type="radio" id={ filterOption.name }/>
                      <label htmlFor={ filterOption.name }>{ filterOption.name }</label>
-
-                     <span className={ activeClasses.join(' ') }/>
                    </li>
                  );
                },
@@ -68,4 +62,4 @@ const RadioFilter = ({ filterId, initialOption, applyFilter }: Props) => {
   </div>;
 };
 
-export default RadioFilter;
+export default RadioFilterBlock;
