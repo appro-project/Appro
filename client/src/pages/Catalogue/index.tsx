@@ -10,95 +10,96 @@ import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
 
 interface State {
-    projects: ProjectPreviewDetails[];
+  projects: ProjectPreviewDetails[];
 }
 
 class Catalogue extends Component<{}, State> {
-    state = { projects: [] as ProjectPreviewDetails[] };
+  state = { projects: [] as ProjectPreviewDetails[] };
 
-    componentDidMount() {
-        const projects = [...projectsData];
-        this.setState({ ...this.state, projects });
-    }
+  componentDidMount() {
+    const projects = [...projectsData];
+    this.setState({ ...this.state, projects });
+  }
 
-    applyFilter = (searchParams: URLSearchParams) => {
-        console.log('filter applied', searchParams.toString());
+  applyFilter = (searchParams: URLSearchParams) => {
+    console.log('filter applied', searchParams.toString());
 
-        // for demo, move to backend
-       let currentProjects = this.state.projects;
-       searchParams.forEach((value, key) => {
-           currentProjects = currentProjects.filter((pr) => {
-               console.log(key, value);
-               if (value.includes('-')) {
-                   const range = value.split('-');
-                   console.log(range);
+    // for demo, move to backend
+    let currentProjects = this.state.projects;
+    searchParams.forEach((value, key) => {
+      currentProjects = currentProjects.filter((pr) => {
+        console.log(key, value);
+        if (value.includes('-')) {
+          const range = value.split('-');
+          console.log(range);
+
+          // @ts-ignore
+          return pr[key] >= range[0] && pr[key] <= range[1];
+        }
 
         // @ts-ignore
-                   return pr[key] >= range[0] && pr[key] <= range[1];
-               }
+        return pr[key] === value;
+      });
+    });
+    this.setState({ ...this.state, projects: currentProjects });
+  }
 
-               // @ts-ignore
-               return pr[key] === value;
-           });
-       });
-       this.setState({ ...this.state, projects: currentProjects });
-    }
+  applySort = (searchParams: URLSearchParams) => {
+    console.log('sort applied', searchParams.toString());
 
-    applySort = (searchParams: URLSearchParams) => {
-        console.log('sort applied', searchParams.toString());
+    // for demo, move to backend
+    let currentProjects = this.state.projects;
+    searchParams.forEach((value, key) => {
+      if (value === 'asc' || value === 'desc') {
+        currentProjects = currentProjects.sort((pr1, pr2) => {
+          // @ts-ignore
+          const prKey = (key === 'area_sort') ? 'area' : 'project_price';
+          console.log(prKey);
+          // @ts-ignore
+          if (pr1[prKey] < pr2[prKey]) {
+            return (value === 'asc') ? (-1) : 1;
+          }
+          // @ts-ignore
+          if (pr1[prKey] > pr2[prKey]) {
+            return (value === 'asc') ? 1 : (-1);
+          }
 
-        // for demo, move to backend
-        let currentProjects = this.state.projects;
-        searchParams.forEach((value, key) => {
-            if (value === 'asc' || value === 'desc') {
-            currentProjects = currentProjects.sort((pr1, pr2) => {
-                // @ts-ignore
-                const prKey = (key === 'area_sort') ? 'area' : 'project_price';
-                console.log(prKey);
-                // @ts-ignore
-                if (pr1[prKey] < pr2[prKey]) {
-                    return (value === 'asc') ? (-1) : 1;
-                }
-                // @ts-ignore
-                if (pr1[prKey] > pr2[prKey]) {
-                    return (value === 'asc') ? 1 : (-1);
-                }
-
-                return 0;
-            });
-            }
+          return 0;
         });
-        console.log(currentProjects);
-        this.setState({ ...this.state, projects: currentProjects });
-    }
+      }
+    });
+    console.log(currentProjects);
+    this.setState({ ...this.state, projects: currentProjects });
+  }
 
-    // todo: breadcrumbs
-    render() {
-        const { projects } = this.state;
+  // todo: breadcrumbs
+  render() {
+    const { projects } = this.state;
 
-        return <React.Fragment>
-            <Breadcrumbs/>
-            <Container>
-                <div>
-                    <h1 className={ classes['catalogue__title'] }>КАТАЛОГ ДОМОВ</h1>
-                    <div/>
-                </div>
-                <div className={ classes['catalogue-main'] }>
-                    <FilterList applyFilter = { this.applyFilter }/>
-                    <div>
-                        <CatalogueHeader count={ projects.length }
-                                         applySort={ this.applySort }/>
-                        <ProjectList projects={ projects }/>
-                    </div>
-                </div>
-                { /*todo: pagination!*/ }
-                <div className={ 'pagination' }/>
-                { /*todo: check if can be extracted above*/ }
-                <VisitedProjects/>
-            </Container>
+    return <div className={classes.Catalogue}>
+      <Container>
+        <div className={ classes.Catalogue_Breadcrumbs }>
+          <Breadcrumbs/>
+        </div>
+        <div>
+          <h1 className={ classes['catalogue__title'] }>КАТАЛОГ ДОМОВ</h1>
+        </div>
+        <div className={ classes['catalogue-main'] }>
+          <FilterList applyFilter={ this.applyFilter }/>
+          <div>
+            <CatalogueHeader count={ projects.length }
+                             applySort={ this.applySort }/>
+            <ProjectList projects={ projects }/>
+          </div>
+        </div>
+        { /*todo: pagination!*/ }
+        <div className={ 'pagination' }/>
+        { /*todo: check if can be extracted above*/ }
+        <VisitedProjects/>
+      </Container>
 
-        </React.Fragment>;
-    }
+    </div>;
+  }
 
 }
 

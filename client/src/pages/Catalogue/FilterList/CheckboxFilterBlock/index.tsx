@@ -29,7 +29,7 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
     return defaultOptions.filter(o => o.isSelected).map(o => o.id);
   };
 
-  const [ options, setOptions ] =
+  const [options, setOptions] =
     useState(getInitialState());
 
   if (!filterInfo) {
@@ -49,7 +49,7 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
       clickedOption.isSelected = true;
     }
 
-    setOptions([ ...currentOptions ]);
+    setOptions([...currentOptions]);
     applyFilter(clickedOption);
   };
 
@@ -65,7 +65,7 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
                        onClick={ () => optionOnClick(
                          filterOption,
                        ) }>
-                     <input type="checkbox" className="custom-checkbox" id={ filterOption.name }
+                     <input type="checkbox" id={ filterOption.name }
                             checked={ filterOption.isSelected }/>
                      <label htmlFor={ filterOption.name }>{ filterOption.name }</label>
 

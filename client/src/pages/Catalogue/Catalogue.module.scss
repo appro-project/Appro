@@ -1,8 +1,16 @@
 @import "../../common";
 @import "../../variables";
 
+.Catalogue {
+  padding-top: 45px;
+}
+
 .catalogue-main{
   display: flex;
+}
+
+.Catalogue_Breadcrumbs {
+  margin-bottom: 38px;
 }
 
 .catalogue__title {
