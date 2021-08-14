@@ -1,5 +1,6 @@
 export interface ProjectPreviewDetails {
   image?: string;
+  id: string;
   title: string;
   area: number;
   description: string;

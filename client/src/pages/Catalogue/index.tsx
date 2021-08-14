@@ -76,7 +76,7 @@ class Catalogue extends Component<{}, State> {
   render() {
     const { projects } = this.state;
 
-    return <div className={classes.Catalogue}>
+    return <div className={ classes.Catalogue }>
       <Container>
         <div className={ classes.Catalogue_Breadcrumbs }>
           <Breadcrumbs/>

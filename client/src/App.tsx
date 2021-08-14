@@ -21,9 +21,7 @@ const App = () => {
           <Route path={ '/catalogue' } exact = { true }>
             <Catalogue/>
           </Route>
-          <Route path={ '/catalogue/:projectId' }>
-            <Project/>
-          </Route>
+          <Route path={ '/catalogue/:projectId' } component = { Project }/>
         </Switch>
       </Layout>
     </Router>

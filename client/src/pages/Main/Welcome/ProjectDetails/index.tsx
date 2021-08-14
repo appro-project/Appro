@@ -19,7 +19,7 @@ const ProjectDetails = (props: Props) => {
     return <div className={ classes['project-details'] }>
         <div className={ classes['project-details__header'] }>
             <div className={ classes['project-details__title'] }>
-               Проект { projectData.title }
+               Проект { projectData.id }
             </div>
 
             { /*TODO: Fix square*/ }

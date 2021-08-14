@@ -10,7 +10,8 @@ import { ProjectPreviewDetails } from '../entity/ProjectData';
 
 const catalogueProjects: ProjectPreviewDetails[] = [{
     image: house_1A_2,
-    title: '1A-2',
+    id: '1A-2',
+    title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
     area: 210,
     description: 'Современный комфортабельный двухэтажный особняк с террасой и гаражом для 2 автомобилей. В' +
         'составе помещений: холл, кухня-столовая, просторная гостиная с выходом на террасу, 5 спален,' +
@@ -21,7 +22,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
 },
     {
         image: house_2A_2,
-        title: '2A-2',
+        id: '2A-2',
+        title: 'проект 2а-2',
         area: 240,
         description: '',
         price: '23 050',
@@ -30,7 +32,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_3A_2,
-        title: '3A-2',
+        id: '3A-2',
+        title: 'проект 3A-2',
         area: 320,
         description: '',
         price: '24 720',
@@ -39,7 +42,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_1B_2,
-        title: '1B-2',
+        id: '1B-2',
+        title: 'проект 1B-2',
         area: 295,
         description: '',
         price: '22 300',
@@ -48,7 +52,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_2A_1,
-        title: '2A-1',
+        id: '2A-1',
+        title: 'проект 2A-1',
         area: 125,
         description: '',
         price: '22 840',
@@ -57,7 +62,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_3A_1,
-        title: '3A-1',
+        id: '3A-1',
+        title: 'проект 3A-1',
         area: 110,
         description: '',
         price: '19 000',
@@ -66,7 +72,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_2B_2,
-        title: '2B-2',
+        id: '2B-2',
+        title: 'проект 2B-2',
         area: 400,
         description: '',
         price: '38 768',
@@ -75,7 +82,8 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     },
     {
         image: house_3F_3,
-        title: '3F-3',
+        id: '3F-3',
+        title: 'проект 3F-3',
         area: 450,
         description: '',
         price: '39 500',
