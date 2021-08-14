@@ -8,7 +8,7 @@ import {
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getSearchUri } from '../../../services/data';
 import RangeFilter from './RangeFilter';
-import CheckboxFilter from './CheckboxFilter';
+import CheckboxFilterBlock from './CheckboxFilterBlock';
 import RadioFilter from './RadioFilter';
 import { getValidRangeSearchParam } from '../../../services/util';
 
@@ -51,17 +51,17 @@ class FilterList extends Component<Props, {}> {
                                  areaInitRange : undefined }
                              applyFilter={ option =>
                                  this.rangeOptionClicked('area', option) }/>
-                <CheckboxFilter filterId={ 'floor' }
-                                initialOptions={ floorInitFilter ?
+                <CheckboxFilterBlock filterId={ 'floor' }
+                                     initialOptions={ floorInitFilter ?
                                     floorInitFilter.split(',') : undefined }
-                                applyFilter={ option =>
+                                     applyFilter={ option =>
                                     this.singleOptionClicked('floor',
                                                              FilterType.CHECKBOX, option) }
                 />
-                <CheckboxFilter filterId={ 'bedroom' }
-                                initialOptions={ bedroomInitFilter ?
+                <CheckboxFilterBlock filterId={ 'bedroom' }
+                                     initialOptions={ bedroomInitFilter ?
                                     bedroomInitFilter.split(',') : undefined }
-                                applyFilter={ option =>
+                                     applyFilter={ option =>
                                     this.singleOptionClicked('bedroom',
                                                              FilterType.CHECKBOX, option) }
                 />
@@ -82,10 +82,10 @@ class FilterList extends Component<Props, {}> {
                              applyFilter={ option =>
                                  this.rangeOptionClicked('building_price', option) }/>
 
-                <CheckboxFilter filterId={ 'style' }
-                                initialOptions={ styleInitFilter ?
+                <CheckboxFilterBlock filterId={ 'style' }
+                                     initialOptions={ styleInitFilter ?
                                     styleInitFilter.split(',') : undefined }
-                                applyFilter={ option =>
+                                     applyFilter={ option =>
                                     this.singleOptionClicked('style',
                                                              FilterType.CHECKBOX, option) }/>
             </div>

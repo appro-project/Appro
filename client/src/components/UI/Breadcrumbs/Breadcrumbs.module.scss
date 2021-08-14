@@ -1,0 +1,25 @@
+.Breadcrumbs{
+
+  a {
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #202020;
+
+
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  span:first-child a{
+    text-decoration: underline;
+  }
+  
+  span:last-child img {
+    display: none;
+  }
+}

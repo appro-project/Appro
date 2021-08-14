@@ -9,9 +9,11 @@ import VisitedProjects from '../../containers/VisitedProjects';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 
 const IndividualProject = () => {
-  return <React.Fragment>
-    <Breadcrumbs/>
+  return <div className={ classes.IndividualProject }>
     <Container>
+      <div className={ classes.IndividualProject_Breadcrumbs }>
+        <Breadcrumbs/>
+      </div>
       <div className={ classes['individual-project__header'] }>
         Индивидуальный проект
       </div>
@@ -49,7 +51,7 @@ const IndividualProject = () => {
     <div className={ classes['individual-project__visited-wrapper'] }>
       <VisitedProjects/>
     </div>
-  </React.Fragment>;
+  </div>;
 };
 
 export default IndividualProject;
