@@ -9,7 +9,7 @@ import house_3F_3 from '../assets/img/catalogue/house_3F-3.jpg';
 import { ProjectPreviewDetails } from '../entity/ProjectData';
 
 const catalogueProjects: ProjectPreviewDetails[] = [{
-    image: house_1A_2,
+    mainImage: house_1A_2,
     id: '1A-2',
     title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
     area: 210,
@@ -19,9 +19,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
     price: '21 000',
     project_price: 21000,
     detailsUrl: '/catalogue/1A-2',
+    images: [house_1A_2, house_1A_2, house_1A_2],
 },
     {
-        image: house_2A_2,
+        mainImage: house_2A_2,
         id: '2A-2',
         title: 'проект 2а-2',
         area: 240,
@@ -29,9 +30,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '23 050',
         project_price: 23050,
         detailsUrl: '/catalogue/2A-2',
+        images: [house_2A_2, house_2A_2, house_2A_2],
     },
     {
-        image: house_3A_2,
+        mainImage: house_3A_2,
         id: '3A-2',
         title: 'проект 3A-2',
         area: 320,
@@ -39,9 +41,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '24 720',
         project_price: 24720,
         detailsUrl: '/catalogue/3A-2',
+        images: [house_3A_2, house_3A_2, house_3A_2],
     },
     {
-        image: house_1B_2,
+        mainImage: house_1B_2,
         id: '1B-2',
         title: 'проект 1B-2',
         area: 295,
@@ -49,9 +52,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '22 300',
         project_price: 22300,
         detailsUrl: '/catalogue/1B-2',
+        images: [house_1B_2, house_1B_2, house_1B_2],
     },
     {
-        image: house_2A_1,
+        mainImage: house_2A_1,
         id: '2A-1',
         title: 'проект 2A-1',
         area: 125,
@@ -59,9 +63,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '22 840',
         project_price: 22840,
         detailsUrl: '/catalogue/2A-1',
+        images: [house_2A_1, house_2A_1, house_2A_1],
     },
     {
-        image: house_3A_1,
+        mainImage: house_3A_1,
         id: '3A-1',
         title: 'проект 3A-1',
         area: 110,
@@ -69,9 +74,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '19 000',
         project_price: 19000,
         detailsUrl: '/catalogue/3A-1',
+        images: [house_3A_1, house_3A_1, house_3A_1],
     },
     {
-        image: house_2B_2,
+        mainImage: house_2B_2,
         id: '2B-2',
         title: 'проект 2B-2',
         area: 400,
@@ -79,9 +85,10 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '38 768',
         project_price: 38768,
         detailsUrl: '/catalogue/2B-2',
+        images: [house_2B_2, house_2B_2, house_2B_2],
     },
     {
-        image: house_3F_3,
+        mainImage: house_3F_3,
         id: '3F-3',
         title: 'проект 3F-3',
         area: 450,
@@ -89,6 +96,7 @@ const catalogueProjects: ProjectPreviewDetails[] = [{
         price: '39 500',
         project_price: 39500,
         detailsUrl: '/catalogue/3F-3',
+        images: [house_3F_3, house_3F_3, house_3F_3],
     }];
 
 export default catalogueProjects;

@@ -3,7 +3,7 @@ import house_2 from '../assets/img/main/welcome/house_2.jpg';
 import { ProjectPreviewDetails } from '../entity/ProjectData';
 
 const projectsDetails: ProjectPreviewDetails[] = [{
-  image: house_1,
+  mainImage: house_1,
   id: '1A50-1',
   title: 'проект 1A50-1',
   area: 210,
@@ -13,8 +13,9 @@ const projectsDetails: ProjectPreviewDetails[] = [{
   price: '21 000',
   project_price: 21000,
   detailsUrl: '/catalogue/1A50-1',
+  images: [house_1],
 }, {
-  image: house_2,
+  mainImage: house_2,
   id: '2A75-3',
   title: 'проект 2A75-3',
   area: 210,
@@ -24,6 +25,7 @@ const projectsDetails: ProjectPreviewDetails[] = [{
   price: '55 000',
   project_price: 55000,
   detailsUrl: '/catalogue/2A75-3',
+  images: [house_2],
 }];
 
 export default projectsDetails;

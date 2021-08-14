@@ -1,5 +1,5 @@
 export interface ProjectPreviewDetails {
-  image?: string;
+  mainImage?: string;
   id: string;
   title: string;
   area: number;
@@ -7,4 +7,5 @@ export interface ProjectPreviewDetails {
   price: string;
   project_price: number;
   detailsUrl: string;
+  images: string[];
 }

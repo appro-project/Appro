@@ -21,7 +21,7 @@ const Project = ({ match }: RouteComponentProps<RouteProps>) => {
             <div/>
         </div>
       <ProjectTabs/>
-      <ImageCarousel/>
+      <ImageCarousel images = { project.images }/>
     </React.Fragment>;
 };
 
