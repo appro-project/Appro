@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '../../../../components/UI/Button';
 
 import classes from './ProjectDetails.module.scss';
-import { ProjectPreviewDetails } from '../../../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../../../entity/ProjectPreviewDetails';
 
 interface Props {
     project: ProjectPreviewDetails;
