@@ -9,7 +9,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { getSearchUri } from '../../../services/data';
 import RangeFilter from './RangeFilter';
 import CheckboxFilterBlock from './CheckboxFilterBlock';
-import RadioFilter from './RadioFilter';
+import RadioFilterBlock from './RadioFilter';
 import { getValidRangeSearchParam } from '../../../services/util';
 
 interface SearchOption {
@@ -65,9 +65,9 @@ class FilterList extends Component<Props, {}> {
                                     this.singleOptionClicked('bedroom',
                                                              FilterType.CHECKBOX, option) }
                 />
-                <RadioFilter filterId={ 'garage' }
-                             initialOption = { garageInitFilter ? garageInitFilter : undefined }
-                             applyFilter={ option =>
+                <RadioFilterBlock filterId={ 'garage' }
+                                  initialOption = { garageInitFilter ? garageInitFilter : undefined }
+                                  applyFilter={ option =>
                                  this.singleOptionClicked('garage',
                                                           FilterType.RADIO, option) }/>
                 <RangeFilter filterId={ 'project_price' }
