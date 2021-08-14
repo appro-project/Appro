@@ -7,6 +7,9 @@
   margin-bottom: 26px;
 }
 
+.VisitedProjects_ProjectWrapper {
+  max-width: 328px;
+}
 
 @media (min-width: $tablet-width) {
   .visited-projects__title {
@@ -15,6 +18,11 @@
 
   .visited-projects__items {
     display: flex;
+    justify-content: space-between;
+  }
+
+  .VisitedProjects_ProjectWrapper {
+    max-width: 350px;
   }
 }
 
@@ -25,6 +33,10 @@
 
     .visited-projects__title {
       margin-bottom: 48px;
+    }
+
+    .VisitedProjects_ProjectWrapper {
+      max-width: 490px;
     }
   }
 

@@ -7,7 +7,7 @@ import projectsData from '../../mock/projectsData';
 import ProjectDetails from '../ProjectDetails';
 
 const VisitedProjects = () => {
-  const data = [...projectsData];
+  const data = [ ...projectsData ];
   data.push(projectsData[0]);
 
   return <section>
@@ -18,7 +18,9 @@ const VisitedProjects = () => {
 
       <div className={ classes['visited-projects__items'] }>
         { data.map((project: ProjectPreviewDetails, idx: number) =>
-            <ProjectDetails key={ idx } projectData={ project }/>) }
+                     (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
+                       <ProjectDetails projectData={ project }/>
+                     </div>)) }
       </div>
     </Container>
   </section>;

@@ -1,6 +1,14 @@
 @import "../../common";
 @import "../../variables";
 
+.IndividualProject {
+  padding-top: 45px;
+}
+
+.IndividualProject_Breadcrumbs {
+  margin-bottom: 38px;
+}
+
 .individual-project__header {
   @extend ._main-title;
   @extend .title-underscore;
