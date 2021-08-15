@@ -9,6 +9,8 @@ import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
 import Pagination from '../../components/UI/Pagination';
+import { getProjectsByFilters } from '../../services/data';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 const projectsPerPage = 8;
 
@@ -17,40 +19,24 @@ interface State {
   currentPage: number;
 }
 
-class Catalogue extends Component<{}, State> {
+class Catalogue extends Component<RouteComponentProps<any>, State> {
   state = { projects: [] as ProjectPreviewDetails[], currentPage: 1 };
 
   componentDidMount() {
-    const projects = [...projectsData, ...projectsData];
-    this.setState({ ...this.state, projects });
+    const urlSearchParams = new URLSearchParams(this.props.location.search);
+    this.applyFilter(urlSearchParams);
+   // this.applySort(urlSearchParams);
   }
 
   applyFilter = (searchParams: URLSearchParams) => {
-    console.log('filter applied', searchParams.toString());
+   const filteredProjects = getProjectsByFilters(searchParams);
 
-    // for demo, move to backend
-    let currentProjects = this.state.projects;
-    searchParams.forEach((value, key) => {
-      currentProjects = currentProjects.filter((pr) => {
-        console.log(key, value);
-        if (value.includes('-')) {
-          const range = value.split('-');
-          console.log(range);
-
-          // @ts-ignore
-          return pr[key] >= range[0] && pr[key] <= range[1];
-        }
-
-        // @ts-ignore
-        return pr[key] === value;
-      });
-    });
-    this.setState({ ...this.state, projects: currentProjects });
+    this.setState({ ...this.state, projects: filteredProjects });
   }
 
   applySort = (searchParams: URLSearchParams) => {
     console.log('sort applied', searchParams.toString());
-
+    
     // for demo, move to backend
     let currentProjects = this.state.projects;
     searchParams.forEach((value, key) => {
@@ -115,4 +101,4 @@ class Catalogue extends Component<{}, State> {
 
 }
 
-export default Catalogue;
+export default withRouter(Catalogue);

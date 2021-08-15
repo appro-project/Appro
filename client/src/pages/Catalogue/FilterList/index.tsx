@@ -36,13 +36,13 @@ class FilterList extends Component<Props, {}> {
         // todo: ids to enum!
         const floorInitFilter = urlFilters.get('floor');
         const bedroomInitFilter = urlFilters.get('bedroom');
-        const styleInitFilter = urlFilters.get('bedroom');
+        const styleInitFilter = urlFilters.get('style');
 
         const garageInitFilter = urlFilters.get('garage');
 
         const areaInitRange = getValidRangeSearchParam(urlFilters.get('area'));
-        const projectPriceInitRange = getValidRangeSearchParam(urlFilters.get('project_price'));
-        const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('building_price'));
+        const projectPriceInitRange = getValidRangeSearchParam(urlFilters.get('projectPrice'));
+        const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('buildingPrice'));
 
         return <div>
             <div className={ classes['filters-list__items'] }>
@@ -66,21 +66,22 @@ class FilterList extends Component<Props, {}> {
                                                              FilterType.CHECKBOX, option) }
                 />
                 <RadioFilterBlock filterId={ 'garage' }
-                                  initialOption = { garageInitFilter ? garageInitFilter : undefined }
+                                  initialOption = { garageInitFilter ?
+                                      garageInitFilter : undefined }
                                   applyFilter={ option =>
                                  this.singleOptionClicked('garage',
                                                           FilterType.RADIO, option) }/>
-                <RangeFilterBlock filterId={ 'project_price' }
+                <RangeFilterBlock filterId={ 'projectPrice' }
                                   initialRange = { projectPriceInitRange ?
                                  projectPriceInitRange : undefined }
                                   applyFilter={ option =>
-                                 this.rangeOptionClicked('project_price', option) }/>
+                                 this.rangeOptionClicked('projectPrice', option) }/>
 
-                <RangeFilterBlock filterId={ 'building_price' }
+                <RangeFilterBlock filterId={ 'buildingPrice' }
                                   initialRange = { buildingPriceInitRange ?
                                  buildingPriceInitRange : undefined }
                                   applyFilter={ option =>
-                                 this.rangeOptionClicked('building_price', option) }/>
+                                 this.rangeOptionClicked('buildingPrice', option) }/>
 
                 <CheckboxFilterBlock filterId={ 'style' }
                                      initialOptions={ styleInitFilter ?
@@ -113,7 +114,6 @@ class FilterList extends Component<Props, {}> {
              search: decodeURIComponent(searchUri.toString()),
              pathname: location.pathname,
         });
-
         this.props.applyFilter(searchUri);
     }
 

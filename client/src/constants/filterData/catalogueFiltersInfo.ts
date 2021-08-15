@@ -72,14 +72,14 @@ catalogueFiltersInfo.set('garage', {
         { name: 'без гаража', id: 'false', isSelected: false },
     ],
 });
-catalogueFiltersInfo.set('project_price', {
+catalogueFiltersInfo.set('projectPrice', {
     id: 'project_price',
     name: 'Стоимость проекта, грн',
     filterType: FilterType.RANGE,
     options: { minFrom: 6500, maxTo: 35500, from: 6500, to: 35500, unit: 'грн' },
     tooltip: 'Проект дома включает 2 экземпляра чертежей, необходимых для проведения строительных работ и  получения разрешения на строительство, и содержит Архитектурный и Конструктивный разделы.',
 });
-catalogueFiltersInfo.set('building_price', {
+catalogueFiltersInfo.set('buildingPrice', {
     id: 'building_price',
     name: 'Стоимость строительства, грн',
     filterType: FilterType.RANGE,

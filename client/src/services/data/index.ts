@@ -1,5 +1,7 @@
 import { FilterType, RangeOption, SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
 import { SortDirection } from '../../constants/sortData/catalogueSortInfo';
+import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
+import projectsData from '../../mock/catalogueProjectsData';
 
 const getSearchUri = (searchOption: SearchOption,
                       isChecked: boolean,
@@ -49,4 +51,41 @@ const getSortUri = (id: string,
     return currentSearchParams;
 };
 
-export { getSearchUri, getSortUri };
+const getProjectsByFilters = (filters: URLSearchParams)
+    : ProjectPreviewDetails[] => {
+    let currentProjects = [...projectsData, ...projectsData];
+    filters.forEach((value, key) => {
+        currentProjects = currentProjects.filter((pr) => {
+            if (value.includes('-') && !value.includes('floor')) {
+                const range = value.split('-');
+
+                // @ts-ignore
+                return pr[key] >= range[0] && pr[key] <= range[1];
+            }
+            const values = value.split(',');
+            if (values.includes('all')) {
+                return pr;
+            }
+            console.log('filter', key, value);
+            for (const v of values) {
+                // @ts-ignore
+                if (String(pr[key]) === String(v)) {
+                    return true;
+                }
+                if (v.includes('>')) {
+                    const moreThan = v.split('>')[1];
+                    // @ts-ignore
+                    if (Number(pr[key]) >= Number(moreThan)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        });
+    });
+
+    return currentProjects;
+};
+
+export { getSearchUri, getSortUri, getProjectsByFilters };

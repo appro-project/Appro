@@ -12,13 +12,12 @@ interface Props {
 
 const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
-
   const getInitialState = () => {
     if (!filterInfo) return undefined;
     const defaultOptions = filterInfo.options as SingleOption[];
-    if (!initialOption) return defaultOptions.find(op => op.isSelected)?.id;
+    if (!initialOption) return defaultOptions.find(op => op.isSelected)?.name;
 
-    return defaultOptions.find(op => op.id = initialOption)?.id;
+    return defaultOptions.find(op => op.id === initialOption)?.id;
 
   };
 
@@ -32,14 +31,15 @@ const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
   }
 
   const optionOnClick = (clickedOption: SingleOption) => {
-    if (clickedOption.id !== option) {
-      setOption(clickedOption.id);
-      clickedOption.isSelected = true;
-      applyFilter(clickedOption);
+    if (clickedOption.id === option) {
+      return;
     }
+    clickedOption.isSelected = true;
+    setOption(clickedOption.id);
+    applyFilter(clickedOption);
   };
 
-  return <div className={ classes.RadioFilterBlock }>
+return <div className={ classes.RadioFilterBlock }>
     <h3 className={ classes.RadioFilterBlock_Header }>{ filterInfo.name }</h3>
     <ul className={ classes.RadioFilterBlock_List }>
       {
@@ -48,12 +48,12 @@ const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
                  return (
                    <li key={ idx }
                        className={ classes.RadioFilterBlock_Item }
-                       onClick={ () => optionOnClick(
-                         filterOption,
-                       ) }>
+                       >
                      <input className={ classes.RadioFilterBlock_Radio }
-                            type="radio" id={ filterOption.name }/>
-                     <label htmlFor={ filterOption.name }>{ filterOption.name }</label>
+                            type="radio" id={ filterOption.name }
+                     checked={ filterOption.id === option }/>
+                     <label onClick={ () => optionOnClick(filterOption) }
+                            htmlFor={ filterOption.name }>{ filterOption.name }</label>
                    </li>
                  );
                },

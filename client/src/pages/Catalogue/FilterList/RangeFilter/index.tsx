@@ -43,8 +43,8 @@ const RangeFilterBlock = ({ filterId, initialRange, applyFilter }: Props) => {
     return (initialRange?.to) ? (String(getValidTo(initialRange?.to))) : (String(option.maxTo));
   };
 
-  const [ from, setFrom ] = useState(getInitialFrom());
-  const [ to, setTo ] = useState(getInitialTo());
+  const [from, setFrom] = useState(getInitialFrom());
+  const [to, setTo] = useState(getInitialTo());
 
   if (!filterInfo) {
     console.warn(`filter info for ${ filterId } not found`);
@@ -78,13 +78,19 @@ const RangeFilterBlock = ({ filterId, initialRange, applyFilter }: Props) => {
 
     <div className={ classes.RangeFilterBlock_RangeInput }>
         <Range
-          // values={ [Number.parseInt(from, 2), Number.parseInt(to, 2)] }
-          values={ [ 1, 100 ] }
-          min={ 1 }
-          max={ 100 }
+          values={ [Number(from), Number(to)] }
+          min={ option.minFrom }
+          max={ option.maxTo }
           onChange={ (values) => {
-
-            // setValues(values);
+                const fromValue = values[0];
+                const toValue = values[1];
+              setFrom(String(fromValue));
+              setTo(String(toValue));
+              const validRange = {
+                  ...option,
+                  from: fromValue,
+                  to: toValue,
+              };
           } }
           renderTrack={ ({ props, children }) => (
             <div
@@ -129,7 +135,7 @@ const RangeFilterBlock = ({ filterId, initialRange, applyFilter }: Props) => {
           ) }
         />
         <output style={ { marginTop: '30px' } } id="output">
-          { Number.parseInt(from, 2) } - { Number.parseInt(from, 2) }
+          { `${option.minFrom} - ${option.maxTo}` }
         </output>
       </div>
   </div>;

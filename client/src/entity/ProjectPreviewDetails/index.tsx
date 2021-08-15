@@ -7,8 +7,8 @@ export interface ProjectPreviewDetails {
   price: string;
   projectPrice: number;
   buildingPrice: number;
-  floorNumber: number;
-  sleepingRoomNumber: number;
+  floor: string;
+  bedroom: number;
   garage: boolean;
   style: string;
   popularity: number;

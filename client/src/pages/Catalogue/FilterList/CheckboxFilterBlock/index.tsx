@@ -18,15 +18,16 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
   const getInitialState = () => {
     if (!filterInfo) return [];
     const defaultOptions = filterInfo.options as SingleOption[];
+    const selectedOptionIds = [];
     if (initialOptions) {
       for (const defaultOption of defaultOptions) {
         if (initialOptions.indexOf(defaultOption.id) > -1) {
-          defaultOption.isSelected = true;
+          selectedOptionIds.push(defaultOption.id);
         }
       }
     }
 
-    return defaultOptions.filter(o => o.isSelected).map(o => o.id);
+    return selectedOptionIds;
   };
 
   const [options, setOptions] =
@@ -62,12 +63,11 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
                  return (
                    <li key={ idx }
                        className={ classes.CheckboxFilterBlock_item }
-                       onClick={ () => optionOnClick(
-                         filterOption,
-                       ) }>
+                      >
                      <input type="checkbox" id={ filterOption.name }
-                            checked={ filterOption.isSelected }/>
-                     <label htmlFor={ filterOption.name }>{ filterOption.name }</label>
+                            checked={ options.includes(filterOption.id) }/>
+                     <label  onClick={ () => optionOnClick(filterOption) }
+                             htmlFor={ filterOption.name }>{ filterOption.name }</label>
 
                    </li>
                  );
