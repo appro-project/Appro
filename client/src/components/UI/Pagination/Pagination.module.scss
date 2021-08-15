@@ -1,0 +1,26 @@
+.Pagination {
+  ///*display: flex;
+  //justify-content: center;*/
+}
+
+.Pagination_List {
+  display: flex;
+  justify-content: center;
+}
+
+.Pagination_Item {
+  height: 40px;
+  width: 40px;
+
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+
+  &__Active {
+    background-color: #FFB000;
+  }
+}

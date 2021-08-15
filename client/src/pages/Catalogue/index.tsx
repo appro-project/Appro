@@ -36,7 +36,7 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
 
   applySort = (searchParams: URLSearchParams) => {
     console.log('sort applied', searchParams.toString());
-    
+
     // for demo, move to backend
     let currentProjects = this.state.projects;
     searchParams.forEach((value, key) => {
@@ -85,13 +85,16 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
           <div>
             <CatalogueHeader count={ projects.length }
                              applySort={ this.applySort }/>
-            <ProjectList projects={ currentProjects }/>
+            <div>
+              <ProjectList projects={ currentProjects }/>
+              <Pagination items={ projects }
+                          currentPage={ this.state.currentPage }
+                          itemsPerPage={ projectsPerPage }
+                          onPageChange={ this.handlePageChange }/>
+            </div>
           </div>
         </div>
-        <Pagination items={ projects }
-                    currentPage = { this.state.currentPage }
-                    itemsPerPage = { projectsPerPage }
-                    onPageChange = { this.handlePageChange } />
+
         { /*todo: check if can be extracted above*/ }
         <VisitedProjects/>
       </Container>
