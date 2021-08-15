@@ -22,7 +22,7 @@ class Pagination extends Component<Props, {}> {
       return (
         // TODO [sunny]: Add Pagination_Item__Active when on page
         <li
-          className={classes.Pagination_Item}
+          className={ classes.Pagination_Item }
           key={ number }
           id={ String(number) }
           onClick={ event => this.handlePageClick(event) }
@@ -33,7 +33,7 @@ class Pagination extends Component<Props, {}> {
     });
 
     return <div className={ classes.Pagination }>
-      <ul className={classes.Pagination_List}>{ renderPageNumbers }</ul>
+      <ul className={ classes.Pagination_List }>{ renderPageNumbers }</ul>
     </div>;
   }
 

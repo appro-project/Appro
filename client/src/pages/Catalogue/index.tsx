@@ -21,7 +21,7 @@ class Catalogue extends Component<{}, State> {
   state = { projects: [] as ProjectPreviewDetails[], currentPage: 1 };
 
   componentDidMount() {
-    const projects = [ ...projectsData, ...projectsData ];
+    const projects = [...projectsData, ...projectsData];
     this.setState({ ...this.state, projects });
   }
 
@@ -46,7 +46,7 @@ class Catalogue extends Component<{}, State> {
       });
     });
     this.setState({ ...this.state, projects: currentProjects });
-  };
+  }
 
   applySort = (searchParams: URLSearchParams) => {
     console.log('sort applied', searchParams.toString());
@@ -73,11 +73,11 @@ class Catalogue extends Component<{}, State> {
       }
     });
     this.setState({ ...this.state, projects: currentProjects });
-  };
+  }
 
   handlePageChange = (nextPage: number) => {
     this.setState({ ...this.state, currentPage: nextPage });
-  };
+  }
 
   render() {
     const { projects, currentPage } = this.state;
