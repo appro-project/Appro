@@ -4,13 +4,17 @@ import VisitedProjects from '../../containers/VisitedProjects';
 import FilterList from './FilterList';
 import ProjectList from './ProjectList';
 import classes from './Catalogue.module.scss';
-import projectsData from '../../mock/catalogueProjectsData';
 import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
 import Pagination from '../../components/UI/Pagination';
-import { getProjectsByFilters } from '../../services/data';
+import { getProjectsByFilters, sortProjectsByParams } from '../../services/data';
 import { RouteComponentProps, withRouter } from 'react-router';
+import catalogueSortInfo, {
+  defaultSortDetails,
+  SortDetails,
+  SortDirection,
+} from '../../constants/sortData/catalogueSortInfo';
 
 const projectsPerPage = 8;
 
@@ -24,41 +28,19 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
 
   componentDidMount() {
     const urlSearchParams = new URLSearchParams(this.props.location.search);
-    this.applyFilter(urlSearchParams);
-   // this.applySort(urlSearchParams);
+    const filteredProjects = getProjectsByFilters(urlSearchParams);
+    const sortedProjects = sortProjectsByParams(filteredProjects, urlSearchParams);
+    this.setState({ ...this.state, projects: sortedProjects });
   }
 
   applyFilter = (searchParams: URLSearchParams) => {
-   const filteredProjects = getProjectsByFilters(searchParams);
-
+    const filteredProjects = getProjectsByFilters(searchParams);
     this.setState({ ...this.state, projects: filteredProjects });
   }
 
   applySort = (searchParams: URLSearchParams) => {
-    console.log('sort applied', searchParams.toString());
-
-    // for demo, move to backend
-    let currentProjects = this.state.projects;
-    searchParams.forEach((value, key) => {
-      if (value === 'asc' || value === 'desc') {
-        currentProjects = currentProjects.sort((pr1, pr2) => {
-          // @ts-ignore
-          const prKey = (key === 'area_sort') ? 'area' : 'project_price';
-          console.log(prKey);
-          // @ts-ignore
-          if (pr1[prKey] < pr2[prKey]) {
-            return (value === 'asc') ? (-1) : 1;
-          }
-          // @ts-ignore
-          if (pr1[prKey] > pr2[prKey]) {
-            return (value === 'asc') ? 1 : (-1);
-          }
-
-          return 0;
-        });
-      }
-    });
-    this.setState({ ...this.state, projects: currentProjects });
+    const sortedProjects = sortProjectsByParams(this.state.projects, searchParams);
+    this.setState({ ...this.state, projects: sortedProjects });
   }
 
   handlePageChange = (nextPage: number) => {
@@ -71,6 +53,9 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
+    const urlFilters = new URLSearchParams(this.props.location.search);
+
+    const sortDetails = this.getSortDetailsByUrl(urlFilters);
 
     return <div className={ classes.Catalogue }>
       <Container>
@@ -84,6 +69,7 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
           <FilterList applyFilter={ this.applyFilter }/>
           <div>
             <CatalogueHeader count={ projects.length }
+                             sortDetails={ sortDetails }
                              applySort={ this.applySort }/>
             <div>
               <ProjectList projects={ currentProjects }/>
@@ -102,6 +88,42 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
     </div>;
   }
 
+  private getSortDetailsByUrl(urlParams: URLSearchParams): SortDetails | undefined {
+    const popularityDirection = urlParams.get('popularity_sort');
+    if (popularityDirection) {
+      return this.getSortDetails(popularityDirection, 'popularity_sort');
+    }
+
+    const areaDirection = urlParams.get('area_sort');
+    if (areaDirection) {
+      return this.getSortDetails(areaDirection, 'area_sort');
+    }
+
+    const priceDirection = (urlParams.get('projectPrice_sort'));
+
+    if (priceDirection) {
+      return this.getSortDetails(priceDirection, 'projectPrice_sort');
+    }
+
+    return defaultSortDetails;
+  }
+
+  private getSortDetails(directionString: string, id: string) {
+    const catalogueSortDetails = catalogueSortInfo.get(id);
+    if (!catalogueSortDetails) {
+      return ;
+    }
+    let sortDirection;
+    if (SortDirection.ASC.valueOf() === directionString) {
+      sortDirection = SortDirection.ASC;
+    }
+    if (SortDirection.DESC.valueOf() === directionString) {
+      sortDirection = SortDirection.DESC;
+    }
+    catalogueSortDetails.direction = sortDirection;
+
+    return catalogueSortDetails;
+  }
 }
 
 export default withRouter(Catalogue);

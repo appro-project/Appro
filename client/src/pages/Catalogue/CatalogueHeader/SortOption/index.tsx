@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import catalogueSortInfo, { SortDirection } from '../../../../constants/sortData/catalogueSortInfo';
-import { FilterType } from '../../../../constants/filterData/catalogueFiltersInfo';
-import { getSortUri } from '../../../../services/data';
 
 interface Props {
     sortInfoId: string;

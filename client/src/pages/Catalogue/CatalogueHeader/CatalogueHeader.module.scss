@@ -58,10 +58,10 @@
     border-radius: 4px;
     padding: 9px 40px 10px 20px;
     // TODO [tplik]: Arrow down SVG here
-    background-image: none;
-    background-repeat: no-repeat;
-    background-position: 90% 16px;
-
+    //background-image: none;
+    //background-repeat: no-repeat;
+    //background-position: 90% 16px;
+    background-color: red;
     &:hover {
       background-color: #FFB000 ;
     }

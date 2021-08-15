@@ -55,6 +55,9 @@ const getProjectsByFilters = (filters: URLSearchParams)
     : ProjectPreviewDetails[] => {
     let currentProjects = [...projectsData, ...projectsData];
     filters.forEach((value, key) => {
+        if (key.includes('_sort')) {
+            return;
+        }
         currentProjects = currentProjects.filter((pr) => {
             if (value.includes('-') && !value.includes('floor')) {
                 const range = value.split('-');
@@ -66,7 +69,6 @@ const getProjectsByFilters = (filters: URLSearchParams)
             if (values.includes('all')) {
                 return pr;
             }
-            console.log('filter', key, value);
             for (const v of values) {
                 // @ts-ignore
                 if (String(pr[key]) === String(v)) {
@@ -88,4 +90,32 @@ const getProjectsByFilters = (filters: URLSearchParams)
     return currentProjects;
 };
 
-export { getSearchUri, getSortUri, getProjectsByFilters };
+const sortProjectsByParams = (projects: ProjectPreviewDetails[], searchParams: URLSearchParams)
+    : ProjectPreviewDetails[] => {
+    let currentProjects = projects;
+    searchParams.forEach((value, key) => {
+        if (!key.includes('sort')) {
+            return;
+        }
+        currentProjects = currentProjects.sort((pr1, pr2) => {
+                // @ts-ignore
+                const prKey = key.split('_sort')[0];
+                // @ts-ignore
+                if (pr1[prKey] < pr2[prKey]) {
+                    return (value === 'asc') ? (-1) : 1;
+                }
+                // @ts-ignore
+                if (pr1[prKey] > pr2[prKey]) {
+                    return (value === 'asc') ? 1 : (-1);
+                }
+
+                return 0;
+            });
+
+    });
+
+    return projects;
+
+};
+
+export { getSearchUri, getSortUri, getProjectsByFilters, sortProjectsByParams };

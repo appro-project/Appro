@@ -2,24 +2,30 @@ export enum SortDirection{
     ASC= 'asc', DESC= 'desc',
 }
 
-export interface SortInfo {
+export interface SortDetails {
     id: string;
     name: string;
     direction?: SortDirection;
 }
 
-const catalogueSortInfo: Map<string, SortInfo> = new Map();
-catalogueSortInfo.set('popular_sort', {
-    id: 'popular_sort',
+const catalogueSortInfo: Map<string, SortDetails> = new Map();
+catalogueSortInfo.set('popularity_sort', {
+    id: 'popularity_sort',
     name: 'По популярности',
 });
 catalogueSortInfo.set('area_sort', {
     id: 'area_sort',
     name: 'По площади',
 });
-catalogueSortInfo.set('price_sort', {
-    id: 'price_sort',
+catalogueSortInfo.set('projectPrice_sort', {
+    id: 'projectPrice_sort',
     name: 'По цене',
 });
+
+export const defaultSortDetails = {
+    id: 'popularity_sort',
+    name: 'По популярности',
+    direction: SortDirection.DESC,
+};
 
 export default catalogueSortInfo;
