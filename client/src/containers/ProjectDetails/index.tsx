@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './ProjectDetails.module.scss';
-import { ProjectPreviewDetails } from '../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Button, { ButtonType } from '../../components/UI/Button';
 import { Link } from 'react-router-dom';
 
@@ -12,12 +12,12 @@ const ProjectDetails = ({ projectData }: Props) => {
     return <Link to={ projectData.detailsUrl } className={ classes['project-details'] }>
         <div className={ classes['project-details__content'] }>
             <div className={ classes['project-details__img'] }>
-                <img src={ projectData.image } alt={ projectData.title }/>
+                <img src={ projectData.mainImage } alt={ projectData.id }/>
             </div>
             <div className={ classes['project-details__info'] }>
                  { /*<span>{ projectData.title }</span>*/ }
                 <div className={ classes['project-details__info-text'] }>
-                    { projectData.title }
+                    { projectData.id }
                     <span><br/>проект</span>
                 </div>
 

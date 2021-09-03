@@ -49,7 +49,7 @@ const Welcome = () => {
             { projectsData.map((project, index) =>
                 <div key={ index }>
                     <div className={ classes['welcome__project-image'] }>
-                        <img src={ project.image } alt="slide 1"/>
+                        <img src={ project.mainImage } alt="slide 1"/>
                         <Overlay/>
                     </div>
                     <div className={ classes['welcome__project-details-wrapper'] }>

@@ -7,9 +7,9 @@ import {
 } from '../../../constants/filterData/catalogueFiltersInfo';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getSearchUri } from '../../../services/data';
-import RangeFilter from './RangeFilter';
+import RangeFilterBlock from './RangeFilter';
 import CheckboxFilterBlock from './CheckboxFilterBlock';
-import RadioFilter from './RadioFilter';
+import RadioFilterBlock from './RadioFilter';
 import { getValidRangeSearchParam } from '../../../services/util';
 
 interface SearchOption {
@@ -36,20 +36,20 @@ class FilterList extends Component<Props, {}> {
         // todo: ids to enum!
         const floorInitFilter = urlFilters.get('floor');
         const bedroomInitFilter = urlFilters.get('bedroom');
-        const styleInitFilter = urlFilters.get('bedroom');
+        const styleInitFilter = urlFilters.get('style');
 
         const garageInitFilter = urlFilters.get('garage');
 
         const areaInitRange = getValidRangeSearchParam(urlFilters.get('area'));
-        const projectPriceInitRange = getValidRangeSearchParam(urlFilters.get('project_price'));
-        const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('building_price'));
+        const projectPriceInitRange = getValidRangeSearchParam(urlFilters.get('projectPrice'));
+        const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('buildingPrice'));
 
         return <div>
             <div className={ classes['filters-list__items'] }>
-                <RangeFilter filterId={ 'area' }
-                             initialRange = { areaInitRange ?
+                <RangeFilterBlock filterId={ 'area' }
+                                  initialRange = { areaInitRange ?
                                  areaInitRange : undefined }
-                             applyFilter={ option =>
+                                  applyFilter={ option =>
                                  this.rangeOptionClicked('area', option) }/>
                 <CheckboxFilterBlock filterId={ 'floor' }
                                      initialOptions={ floorInitFilter ?
@@ -65,22 +65,23 @@ class FilterList extends Component<Props, {}> {
                                     this.singleOptionClicked('bedroom',
                                                              FilterType.CHECKBOX, option) }
                 />
-                <RadioFilter filterId={ 'garage' }
-                             initialOption = { garageInitFilter ? garageInitFilter : undefined }
-                             applyFilter={ option =>
+                <RadioFilterBlock filterId={ 'garage' }
+                                  initialOption = { garageInitFilter ?
+                                      garageInitFilter : undefined }
+                                  applyFilter={ option =>
                                  this.singleOptionClicked('garage',
                                                           FilterType.RADIO, option) }/>
-                <RangeFilter filterId={ 'project_price' }
-                             initialRange = { projectPriceInitRange ?
+                <RangeFilterBlock filterId={ 'projectPrice' }
+                                  initialRange = { projectPriceInitRange ?
                                  projectPriceInitRange : undefined }
-                             applyFilter={ option =>
-                                 this.rangeOptionClicked('project_price', option) }/>
+                                  applyFilter={ option =>
+                                 this.rangeOptionClicked('projectPrice', option) }/>
 
-                <RangeFilter filterId={ 'building_price' }
-                             initialRange = { buildingPriceInitRange ?
+                <RangeFilterBlock filterId={ 'buildingPrice' }
+                                  initialRange = { buildingPriceInitRange ?
                                  buildingPriceInitRange : undefined }
-                             applyFilter={ option =>
-                                 this.rangeOptionClicked('building_price', option) }/>
+                                  applyFilter={ option =>
+                                 this.rangeOptionClicked('buildingPrice', option) }/>
 
                 <CheckboxFilterBlock filterId={ 'style' }
                                      initialOptions={ styleInitFilter ?
@@ -113,7 +114,6 @@ class FilterList extends Component<Props, {}> {
              search: decodeURIComponent(searchUri.toString()),
              pathname: location.pathname,
         });
-
         this.props.applyFilter(searchUri);
     }
 

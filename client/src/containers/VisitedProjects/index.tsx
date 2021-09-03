@@ -2,12 +2,12 @@ import React from 'react';
 import classes from './VisitedProjects.module.scss';
 import Container from '../hoc/Container';
 
-import { ProjectPreviewDetails } from '../../entity/ProjectData';
+import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import projectsData from '../../mock/projectsData';
 import ProjectDetails from '../ProjectDetails';
 
 const VisitedProjects = () => {
-  const data = [ ...projectsData ];
+  const data = [...projectsData];
   data.push(projectsData[0]);
 
   return <section>
