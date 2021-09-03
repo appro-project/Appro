@@ -6,6 +6,7 @@ import IndividualProject from './pages/IndividualProject';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Project from './pages/Project';
+import AddProject from "./pages/Admin/AddProject";
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
         <Switch>
           <Route path={ '/' } exact = { true }>
             <Index/>
+          </Route>
+          <Route path={ '/admin/add' } exact = { true }>
+            <AddProject/>
           </Route>
           <Route path={ '/individual-project' } exact = { true }>
             <IndividualProject/>
