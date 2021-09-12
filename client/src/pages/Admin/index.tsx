@@ -1,5 +1,5 @@
 import React from 'react';
-import AddProject from "./AddProject";
+import AddProject from './AddProject';
 
 const Admin = () => {
     return <React.Fragment>

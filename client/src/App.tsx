@@ -6,7 +6,7 @@ import IndividualProject from './pages/IndividualProject';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Project from './pages/Project';
-import AddProject from "./pages/Admin/AddProject";
+import AddProject from './pages/Admin/AddProject';
 
 const App = () => {
   return (
