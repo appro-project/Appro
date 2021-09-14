@@ -206,7 +206,7 @@ class AddProject extends Component<{}, State> {
 
     handleFloorImageChange = (event: React.ChangeEvent<any>, floorIndex: number) => {
         const floors = [...this.state.floorList];
-        const image = event.target.value;
+        const image = event.target.files[0];
         floors
             .filter(i => i.index === floorIndex)
             .forEach(i => i.planningImage = image);
@@ -228,7 +228,7 @@ class AddProject extends Component<{}, State> {
     }
 
     saveProject = () => {
-        addProject(this.state as unknown as FullProjectData);
+        addProject(this.state);
         this.setState({ ...initialState });
     }
 
