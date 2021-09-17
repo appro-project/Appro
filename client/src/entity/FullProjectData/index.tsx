@@ -1,19 +1,31 @@
+export interface Floor {
+  index: number;
+  area: number | null;
+  height: number | null;
+  planningImage: string | null;
+}
+
 export interface FullProjectData {
   id: string;
   title: string;
   generalArea: number;
-  timeToCreate: string;
+  timeToCreate: number;
   projectPrice: number;
-  floorAreas: number[];
   livingArea: number;
   buildingArea: number;
-  size: string;
-  floorHeights: number[];
   wallMaterial: string;
+  wallThickness: number;
   foundation: string;
   ceiling: string;
   roof: string;
   buildingPrice: number;
   images: string[];
-  planningImages: string[];
+  insulation: string;
+  insulationThickness: number;
+  length: number ;
+  width: number;
+  style: string;
+  isGaragePresent: boolean;
+  bedroomCount: number;
+  floorList: Floor[];
 }
