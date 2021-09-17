@@ -7,7 +7,7 @@ import { FullProjectData } from '../entity/FullProjectData';
 
 const fullProjectsData: FullProjectData[] = [{
     id: '2A-1',
-    title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
+    title: 'Проект 2А-1, 1-этажный, 2 спальни, гараж',
     generalArea: 210,
     timeToCreate: '14 дней',
     projectPrice: 23750,

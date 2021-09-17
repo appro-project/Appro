@@ -7,6 +7,7 @@ export enum ButtonType {
     BIG = 'big',
     SMALL = 'small',
     TRANSPARENT_SMALL = 'transparent_small',
+    EXTENDED = 'extended',
 }
 
 interface Props {
@@ -20,6 +21,10 @@ interface Props {
 // TODO: What does it mean? (props: Props): {something} =>
 const Button = (props: Props) => {
     const activeClasses = [classes['button']];
+    if (props.buttonType && props.buttonType === ButtonType.EXTENDED) {
+        activeClasses.push(classes['button--extended']);
+    }
+
     if (props.buttonType && props.buttonType === ButtonType.TRANSPARENT) {
         activeClasses.push(classes['button--transparent']);
     }
