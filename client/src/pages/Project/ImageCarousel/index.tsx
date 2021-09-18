@@ -1,16 +1,26 @@
-import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
+import React, { ReactElement } from 'react';
+// import { Carousel } from 'react-responsive-carousel';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/scss/image-gallery.scss';
 
-interface Props{
-    images: string[];
+import classes from './index.module.scss';
+
+interface Props {
+  images: string[];
 }
-const ImageCarousel = ({ images }: Props) =>
-    <Carousel showStatus={ false }>
-        {
-            images.map((image, idx) => <div key={ idx }>
-                <img src={ image } alt={ 'project image' }/>
-            </div>)
-        }
-    </Carousel>;
+
+const ImageCarousel = ({ images }: Props): ReactElement => {
+  const imagesWithThumbnail = images.map(image => ({
+    original: image,
+    thumbnail: image,
+    thumbnailClass: classes.ImageCarousel_Thumbnail,
+    originalClass: classes.ImageCarousel_SlideImage,
+  }));
+
+  return <ImageGallery items={ imagesWithThumbnail }
+                       showThumbnails={ true }
+                       thumbnailPosition={ 'left' }
+                       showNav={ false }/>;
+};
 
 export default ImageCarousel;

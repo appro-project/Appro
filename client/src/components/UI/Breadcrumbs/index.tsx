@@ -16,6 +16,7 @@ const crumbsInfo = [
   { breadcrumb: 'Реализованные проекты', path: '/finished' },
   { breadcrumb: 'Дополнительные услуги', path: '/additional' },
   { breadcrumb: 'О нас', path: '/about' },
+  { breadcrumb: 'Каталог', path: '/catalogue' },
   { breadcrumb: DynamicProjectBreadcrumb, path: '/catalogue/:projectId' },
 ];
 

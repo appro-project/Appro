@@ -1,12 +1,15 @@
 import React from 'react';
 import classes from './GeneralInfo.module.scss';
+
+import NumberFormat from 'react-number-format';
+
 import ImageCarousel from '../ImageCarousel';
 import Button, { ButtonType } from '../../../components/UI/Button';
 
 interface Props {
   title: string;
   generalArea: number;
-  timeToCreate: string;
+  timeToCreate: number;
   projectPrice: number;
   images: string[];
 }
@@ -47,7 +50,7 @@ const GeneralInfo = (props: Props) => {
                 подготовка проекта
               </div>
               <div className={ classes.GeneralInfo_InfoValue }>
-                { props.timeToCreate }
+                { props.timeToCreate } дней
               </div>
             </div>
 
@@ -56,7 +59,8 @@ const GeneralInfo = (props: Props) => {
                 цена проекта
               </div>
               <div className={ classes.GeneralInfo_InfoValue }>
-                { props.projectPrice }
+                <NumberFormat value={ props.projectPrice } displayType={'text'}
+                              thousandSeparator={" "} suffix={" грн"}/>
               </div>
             </div>
           </div>

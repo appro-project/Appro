@@ -1,10 +1,11 @@
 import React from 'react';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import ProjectTabs from './PropjectTabs';
-import ImageCarousel from './ImageCarousel';
 import { RouteComponentProps } from 'react-router';
 import fullProjectsData from '../../mock/fullProjectsData';
 import Container from '../../containers/hoc/Container';
+
+
 
 import classes from './Project.module.scss';
 import GeneralInfo from './GeneralInfo';
@@ -17,6 +18,7 @@ const Project = ({ match }: RouteComponentProps<RouteProps>) => {
     return <div>Not found</div>;
   }
 
+  console.log(project);
   return <section className={ classes.Project }>
     <Container>
       <div className={ classes.Project_Breadcrumbs }>
