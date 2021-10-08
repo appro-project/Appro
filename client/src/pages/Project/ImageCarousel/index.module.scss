@@ -1,0 +1,18 @@
+.ImageCarousel_SlideImage {
+  width: 879px;
+}
+
+.ImageCarousel_Thumbnail {
+
+  &:hover, &:focus,  {
+    border-color: #EDB528;
+  }
+
+  &+.active {
+    border: 4px solid #EDB528;
+  }
+}
+
+.ImageCarousel_Thumbnail[aria-pressed = true] {
+  border: 4px solid #EDB528;
+}

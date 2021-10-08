@@ -10,9 +10,11 @@
     "axios": "^0.21.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-image-gallery": "^1.2.7",
     "react-image-lightbox": "^5.1.1",
+    "react-number-format": "^4.7.3",
     "react-range": "^1.8.11",
-    "react-responsive-carousel": "^3.2.20",
+    "react-responsive-carousel": "^3.2.21",
     "react-router-breadcrumbs-hoc": "^3.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
@@ -41,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-image-gallery": "^1.0.4",
     "@types/react-router-dom": "^5.1.5",
     "tslint": "^6.1.2",
     "tslint-config-airbnb": "^5.11.2",

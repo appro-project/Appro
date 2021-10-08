@@ -1,0 +1,140 @@
+.GeneralInfo_Wrapper {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.GeneralInfo_Images {
+  max-width: 1000px;
+}
+
+
+.GeneralInfo_Body {
+  padding: 27px 20px 20px 20px;
+  margin-left: 20px;
+  max-width: 493px;
+  max-height: 380px;
+  background: #F5F5F5;
+  border: 1px solid #ECECEC;
+}
+
+.GeneralInfo_Title {
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #202020;
+}
+
+.GeneralInfo_Types {
+  margin-top: 28px;
+  display: flex;
+
+}
+
+.GeneralInfo_Type {
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  color: #202020;
+  width: 50%;
+
+  input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  /* создание в label псевдоэлемента  before со следующими стилями */
+  label::before {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid #EDB528;
+
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  /* стили при наведении курсора на радио */
+  input:not(:disabled):not(:checked) + label:hover::before {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
+  }
+
+  /* стили для активной радиокнопки (при нажатии на неё) */
+  input:not(:disabled):active + label::before {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
+  }
+
+  /* стили для радиокнопки, находящейся в состоянии checked */
+  input:checked + label::before {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
+  }
+}
+
+.GeneralInfo_InfoRows {
+  margin-top: 35px;
+}
+
+.GeneralInfo_InfoRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  div {
+    width: 50%;
+  }
+}
+
+.GeneralInfo_InfoKey {
+  // TODO [tolik]: Think about font definition
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  color: #202020;
+}
+
+.GeneralInfo_InfoValue {
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #202020;
+
+  sup {
+    font-size: 11px;
+    vertical-align: super;
+  }
+}
+
+.GeneralInfo_Button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 453px;
+  font-weight: 600;
+  font-size: 24px;
+}

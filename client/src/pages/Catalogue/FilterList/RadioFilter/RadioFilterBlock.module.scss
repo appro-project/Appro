@@ -64,18 +64,3 @@
 .RadioFilterBlock_Radio:checked + label::before {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
 }
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #fff;
-  border: 1px solid #CECECE;
-  box-sizing: border-box;
-}
-
-.checkmark:hover {
-  background-color: #FFB000;
-}

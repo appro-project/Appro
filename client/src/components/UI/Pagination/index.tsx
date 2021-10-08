@@ -18,11 +18,13 @@ class Pagination extends Component<Props, {}> {
       pageNumbers.push(i);
     }
 
+    const activePageClass = [classes.Pagination_Item, classes.Pagination_Item__Active].join(' ');
     const renderPageNumbers = pageNumbers.map((number) => {
       return (
         // TODO [sunny]: Add Pagination_Item__Active when on page
         <li
-          className={ classes.Pagination_Item }
+          className={ (number === this.props.currentPage) ?
+            activePageClass : (classes.Pagination_Item) }
           key={ number }
           id={ String(number) }
           onClick={ event => this.handlePageClick(event) }

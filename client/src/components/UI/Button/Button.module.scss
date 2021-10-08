@@ -1,13 +1,13 @@
 @import "../../../variables";
 
 .button {
-  display: block;
+  display: flex;
   width: 147px;
   height: 40px;
   background-color: #FFB000;
   color: $text-dark;
-  text-align: center;
-  line-height: 40px;
+  justify-content: center;
+  align-items: center;
   font-weight: 500;
   font-size: 14px;
   text-transform: uppercase;
@@ -103,6 +103,14 @@
 @media (min-width: $desktop-width) {
   .button--big {
     max-width: 494px;
+  }
+
+  .button--extended {
+    max-width: 100%;
+    width: 100%;
+
+    height: 60px;
+    font-size: inherit;
   }
 
   .button--small {
