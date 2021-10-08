@@ -5,8 +5,8 @@ import Catalogue from './pages/Catalogue';
 import IndividualProject from './pages/IndividualProject';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Project from './pages/Project';
 import AddProject from './pages/Admin/AddProject';
+import ProjectPage from './pages/Project';
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
           <Route path={ '/catalogue' } exact = { true }>
             <Catalogue/>
           </Route>
-          <Route path={ '/catalogue/:projectId' } component = { Project }/>
+          <Route path={ '/catalogue/:projectId' } component = { ProjectPage }/>
         </Switch>
       </Layout>
     </Router>

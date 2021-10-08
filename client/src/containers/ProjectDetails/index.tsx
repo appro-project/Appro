@@ -1,15 +1,15 @@
 import React from 'react';
 import classes from './ProjectDetails.module.scss';
-import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
+import { Project } from '../../entity/Project';
 import Button, { ButtonType } from '../../components/UI/Button';
 import { Link } from 'react-router-dom';
 
 interface Props{
-    projectData: ProjectPreviewDetails;
+    projectData: Project;
 }
 
 const ProjectDetails = ({ projectData }: Props) => {
-    return <Link to={ projectData.detailsUrl } className={ classes['project-details'] }>
+    return <Link to={ `catalogue/${projectData.id}` } className={ classes['project-details'] }>
         <div className={ classes['project-details__content'] }>
             <div className={ classes['project-details__img'] }>
                 <img src={ projectData.mainImage } alt={ projectData.id }/>
@@ -22,12 +22,13 @@ const ProjectDetails = ({ projectData }: Props) => {
                 </div>
 
                 <div className={ classes['project-details__info-text'] }>
-                    { projectData.area } м<sup>2</sup>
+                    { /*TODO: livingArea or buildingArea??*/ }
+                    { projectData.buildingArea } м<sup>2</sup>
                     <span><br/>площадь</span>
                 </div>
 
                 <div className={ classes['project-details__info-text'] }>
-                    { projectData.price } грн.
+                    { projectData.projectPrice } грн.
                     <span><br/>цена проекта</span>
                 </div>
                 <div className={ classes['project-details__details-button'] }>

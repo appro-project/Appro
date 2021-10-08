@@ -4,7 +4,6 @@ import VisitedProjects from '../../containers/VisitedProjects';
 import FilterList from './FilterList';
 import ProjectList from './ProjectList';
 import classes from './Catalogue.module.scss';
-import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import CatalogueHeader from './CatalogueHeader';
 import Pagination from '../../components/UI/Pagination';
@@ -15,32 +14,39 @@ import catalogueSortInfo, {
   SortDetails,
   SortDirection,
 } from '../../constants/sortData/catalogueSortInfo';
+import { getAllProjects } from '../Admin/service';
+import { Project } from '../../entity/Project';
 
 const projectsPerPage = 8;
 
 interface State {
-  projects: ProjectPreviewDetails[];
+  projects: Project[];
+  currentProjects: Project[];
   currentPage: number;
 }
 
 class Catalogue extends Component<RouteComponentProps<any>, State> {
-  state = { projects: [] as ProjectPreviewDetails[], currentPage: 1 };
+  state = { projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1 };
 
   componentDidMount() {
-    const urlSearchParams = new URLSearchParams(this.props.location.search);
-    const filteredProjects = getProjectsByFilters(urlSearchParams);
-    const sortedProjects = sortProjectsByParams(filteredProjects, urlSearchParams);
-    this.setState({ ...this.state, projects: sortedProjects });
+    const projectsPromise = getAllProjects();
+    projectsPromise.then((projects) => {
+      console.log(projects);
+      const urlSearchParams = new URLSearchParams(this.props.location.search);
+      const filteredProjects = getProjectsByFilters(projects, urlSearchParams);
+      const sortedProjects = sortProjectsByParams(filteredProjects, urlSearchParams);
+      this.setState({ ...this.state, projects, currentProjects: sortedProjects });
+    });
   }
 
   applyFilter = (searchParams: URLSearchParams) => {
-    const filteredProjects = getProjectsByFilters(searchParams);
-    this.setState({ ...this.state, projects: filteredProjects });
+    const filteredProjects = getProjectsByFilters(this.state.projects, searchParams);
+    this.setState({ ...this.state, currentProjects: filteredProjects });
   }
 
   applySort = (searchParams: URLSearchParams) => {
     const sortedProjects = sortProjectsByParams(this.state.projects, searchParams);
-    this.setState({ ...this.state, projects: sortedProjects });
+    this.setState({ ...this.state, currentProjects: sortedProjects });
   }
 
   handlePageChange = (nextPage: number) => {
@@ -48,11 +54,11 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
   }
 
   render() {
-    const { projects, currentPage } = this.state;
+    const { currentProjects, currentPage } = this.state;
 
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
+    const currentProjectsPaged = currentProjects.slice(indexOfFirstProject, indexOfLastProject);
     const urlFilters = new URLSearchParams(this.props.location.search);
 
     const sortDetails = this.getSortDetailsByUrl(urlFilters);
@@ -68,12 +74,12 @@ class Catalogue extends Component<RouteComponentProps<any>, State> {
         <div className={ classes['catalogue-main'] }>
           <FilterList applyFilter={ this.applyFilter }/>
           <div>
-            <CatalogueHeader count={ projects.length }
+            <CatalogueHeader count={ currentProjects.length }
                              sortDetails={ sortDetails }
                              applySort={ this.applySort }/>
             <div>
-              <ProjectList projects={ currentProjects }/>
-              <Pagination items={ projects }
+              <ProjectList projects={ currentProjectsPaged }/>
+              <Pagination items={ currentProjects }
                           currentPage={ this.state.currentPage }
                           itemsPerPage={ projectsPerPage }
                           onPageChange={ this.handlePageChange }/>

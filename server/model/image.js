@@ -3,7 +3,7 @@ const knex = require("../database");
 
 const storage = multer.diskStorage({
     // TODO: fix path for images
-    destination: "../client/src/assets/img/projects/",
+    destination: "../client/public/img/projects/",
     filename: function(req, file, cb){
         cb(null, file.originalname.toLowerCase().split(' ').join('-'));
     }
@@ -22,10 +22,11 @@ const Image = {
             );
     },
 
-    addToProject: (imageLink, projectId) => {
+    addToProject: (imageLink, projectId, isMain = false) => {
         return knex.insert({
           path: imageLink,
-          projectId: projectId
+          project_id: projectId,
+          is_main: isMain,
         }).into('project_image');
 
     }

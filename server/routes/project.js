@@ -5,6 +5,18 @@ const Project = require("../model/Project");
 const Floor = require("../model/floor");
 const Image = require("../model/image");
 
+router.get('/', (req, res, next) => {
+    Project.findAll()
+        .then(projects => res.status(200).json(projects))
+        .catch(next);
+})
+
+router.get('/:projectId', (req, res, next) => {
+    Project.findById(req.params.projectId)
+        .then(project => res.status(200).json(project))
+        .catch(next);
+})
+
 router.post('/', (req, resp, next) => {
     const project = req.body;
     Project.add(project).then(id => {
@@ -21,7 +33,7 @@ router.post('/', (req, resp, next) => {
 router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"), (req, res, next) => {
     const floorId = req.params.floorId;
 
-    const imageLink = `../client/src/assets/projects/${req.file.originalname.toLowerCase().split(' ').join('-')}`
+    const imageLink = `/img/projects/${req.file.originalname.toLowerCase().split(' ').join('-')}`
     Image.addToFloor(imageLink, floorId).then(() =>
         res.status(200)
             .json({
@@ -34,9 +46,9 @@ router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"
 
 router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req, res, next) => {
     const projectId = req.params.projectId;
-    const { files } = req;
-    for(const file of files){
-        const imageLink = `../client/src/assets/projects/${file.originalname.toLowerCase().split(' ').join('-')}`
+    const {files} = req;
+    for (const file of files) {
+        const imageLink = `/img/projects/${file.originalname.toLowerCase().split(' ').join('-')}`
         Image.addToProject(imageLink, projectId).then(() =>
             res.status(200)
                 .json({
@@ -45,6 +57,18 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
                     }
                 ));
     }
+})
+
+router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res, next) => {
+    const projectId = req.params.projectId;
+    const imageLink = `/img/projects/${req.file.originalname.toLowerCase().split(' ').join('-')}`
+    Image.addToProject(imageLink, projectId, true).then(() =>
+        res.status(200)
+            .json({
+                    success: true,
+                    massage: `Main image added to project ${projectId}`
+                }
+            ));
 })
 
 module.exports = router;

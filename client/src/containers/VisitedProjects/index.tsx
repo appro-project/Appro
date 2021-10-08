@@ -2,13 +2,13 @@ import React from 'react';
 import classes from './VisitedProjects.module.scss';
 import Container from '../hoc/Container';
 
-import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
-import projectsData from '../../mock/projectsData';
+import { Project } from '../../entity/Project';
+import mockProjects from '../../mock/projects';
 import ProjectDetails from '../ProjectDetails';
 
 const VisitedProjects = () => {
-  const data = [...projectsData];
-  data.push(projectsData[0]);
+  const data = [...mockProjects];
+  data.push(mockProjects[0]);
 
   return <section>
     <Container>
@@ -17,7 +17,7 @@ const VisitedProjects = () => {
       </h2>
 
       <div className={ classes['visited-projects__items'] }>
-        { data.map((project: ProjectPreviewDetails, idx: number) =>
+        { data.map((project: Project, idx: number) =>
                      (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
                        <ProjectDetails projectData={ project }/>
                      </div>)) }

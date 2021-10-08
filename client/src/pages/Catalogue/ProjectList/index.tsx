@@ -1,14 +1,14 @@
 import React from 'react';
 import classes from './ProjectList.module.scss';
-import { ProjectPreviewDetails } from '../../../entity/ProjectPreviewDetails';
+import { Project } from '../../../entity/Project';
 import ProjectDetails from '../../../containers/ProjectDetails';
 
 interface Props {
-    projects: ProjectPreviewDetails[];
+    projects: Project[];
 }
 const ProjectList = ({ projects }: Props) => {
     return <div className={ classes['project-list__items'] }>
-        { projects.map((project: ProjectPreviewDetails, idx: number) =>
+        { projects.map((project: Project, idx: number) =>
             <ProjectDetails key={ idx } projectData={ project }/>) }
     </div>;
 };

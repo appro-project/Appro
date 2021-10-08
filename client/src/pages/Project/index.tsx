@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import ProjectTabs from './PropjectTabs';
 import ImageCarousel from './ImageCarousel';
 import { RouteComponentProps } from 'react-router';
-import fullProjectsData from '../../mock/fullProjectsData';
+import { getProjectById } from '../Admin/service';
+import { Project } from '../../entity/Project';
 type RouteProps = {projectId: string};
 
-const Project = ({ match }: RouteComponentProps<RouteProps>) => {
-    const project = fullProjectsData.find(cp => cp.id === match.params.projectId);
+const ProjectPage = ({ match }: RouteComponentProps<RouteProps>) => {
+    const [project, setProject] = useState<Project | null>(null);
+
+    useEffect(() => {
+        getProjectById(Number(match.params.projectId))
+            .then((res) => {
+                console.log(res);
+                setProject(res);
+            });
+    });
+
      if (!project) {
          return <div>Not found</div>;
      }
@@ -24,4 +34,4 @@ const Project = ({ match }: RouteComponentProps<RouteProps>) => {
     </React.Fragment>;
 };
 
-export default Project;
+export default ProjectPage;

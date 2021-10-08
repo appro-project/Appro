@@ -3,18 +3,18 @@ import React from 'react';
 import Button from '../../../../components/UI/Button';
 
 import classes from './ProjectDetails.module.scss';
-import { ProjectPreviewDetails } from '../../../../entity/ProjectPreviewDetails';
+import { Project } from '../../../../entity/Project';
 
 interface Props {
-    project: ProjectPreviewDetails;
+    project: Project;
 }
 
 interface Props {
-    project: ProjectPreviewDetails;
+    project: Project;
 }
 
 const ProjectDetails = (props: Props) => {
-    const projectData: ProjectPreviewDetails = props.project;
+    const projectData: Project = props.project;
 
     return <div className={ classes['project-details'] }>
         <div className={ classes['project-details__header'] }>
@@ -24,7 +24,7 @@ const ProjectDetails = (props: Props) => {
 
             { /*TODO: Fix square*/ }
             <div className={ classes['project-details__square'] }>
-                { projectData.area } м<sup>2</sup>
+                { projectData.livingArea } м<sup>2</sup>
             </div>
         </div>
         <div className={ classes['project-details__description'] }>
@@ -33,7 +33,7 @@ const ProjectDetails = (props: Props) => {
 
         <div className={ classes['project-details__footer'] }>
             <div className={ classes['project-details__price'] }>
-                { projectData.price } грн.
+                { projectData.projectPrice } грн.
                 <span className={ classes['project-details__price-info'] }>цена проекта</span>
             </div>
             <a href="#" className={ classes['project-details__link'] }>

@@ -5,11 +5,12 @@ interface Props {
     title: string;
     value: number | null;
     required?: boolean;
+    disabled?: boolean;
 
     handleProperty(event: React.ChangeEvent<any>): void;
 }
 
-const NumericProperty = ({ title, value, required, handleProperty }: Props) =>
+const NumericProperty = ({ title, value, required, disabled, handleProperty }: Props) =>
     <TextField
         variant="standard"
         required = { required }
@@ -19,6 +20,7 @@ const NumericProperty = ({ title, value, required, handleProperty }: Props) =>
         name={ title }
         value={ value || '' }
         type={ 'number' }
+        disabled={ disabled }
         onChange={ event => handleProperty(event) }/>;
 
 export default NumericProperty;

@@ -1,7 +1,6 @@
 import { FilterType, RangeOption, SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
 import { SortDirection } from '../../constants/sortData/catalogueSortInfo';
-import { ProjectPreviewDetails } from '../../entity/ProjectPreviewDetails';
-import projectsData from '../../mock/catalogueProjectsData';
+import { Project } from '../../entity/Project';
 
 const getSearchUri = (searchOption: SearchOption,
                       isChecked: boolean,
@@ -51,36 +50,53 @@ const getSortUri = (id: string,
     return currentSearchParams;
 };
 
-const getProjectsByFilters = (filters: URLSearchParams)
-    : ProjectPreviewDetails[] => {
-    let currentProjects = [...projectsData, ...projectsData];
+const getProjectsByFilters = (projects: Project[], filters: URLSearchParams)
+    : Project[] => {
+    let currentProjects = [...projects];
     filters.forEach((value, key) => {
         if (key.includes('_sort')) {
             return;
         }
         currentProjects = currentProjects.filter((pr) => {
-            if (value.includes('-') && !value.includes('floor')) {
+            if (key === 'area') {
                 const range = value.split('-');
 
-                // @ts-ignore
-                return pr[key] >= range[0] && pr[key] <= range[1];
+                return pr.generalArea >= Number(range[0]) && pr.generalArea <= Number(range[1]);
             }
-            const values = value.split(',');
-            if (values.includes('all')) {
-                return pr;
+            if (key === 'floor') {
+                return floorFilter(value, pr);
             }
-            for (const v of values) {
-                // @ts-ignore
-                if (String(pr[key]) === String(v)) {
+            if (key === 'bedroom') {
+                if (value === 'all') {
                     return true;
                 }
-                if (v.includes('>')) {
-                    const moreThan = v.split('>')[1];
-                    // @ts-ignore
-                    if (Number(pr[key]) >= Number(moreThan)) {
-                        return true;
-                    }
+
+                return pr.bedroomCount === Number(value);
+            }
+            if (key === 'garage') {
+                if (value === 'all') {
+                    return true;
                 }
+
+                return pr.isGaragePresent === Boolean(value);
+            }
+            if (key === 'projectPrice') {
+                const range = value.split('-');
+
+                return pr.projectPrice >= Number(range[0]) && pr.projectPrice <= Number(range[1]);
+            }
+            if (key === 'buildingPrice') {
+                const range = value.split('-');
+
+                return pr.buildingPrice >= Number(range[0]) && pr.buildingPrice <= Number(range[1]);
+            }
+            if (key === 'style') {
+                if (value === 'all') {
+                    return true;
+                }
+
+                return pr.style === 'классический' && value.includes('classic') ||
+                    pr.style === 'современный' && value.includes('modern');
             }
 
             return false;
@@ -90,23 +106,38 @@ const getProjectsByFilters = (filters: URLSearchParams)
     return currentProjects;
 };
 
-const sortProjectsByParams = (projects: ProjectPreviewDetails[], searchParams: URLSearchParams)
-    : ProjectPreviewDetails[] => {
+const floorFilter = (value: string, project: Project) => {
+    if (value === 'attic') {
+        return !!project.floorList.find(fl => fl.isAttic);
+    }
+    if (value === 'basement') {
+        return !!project.floorList.find(fl => fl.isBasement);
+    }
+    if (value === '>4') {
+        return project.floorList.length >= 4;
+    }
+
+    return Number(value) === project.floorList.length;
+};
+
+const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams)
+    : Project[] => {
     let currentProjects = projects;
     searchParams.forEach((value, key) => {
         if (!key.includes('sort')) {
             return;
         }
-        currentProjects = currentProjects.sort((pr1, pr2) => {
-                // @ts-ignore
-                const prKey = key.split('_sort')[0];
-                // @ts-ignore
-                if (pr1[prKey] < pr2[prKey]) {
-                    return (value === 'asc') ? (-1) : 1;
+        currentProjects = currentProjects.sort((project1, project2) => {
+                if (key === 'area_sort') {
+                   return compareProjects(project1, project2, value, 'generalArea');
                 }
-                // @ts-ignore
-                if (pr1[prKey] > pr2[prKey]) {
-                    return (value === 'asc') ? 1 : (-1);
+                //
+                if (key === 'popularity_sort') {
+                    return compareProjects(project1, project2, value, 'popularity');
+
+                }
+                if (key === 'projectPrice_sort') {
+                    return compareProjects(project1, project2, value, 'projectPrice');
                 }
 
                 return 0;
@@ -116,6 +147,20 @@ const sortProjectsByParams = (projects: ProjectPreviewDetails[], searchParams: U
 
     return projects;
 
+};
+
+const compareProjects = (project1: Project, project2: Project, order: string, field: string) => {
+    // @ts-ignore
+    if (project1[field] < project2[field]) {
+        return (order === 'asc') ? (-1) : 1;
+    }
+
+    // @ts-ignore
+    if (project1[field] > project2[field]) {
+        return (order === 'asc') ? 1 : (-1);
+    }
+
+    return 0;
 };
 
 export { getSearchUri, getSortUri, getProjectsByFilters, sortProjectsByParams };

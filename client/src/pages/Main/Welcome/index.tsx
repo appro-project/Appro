@@ -11,7 +11,7 @@ import './carousel-custom.scss';
 import { Carousel } from 'react-responsive-carousel';
 import Overlay from '../../../components/UI/Overlay';
 
-import projectsData from '../../../mock/projectsData';
+import mockProjects from '../../../mock/projects';
 
 const sliderProps = () => ({
     renderArrowPrev,
@@ -46,7 +46,7 @@ const Welcome = () => {
     return <section className={ classes.welcome }>
         <Carousel { ...sliderProps() } >
 
-            { projectsData.map((project, index) =>
+            { mockProjects.map((project, index) =>
                 <div key={ index }>
                     <div className={ classes['welcome__project-image'] }>
                         <img src={ project.mainImage } alt="slide 1"/>

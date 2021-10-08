@@ -1,39 +1,44 @@
 CREATE TABLE project (
                          id SERIAL PRIMARY KEY,
                          title varchar(254) NOT NULL,
-                         generalArea numeric NOT NULL,
-                         timeToCreate numeric NOT NULL,
-                         projectPrice numeric NOT NULL,
-                         livingArea numeric NOT NULL,
-                         buildingArea numeric NOT NULL,
-                         wallMaterial varchar(254) NOT NULL,
-                         wallThickness numeric NOT NULL,
+                         description varchar(2000),
+                         popularity numeric  default 0,
+                         general_area numeric NOT NULL,
+                         time_to_create numeric NOT NULL,
+                         project_price numeric NOT NULL,
+                         living_area numeric NOT NULL,
+                         building_area numeric NOT NULL,
+                         wall_material varchar(254) NOT NULL,
+                         wall_thickness numeric NOT NULL,
                          foundation varchar(254) NOT NULL,
                          ceiling varchar(254) NOT NULL,
                          roof varchar(254) NOT NULL,
-                         buildingPrice numeric NOT NULL,
+                         building_price numeric NOT NULL,
                          insulation varchar(254) NOT NULL,
-                         insulationThickness numeric NOT NULL,
+                         insulation_thickness numeric NOT NULL,
                          length numeric  NOT NULL,
                          width numeric  NOT NULL,
                          style varchar(254) NOT NULL,
-                         isGaragePresent boolean default false,
-                         bedroomCount numeric NOT NULL,
-                         createdAt timestamp default now()
+                         is_garage_present boolean default false,
+                         bedroom_count numeric NOT NULL,
+                         created_at timestamp default now()
 );
 
 CREATE TABLE floor (
                        id SERIAL PRIMARY KEY,
-                       index numeric NOT NULL,
+                       index numeric,
+                       is_attic boolean default false,
+                       is_basement boolean default false,
                        area numeric NOT NULL,
                        height numeric NOT NULL,
-                       planningImage varchar(254),
-                       projectId int REFERENCES project (id)
+                       planning_image varchar(254),
+                       project_id int REFERENCES project (id)
 );
 
 
 CREATE TABLE project_image (
                             id SERIAL PRIMARY KEY,
                             path varchar(254) NOT NULL,
-                            projectId int REFERENCES project (id)
+                            is_main boolean default false,
+                            project_id int REFERENCES project (id)
 );

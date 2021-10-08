@@ -6,18 +6,30 @@ import SelectProperty from './SelectProperty';
 import NumericProperty from './NumericProperty';
 import FileProperty from './FileProperty';
 import CheckProperty from './CheckProperty';
-import { FullProjectData } from '../../../entity/FullProjectData';
 import { addProject } from '../service';
+import Container from '../../../containers/hoc/Container';
+import {
+    ceilingOptions,
+    foundationOptions,
+    insulationOptions,
+    roofOptions,
+    styleOptions,
+    wallMaterialOptions,
+} from '../constants';
 
 interface FloorDto{
-    index: number;
+    id: number;
+    index: number | null;
     area: number | null;
     height: number | null;
     planningImage: File | null;
+    isAttic: boolean;
+    isBasement: boolean;
 }
 interface State {
     id: string;
     title: string;
+    description: string;
     generalArea: number | null;
     timeToCreate: number | null;
     projectPrice: number | null;
@@ -29,6 +41,7 @@ interface State {
     ceiling: string;
     roof: string;
     buildingPrice: number | null;
+    mainImage: File | null;
     images: FileList | null;
     insulation: string;
     insulationThickness: number | null;
@@ -43,6 +56,7 @@ interface State {
 const initialState = {
     id: '',
     title: '',
+    description: '',
     generalArea: null,
     timeToCreate: null,
     projectPrice: null,
@@ -55,6 +69,7 @@ const initialState = {
     roof: '',
     buildingPrice: null,
     images: null,
+    mainImage: null,
     insulation: '',
     insulationThickness: null,
     length: null,
@@ -70,6 +85,10 @@ class AddProject extends Component<{}, State> {
 
     handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ ...this.state, title: event.target.value });
+    }
+
+    handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ ...this.state, description: event.target.value });
     }
 
     handleStyleChange = (event: React.ChangeEvent<{
@@ -100,6 +119,10 @@ class AddProject extends Component<{}, State> {
 
     handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ ...this.state, images: event.target.files });
+    }
+
+    handleMainImageChange = (event: React.ChangeEvent<any>) => {
+        this.setState({ ...this.state, mainImage: event.target.files[0] });
     }
 
     handleProjectPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,38 +200,63 @@ class AddProject extends Component<{}, State> {
         const floorList = [];
         for (let i = 0; i < value; i = i + 1) {
             floorList.push({
-                index: i + 1,
+                id: i + 1,
+                index: null,
                 area: null,
                 height: null,
                 planningImage: null,
+                isAttic: false,
+                isBasement: false,
             });
         }
         this.setState({ ...this.state, floorList });
     }
 
-    handleFloorAreaChange = (event: React.ChangeEvent<any>, floorIndex: number) => {
+    handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
-        const area = event.target.value;
-        floors.filter(i => i.index === floorIndex).forEach(i => i.area = area);
+        const index = event.target.value;
+        floors.filter(i => i.id === floorId).forEach(i => i.index = index);
 
         this.setState({ ...this.state, floorList: floors });
     }
 
-    handleFloorHeightChange = (event: React.ChangeEvent<any>, floorIndex: number) => {
+    handleFloorAtticChange = (floorId: number) => {
+        const floors = [...this.state.floorList];
+        floors.filter(i => i.id === floorId).forEach(i => i.isAttic = !i.isAttic);
+
+        this.setState({ ...this.state, floorList: floors });
+    }
+
+    handleFloorBasementChange = (floorId: number) => {
+        const floors = [...this.state.floorList];
+        floors.filter(i => i.id === floorId).forEach(i => i.isBasement = !i.isBasement);
+
+        this.setState({ ...this.state, floorList: floors });
+    }
+
+    handleFloorAreaChange = (event: React.ChangeEvent<any>, floorId: number) => {
+        const floors = [...this.state.floorList];
+        const area = event.target.value;
+        floors.filter(i => i.id === floorId).forEach(i => i.area = area);
+
+        this.setState({ ...this.state, floorList: floors });
+    }
+
+    handleFloorHeightChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const height = event.target.value;
         floors
-            .filter(i => i.index === floorIndex)
+            .filter(i => i.id === floorId)
             .forEach(i => i.height = height);
 
         this.setState({ ...this.state, floorList: floors });
     }
 
-    handleFloorImageChange = (event: React.ChangeEvent<any>, floorIndex: number) => {
+    handleFloorImageChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const image = event.target.files[0];
         floors
-            .filter(i => i.index === floorIndex)
+            .filter(i => i.id === floorId)
             .forEach(i => i.planningImage = image);
 
         this.setState({ ...this.state, floorList: floors });
@@ -234,6 +282,7 @@ class AddProject extends Component<{}, State> {
 
     render() {
         return <div style={ { padding: 20 } }>
+            <Container>
             <Grid container spacing={ 3 } justifyContent="center"
                   alignItems="center">
                 <Grid item xs={ 12 }>
@@ -253,14 +302,21 @@ class AddProject extends Component<{}, State> {
                                 required={ true }/>
                         </Grid>
                         <Grid item xs={ 6 }>
+                            <TextProperty
+                                title={ 'Описание' }
+                                value={ this.state.description }
+                                handleProperty={ this.handleDescriptionChange }
+                                required={ true }/>
+                        </Grid>
+                        <Grid item xs={ 6 }>
                             <SelectProperty
                                 title={ 'Стиль' }
                                 value={ this.state.style }
-                                options={ ['классический', 'современный'] }
+                                options={ styleOptions }
                                 required={ true }
                                 handleProperty={ this.handleStyleChange }/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={ 6 }>
                             <NumericProperty
                                 title={ 'Общая площадь проекта, кв.м.' }
                                 value={ this.state.generalArea }
@@ -288,7 +344,13 @@ class AddProject extends Component<{}, State> {
                                 required={ true }
                                 handleProperty={ this.handleBuildingPriceChange }/>
                         </Grid>
-                        <Grid item xs={ 12 }>
+                        <Grid item xs={ 6 }>
+                            <FileProperty
+                                title={ 'Загрузить основное изображения проекта' }
+                                required={ true }
+                                handleProperty={ this.handleMainImageChange }/>
+                        </Grid>
+                        <Grid item xs={ 6 }>
                             <FileProperty
                                 title={ 'Загрузить изображения проекта' }
                                 required={ true }
@@ -317,8 +379,7 @@ class AddProject extends Component<{}, State> {
                             <SelectProperty
                                 title={ 'Фундамент' }
                                 value={ this.state.foundation }
-                                options={ ['ленточный', 'столбчатый', 'монолитный ленточный',
-                                    'свайный', 'мелкозаглубленный', 'плитный', 'плавающий', 'винтовой'] }
+                                options={ foundationOptions }
                                 required={ true }
                                 handleProperty={ this.handleFoundationChange }
                             />
@@ -327,24 +388,30 @@ class AddProject extends Component<{}, State> {
                             <SelectProperty
                                 title={ 'Перекрытия' }
                                 value={ this.state.ceiling }
-                                options={
-                                    ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево'] }
+                                options={ ceilingOptions }
                                 required={ true }
                                 handleProperty={ this.handleCeilingChange }/>
                         </Grid>
                         <Grid item xs={ 4 }>
                             <SelectProperty title={ 'Кровля' }
                                             value={ this.state.roof }
-                                            options={ ['битумная черепица', 'металлочерепица', 'шифер'] }
+                                            options={ roofOptions }
                                             required={ true }
                                             handleProperty={ this.handleRoofChange }
+                            />
+                        </Grid>
+                        <Grid item xs={ 4 }>
+                            <NumericProperty title={ 'Количество спален' }
+                                             value={ this.state.bedroomCount }
+                                             required={ true }
+                                             handleProperty={ this.handleBedroomChange }
                             />
                         </Grid>
                         <Grid item xs={ 6 }>
                             <SelectProperty
                                 title={ 'Материал стен' }
                                 value={ this.state.wallMaterial }
-                                options={ ['кирпич', 'газоблок', 'пеноблок', 'керамоблок'] }
+                                options={ wallMaterialOptions }
                                 required={ true }
                                 handleProperty={ this.handleWallMaterialChange }
                             />
@@ -360,7 +427,7 @@ class AddProject extends Component<{}, State> {
                         <Grid item xs={ 6 }>
                             <SelectProperty title={ 'Материал утеплителя' }
                                             value={ this.state.insulation }
-                                            options={ ['пенопласт', 'стекловата', 'эковата'] }
+                                            options={ insulationOptions }
                                             required={ true }
                                             handleProperty={
                                                 this.handleInsulationChange }
@@ -394,22 +461,15 @@ class AddProject extends Component<{}, State> {
                             </Grid>
 
                         </Grid>
-                        <Grid item xs={ 6 }>
-                            <NumericProperty title={ 'Количество спален' }
-                                             value={ this.state.bedroomCount }
-                                             required={ true }
-                                             handleProperty={ this.handleBedroomChange }
-                            />
-                        </Grid>
                         <Grid item xs={ 12 }>
                             <CheckProperty title={ 'Гараж' }
                                            checked={ this.state.isGaragePresent }
                                            handleProperty={ this.handleGarageChange }
                             />
                         </Grid>
-                        <Grid item xs={ 3 }>
+                        <Grid item xs={ 6 }>
                             <NumericProperty
-                                title={ 'Количество этажей' }
+                                title={ 'Количество этажей (включая мансарду и подвал)' }
                                 value={ this.state.floorList.length }
                                 required={ true }
                                 handleProperty={ this.handleFloorNumberChange }/>
@@ -426,7 +486,7 @@ class AddProject extends Component<{}, State> {
                     </Button>
                 </Grid>
             </Grid>
-
+            </Container>
         </div>;
     }
 
@@ -435,32 +495,53 @@ class AddProject extends Component<{}, State> {
         const { floorList } = this.state;
         for (let i = 0; i < floorList.length; i = i + 1) {
             const floor = floorList[i];
-            const floorIndex = i + 1;
+            const floorId = i + 1;
             floorRows.push(
-                <Grid item xs={ 12 } container spacing={ 2 }>
-                    <Grid item xs={ 12 }>
-                        <InputLabel>{ `Этаж № ${floorIndex}` }</InputLabel>
+                <Grid item xs={ 12 } container spacing={ 2 } key={ `floor-${floorId}` }>
+                    <Grid item xs={ 4 }>
+                        <NumericProperty
+                            title={ 'Номер этажа' }
+                            value={ floor.index }
+                            disabled={ this.isFloorIndexDisabled(floorId) }
+                            handleProperty={ (event: React.ChangeEvent<any>) =>
+                                this.handleFloorIndexChange(event, floorId) }/>
+                    </Grid>
+                    <Grid item xs={ 4 }>
+                        <CheckProperty title={ 'Мансарда' }
+                                   checked={ floor.isAttic }
+                                       disabled={ this.isFloorAtticDisabled(floorId) }
+                                   handleProperty={ () =>
+                                       this.handleFloorAtticChange(floorId) }
+                    />
+                    </Grid>
+                    <Grid item xs={ 4 }>
+                    <CheckProperty title={ 'Подвал' }
+                                   checked={ floor.isBasement }
+                                   disabled={ this.isFloorBasementDisabled(floorId) }
+                                   handleProperty={ () =>
+                                       this.handleFloorBasementChange(floorId) }
+                    />
                     </Grid>
                     <Grid item xs={ 4 }>
                         <NumericProperty
                             title={ 'Площадь, м2' }
                             value={ floor.area }
                             handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorAreaChange(event, floorIndex) }/>
+                                this.handleFloorAreaChange(event, floorId) }/>
                     </Grid>
                     <Grid item xs={ 4 }>
                         <NumericProperty
                             title={ 'Высота, м' }
                             value={ floor.height }
                             handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorHeightChange(event, floorIndex) }/>
+                                this.handleFloorHeightChange(event, floorId) }/>
                     </Grid>
                     <Grid item xs={ 6 }>
                         <FileProperty
                             title={ 'Загрузить планировку' }
                             required={ true }
                             handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorImageChange(event, floorIndex) }
+                                this.handleFloorImageChange(event, floorId) }
                         />
                     </Grid>
                 </Grid>,
@@ -468,6 +549,33 @@ class AddProject extends Component<{}, State> {
         }
 
         return floorRows;
+    }
+
+    private isFloorIndexDisabled(floorId: number) {
+        const { floorList } = this.state;
+        const floor = floorList
+            .find(i => i.id === floorId);
+        if (!floor) return false;
+
+        return floor.isAttic || floor.isBasement;
+    }
+
+    private isFloorAtticDisabled(floorId: number) {
+        const { floorList } = this.state;
+        const floor = floorList
+            .find(i => i.id === floorId);
+        if (!floor) return false;
+
+        return !!floor.index || floor.isBasement;
+    }
+
+    private isFloorBasementDisabled(floorId: number) {
+        const { floorList } = this.state;
+        const floor = floorList
+            .find(i => i.id === floorId);
+        if (!floor) return false;
+
+        return !!floor.index  || floor.isAttic;
     }
 }
 
