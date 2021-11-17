@@ -88,10 +88,10 @@ INSERT INTO floor(
 VALUES (2, 80, 2, '/img/projects/p3-plan-2.jpeg', 3, false, false);
 INSERT INTO floor(
     area, height, planning_image, project_id, is_attic, is_basement)
-VALUES ( 80, 2, '/img/projects/p2-plan-attic.jpeg', 3, true, false);
+VALUES ( 80, 2, '/img/projects/p3-plan-attic.jpeg', 3, true, false);
 INSERT INTO floor(
     area, height, planning_image, project_id, is_attic, is_basement)
-VALUES ( 80, 2, '/img/projects/p2-plan-basement.jpeg', 3, false, true);
+VALUES ( 80, 2, '/img/projects/p3-plan-basement.jpeg', 3, false, true);
 
 
 INSERT INTO floor(
