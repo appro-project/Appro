@@ -61,24 +61,16 @@ const getProjectsByFilters = (projects: Project[], filters: URLSearchParams)
             if (key === 'area') {
                 const range = value.split('-');
 
-                return pr.generalArea >= Number(range[0]) && pr.generalArea <= Number(range[1]);
+                return pr.buildingArea >= Number(range[0]) && pr.buildingArea <= Number(range[1]);
             }
             if (key === 'floor') {
                 return floorFilter(value, pr);
             }
             if (key === 'bedroom') {
-                if (value === 'all') {
-                    return true;
-                }
-
-                return pr.bedroomCount === Number(value);
+                return filterBedroom(value, pr);
             }
             if (key === 'garage') {
-                if (value === 'all') {
-                    return true;
-                }
-
-                return pr.isGaragePresent === Boolean(value);
+                return filterGarage(value, pr);
             }
             if (key === 'projectPrice') {
                 const range = value.split('-');
@@ -107,17 +99,43 @@ const getProjectsByFilters = (projects: Project[], filters: URLSearchParams)
 };
 
 const floorFilter = (value: string, project: Project) => {
-    if (value === 'attic') {
+    if (value.includes('all')) {
+        return true;
+    }
+    if (value.includes('attic')) {
         return !!project.floorList.find(fl => fl.isAttic);
     }
-    if (value === 'basement') {
+    if (value.includes('basement')) {
         return !!project.floorList.find(fl => fl.isBasement);
     }
-    if (value === '>4') {
-        return project.floorList.length >= 4;
+    const floorCount = value.split('-')[0];
+
+    return Number(floorCount) === project.floorList.length;
+};
+
+const filterBedroom = (value: string, pr: Project) => {
+    if (value.includes('all')) {
+        return true;
+    }
+    if (value.includes('>4')) {
+        return Number(pr.bedroomCount) >= 4;
     }
 
-    return Number(value) === project.floorList.length;
+    return Number(pr.bedroomCount) === Number(value);
+};
+
+const filterGarage = (value: string, pr: Project) => {
+    if (value === 'all') {
+        return true;
+    }
+    if (value === 'true') {
+        return pr.isGaragePresent;
+    }
+    if (value === 'false') {
+        return !pr.isGaragePresent;
+    }
+
+    return pr.isGaragePresent;
 };
 
 const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams)

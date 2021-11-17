@@ -5,6 +5,8 @@ const Project = require("../model/Project");
 const Floor = require("../model/floor");
 const Image = require("../model/image");
 
+const image_base_path = `/img/projects`;
+
 router.get('/', (req, res, next) => {
     Project.findAll()
         .then(projects => res.status(200).json(projects))
@@ -33,7 +35,7 @@ router.post('/', (req, resp, next) => {
 router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"), (req, res, next) => {
     const floorId = req.params.floorId;
 
-    const imageLink = `/img/projects/${req.file.originalname.toLowerCase().split(' ').join('-')}`
+    const imageLink = `${image_base_path}/${req.file.originalname.toLowerCase().split(' ').join('-')}`
     Image.addToFloor(imageLink, floorId).then(() =>
         res.status(200)
             .json({
@@ -48,7 +50,7 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
     const projectId = req.params.projectId;
     const {files} = req;
     for (const file of files) {
-        const imageLink = `/img/projects/${file.originalname.toLowerCase().split(' ').join('-')}`
+        const imageLink = `${image_base_path}/${file.originalname.toLowerCase().split(' ').join('-')}`
         Image.addToProject(imageLink, projectId).then(() =>
             res.status(200)
                 .json({
@@ -61,7 +63,7 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
 
 router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res, next) => {
     const projectId = req.params.projectId;
-    const imageLink = `/img/projects/${req.file.originalname.toLowerCase().split(' ').join('-')}`
+    const imageLink = `${image_base_path}/${req.file.originalname.toLowerCase().split(' ').join('-')}`
     Image.addToProject(imageLink, projectId, true).then(() =>
         res.status(200)
             .json({
