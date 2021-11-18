@@ -8,6 +8,7 @@ import { Project } from '../../entity/Project';
 
 import classes from './Project.module.scss';
 import GeneralInfo from './GeneralInfo';
+import ProjectLayout from "./ProjectLayout";
 
 type RouteProps = { projectId: string };
 
@@ -20,7 +21,7 @@ const ProjectPage = ({ match }: RouteComponentProps<RouteProps>) => {
                 console.log(res);
                 setProject(res);
             });
-    });
+    }, [match.params.projectId]);
 
      if (!project) {
          return <div>Not found</div>;
@@ -37,13 +38,15 @@ const ProjectPage = ({ match }: RouteComponentProps<RouteProps>) => {
         { project.title }
       </h1>
       <div className={ classes.Project_Body }>
-        <ProjectTabs/>
-        <GeneralInfo title={ project.title }
-                     generalArea={ project.generalArea }
-                     projectPrice = { project.projectPrice }
-                     timeToCreate = { project.timeToCreate }
-                     images = { project.images }
-        />
+        <ProjectTabs>
+            <GeneralInfo title={ project.title }
+                         generalArea={ project.generalArea }
+                         projectPrice = { project.projectPrice }
+                         timeToCreate = { project.timeToCreate }
+                         images = { project.images }
+            />
+            <ProjectLayout project={project}/>
+        </ProjectTabs>
       </div>
     </Container>
   </section>;

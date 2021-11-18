@@ -1,0 +1,19 @@
+.Tab {
+  padding: 14px 25px;
+  border: none;
+  background: 0 0;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 123.4%;
+  color: #202020;
+  cursor: pointer;
+
+  &:hover {
+    background: #ffb000;
+  }
+}
+
+.Tab__Active {
+  background: #ffb000;
+}

@@ -1,4 +1,7 @@
 import React, { Component, ReactElement } from 'react';
+
+import classes from './Tabs.module.scss';
+
 import Tab from './Tab';
 interface ChildProps{
     label: string;
@@ -31,8 +34,8 @@ class Tabs extends Component<Props, State> {
         const { activeTab } = this.state;
 
         return (
-            <div className="tabs">
-                <ol className="tab-list">
+            <div className={classes.Tabs}>
+                <ol className={classes.TabsList}>
                     { children.map((child) => {
                         const { label } = child.props;
 

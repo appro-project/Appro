@@ -1,0 +1,18 @@
+.Tabs {
+  position: relative;
+}
+
+.TabsList {
+  display: flex;
+  position: relative;
+}
+
+.TabsList::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  border-bottom: 2px solid #ffb000;
+}

@@ -9,6 +9,7 @@ import ProjectDetails from '../ProjectDetails';
 const VisitedProjects = () => {
   const data = [...mockProjects];
   data.push(mockProjects[0]);
+  data.push(mockProjects[0]);
 
   return <section>
     <Container>
