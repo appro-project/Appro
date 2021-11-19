@@ -34,7 +34,7 @@ class Tabs extends Component<Props, State> {
         const { activeTab } = this.state;
         let childToRender;
         if (activeTab === 'Всё о проекте') {
-            childToRender = children;
+            childToRender = children[0].props.children;
         }else {
             childToRender = children.map((child, idx) => {
                 if (child.props.label !== activeTab) return undefined;
