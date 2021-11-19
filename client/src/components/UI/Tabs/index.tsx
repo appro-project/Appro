@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ReactChild, ReactElement } from 'react';
 
 import classes from './Tabs.module.scss';
 
@@ -32,10 +32,20 @@ class Tabs extends Component<Props, State> {
     render() {
         const { children } = this.props;
         const { activeTab } = this.state;
+        let childToRender;
+        if (activeTab === 'Всё о проекте') {
+            childToRender = children;
+        }else {
+            childToRender = children.map((child, idx) => {
+                if (child.props.label !== activeTab) return undefined;
+
+                return child.props.children[idx];
+            }).filter(child => child);
+        }
 
         return (
-            <div className={classes.Tabs}>
-                <ol className={classes.TabsList}>
+            <div className={ classes.Tabs }>
+                <ol className={ classes.TabsList }>
                     { children.map((child) => {
                         const { label } = child.props;
 
@@ -50,11 +60,7 @@ class Tabs extends Component<Props, State> {
                     }) }
                 </ol>
                 <div className="tab-content">
-                    { children.map((child) => {
-                        if (child.props.label !== activeTab) return undefined;
-
-                        return child.props.children;
-                    }) }
+                    { childToRender || null }
                 </div>
             </div>
         );

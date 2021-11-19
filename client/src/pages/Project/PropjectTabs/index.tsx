@@ -1,7 +1,7 @@
 import Tabs from '../../../components/UI/Tabs';
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 
-const tabNames = [ { label: 'Всё о проекте' },
+const tabNames = [{ label: 'Всё о проекте' },
   { label: 'Планировка' },
   { label: 'Состав проекта' },
   { label: 'Внесение изменений' },
@@ -12,7 +12,7 @@ const tabNames = [ { label: 'Всё о проекте' },
 interface Props {
   children: ReactNode;
 }
-const ProjectTabs = (props:Props) =>
+const ProjectTabs = (props: Props) =>
   <Tabs>
     { tabNames.map((tn, idx) =>
                      <div key={ idx } { ...tn }>

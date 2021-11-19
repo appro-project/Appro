@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import classes from './Tab.module.scss';
 
@@ -12,12 +12,12 @@ interface Props {
 class Tab extends Component<Props, {}> {
 
     onClick = () => {
-        const {label, onClick} = this.props;
+        const { label, onClick } = this.props;
         onClick(label);
     }
 
     render() {
-        const {activeTab, label} = this.props;
+        const { activeTab, label } = this.props;
         // let className = 'tab-list-item';
         //
         // if (activeTab === label) {
@@ -31,8 +31,8 @@ class Tab extends Component<Props, {}> {
         }
 
         return (
-            <li className={classNames.join(" ")} onClick={this.onClick}>
-                {label}
+            <li className={ classNames.join(' ') } onClick={ this.onClick }>
+                { label }
             </li>
         );
     }
