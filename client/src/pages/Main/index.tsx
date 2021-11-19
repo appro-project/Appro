@@ -6,13 +6,13 @@ import Feedback from './Feedback';
 import About from './About';
 
 const Index = () => {
-    return <React.Fragment>
+    return <>
         <Welcome/>
         <Popular/>
         <About/>
         <Principles/>
         <Feedback/>
-    </React.Fragment>;
+    </>;
 };
 
 export default Index;

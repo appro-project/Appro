@@ -1,6 +1,5 @@
-import { Project } from '../../../entity/Project';
-import axios, { AxiosResponse } from 'axios';
-import { Floor } from '../../../entity/Floor';
+import {Project} from '../../../entity/Project';
+import axios, {AxiosResponse} from 'axios';
 
 const baseApiUrl = 'http://localhost:8080/api/v1';
 

@@ -17,7 +17,7 @@
     "react-responsive-carousel": "^3.2.21",
     "react-router-breadcrumbs-hoc": "^3.3.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "4.0.3",
     "sass": "^1.35.1",
     "typescript": "~3.7.2"
   },
@@ -45,10 +45,8 @@
   "devDependencies": {
     "@types/react-image-gallery": "^1.0.4",
     "@types/react-router-dom": "^5.1.5",
-    "tslint": "^6.1.2",
-    "tslint-config-airbnb": "^5.11.2",
-    "tslint-language-service": "^0.9.9",
-    "tslint-react": "^5.0.0",
-    "vrsource-tslint-rules": "^6.0.0"
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^7.11.0"
   }
 }
