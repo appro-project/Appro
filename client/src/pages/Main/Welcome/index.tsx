@@ -1,63 +1,25 @@
 import React from 'react';
 
 import classes from './Welcome.module.scss';
-import { ReactComponent as SliderPrev } from 'assets/img/main/welcome/slider-prev.svg';
-import { ReactComponent as SliderNext } from 'assets/img/main/welcome/slider-next.svg';
-
-import ProjectDetails from './ProjectDetails';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './carousel-custom.scss';
-import { Carousel } from 'react-responsive-carousel';
-import Overlay from '../../../components/UI/Overlay';
+import {Carousel} from 'react-responsive-carousel';
 
-import mockProjects from '../../../mock/projects';
+import {Project} from "../../../entity/Project";
+import {Slide} from "../../../entity/Slide";
+import ProjectItem from "./ProjectItem";
 
-const sliderProps = () => ({
-    renderArrowPrev,
-    renderArrowNext,
-    showThumbs: false,
-    showStatus: false,
-    infiniteLoop: true,
-    autoPlay: false,
-    interval: 4000,
-});
+interface PropsType {
+    mockProjects: Project[];
+    sliderProps: Slide;
+}
 
-const renderArrowPrev = (clickHandler: () => void, hasPrev: boolean, label: string) => {
-    const arrowClasses = ['slider-control__prev', 'control-arrow'];
+const Welcome: React.FC<PropsType> = ({mockProjects, sliderProps}) => {
 
-    return <button onClick={ clickHandler } aria-label="prev slide / item"
-                   className={ arrowClasses.join(' ') }>
-        <SliderPrev/>
-    </button>;
-};
-
-const renderArrowNext = (clickHandler: () => void, hasPrev: boolean, label: string) => {
-    const arrowClasses = ['slider-control__next', 'control-arrow'];
-
-    return <button onClick={ clickHandler } aria-label="next slide / item"
-                   className={ arrowClasses.join(' ') }>
-        <SliderNext/>
-    </button>;
-};
-
-const Welcome = () => {
-
-    return <section className={ classes.welcome }>
-        <Carousel { ...sliderProps() } >
-
-            { mockProjects.map((project, index) =>
-                <div key={ index }>
-                    <div className={ classes['welcome__project-image'] }>
-                        <img src={ project.mainImage } alt="slide 1"/>
-                        <Overlay/>
-                    </div>
-                    <div className={ classes['welcome__project-details-wrapper'] }>
-                        <ProjectDetails project={ project }/>
-                    </div>
-                </div>,
-            ) }
-
+    return <section className={classes.welcome}>
+        <Carousel {...sliderProps()} >
+            {mockProjects.map((project, index) => <ProjectItem index={index} project={project}/>)}
         </Carousel>
     </section>;
 };

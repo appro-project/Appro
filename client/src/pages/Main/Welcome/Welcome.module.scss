@@ -1,49 +1,8 @@
 @import "../../../variables";
 
-.welcome__project-image {
-  position: relative;
-}
-
-.welcome__project-image img {
-  height: auto;
-  width: 100%;
-  object-fit: cover;
-}
-
-@media (min-width: $tablet-width) {
-  .welcome__project-image img {
-    min-height: 480px;
-  }
-
-  .welcome__project-details-wrapper {
-    bottom: 20px;
-    right: 86px;
-    position: absolute;
-  }
-}
-
 @media (min-width: $desktop-width) {
   .welcome {
     min-height: 100vh;
-  }
-
-  .welcome__project-image,
-  .welcome__project-image img {
-    height: 100vh;
-  }
-
-  .welcome__project-details-wrapper {
-    max-width: 1580px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    right: 0;
-    left: 0;
-    margin: 0 auto;
-  }
-
-  .welcome__project-details-wrapper {
-    bottom: 40px;
   }
 }
 

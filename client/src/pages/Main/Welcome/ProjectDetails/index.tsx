@@ -9,10 +9,6 @@ interface Props {
     project: Project;
 }
 
-interface Props {
-    project: Project;
-}
-
 const ProjectDetails = (props: Props) => {
     const projectData: Project = props.project;
 
