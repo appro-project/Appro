@@ -2,8 +2,8 @@ import React from 'react';
 import classes from './ProjectLayout.module.scss';
 
 import ImageCarousel from '../ImageCarousel';
-import {Project} from '../../../entity/Project';
-import NumberFormat from "react-number-format";
+import { Project } from '../../../entity/Project';
+import NumberFormat from 'react-number-format';
 
 interface Props {
     project: Project;
@@ -18,77 +18,75 @@ const ProjectLayout = (props: Props) => {
     console.log(props);
     console.log(floorImages);
 
-    return <section className={classes.ProjectLayout}>
-        <div className={classes.ProjectLayout_Header}>
+    const floors =  project.floorList.filter(f => !(f.isBasement || f.isAttic));
+
+    return <section className={ classes.ProjectLayout }>
+        <div className={ classes.ProjectLayout_Header }>
             Планировка
         </div>
-        <div className={classes.ProjectLayout_Wrapper}>
+        <div className={ classes.ProjectLayout_Wrapper }>
 
-            <div className={classes.ProjectLayout_Slider}>
-                <ImageCarousel images={floorImages}/>
+            <div className={ classes.ProjectLayout_Slider }>
+                <ImageCarousel images={ floorImages }/>
             </div>
 
-            <div className={classes.ProjectLayout_Info}>
-                <div className={classes.ProjectLayout_Attention}>
+            <div className={ classes.ProjectLayout_Info }>
+                <div className={ classes.ProjectLayout_Attention }>
                     Внести изменения в проект и узнать финальную стоимость можно по телефону <a
                     href="tel:+380663953654">+38 (066) 39-53-654</a>
                 </div>
-                <ul className={classes.ProjectLayout_InfoList}>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                <ul className={ classes.ProjectLayout_InfoList }>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>общая площадь</span>
-                        <b>{project.generalArea} м2</b>
+                        <b>{ project.generalArea } м2</b>
                     </li>
-                    {/*FIXME: Iterate over all floors*/}
-                    <li className={classes.ProjectLayout_InfoItem}>
-                        <span>площадь 1-го этажа</span>
-                        <b>{project.floorList[0].area} м2</b>
-                    </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
-                        <span>площадь 2-го этажа</span>
-                        <b>{project.floorList[1].area} м2</b>
-                    </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    { floors.map(f =>
+                            <li key={ f.index } className={ classes.ProjectLayout_InfoItem }>
+                        <span>{ `площадь ${f.index}-го этажа` }</span>
+                        <b>{ f.area } м2</b>
+                    </li>,
+                        ) }
+
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>жилая площадь</span>
-                        <b>{project.livingArea} м2</b>
+                        <b>{ project.livingArea } м2</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>площадь застройки</span>
-                        <b>{project.buildingArea} м2</b>
+                        <b>{ project.buildingArea } м2</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>габариты</span>
-                        <b>{project.width} х {project.length} м</b>
+                        <b>{ project.width } х { project.length } м</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
-                        <span>высота 1 этажа</span>
-                        <b>{project.floorList[0].height}</b>
-                    </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
-                        <span>высота 2 этажа</span>
-                        <b>{project.floorList[1].height}</b>
-                    </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    { floors.map(f =>
+                        <li key={ f.index } className={ classes.ProjectLayout_InfoItem }>
+                        <span>{ `высота ${f.index} этажа` }</span>
+                        <b>{ f.height }</b>
+                    </li>) }
+
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>стены</span>
-                        <b>{project.wallMaterial} {project.wallThickness} мм +
-                            {project.insulation} {project.insulationThickness} мм</b>
+                        <b>{ project.wallMaterial } { project.wallThickness } мм +
+                            { project.insulation } { project.insulationThickness } мм</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>фундамент</span>
-                        <b>{project.foundation}</b>
+                        <b>{ project.foundation }</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>перекрытия</span>
-                        <b>{project.ceiling}</b>
+                        <b>{ project.ceiling }</b>
                     </li>
-                    <li className={classes.ProjectLayout_InfoItem}>
+                    <li className={ classes.ProjectLayout_InfoItem }>
                         <span>кровля</span>
-                        <b>{project.roof}</b>
+                        <b>{ project.roof }</b>
                     </li>
-                    <li className={[classes.ProjectLayout_InfoItem,
-                        classes.ProjectLayout_InfoItem_24].join(" ")}>
+                    <li className={ [classes.ProjectLayout_InfoItem,
+                        classes.ProjectLayout_InfoItem_24].join(' ') }>
                         <span>цена строительства</span>
-                        <b>≈ <NumberFormat value={ project.buildingPrice } displayType={'text'}
-                                           thousandSeparator={" "} suffix={" грн"}/></b>
+                        <b>≈ <NumberFormat value={ project.buildingPrice } displayType={ 'text' }
+                                           thousandSeparator={ ' ' } suffix={ ' грн' }/></b>
                     </li>
                 </ul>
             </div>
@@ -97,5 +95,3 @@ const ProjectLayout = (props: Props) => {
 };
 
 export default ProjectLayout;
-
-
