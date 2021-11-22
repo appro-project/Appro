@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
-import { Button, DialogTitle, Grid, Typography } from '@material-ui/core';
+import {Button, DialogTitle, Grid, Typography} from '@material-ui/core';
 import TextProperty from './TextProperty';
 import SelectProperty from './SelectProperty';
 import NumericProperty from './NumericProperty';
 import FileProperty from './FileProperty';
 import CheckProperty from './CheckProperty';
-import { addProject } from '../service';
 import Container from '../../../containers/hoc/Container';
 import {
     ceilingOptions,
@@ -17,275 +16,111 @@ import {
     wallMaterialOptions,
 } from '../constants';
 
-interface FloorDto{
-    id: number;
-    index: number | null;
-    area: number | null;
-    height: number | null;
-    planningImage: File | null;
-    isAttic: boolean;
-    isBasement: boolean;
-}
-interface State {
-    id: string;
+interface PropsType {
+    handleTitleChange: (event: React.ChangeEvent<any>) => void;
+    handleDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleStyleChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
+    handleGeneralAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleLivingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleBuildingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleTimeToCreateChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleImagesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleMainImageChange: (event: React.ChangeEvent<any>) => void;
+    handleProjectPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleBuildingPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleLengthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleWidthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleFoundationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
+    handleWallMaterialChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
+    handleWallThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleInsulationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
+    handleInsulationThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleCeilingChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
+    handleRoofChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
+    handleGarageChange: () => void;
+    handleBedroomChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleFloorNumberChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    isProjectFilled: boolean;
+    saveProject: () => void;
+    floorRows: JSX.Element[];
     title: string;
     description: string;
     generalArea: number | null;
     timeToCreate: number | null;
     projectPrice: number | null;
-    livingArea: number | null;
     buildingArea: number | null;
-    wallMaterial: string;
-    wallThickness: number | null;
+    livingArea: number | null;
+    buildingPrice: number | null;
     foundation: string;
     ceiling: string;
     roof: string;
-    buildingPrice: number | null;
-    mainImage: File | null;
-    images: FileList | null;
+    bedroomCount: number | null;
+    wallMaterial: string;
+    wallThickness: number | null;
     insulation: string;
     insulationThickness: number | null;
     length: number | null;
     width: number | null;
-    style: string;
     isGaragePresent: boolean;
-    bedroomCount: number | null;
-    floorList: FloorDto[];
+    style: string;
+    floorListLength: number;
 }
 
-const initialState = {
-    id: '',
-    title: '',
-    description: '',
-    generalArea: null,
-    timeToCreate: null,
-    projectPrice: null,
-    livingArea: null,
-    buildingArea: null,
-    wallMaterial: '',
-    wallThickness: null,
-    foundation: '',
-    ceiling: '',
-    roof: '',
-    buildingPrice: null,
-    images: null,
-    mainImage: null,
-    insulation: '',
-    insulationThickness: null,
-    length: null,
-    width: null,
-    style: '',
-    isGaragePresent: false,
-    bedroomCount: null,
-    floorList: [] as FloorDto[],
-};
+const AddProject: React.FC<PropsType> = ({
+                                             handleTitleChange,
+                                             handleDescriptionChange,
+                                             handleStyleChange,
+                                             handleGeneralAreaChange,
+                                             handleLivingAreaChange,
+                                             handleBuildingAreaChange,
+                                             handleTimeToCreateChange,
+                                             handleImagesChange,
+                                             handleMainImageChange,
+                                             handleProjectPriceChange,
+                                             handleBuildingPriceChange,
+                                             handleLengthChange,
+                                             handleWidthChange,
+                                             handleFoundationChange,
+                                             handleWallMaterialChange,
+                                             handleWallThicknessChange,
+                                             handleInsulationChange,
+                                             handleInsulationThicknessChange,
+                                             handleCeilingChange,
+                                             handleRoofChange,
+                                             handleGarageChange,
+                                             handleBedroomChange,
+                                             handleFloorNumberChange,
+                                             isProjectFilled,
+                                             saveProject,
+                                             floorRows,
+                                             title,
+                                             description,
+                                             generalArea,
+                                             projectPrice,
+                                             buildingArea,
+                                             livingArea,
+                                             buildingPrice,
+                                             foundation,
+                                             ceiling,
+                                             roof,
+                                             bedroomCount,
+                                             wallMaterial,
+                                             wallThickness,
+                                             insulation,
+                                             insulationThickness,
+                                             length,
+                                             width,
+                                             isGaragePresent,
+                                             style,
+                                             timeToCreate,
+                                             floorListLength
+                                         }) => {
 
-class AddProject extends Component<{}, State> {
-    state = initialState;
-
-    handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, title: event.target.value });
-    }
-
-    handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, description: event.target.value });
-    }
-
-    handleStyleChange = (event: React.ChangeEvent<{
-        name?: string | undefined;
-        value: unknown;
-    }>) => {
-        this.setState({ ...this.state, style: event.target.value as string });
-    }
-
-    handleGeneralAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, generalArea: event.target.value as unknown as number });
-    }
-
-    handleLivingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, livingArea: event.target.value as unknown as number });
-    }
-
-    handleBuildingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, buildingArea: event.target.value as unknown as number });
-    }
-
-    handleTimeToCreateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            ...this.state,
-            timeToCreate: event.target.value as unknown as number,
-        });
-    }
-
-    handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, images: event.target.files });
-    }
-
-    handleMainImageChange = (event: React.ChangeEvent<any>) => {
-        this.setState({ ...this.state, mainImage: event.target.files[0] });
-    }
-
-    handleProjectPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, projectPrice: event.target.value as unknown as number });
-    }
-
-    handleBuildingPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, buildingPrice: event.target.value as unknown as number });
-    }
-
-    handleLengthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, length: event.target.value as unknown as number });
-    }
-
-    handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, width: event.target.value as unknown as number });
-    }
-
-    handleFoundationChange = (event: React.ChangeEvent<{
-        name?: string | undefined;
-        value: unknown;
-    }>) => {
-        this.setState({ ...this.state, foundation: event.target.value as string });
-    }
-
-    handleWallMaterialChange = (event: React.ChangeEvent<{
-        name?: string | undefined;
-        value: unknown;
-    }>) => {
-        this.setState({ ...this.state, wallMaterial: event.target.value as string });
-    }
-
-    handleWallThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            ...this.state,
-            wallThickness: event.target.value as unknown as number,
-        });
-    }
-
-    handleInsulationChange = (event: React.ChangeEvent<{
-        name?: string | undefined;
-        value: unknown;
-    }>) => {
-        this.setState({ ...this.state, insulation: event.target.value as string });
-    }
-
-    handleInsulationThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            ...this.state,
-            insulationThickness: event.target.value as unknown as number,
-        });
-    }
-
-    handleCeilingChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        this.setState({ ...this.state, ceiling: event.target.value as string });
-    }
-
-    handleRoofChange = (event: React.ChangeEvent<{
-        name?: string | undefined;
-        value: unknown;
-    }>) => {
-        this.setState({ ...this.state, roof: event.target.value as string });
-    }
-
-    handleGarageChange = () => {
-        this.setState({ ...this.state, isGaragePresent: !this.state.isGaragePresent });
-    }
-
-    handleBedroomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, bedroomCount: event.target.value as unknown as number });
-    }
-
-    handleFloorNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value as unknown as number;
-        const floorList = [];
-        for (let i = 0; i < value; i = i + 1) {
-            floorList.push({
-                id: i + 1,
-                index: null,
-                area: null,
-                height: null,
-                planningImage: null,
-                isAttic: false,
-                isBasement: false,
-            });
-        }
-        this.setState({ ...this.state, floorList });
-    }
-
-    handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...this.state.floorList];
-        const index = event.target.value;
-        floors.filter(i => i.id === floorId).forEach(i => i.index = index);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    handleFloorAtticChange = (floorId: number) => {
-        const floors = [...this.state.floorList];
-        floors.filter(i => i.id === floorId).forEach(i => i.isAttic = !i.isAttic);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    handleFloorBasementChange = (floorId: number) => {
-        const floors = [...this.state.floorList];
-        floors.filter(i => i.id === floorId).forEach(i => i.isBasement = !i.isBasement);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    handleFloorAreaChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...this.state.floorList];
-        const area = event.target.value;
-        floors.filter(i => i.id === floorId).forEach(i => i.area = area);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    handleFloorHeightChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...this.state.floorList];
-        const height = event.target.value;
-        floors
-            .filter(i => i.id === floorId)
-            .forEach(i => i.height = height);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    handleFloorImageChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...this.state.floorList];
-        const image = event.target.files[0];
-        floors
-            .filter(i => i.id === floorId)
-            .forEach(i => i.planningImage = image);
-
-        this.setState({ ...this.state, floorList: floors });
-    }
-
-    isProjectFilled = (): boolean => {
-        const {
-            title, generalArea, timeToCreate, projectPrice, livingArea,
-            buildingArea, wallMaterial, wallThickness, foundation, ceiling,
-            roof, buildingPrice, images, insulation, insulationThickness,
-        length, width, style, bedroomCount, floorList} = this.state;
-
-        return !(title && generalArea && timeToCreate && projectPrice && livingArea &&
-            buildingArea && wallMaterial && wallThickness && foundation && ceiling &&
-            roof && buildingPrice && images && insulation && insulationThickness &&
-            length && width && style && bedroomCount && floorList.length > 0);
-    }
-
-    saveProject = () => {
-        addProject(this.state);
-        this.setState({ ...initialState });
-    }
-
-    render() {
-        return <div style={ { padding: 20 } }>
-            <Container>
-            <Grid container spacing={ 3 } justifyContent="center"
+    return <div style={{padding: 20}}>
+        <Container>
+            <Grid container spacing={3} justifyContent="center"
                   alignItems="center">
-                <Grid item xs={ 12 }>
+                <Grid item xs={12}>
                     <Typography variant="h4" gutterBottom align="center">Новый проект</Typography>
                 </Grid>
                 <div>
@@ -293,290 +128,203 @@ class AddProject extends Component<{}, State> {
                         <DialogTitle>
                             Основная информация</DialogTitle>
                     </div>
-                    <Grid item xs={ 12 } container spacing={ 5 }>
-                        <Grid item xs={ 6 }>
+                    <Grid item xs={12} container spacing={5}>
+                        <Grid item xs={6}>
                             <TextProperty
-                                title={ 'Название проекта' }
-                                value={ this.state.title }
-                                handleProperty={ this.handleTitleChange }
-                                required={ true }/>
+                                title={'Название проекта'}
+                                value={title}
+                                handleProperty={handleTitleChange}
+                                required={true}/>
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <TextProperty
-                                title={ 'Описание' }
-                                value={ this.state.description }
-                                handleProperty={ this.handleDescriptionChange }
-                                required={ true }/>
+                                title={'Описание'}
+                                value={description}
+                                handleProperty={handleDescriptionChange}
+                                required={true}/>
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <SelectProperty
-                                title={ 'Стиль' }
-                                value={ this.state.style }
-                                options={ styleOptions }
-                                required={ true }
-                                handleProperty={ this.handleStyleChange }/>
+                                title={'Стиль'}
+                                value={style}
+                                options={styleOptions}
+                                required={true}
+                                handleProperty={handleStyleChange}/>
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <NumericProperty
-                                title={ 'Общая площадь проекта, кв.м.' }
-                                value={ this.state.generalArea }
-                                required={ true }
-                                handleProperty={ this.handleGeneralAreaChange }/>
+                                title={'Общая площадь проекта, кв.м.'}
+                                value={generalArea}
+                                required={true}
+                                handleProperty={handleGeneralAreaChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <NumericProperty
-                                title={ 'Подготовка проекта, дн' }
-                                value={ this.state.timeToCreate }
-                                required={ true }
-                                handleProperty={ this.handleTimeToCreateChange }/>
+                                title={'Подготовка проекта, дн'}
+                                value={timeToCreate}
+                                required={true}
+                                handleProperty={handleTimeToCreateChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <NumericProperty
-                                title={ 'Цена проекта, грн' }
-                                value={ this.state.projectPrice }
-                                required={ true }
-                                handleProperty={ this.handleProjectPriceChange }/>
+                                title={'Цена проекта, грн'}
+                                value={projectPrice}
+                                required={true}
+                                handleProperty={handleProjectPriceChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <NumericProperty
-                                title={ 'Цена строительства, грн' }
-                                value={ this.state.buildingPrice }
-                                required={ true }
-                                handleProperty={ this.handleBuildingPriceChange }/>
+                                title={'Цена строительства, грн'}
+                                value={buildingPrice}
+                                required={true}
+                                handleProperty={handleBuildingPriceChange}/>
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <FileProperty
-                                title={ 'Загрузить основное изображения проекта' }
-                                required={ true }
-                                handleProperty={ this.handleMainImageChange }/>
+                                title={'Загрузить основное изображения проекта'}
+                                required={true}
+                                handleProperty={handleMainImageChange}/>
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <FileProperty
-                                title={ 'Загрузить изображения проекта' }
-                                required={ true }
-                                multiple={ true }
-                                handleProperty={ this.handleImagesChange }/>
+                                title={'Загрузить изображения проекта'}
+                                required={true}
+                                multiple={true}
+                                handleProperty={handleImagesChange}/>
                         </Grid>
                     </Grid>
-                    <DialogTitle style={ { paddingTop: '20px' } }>
+                    <DialogTitle style={{paddingTop: '20px'}}>
                         Детальная информация</DialogTitle>
-                    <Grid container spacing={ 2 }>
-                        <Grid item xs={ 4 }>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
                             <NumericProperty
-                                title={ 'Жилая площадь, кв.м.' }
-                                value={ this.state.livingArea }
-                                required={ true }
-                                handleProperty={ this.handleLivingAreaChange }/>
+                                title={'Жилая площадь, кв.м.'}
+                                value={livingArea}
+                                required={true}
+                                handleProperty={handleLivingAreaChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <NumericProperty
-                                title={ 'Площадь застройки, кв.м.' }
-                                value={ this.state.buildingArea }
-                                required={ true }
-                                handleProperty={ this.handleBuildingAreaChange }/>
+                                title={'Площадь застройки, кв.м.'}
+                                value={buildingArea}
+                                required={true}
+                                handleProperty={handleBuildingAreaChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <SelectProperty
-                                title={ 'Фундамент' }
-                                value={ this.state.foundation }
-                                options={ foundationOptions }
-                                required={ true }
-                                handleProperty={ this.handleFoundationChange }
+                                title={'Фундамент'}
+                                value={foundation}
+                                options={foundationOptions}
+                                required={true}
+                                handleProperty={handleFoundationChange}
                             />
                         </Grid>
-                        <Grid item xs={ 4 }>
+                        <Grid item xs={4}>
                             <SelectProperty
-                                title={ 'Перекрытия' }
-                                value={ this.state.ceiling }
-                                options={ ceilingOptions }
-                                required={ true }
-                                handleProperty={ this.handleCeilingChange }/>
+                                title={'Перекрытия'}
+                                value={ceiling}
+                                options={ceilingOptions}
+                                required={true}
+                                handleProperty={handleCeilingChange}/>
                         </Grid>
-                        <Grid item xs={ 4 }>
-                            <SelectProperty title={ 'Кровля' }
-                                            value={ this.state.roof }
-                                            options={ roofOptions }
-                                            required={ true }
-                                            handleProperty={ this.handleRoofChange }
+                        <Grid item xs={4}>
+                            <SelectProperty title={'Кровля'}
+                                            value={roof}
+                                            options={roofOptions}
+                                            required={true}
+                                            handleProperty={handleRoofChange}
                             />
                         </Grid>
-                        <Grid item xs={ 4 }>
-                            <NumericProperty title={ 'Количество спален' }
-                                             value={ this.state.bedroomCount }
-                                             required={ true }
-                                             handleProperty={ this.handleBedroomChange }
+                        <Grid item xs={4}>
+                            <NumericProperty title={'Количество спален'}
+                                             value={bedroomCount}
+                                             required={true}
+                                             handleProperty={handleBedroomChange}
                             />
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <SelectProperty
-                                title={ 'Материал стен' }
-                                value={ this.state.wallMaterial }
-                                options={ wallMaterialOptions }
-                                required={ true }
-                                handleProperty={ this.handleWallMaterialChange }
+                                title={'Материал стен'}
+                                value={wallMaterial}
+                                options={wallMaterialOptions}
+                                required={true}
+                                handleProperty={handleWallMaterialChange}
                             />
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <NumericProperty
-                                title={ 'Толщина стен, мм' }
-                                value={ this.state.wallThickness }
-                                required={ true }
-                                handleProperty={ this.handleWallThicknessChange }
+                                title={'Толщина стен, мм'}
+                                value={wallThickness}
+                                required={true}
+                                handleProperty={handleWallThicknessChange}
                             />
                         </Grid>
-                        <Grid item xs={ 6 }>
-                            <SelectProperty title={ 'Материал утеплителя' }
-                                            value={ this.state.insulation }
-                                            options={ insulationOptions }
-                                            required={ true }
+                        <Grid item xs={6}>
+                            <SelectProperty title={'Материал утеплителя'}
+                                            value={insulation}
+                                            options={insulationOptions}
+                                            required={true}
                                             handleProperty={
-                                                this.handleInsulationChange }
+                                                handleInsulationChange}
                             />
                         </Grid>
-                        <Grid item xs={ 6 }>
-                            <NumericProperty title={ 'Толщина утеплителя, мм' }
-                                             value={ this.state.insulationThickness }
-                                             required={ true }
+                        <Grid item xs={6}>
+                            <NumericProperty title={'Толщина утеплителя, мм'}
+                                             value={insulationThickness}
+                                             required={true}
                                              handleProperty={
-                                                 this.handleInsulationThicknessChange }
+                                                 handleInsulationThicknessChange}
                             />
                         </Grid>
-                        <Grid item xs={ 12 } container spacing={ 2 }>
-                            <Grid item xs={ 2 }>
+                        <Grid item xs={12} container spacing={2}>
+                            <Grid item xs={2}>
                                 <InputLabel>Габариты застройки</InputLabel>
                             </Grid>
-                            <Grid item xs={ 2 }>
+                            <Grid item xs={2}>
                                 <NumericProperty
-                                    title={ 'длина, м' }
-                                    value={ this.state.length }
-                                    required={ true }
-                                    handleProperty={ this.handleLengthChange }/>
+                                    title={'длина, м'}
+                                    value={length}
+                                    required={true}
+                                    handleProperty={handleLengthChange}/>
                             </Grid>
-                            <Grid item xs={ 2 }>
+                            <Grid item xs={2}>
                                 <NumericProperty
-                                    title={ 'ширина, м' }
-                                    value={ this.state.width }
-                                    required={ true }
-                                    handleProperty={ this.handleWidthChange }/>
+                                    title={'ширина, м'}
+                                    value={width}
+                                    required={true}
+                                    handleProperty={handleWidthChange}/>
                             </Grid>
 
                         </Grid>
-                        <Grid item xs={ 12 }>
-                            <CheckProperty title={ 'Гараж' }
-                                           checked={ this.state.isGaragePresent }
-                                           handleProperty={ this.handleGarageChange }
+                        <Grid item xs={12}>
+                            <CheckProperty title={'Гараж'}
+                                           checked={isGaragePresent}
+                                           handleProperty={handleGarageChange}
                             />
                         </Grid>
-                        <Grid item xs={ 6 }>
+                        <Grid item xs={6}>
                             <NumericProperty
-                                title={ 'Количество этажей (включая мансарду и подвал)' }
-                                value={ this.state.floorList.length }
-                                required={ true }
-                                handleProperty={ this.handleFloorNumberChange }/>
+                                title={'Количество этажей (включая мансарду и подвал)'}
+                                value={floorListLength}
+                                required={true}
+                                handleProperty={handleFloorNumberChange}/>
                         </Grid>
-                        { this.renderFloors() }
+                        {
+                            floorRows
+                        }
                     </Grid>
                 </div>
-                <Grid item lg={ 8 }>
+                <Grid item lg={8}>
                     <Button variant="contained"
                             color="primary"
-                            disabled={ this.isProjectFilled() }
-                            onClick={ this.saveProject }>
+                            disabled={isProjectFilled}
+                            onClick={saveProject}>
                         Добавить проект
                     </Button>
                 </Grid>
             </Grid>
-            </Container>
-        </div>;
-    }
-
-    private renderFloors() {
-        const floorRows = [];
-        const { floorList } = this.state;
-        for (let i = 0; i < floorList.length; i = i + 1) {
-            const floor = floorList[i];
-            const floorId = i + 1;
-            floorRows.push(
-                <Grid item xs={ 12 } container spacing={ 2 } key={ `floor-${floorId}` }>
-                    <Grid item xs={ 4 }>
-                        <NumericProperty
-                            title={ 'Номер этажа' }
-                            value={ floor.index }
-                            disabled={ this.isFloorIndexDisabled(floorId) }
-                            handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorIndexChange(event, floorId) }/>
-                    </Grid>
-                    <Grid item xs={ 4 }>
-                        <CheckProperty title={ 'Мансарда' }
-                                   checked={ floor.isAttic }
-                                       disabled={ this.isFloorAtticDisabled(floorId) }
-                                   handleProperty={ () =>
-                                       this.handleFloorAtticChange(floorId) }
-                    />
-                    </Grid>
-                    <Grid item xs={ 4 }>
-                    <CheckProperty title={ 'Подвал' }
-                                   checked={ floor.isBasement }
-                                   disabled={ this.isFloorBasementDisabled(floorId) }
-                                   handleProperty={ () =>
-                                       this.handleFloorBasementChange(floorId) }
-                    />
-                    </Grid>
-                    <Grid item xs={ 4 }>
-                        <NumericProperty
-                            title={ 'Площадь, м2' }
-                            value={ floor.area }
-                            handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorAreaChange(event, floorId) }/>
-                    </Grid>
-                    <Grid item xs={ 4 }>
-                        <NumericProperty
-                            title={ 'Высота, м' }
-                            value={ floor.height }
-                            handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorHeightChange(event, floorId) }/>
-                    </Grid>
-                    <Grid item xs={ 6 }>
-                        <FileProperty
-                            title={ 'Загрузить планировку' }
-                            required={ true }
-                            handleProperty={ (event: React.ChangeEvent<any>) =>
-                                this.handleFloorImageChange(event, floorId) }
-                        />
-                    </Grid>
-                </Grid>,
-            );
-        }
-
-        return floorRows;
-    }
-
-    private isFloorIndexDisabled(floorId: number) {
-        const { floorList } = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return floor.isAttic || floor.isBasement;
-    }
-
-    private isFloorAtticDisabled(floorId: number) {
-        const { floorList } = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return !!floor.index || floor.isBasement;
-    }
-
-    private isFloorBasementDisabled(floorId: number) {
-        const { floorList } = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return !!floor.index  || floor.isAttic;
-    }
+        </Container>
+    </div>;
 }
 
 export default AddProject;

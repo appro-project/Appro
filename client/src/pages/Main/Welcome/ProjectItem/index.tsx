@@ -6,12 +6,12 @@ import {Project} from "../../../../entity/Project";
 
 interface PropsType{
     project: Project;
-    index: number;
+    key: number;
 }
 
-const ProjectItem: React.FC<PropsType> = ({index, project}) => {
+const ProjectItem: React.FC<PropsType> = ({project, key}) => {
     return (
-        <div key={ index }>
+        <div key={ key }>
             <div className={ classes['welcome__project-image'] }>
                 <img src={ project.mainImage } alt="slide 1"/>
                 <Overlay/>

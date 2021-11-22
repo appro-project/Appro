@@ -19,7 +19,7 @@ const Welcome: React.FC<PropsType> = ({mockProjects, sliderProps}) => {
 
     return <section className={classes.welcome}>
         <Carousel {...sliderProps()} >
-            {mockProjects.map((project, index) => <ProjectItem index={index} project={project}/>)}
+            {mockProjects.map((project, index) => <ProjectItem key={index} project={project}/>)}
         </Carousel>
     </section>;
 };
