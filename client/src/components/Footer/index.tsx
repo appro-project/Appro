@@ -24,7 +24,7 @@ const Footer = () => {
                         { menuLinks.map((link, index) =>
                             <MenuItem key={ index }
                                       name={ link.name }
-                                      url={ link.url }/>) }
+                                      path={ link.path }/>) }
                     </ul>
                 </nav>
                 <div className={ classes.footer__address }>
@@ -43,7 +43,7 @@ const Footer = () => {
 
 // TODO: How can we pass object here?
 const MenuItem = (props: MenuLinkInfo) => {
-    return <li><a href={ props.url } className={ classes['footer__menu-link'] }>
+    return <li><a href={ props.path } className={ classes['footer__menu-link'] }>
         { props.name }
     </a></li>;
 };

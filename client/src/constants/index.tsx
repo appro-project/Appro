@@ -1,6 +1,6 @@
 export interface MenuLinkInfo {
     name: string;
-    url: string;
+    path: string;
 }
 
 export interface ContactInfo {
@@ -10,12 +10,12 @@ export interface ContactInfo {
 }
 
 export const menuLinks: MenuLinkInfo[] = [
-    { name: 'Главная', url: '/' },
-    { name: 'Каталог домов', url: '/catalogue' },
-    { name: 'Индивидуальный проект', url: '/individual-project' },
-    { name: 'Реализованные проекты', url: '/finished' },
-    { name: 'Дополнительные услуги', url: '/additional' },
-    { name: 'О нас', url: '/about' },
+    { name: 'Главная', path: '/' },
+    { name: 'Каталог домов', path: '/catalogue' },
+    { name: 'Индивидуальный проект', path: '/individual-project' },
+    { name: 'Реализованные проекты', path: '/finished' },
+    { name: 'Дополнительные услуги', path: '/additional' },
+    { name: 'О нас', path: '/about' },
 ];
 
 export const contactInfo: ContactInfo = {

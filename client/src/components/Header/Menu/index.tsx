@@ -27,7 +27,7 @@ const Menu = (props: Props) => {
         <nav className={ classes['menu__body'] }>
             <ul className={ classes['menu__list'] }>
                 { menuLinks.map((link, index) =>
-                    <MenuItem key={ index } name={ link.name } url={ link.url }/>) }
+                    <MenuItem key={ index } name={ link.name } path={ link.path }/>) }
             </ul>
         </nav>
 
@@ -45,6 +45,6 @@ export default Menu;
 
 const MenuItem = (props: MenuLinkInfo) => {
     return <li>
-        <Link to={ props.url } className={ classes['menu__link'] }>{ props.name }</Link>
+        <Link to={ props.path } className={ classes['menu__link'] }>{ props.name }</Link>
     </li>;
 };

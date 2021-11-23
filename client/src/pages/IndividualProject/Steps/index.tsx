@@ -1,33 +1,7 @@
 import React from 'react';
 
 import classes from './Steps.module.scss';
-
-interface StepInfo {
-  title: string;
-  description: string;
-}
-
-const steps: StepInfo[] = [
-  {
-    title: 'Предпроектное предложение',
-    description: 'этап для определения планировки дома и основных технико-экономических ' +
-      'показателей, его внешнего вида,размещения на участке',
-  },
-  {
-    title: 'Проект',
-    description: 'утверждаемая часть рабочего проекта или',
-  },
-  {
-    title: 'Рабочая документация',
-    description: 'комплект документов для производства строительных и' +
-      'монтажных работ',
-  },
-  {
-    title: 'Дизайн проект интерьера',
-    description: 'обязательная стадия для комплексного подхода в' +
-      'проектировании жилого дома',
-  },
-];
+import {StepInfo, steps} from "../../../constants/Steps";
 
 const Steps = () => {
   return (
