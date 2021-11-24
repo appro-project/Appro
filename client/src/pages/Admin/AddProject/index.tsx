@@ -43,7 +43,6 @@ interface PropsType {
     isProjectFilled: boolean;
     saveProject: () => void;
     renderFloors: () => JSX.Element[];
-    // floorRows: JSX.Element[];
     title: string;
     description: string;
     generalArea: number | null;
@@ -67,7 +66,7 @@ interface PropsType {
     floorListLength: number;
 }
 
-const AddProject: React.FC<PropsType> = React.memo( ({
+const AddProject: React.FC<PropsType> = ({
                                              handleTitleChange,
                                              handleDescriptionChange,
                                              handleStyleChange,
@@ -93,9 +92,8 @@ const AddProject: React.FC<PropsType> = React.memo( ({
                                              handleFloorNumberChange,
                                              isProjectFilled,
                                              saveProject,
-                                             // floorRows,
-                                                         renderFloors,
-                                                         title,
+                                             renderFloors,
+                                             title,
                                              description,
                                              generalArea,
                                              projectPrice,
@@ -328,6 +326,6 @@ const AddProject: React.FC<PropsType> = React.memo( ({
             </Grid>
         </Container>
     </div>;
-})
+}
 
 export default AddProject;

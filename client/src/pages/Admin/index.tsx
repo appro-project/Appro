@@ -1,7 +1,6 @@
 import React from 'react';
 import AddProject from './AddProject';
 import {FloorDto} from "../../entity/FloorDto";
-import {addProject} from "./service";
 import FloorRow from "./FloorRow";
 import {getProjectSaving, RootState} from "../../reducers";
 import {Action, compose} from "redux";
@@ -216,8 +215,6 @@ class Admin extends React.PureComponent<PropsType, State> {
     }
 
     handleFloorAtticChange = (floorId: number) => {
-        // eslint-disable-next-line no-debugger
-        debugger
         const floors = [...this.state.floorList];
         floors.filter(i => i.id === floorId).forEach(i => i.isAttic = !i.isAttic);
 
@@ -279,56 +276,23 @@ class Admin extends React.PureComponent<PropsType, State> {
         for (let i = 0; i < floorList.length; i = i + 1) {
             const floor = floorList[i];
             const floorId = i + 1;
-            floorRows.push(<FloorRow floor={floor}
-                                     floorId={floorId}
-                                     isFloorIndexDisabled={this.isFloorIndexDisabled}
-                                     isFloorAtticDisabled={this.isFloorAtticDisabled}
-                                     isFloorBasementDisabled={this.isFloorBasementDisabled}
-                                     handleFloorIndexChange={this.handleFloorIndexChange}
-                                     handleFloorAtticChange={this.handleFloorAtticChange}
-                                     handleFloorBasementChange={this.handleFloorBasementChange}
-                                     handleFloorAreaChange={this.handleFloorAreaChange}
-                                     handleFloorHeightChange={this.handleFloorHeightChange}
-                                     handleFloorImageChange={this.handleFloorImageChange}
+            floorRows.push(
+                <FloorRow floor={floor}
+                          floorId={floorId}
+                          handleFloorIndexChange={this.handleFloorIndexChange}
+                          handleFloorAtticChange={this.handleFloorAtticChange}
+                          handleFloorBasementChange={this.handleFloorBasementChange}
+                          handleFloorAreaChange={this.handleFloorAreaChange}
+                          handleFloorHeightChange={this.handleFloorHeightChange}
+                          handleFloorImageChange={this.handleFloorImageChange}
                 />
             );
         }
         return floorRows;
     }
 
-    isFloorIndexDisabled = (floorId: number) => {
-        const {floorList} = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return floor.isAttic || floor.isBasement;
-    }
-
-    isFloorAtticDisabled = (floorId: number) => {
-        // eslint-disable-next-line no-debugger
-        debugger
-        const {floorList} = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return !!floor.index || floor.isBasement;
-    }
-
-    isFloorBasementDisabled = (floorId: number) => {
-        const {floorList} = this.state;
-        const floor = floorList
-            .find(i => i.id === floorId);
-        if (!floor) return false;
-
-        return !!floor.index || floor.isAttic;
-    }
-
     saveProject = () => {
         // addProject(this.state);
-        // eslint-disable-next-line no-debugger
-        debugger
         this.props.saveProject(this.state);
         this.setState({...initialState});
     }
@@ -336,7 +300,6 @@ class Admin extends React.PureComponent<PropsType, State> {
     render() {
         const {projectSaving} = this.props;
         const isProjectFilled = this.isProjectFilled();
-        // const floorRows = this.renderFloors();
         return <>
             {!projectSaving
                 ? <AddProject handleTitleChange={this.handleTitleChange}
@@ -365,7 +328,6 @@ class Admin extends React.PureComponent<PropsType, State> {
                               isProjectFilled={isProjectFilled}
                               saveProject={this.saveProject}
                               renderFloors={this.renderFloors}
-                              // floorRows={floorRows}
                               title={this.state.title}
                               description={this.state.description}
                               generalArea={this.state.generalArea}

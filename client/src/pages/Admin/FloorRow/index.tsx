@@ -8,9 +8,6 @@ import {FloorDto} from "../../../entity/FloorDto";
 interface PropsType {
     floor: FloorDto;
     floorId: number;
-    isFloorIndexDisabled: (floorId: number) => boolean;
-    isFloorAtticDisabled: (floorId: number) => boolean;
-    isFloorBasementDisabled: (floorId: number) => boolean;
     handleFloorIndexChange: (event: React.ChangeEvent<any>, floorId: number) => void;
     handleFloorAtticChange: (floorId: number) => void;
     handleFloorBasementChange: (floorId: number) => void;
@@ -19,35 +16,47 @@ interface PropsType {
     handleFloorImageChange: (event: React.ChangeEvent<any>, floorId: number) => void;
 }
 
-const FloorRow: React.FC<PropsType> = React.memo( ({
-                                           floor,
-                                           floorId,
-                                           isFloorIndexDisabled,
-                                           isFloorAtticDisabled,
-                                           isFloorBasementDisabled,
-                                           handleFloorIndexChange,
-                                           handleFloorAtticChange,
-                                           handleFloorBasementChange,
-                                           handleFloorAreaChange,
-                                           handleFloorHeightChange,
-                                           handleFloorImageChange
-                                       }) => {
-    // eslint-disable-next-line no-debugger
-    debugger
-    return(
+const FloorRow: React.FC<PropsType> = ({
+                                                      floor,
+                                                      floorId,
+                                                      handleFloorIndexChange,
+                                                      handleFloorAtticChange,
+                                                      handleFloorBasementChange,
+                                                      handleFloorAreaChange,
+                                                      handleFloorHeightChange,
+                                                      handleFloorImageChange
+                                                  }) => {
+
+    const isFloorIndexDisabled = () => {
+        if (!floor) return false;
+        return floor.isAttic || floor.isBasement;
+    }
+
+    const isFloorAtticDisabled = () => {
+        if (!floor) return false;
+        return !!floor.index || floor.isBasement;
+    }
+
+    const isFloorBasementDisabled = () => {
+        if (!floor) return false;
+
+        return !!floor.index || floor.isAttic;
+    }
+
+    return (
         <Grid item xs={12} container spacing={2} key={`floor-${floorId}`}>
             <Grid item xs={4}>
                 <NumericProperty
                     title={'Номер этажа'}
                     value={floor.index}
-                    disabled={isFloorIndexDisabled(floorId)}
+                    disabled={isFloorIndexDisabled()}
                     handleProperty={(event: React.ChangeEvent<any>) =>
                         handleFloorIndexChange(event, floorId)}/>
             </Grid>
             <Grid item xs={4}>
                 <CheckProperty title={'Мансарда'}
                                checked={floor.isAttic}
-                               disabled={isFloorAtticDisabled(floorId)}
+                               disabled={isFloorAtticDisabled()}
                                handleProperty={() =>
                                    handleFloorAtticChange(floorId)}
                 />
@@ -55,7 +64,7 @@ const FloorRow: React.FC<PropsType> = React.memo( ({
             <Grid item xs={4}>
                 <CheckProperty title={'Подвал'}
                                checked={floor.isBasement}
-                               disabled={isFloorBasementDisabled(floorId)}
+                               disabled={isFloorBasementDisabled()}
                                handleProperty={() =>
                                    handleFloorBasementChange(floorId)}
                 />
@@ -84,6 +93,6 @@ const FloorRow: React.FC<PropsType> = React.memo( ({
             </Grid>
         </Grid>
     );
-})
+}
 
 export default FloorRow;
