@@ -6,7 +6,6 @@ import catalogueSortInfo, {
     SortDetails,
     SortDirection,
 } from '../../constants/sortData/catalogueSortInfo';
-// import {getAllProjects} from '../Admin/service';
 import {Project} from '../../entity/Project';
 import CatalogueItem from "./CatalogueItem";
 import {getProjects, getProjectsLoading, RootState} from "../../reducers";
@@ -35,7 +34,7 @@ interface DispatchProps {
 
 type PropsType = StateProps & DispatchProps & RouteComponentProps<any>;
 
-class Catalogue extends Component<PropsType, State> {
+class Catalogue extends React.Component<PropsType, State> {
     state = {projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1};
 
     componentDidMount() {

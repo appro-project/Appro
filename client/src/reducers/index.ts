@@ -116,8 +116,6 @@ rootReducer.case(getProjectsFromDb.async.started, (state) => {
 
 // @ts-ignore
 rootReducer.case(getProjectsFromDb.async.done, (state, {result: projects}) => {
-    // eslint-disable-next-line no-debugger
-    debugger
     return {
         ...state,
         projects: projects,

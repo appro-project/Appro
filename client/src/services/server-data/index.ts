@@ -57,11 +57,7 @@ const axiosSaveProject = (project: any) => {
 
 const axiosGetProjects = async (): Promise<Project[]> => {
     return await axiosWithSetting.get('project')
-        .then(response => {
-            // eslint-disable-next-line no-debugger
-            debugger;
-            return response.data
-        })
+        .then(response => response.data)
         .then(data => mapResponseDataToProjects(data));
 };
 
