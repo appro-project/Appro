@@ -4,7 +4,7 @@ import planImage from '../../../assets/img/individual/differences/plan.jpg';
 
 import classes from './Difference.module.scss';
 
-const Differences = () => {
+const Differences = React.memo( () => {
   return (
     <div className={ classes ['differences'] }>
       <h2 className={ classes['differences__title'] }>
@@ -27,6 +27,6 @@ const Differences = () => {
       <p> - обязательное авторское сопровождение проекта (авторский надзор)</p>
     </div>
   );
-};
+});
 
 export default Differences;

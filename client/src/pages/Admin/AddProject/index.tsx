@@ -42,7 +42,8 @@ interface PropsType {
     handleFloorNumberChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     isProjectFilled: boolean;
     saveProject: () => void;
-    floorRows: JSX.Element[];
+    renderFloors: () => JSX.Element[];
+    // floorRows: JSX.Element[];
     title: string;
     description: string;
     generalArea: number | null;
@@ -66,7 +67,7 @@ interface PropsType {
     floorListLength: number;
 }
 
-const AddProject: React.FC<PropsType> = ({
+const AddProject: React.FC<PropsType> = React.memo( ({
                                              handleTitleChange,
                                              handleDescriptionChange,
                                              handleStyleChange,
@@ -92,8 +93,9 @@ const AddProject: React.FC<PropsType> = ({
                                              handleFloorNumberChange,
                                              isProjectFilled,
                                              saveProject,
-                                             floorRows,
-                                             title,
+                                             // floorRows,
+                                                         renderFloors,
+                                                         title,
                                              description,
                                              generalArea,
                                              projectPrice,
@@ -310,7 +312,8 @@ const AddProject: React.FC<PropsType> = ({
                                 handleProperty={handleFloorNumberChange}/>
                         </Grid>
                         {
-                            floorRows
+                            renderFloors()
+                            // floorRows
                         }
                     </Grid>
                 </div>
@@ -325,6 +328,6 @@ const AddProject: React.FC<PropsType> = ({
             </Grid>
         </Container>
     </div>;
-}
+})
 
 export default AddProject;

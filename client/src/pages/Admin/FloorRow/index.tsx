@@ -19,7 +19,7 @@ interface PropsType {
     handleFloorImageChange: (event: React.ChangeEvent<any>, floorId: number) => void;
 }
 
-const FloorRow: React.FC<PropsType> = ({
+const FloorRow: React.FC<PropsType> = React.memo( ({
                                            floor,
                                            floorId,
                                            isFloorIndexDisabled,
@@ -32,6 +32,8 @@ const FloorRow: React.FC<PropsType> = ({
                                            handleFloorHeightChange,
                                            handleFloorImageChange
                                        }) => {
+    // eslint-disable-next-line no-debugger
+    debugger
     return(
         <Grid item xs={12} container spacing={2} key={`floor-${floorId}`}>
             <Grid item xs={4}>
@@ -82,6 +84,6 @@ const FloorRow: React.FC<PropsType> = ({
             </Grid>
         </Grid>
     );
-}
+})
 
 export default FloorRow;

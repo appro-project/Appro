@@ -3,7 +3,7 @@ import React from 'react';
 import classes from './Steps.module.scss';
 import {StepInfo, steps} from "../../../constants/Steps";
 
-const Steps = () => {
+const Steps = React.memo( () => {
   return (
     <div className={ classes ['steps'] }>
       <h3 className={ classes ['steps__title'] }>Основные этапы проектирования</h3>
@@ -12,7 +12,7 @@ const Steps = () => {
       </div>
     </div>
   );
-};
+});
 
 const createStep = (step: StepInfo, stepNumber: number) => {
   return <div className={ classes ['steps__step-item'] }>

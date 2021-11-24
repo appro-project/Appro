@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from 'axios';
 
 const baseApiUrl = 'http://localhost:8080/api/v1';
 
+//galochka
 const uploadFloorImages = (response: AxiosResponse, project: Project) => {
     const { floorId, floorIndex, projectId } = response.data;
     const floor = project.floorList.find(f => f.index = floorIndex);
@@ -15,6 +16,7 @@ const uploadFloorImages = (response: AxiosResponse, project: Project) => {
     }
 };
 
+//galochka
 const uploadProjectImages = (response: AxiosResponse, project: any) => {
     const projectId = response.data.projectId;
     const { images } = project;
@@ -30,6 +32,7 @@ const uploadProjectImages = (response: AxiosResponse, project: any) => {
     }
 };
 
+//galochka
 function uploadMainImage(response: AxiosResponse<any>, project: any) {
     const projectId = response.data.projectId;
     const { mainImage } = project;
@@ -42,6 +45,7 @@ function uploadMainImage(response: AxiosResponse<any>, project: any) {
     }
 }
 
+// galochka
 export const addProject = (project: any) => {
     axios.post(`${baseApiUrl}/project`, project)
         .then((response) => {

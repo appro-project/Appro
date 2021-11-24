@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {getProjectsByFilters, sortProjectsByParams} from '../../services/data';
 import {RouteComponentProps, withRouter} from 'react-router';
 import catalogueSortInfo, {
@@ -18,7 +18,7 @@ interface State {
     currentPage: number;
 }
 
-class Catalogue extends Component<RouteComponentProps<any>, State> {
+class Catalogue extends PureComponent<RouteComponentProps<any>, State> {
     state = {projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1};
 
     componentDidMount() {

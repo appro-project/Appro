@@ -7,7 +7,7 @@ interface Props {
     handleSort(id: string, direction: SortDirection): void;
 }
 
-const SortOption = ({ sortInfoId, handleSort }: Props) => {
+const SortOption = React.memo( ({ sortInfoId, handleSort }: Props) => {
     const sortInfo = catalogueSortInfo.get(sortInfoId);
     const [direction, setDirection] = useState(sortInfo?.direction);
     if (!sortInfo) return <React.Fragment/>;
@@ -29,6 +29,6 @@ const SortOption = ({ sortInfoId, handleSort }: Props) => {
     return <div>
         <div onClick={ () => sortClicked() }> { sortInfo.name } </div>
     </div>;
-};
+});
 
 export default SortOption;

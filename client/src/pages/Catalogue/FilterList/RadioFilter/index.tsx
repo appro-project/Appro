@@ -10,7 +10,7 @@ interface Props {
   applyFilter(option: SingleOption): void;
 }
 
-const RadioFilterBlock = ({ filterId, initialOption, applyFilter }: Props) => {
+const RadioFilterBlock = React.memo( ({ filterId, initialOption, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
   const getInitialState = () => {
     if (!filterInfo) return undefined;
@@ -60,6 +60,6 @@ return <div className={ classes.RadioFilterBlock }>
           ) }
     </ul>
   </div>;
-};
+});
 
 export default RadioFilterBlock;

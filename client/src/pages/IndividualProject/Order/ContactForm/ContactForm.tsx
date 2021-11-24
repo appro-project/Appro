@@ -4,7 +4,7 @@ import TextArea from "../../../../components/UI/TextArea";
 import Button, {ButtonType} from "../../../../components/UI/Button";
 import React from "react";
 
-const ContactForm: React.FC = () => {
+const ContactForm: React.FC = React.memo( () => {
     return(
         <form className={ classes['order__form'] }>
             <div className={ classes['order__input'] }>
@@ -22,6 +22,6 @@ const ContactForm: React.FC = () => {
             </div>
         </form>
     );
-}
+})
 
 export default ContactForm;

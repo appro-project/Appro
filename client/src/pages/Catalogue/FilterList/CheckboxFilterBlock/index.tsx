@@ -12,7 +12,7 @@ interface Props {
   applyFilter(option: SingleOption): void;
 }
 
-const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) => {
+const CheckboxFilterBlock = React.memo( ({ filterId, initialOptions, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
 
   const getInitialState = () => {
@@ -75,6 +75,6 @@ const CheckboxFilterBlock = ({ filterId, initialOptions, applyFilter }: Props) =
           ) }
     </ul>
   </div>;
-};
+});
 
 export default CheckboxFilterBlock;

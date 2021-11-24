@@ -14,7 +14,7 @@ interface StateProps {
 
 type PropsType = StateProps;
 
-class VisitedProjects extends React.Component<PropsType, {}> {
+class VisitedProjects extends React.PureComponent<PropsType, {}> {
   render() {
     const {mockProjects} = this.props;
     const data = [...mockProjects];

@@ -16,11 +16,13 @@ import {PrincipleItemData} from "../entity/PrincipleItemData";
 import benefitImage from "../assets/img/main/principles/benefit.jpg";
 import strengthImage from "../assets/img/main/principles/strength.jpg";
 import beautyImage from "../assets/img/main/principles/beauty.jpg";
+import {saveProject} from "../actions";
 
 export interface RootState {
     projects: Project[];
     popularCategories: PopularCategoryData[];
     principlesData: PrincipleItemData[];
+    projectSaving: boolean;
 }
 
 export const initialState: RootState = {
@@ -88,11 +90,22 @@ export const initialState: RootState = {
             description: 'Самый ответственный критерий, отвечающий за визуальное восприятие, гармоничный симбиоз функциональности и конструктивной стороны с формированием определенного стиля.',
             backgroundUrl: beautyImage,
         }
-    ]
+    ],
+    projectSaving: false
 }
 
 export const rootReducer = reducerWithInitialState(initialState);
 
+//save project
+rootReducer.case(saveProject.async.started, (state) => {
+    return {...state, projectSaving: true};
+});
+
+rootReducer.case(saveProject.async.failed, (state) => {
+    return {...state, projectSaving: false};
+});
+
 export const getProjects = (state: RootState) => state.projects;
 export const getPopularCategories = (state: RootState) => state.popularCategories;
 export const getPrinciplesData = (state: RootState) => state.principlesData;
+export const getProjectSaving = (state: RootState) => state.projectSaving;

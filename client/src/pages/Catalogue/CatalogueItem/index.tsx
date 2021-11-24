@@ -21,7 +21,7 @@ interface PropsType {
     handlePageChange: (nextPage: number) => void;
 }
 
-const CatalogueItem: React.FC<PropsType> = ({
+const CatalogueItem: React.FC<PropsType> = React.memo( ({
                                                 applyFilter,
                                                 currentProjects,
                                                 sortDetails,
@@ -62,6 +62,6 @@ const CatalogueItem: React.FC<PropsType> = ({
 
         </div>
     );
-}
+})
 
 export default CatalogueItem;

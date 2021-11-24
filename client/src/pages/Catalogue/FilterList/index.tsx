@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
+import React, {PureComponent} from 'react';
 import classes from './FilterList.module.scss';
-import {
-    FilterType,
-    RangeOption,
-    SingleOption,
-} from '../../../constants/filterData/catalogueFiltersInfo';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { getSearchUri } from '../../../services/data';
+import {FilterType, RangeOption, SingleOption,} from '../../../constants/filterData/catalogueFiltersInfo';
+import {RouteComponentProps, withRouter} from 'react-router';
+import {getSearchUri} from '../../../services/data';
 import RangeFilterBlock from './RangeFilter';
 import CheckboxFilterBlock from './CheckboxFilterBlock';
 import RadioFilterBlock from './RadioFilter';
-import { getValidRangeSearchParam } from '../../../services/util';
+import {getValidRangeSearchParam} from '../../../services/util';
 
 interface SearchOption {
     id: string;
@@ -24,7 +20,7 @@ interface StateProps {
 
 type Props = StateProps & RouteComponentProps<any>;
 
-class FilterList extends Component<Props, {}> {
+class FilterList extends PureComponent<Props, {}> {
 
     componentDidMount() {
         const urlFilters = new URLSearchParams(this.props.location.search);
@@ -45,57 +41,57 @@ class FilterList extends Component<Props, {}> {
         const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('buildingPrice'));
 
         return <div>
-            <div className={ classes['filters-list__items'] }>
-                <RangeFilterBlock filterId={ 'area' }
-                                  initialRange = { areaInitRange ?
-                                 areaInitRange : undefined }
-                                  applyFilter={ option =>
-                                 this.rangeOptionClicked('area', option) }/>
-                <CheckboxFilterBlock filterId={ 'floor' }
-                                     initialOptions={ floorInitFilter ?
-                                    floorInitFilter.split(',') : undefined }
-                                     applyFilter={ option =>
-                                    this.singleOptionClicked('floor',
-                                                             FilterType.CHECKBOX, option) }
+            <div className={classes['filters-list__items']}>
+                <RangeFilterBlock filterId={'area'}
+                                  initialRange={areaInitRange ?
+                                      areaInitRange : undefined}
+                                  applyFilter={option =>
+                                      this.rangeOptionClicked('area', option)}/>
+                <CheckboxFilterBlock filterId={'floor'}
+                                     initialOptions={floorInitFilter ?
+                                         floorInitFilter.split(',') : undefined}
+                                     applyFilter={option =>
+                                         this.singleOptionClicked('floor',
+                                             FilterType.CHECKBOX, option)}
                 />
-                <CheckboxFilterBlock filterId={ 'bedroom' }
-                                     initialOptions={ bedroomInitFilter ?
-                                    bedroomInitFilter.split(',') : undefined }
-                                     applyFilter={ option =>
-                                    this.singleOptionClicked('bedroom',
-                                                             FilterType.CHECKBOX, option) }
+                <CheckboxFilterBlock filterId={'bedroom'}
+                                     initialOptions={bedroomInitFilter ?
+                                         bedroomInitFilter.split(',') : undefined}
+                                     applyFilter={option =>
+                                         this.singleOptionClicked('bedroom',
+                                             FilterType.CHECKBOX, option)}
                 />
-                <RadioFilterBlock filterId={ 'garage' }
-                                  initialOption = { garageInitFilter ?
-                                      garageInitFilter : undefined }
-                                  applyFilter={ option =>
-                                 this.singleOptionClicked('garage',
-                                                          FilterType.RADIO, option) }/>
-                <RangeFilterBlock filterId={ 'projectPrice' }
-                                  initialRange = { projectPriceInitRange ?
-                                 projectPriceInitRange : undefined }
-                                  applyFilter={ option =>
-                                 this.rangeOptionClicked('projectPrice', option) }/>
+                <RadioFilterBlock filterId={'garage'}
+                                  initialOption={garageInitFilter ?
+                                      garageInitFilter : undefined}
+                                  applyFilter={option =>
+                                      this.singleOptionClicked('garage',
+                                          FilterType.RADIO, option)}/>
+                <RangeFilterBlock filterId={'projectPrice'}
+                                  initialRange={projectPriceInitRange ?
+                                      projectPriceInitRange : undefined}
+                                  applyFilter={option =>
+                                      this.rangeOptionClicked('projectPrice', option)}/>
 
-                <RangeFilterBlock filterId={ 'buildingPrice' }
-                                  initialRange = { buildingPriceInitRange ?
-                                 buildingPriceInitRange : undefined }
-                                  applyFilter={ option =>
-                                 this.rangeOptionClicked('buildingPrice', option) }/>
+                <RangeFilterBlock filterId={'buildingPrice'}
+                                  initialRange={buildingPriceInitRange ?
+                                      buildingPriceInitRange : undefined}
+                                  applyFilter={option =>
+                                      this.rangeOptionClicked('buildingPrice', option)}/>
 
-                <CheckboxFilterBlock filterId={ 'style' }
-                                     initialOptions={ styleInitFilter ?
-                                    styleInitFilter.split(',') : undefined }
-                                     applyFilter={ option =>
-                                    this.singleOptionClicked('style',
-                                                             FilterType.CHECKBOX, option) }/>
+                <CheckboxFilterBlock filterId={'style'}
+                                     initialOptions={styleInitFilter ?
+                                         styleInitFilter.split(',') : undefined}
+                                     applyFilter={option =>
+                                         this.singleOptionClicked('style',
+                                             FilterType.CHECKBOX, option)}/>
             </div>
 
         </div>;
     }
 
     private getSearchUri(searchOption: SearchOption, isChecked: boolean) {
-        const { location } = this.props;
+        const {location} = this.props;
         const searchParams = new URLSearchParams(location.search);
 
         return getSearchUri(searchOption, isChecked, searchParams);
@@ -109,10 +105,10 @@ class FilterList extends Component<Props, {}> {
                 type: filterType,
             },
             option.isSelected);
-        const { history, location } = this.props;
+        const {history, location} = this.props;
         history.push({
-             search: decodeURIComponent(searchUri.toString()),
-             pathname: location.pathname,
+            search: decodeURIComponent(searchUri.toString()),
+            pathname: location.pathname,
         });
         this.props.applyFilter(searchUri);
     }
@@ -125,7 +121,7 @@ class FilterList extends Component<Props, {}> {
                 type: FilterType.RANGE,
             },
             true);
-        const { history, location } = this.props;
+        const {history, location} = this.props;
 
         history.push({
             search: decodeURIComponent(search.toString()),

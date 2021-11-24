@@ -3,6 +3,13 @@ import AddProject from './AddProject';
 import {FloorDto} from "../../entity/FloorDto";
 import {addProject} from "./service";
 import FloorRow from "./FloorRow";
+import {getProjectSaving, RootState} from "../../reducers";
+import {Action, compose} from "redux";
+import {connect} from "react-redux";
+// @ts-ignore
+import {ThunkDispatch} from "redux-thunk";
+import {saveProject} from "../../actions";
+import {CircularProgress} from "@material-ui/core";
 
 interface State {
     id: string;
@@ -58,7 +65,17 @@ const initialState = {
     floorList: [] as FloorDto[],
 };
 
-class Admin extends React.Component<{}, State> {
+interface StateProps {
+    projectSaving: boolean;
+}
+
+interface DispatchProps {
+    saveProject(project: any): void;
+}
+
+type PropsType = StateProps & DispatchProps;
+
+class Admin extends React.PureComponent<PropsType, State> {
     state = initialState;
 
     handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +216,8 @@ class Admin extends React.Component<{}, State> {
     }
 
     handleFloorAtticChange = (floorId: number) => {
+        // eslint-disable-next-line no-debugger
+        debugger
         const floors = [...this.state.floorList];
         floors.filter(i => i.id === floorId).forEach(i => i.isAttic = !i.isAttic);
 
@@ -287,6 +306,8 @@ class Admin extends React.Component<{}, State> {
     }
 
     isFloorAtticDisabled = (floorId: number) => {
+        // eslint-disable-next-line no-debugger
+        debugger
         const {floorList} = this.state;
         const floor = floorList
             .find(i => i.id === floorId);
@@ -305,62 +326,80 @@ class Admin extends React.Component<{}, State> {
     }
 
     saveProject = () => {
-        addProject(this.state);
+        // addProject(this.state);
+        // eslint-disable-next-line no-debugger
+        debugger
+        this.props.saveProject(this.state);
         this.setState({...initialState});
     }
 
     render() {
+        const {projectSaving} = this.props;
         const isProjectFilled = this.isProjectFilled();
-        const floorRows = this.renderFloors();
-        return <AddProject handleTitleChange={this.handleTitleChange}
-                           handleDescriptionChange={this.handleDescriptionChange}
-                           handleStyleChange={this.handleStyleChange}
-                           handleGeneralAreaChange={this.handleGeneralAreaChange}
-                           handleLivingAreaChange={this.handleLivingAreaChange}
-                           handleBuildingAreaChange={this.handleBuildingAreaChange}
-                           handleTimeToCreateChange={this.handleTimeToCreateChange}
-                           handleImagesChange={this.handleImagesChange}
-                           handleMainImageChange={this.handleMainImageChange}
-                           handleProjectPriceChange={this.handleProjectPriceChange}
-                           handleBuildingPriceChange={this.handleBuildingPriceChange}
-                           handleLengthChange={this.handleLengthChange}
-                           handleWidthChange={this.handleWidthChange}
-                           handleFoundationChange={this.handleFoundationChange}
-                           handleWallMaterialChange={this.handleWallMaterialChange}
-                           handleWallThicknessChange={this.handleWallThicknessChange}
-                           handleInsulationChange={this.handleInsulationChange}
-                           handleInsulationThicknessChange={this.handleInsulationThicknessChange}
-                           handleCeilingChange={this.handleCeilingChange}
-                           handleRoofChange={this.handleRoofChange}
-                           handleGarageChange={this.handleGarageChange}
-                           handleBedroomChange={this.handleBedroomChange}
-                           handleFloorNumberChange={this.handleFloorNumberChange}
-                           isProjectFilled={isProjectFilled}
-                           saveProject={this.saveProject}
-                           floorRows={floorRows}
-                           title={this.state.title}
-                           description={this.state.description}
-                           generalArea={this.state.generalArea}
-                           timeToCreate={this.state.timeToCreate}
-                           projectPrice={this.state.projectPrice}
-                           buildingPrice={this.state.buildingPrice}
-                           livingArea={this.state.livingArea}
-                           buildingArea={this.state.buildingArea}
-                           foundation={this.state.foundation}
-                           ceiling={this.state.ceiling}
-                           roof={this.state.roof}
-                           bedroomCount={this.state.bedroomCount}
-                           wallMaterial={this.state.wallMaterial}
-                           wallThickness={this.state.wallThickness}
-                           insulation={this.state.insulation}
-                           insulationThickness={this.state.insulationThickness}
-                           length={this.state.length}
-                           width={this.state.width}
-                           isGaragePresent={this.state.isGaragePresent}
-                           style={this.state.style}
-                           floorListLength={this.state.floorList.length}
-        />;
+        // const floorRows = this.renderFloors();
+        return <>
+            {!projectSaving
+                ? <AddProject handleTitleChange={this.handleTitleChange}
+                              handleDescriptionChange={this.handleDescriptionChange}
+                              handleStyleChange={this.handleStyleChange}
+                              handleGeneralAreaChange={this.handleGeneralAreaChange}
+                              handleLivingAreaChange={this.handleLivingAreaChange}
+                              handleBuildingAreaChange={this.handleBuildingAreaChange}
+                              handleTimeToCreateChange={this.handleTimeToCreateChange}
+                              handleImagesChange={this.handleImagesChange}
+                              handleMainImageChange={this.handleMainImageChange}
+                              handleProjectPriceChange={this.handleProjectPriceChange}
+                              handleBuildingPriceChange={this.handleBuildingPriceChange}
+                              handleLengthChange={this.handleLengthChange}
+                              handleWidthChange={this.handleWidthChange}
+                              handleFoundationChange={this.handleFoundationChange}
+                              handleWallMaterialChange={this.handleWallMaterialChange}
+                              handleWallThicknessChange={this.handleWallThicknessChange}
+                              handleInsulationChange={this.handleInsulationChange}
+                              handleInsulationThicknessChange={this.handleInsulationThicknessChange}
+                              handleCeilingChange={this.handleCeilingChange}
+                              handleRoofChange={this.handleRoofChange}
+                              handleGarageChange={this.handleGarageChange}
+                              handleBedroomChange={this.handleBedroomChange}
+                              handleFloorNumberChange={this.handleFloorNumberChange}
+                              isProjectFilled={isProjectFilled}
+                              saveProject={this.saveProject}
+                              renderFloors={this.renderFloors}
+                              // floorRows={floorRows}
+                              title={this.state.title}
+                              description={this.state.description}
+                              generalArea={this.state.generalArea}
+                              timeToCreate={this.state.timeToCreate}
+                              projectPrice={this.state.projectPrice}
+                              buildingPrice={this.state.buildingPrice}
+                              livingArea={this.state.livingArea}
+                              buildingArea={this.state.buildingArea}
+                              foundation={this.state.foundation}
+                              ceiling={this.state.ceiling}
+                              roof={this.state.roof}
+                              bedroomCount={this.state.bedroomCount}
+                              wallMaterial={this.state.wallMaterial}
+                              wallThickness={this.state.wallThickness}
+                              insulation={this.state.insulation}
+                              insulationThickness={this.state.insulationThickness}
+                              length={this.state.length}
+                              width={this.state.width}
+                              isGaragePresent={this.state.isGaragePresent}
+                              style={this.state.style}
+                              floorListLength={this.state.floorList.length}/>
+                : <CircularProgress/>
+            }</>;
     }
 }
 
-export default Admin;
+const mapStateToProps = (state: RootState): StateProps => {
+    return {
+        projectSaving: getProjectSaving(state)
+    }
+}
+
+export default compose(connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps,
+    (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
+        saveProject: (project: any) => dispatch(saveProject(project))
+    })
+))(Admin);
