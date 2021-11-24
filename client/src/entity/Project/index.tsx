@@ -1,7 +1,7 @@
 import { Floor } from '../Floor';
 
 export interface Project {
-    id: string;
+    id: number;
     title: string;
     description: string;
     generalArea: number;

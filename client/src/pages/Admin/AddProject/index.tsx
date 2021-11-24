@@ -311,7 +311,6 @@ const AddProject: React.FC<PropsType> = ({
                         </Grid>
                         {
                             renderFloors()
-                            // floorRows
                         }
                     </Grid>
                 </div>

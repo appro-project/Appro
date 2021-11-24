@@ -16,13 +16,16 @@ import {PrincipleItemData} from "../entity/PrincipleItemData";
 import benefitImage from "../assets/img/main/principles/benefit.jpg";
 import strengthImage from "../assets/img/main/principles/strength.jpg";
 import beautyImage from "../assets/img/main/principles/beauty.jpg";
-import {saveProject} from "../actions";
+import {getProjectsFromDb, saveProject} from "../actions";
+import {createSelector} from "reselect";
+import memoize from 'lodash.memoize';
 
 export interface RootState {
     projects: Project[];
     popularCategories: PopularCategoryData[];
     principlesData: PrincipleItemData[];
     projectSaving: boolean;
+    projectsLoading: boolean;
 }
 
 export const initialState: RootState = {
@@ -37,7 +40,7 @@ export const initialState: RootState = {
                 isAttic: false, isBasement: false,
             }
         ],
-        id: '2A-1',
+        id: 1,
         title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
         description: 'Современный комфортабельный двухэтажный особняк с террасой и гаражом для 2 автомобилей. В' +
             ' составе помещений: холл, кухня-столовая, просторная гостиная с выходом на террасу, 5 спален ' +
@@ -91,7 +94,8 @@ export const initialState: RootState = {
             backgroundUrl: beautyImage,
         }
     ],
-    projectSaving: false
+    projectSaving: false,
+    projectsLoading: false
 }
 
 export const rootReducer = reducerWithInitialState(initialState);
@@ -105,7 +109,28 @@ rootReducer.case(saveProject.async.failed, (state) => {
     return {...state, projectSaving: false};
 });
 
+//get all projects
+rootReducer.case(getProjectsFromDb.async.started, (state) => {
+    return {...state, projectsLoading: true};
+});
+
+// @ts-ignore
+rootReducer.case(getProjectsFromDb.async.done, (state, {result: projects}) => {
+    // eslint-disable-next-line no-debugger
+    debugger
+    return {
+        ...state,
+        projects: projects,
+        projectsLoading: false
+    };
+});
+
+rootReducer.case(getProjectsFromDb.async.failed, (state) => {
+    return {...state, projectsLoading: false};
+});
+
 export const getProjects = (state: RootState) => state.projects;
 export const getPopularCategories = (state: RootState) => state.popularCategories;
 export const getPrinciplesData = (state: RootState) => state.principlesData;
 export const getProjectSaving = (state: RootState) => state.projectSaving;
+export const getProjectsLoading = (state: RootState) => state.projectsLoading;

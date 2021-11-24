@@ -8,7 +8,7 @@ import Order from './Order';
 import VisitedProjects from '../../containers/VisitedProjects';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 
-const IndividualProject = React.memo( () => {
+const IndividualProject = () => {
   return <div className={ classes.IndividualProject }>
     <Container>
       <div className={ classes.IndividualProject_Breadcrumbs }>
@@ -52,6 +52,6 @@ const IndividualProject = React.memo( () => {
       <VisitedProjects/>
     </div>
   </div>;
-});
+};
 
 export default IndividualProject;

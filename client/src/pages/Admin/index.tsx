@@ -11,7 +11,7 @@ import {saveProject} from "../../actions";
 import {CircularProgress} from "@material-ui/core";
 
 interface State {
-    id: string;
+    id: number;
     title: string;
     description: string;
     generalArea: number | null;
@@ -38,7 +38,7 @@ interface State {
 }
 
 const initialState = {
-    id: '',
+    id: 0,
     title: '',
     description: '',
     generalArea: null,
@@ -74,7 +74,7 @@ interface DispatchProps {
 
 type PropsType = StateProps & DispatchProps;
 
-class Admin extends React.PureComponent<PropsType, State> {
+class Admin extends React.Component<PropsType, State> {
     state = initialState;
 
     handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

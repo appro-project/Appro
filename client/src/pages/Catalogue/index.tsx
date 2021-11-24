@@ -6,9 +6,15 @@ import catalogueSortInfo, {
     SortDetails,
     SortDirection,
 } from '../../constants/sortData/catalogueSortInfo';
-import {getAllProjects} from '../Admin/service';
+// import {getAllProjects} from '../Admin/service';
 import {Project} from '../../entity/Project';
 import CatalogueItem from "./CatalogueItem";
+import {getProjects, getProjectsLoading, RootState} from "../../reducers";
+import {Action, compose} from "redux";
+import {connect} from "react-redux";
+// @ts-ignore
+import {ThunkDispatch} from "redux-thunk";
+import {getProjectsFromDb} from "../../actions";
 
 const projectsPerPage = 8;
 
@@ -18,18 +24,22 @@ interface State {
     currentPage: number;
 }
 
-class Catalogue extends PureComponent<RouteComponentProps<any>, State> {
+interface StateProps {
+    projectsLoading: boolean;
+    projects: Project[];
+}
+
+interface DispatchProps {
+    getProjectsFromDb(): void;
+}
+
+type PropsType = StateProps & DispatchProps & RouteComponentProps<any>;
+
+class Catalogue extends Component<PropsType, State> {
     state = {projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1};
 
     componentDidMount() {
-        const projectsPromise = getAllProjects();
-        projectsPromise.then((projects) => {
-            console.log(projects);
-            const urlSearchParams = new URLSearchParams(this.props.location.search);
-            const filteredProjects = getProjectsByFilters(projects, urlSearchParams);
-            const sortedProjects = sortProjectsByParams(filteredProjects, urlSearchParams);
-            this.setState({...this.state, projects, currentProjects: sortedProjects});
-        });
+        this.props.getProjectsFromDb();
     }
 
     applyFilter = (searchParams: URLSearchParams) => {
@@ -47,7 +57,13 @@ class Catalogue extends PureComponent<RouteComponentProps<any>, State> {
     }
 
     render() {
-        const {currentProjects, currentPage} = this.state;
+        const {projects} = this.props;
+        console.log(this.props.projects);
+        const urlSearchParams = new URLSearchParams(this.props.location.search);
+        const filteredProjects = getProjectsByFilters(projects, urlSearchParams);
+        const currentProjects = sortProjectsByParams(filteredProjects, urlSearchParams);
+
+        const {currentPage} = this.state;
 
         const indexOfLastProject = currentPage * projectsPerPage;
         const indexOfFirstProject = indexOfLastProject - projectsPerPage;
@@ -105,4 +121,15 @@ class Catalogue extends PureComponent<RouteComponentProps<any>, State> {
     }
 }
 
-export default withRouter(Catalogue);
+const mapStateToProps = (state: RootState): StateProps => {
+    return {
+        projectsLoading: getProjectsLoading(state),
+        projects: getProjects(state)
+    }
+}
+
+export default compose(withRouter, connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps,
+    (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
+        getProjectsFromDb: () => dispatch(getProjectsFromDb.action({}))
+    })
+))(Catalogue);

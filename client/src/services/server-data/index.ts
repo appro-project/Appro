@@ -46,19 +46,71 @@ const uploadProjectImages = (response: AxiosResponse, project: any) => {
     }
 };
 
-export const axiosSaveProject = (project: any) => {
-    // eslint-disable-next-line no-debugger
-    debugger
+const axiosSaveProject = (project: any) => {
     axiosWithSetting.post('project', project)
         .then((response) => {
-            // eslint-disable-next-line no-debugger
-            debugger
             uploadFloorImages(response, project);
             uploadMainImage(response, project);
             uploadProjectImages(response, project);
         });
 };
 
+const axiosGetProjects = async (): Promise<Project[]> => {
+    return await axiosWithSetting.get('project')
+        .then(response => {
+            // eslint-disable-next-line no-debugger
+            debugger;
+            return response.data
+        })
+        .then(data => mapResponseDataToProjects(data));
+};
+
+export const axiosGetProjectById = async (id: number) => {
+    return await axiosWithSetting.get(`project/${id}`)
+        .then(res => res.data)
+        .then(data => mapResponseDataToProject(data));
+};
+
+const mapResponseDataToProject = (projectData: any): Project => {
+    return {
+        id: projectData.id,
+        title: projectData.title,
+        description: projectData.description,
+        generalArea: projectData.general_area,
+        timeToCreate: projectData.time_to_create,
+        projectPrice: projectData.project_price,
+        livingArea: projectData.living_area,
+        buildingArea: projectData.building_area,
+        wallMaterial: projectData.wall_material,
+        wallThickness: projectData.wall_thickness,
+        foundation: projectData.foundation,
+        ceiling: projectData.ceiling,
+        roof: projectData.roof,
+        buildingPrice: projectData.building_price,
+        mainImage: projectData.mainImage,
+        images: projectData.images,
+        insulation: projectData.insulation,
+        insulationThickness: projectData.insulation_thickness,
+        length: projectData.length,
+        width: projectData.width,
+        style: projectData.style,
+        isGaragePresent: projectData.is_garage_present,
+        bedroomCount: projectData.bedroom_count,
+        floorList: projectData.floorList,
+        popularity: projectData.popularity,
+    };
+};
+
+const mapResponseDataToProjects = (data: any): Project[] => {
+    const projects: Project[] = [];
+    for (const projectData of data) {
+        projects.push(mapResponseDataToProject(projectData));
+    }
+
+    return projects;
+};
+
 export const DataService = {
-    axiosSaveProject
+    axiosSaveProject,
+    axiosGetProjects
 };
