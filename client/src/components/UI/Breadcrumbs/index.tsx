@@ -4,21 +4,14 @@ import { Link } from 'react-router-dom';
 
 import classes from './Breadcrumbs.module.scss';
 import arrow from '../../../assets/img/breadcrumbs/arrow.svg';
+import {menuLinks} from "../../../constants";
 
 const DynamicProjectBreadcrumb = ({ match }: any) => (
   <span>{ match.params.projectId }</span>
 );
 // todo: duplicates menuLinks
-const crumbsInfo = [
-  { breadcrumb: 'Главная', path: '/' },
-  { breadcrumb: 'Каталог домов', path: '/catalogue' },
-  { breadcrumb: 'Индивидуальный проект', path: '/individual-project' },
-  { breadcrumb: 'Реализованные проекты', path: '/finished' },
-  { breadcrumb: 'Дополнительные услуги', path: '/additional' },
-  { breadcrumb: 'О нас', path: '/about' },
-  { breadcrumb: 'Каталог', path: '/catalogue' },
-  { breadcrumb: DynamicProjectBreadcrumb, path: '/catalogue/:projectId' },
-];
+const crumbsInfo = [...menuLinks, { breadcrumb: 'Каталог', path: '/catalogue' },
+    { breadcrumb: DynamicProjectBreadcrumb, path: '/catalogue/:projectId' }];
 
 const Breadcrumbs = ({ breadcrumbs }: any) => (
   <div  className={classes.Breadcrumbs}>

@@ -8,7 +8,7 @@ interface Props{
     projectData: Project;
 }
 
-const ProjectDetails = ({ projectData }: Props) => {
+const ProjectDetails = React.memo( ({ projectData }: Props) => {
     return <Link to={ `catalogue/${projectData.id}` } className={ classes['project-details'] }>
         <div className={ classes['project-details__content'] }>
             <div className={ classes['project-details__img'] }>
@@ -37,6 +37,6 @@ const ProjectDetails = ({ projectData }: Props) => {
             </div>
         </div>
     </Link>;
-};
+});
 
 export default ProjectDetails;

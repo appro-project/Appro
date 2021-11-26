@@ -14,7 +14,7 @@ interface StateProps {
 
 type Props = StateProps & RouteComponentProps<any>;
 
-class CatalogueHeader extends React.Component<Props, {}>  {
+class CatalogueHeader extends React.PureComponent<Props, {}>  {
 
   handleSort = (id: string, direction: SortDirection) => {
     const currentSearchParams = new URLSearchParams(this.props.location.search);

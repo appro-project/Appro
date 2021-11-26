@@ -4,8 +4,9 @@ import classes from './Order.module.scss';
 import TextInput from '../../../components/UI/TextInput';
 import TextArea from '../../../components/UI/TextArea';
 import Button, { ButtonType } from '../../../components/UI/Button';
+import ContactForm from "./ContactForm/ContactForm";
 
-const Order = () => {
+const Order = React.memo( () => {
   return <div className={ classes['order'] }>
     <h3 className={ classes['order__title'] }>Заказать индивидуальный проект</h3>
     <div className={ classes['order__description'] }>
@@ -22,22 +23,8 @@ const Order = () => {
       <p>Или заполнив форму ниже. После получения заявки, мы вам перезвоним.</p>
     </div>
 
-    <form className={ classes['order__form'] }>
-      <div className={ classes['order__input'] }>
-        <TextInput placeholder="Имя"/>
-      </div>
-      <div className={ classes['order__input'] }>
-        <TextInput placeholder="Номер телефона" type="tel"/>
-      </div>
-      <div className={ classes['order__input'] }>
-        <TextArea placeholder="Сообщение (необязательно)"/>
-      </div>
-
-      <div className={ classes['order__submit'] }>
-        <Button title="Отправить сообщение" buttonType={ ButtonType.BIG }/>
-      </div>
-    </form>
+    <ContactForm/>
   </div>;
-};
+});
 
 export default Order;

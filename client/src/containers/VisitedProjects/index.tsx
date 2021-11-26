@@ -3,28 +3,47 @@ import classes from './VisitedProjects.module.scss';
 import Container from '../hoc/Container';
 
 import { Project } from '../../entity/Project';
-import mockProjects from '../../mock/projects';
 import ProjectDetails from '../ProjectDetails';
+import {getProjects, RootState} from "../../reducers";
+import {compose} from "redux";
+import {connect} from "react-redux";
 
-const VisitedProjects = () => {
-  const data = [...mockProjects];
-  data.push(mockProjects[0]);
-  data.push(mockProjects[0]);
+interface StateProps {
+  mockProjects: Project[];
+}
 
-  return <section>
-    <Container>
-      <h2 className={ classes['visited-projects__title'] }>
-        Просмотренные проекты
-      </h2>
+type PropsType = StateProps;
 
-      <div className={ classes['visited-projects__items'] }>
-        { data.map((project: Project, idx: number) =>
-                     (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
-                       <ProjectDetails projectData={ project }/>
-                     </div>)) }
-      </div>
-    </Container>
-  </section>;
-};
+class VisitedProjects extends React.PureComponent<PropsType, {}> {
+  render() {
+    const {mockProjects} = this.props;
+    const data = [...mockProjects];
+    data.push(mockProjects[0]);
+    data.push(mockProjects[0]);
 
-export default VisitedProjects;
+    return <section>
+      <Container>
+        <h2 className={ classes['visited-projects__title'] }>
+          Просмотренные проекты
+        </h2>
+
+        <div className={ classes['visited-projects__items'] }>
+          { data.map((project: Project, idx: number) =>
+              (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
+                <ProjectDetails projectData={ project }/>
+              </div>)) }
+        </div>
+      </Container>
+    </section>;
+  }
+}
+
+const mapStateToProps = (state: RootState): StateProps => {
+  return {
+    mockProjects: getProjects(state)
+  }
+}
+
+export default compose(connect<StateProps, {}, {}, RootState>(mapStateToProps,
+    {})
+)(VisitedProjects);

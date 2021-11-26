@@ -50,7 +50,8 @@
     display: block;
     width: 24px;
     height: 24px;
-    background: url(/img/project_info/mdi_info.svg) no-repeat center center;
+    //this is necessary
+    //background: url("/img/project_info/mdi_info.svg") no-repeat center center;
     background-size: contain;
   }
 

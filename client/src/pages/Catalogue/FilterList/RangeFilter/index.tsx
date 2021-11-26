@@ -14,7 +14,7 @@ interface Props {
   applyFilter(option: RangeOption): void;
 }
 
-const RangeFilterBlock = ({ filterId, initialRange, applyFilter }: Props) => {
+const RangeFilterBlock = React.memo( ({ filterId, initialRange, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
   const option = filterInfo?.options as RangeOption;
 
@@ -139,6 +139,6 @@ const RangeFilterBlock = ({ filterId, initialRange, applyFilter }: Props) => {
         </output>
       </div>
   </div>;
-};
+});
 
 export default RangeFilterBlock;

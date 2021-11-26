@@ -1,8 +1,11 @@
-import { Project } from '../../../entity/Project';
-import axios, { AxiosResponse } from 'axios';
-import { Floor } from '../../../entity/Floor';
+import axios, {AxiosResponse} from "axios";
+import {Project} from "../../entity/Project";
 
-const baseApiUrl = 'http://localhost:8080/api/v1';
+const defaultOptions = {
+    baseURL: 'http://localhost:8080/api/v1/',
+};
+
+const axiosWithSetting = axios.create(defaultOptions);
 
 const uploadFloorImages = (response: AxiosResponse, project: Project) => {
     const { floorId, floorIndex, projectId } = response.data;
@@ -10,23 +13,8 @@ const uploadFloorImages = (response: AxiosResponse, project: Project) => {
     if (floor && floor.planningImage) {
         const formData = new FormData();
         formData.append('floorImage', floor.planningImage);
-        axios.post(`${baseApiUrl}/project/${ projectId }/floor/${ floorId }/image`,
-                   formData)
-            .then(resp => console.log(resp));
-    }
-};
-
-const uploadProjectImages = (response: AxiosResponse, project: any) => {
-    const projectId = response.data.projectId;
-    const { images } = project;
-    if (project.images) {
-        const formData = new FormData();
-        const { length } = images;
-        for (let i = 0; i < length; i = i + 1) {
-            formData.append('projectImages', images[i]);
-        }
-        axios.post(`${baseApiUrl}/project/${ projectId }/images`,
-                   formData)
+        axiosWithSetting.post(`project/${ projectId }/floor/${ floorId }/image`,
+            formData)
             .then(resp => console.log(resp));
     }
 };
@@ -37,14 +25,29 @@ function uploadMainImage(response: AxiosResponse<any>, project: any) {
     if (mainImage) {
         const formData = new FormData();
         formData.append('mainImage', mainImage);
-        axios.post(`${baseApiUrl}/project/${ projectId }/mainImage`,
-                   formData)
+        axiosWithSetting.post(`project/${ projectId }/mainImage`,
+            formData)
             .then(resp => console.log(resp));
     }
 }
 
-export const addProject = (project: any) => {
-    axios.post(`${baseApiUrl}/project`, project)
+const uploadProjectImages = (response: AxiosResponse, project: any) => {
+    const projectId = response.data.projectId;
+    const { images } = project;
+    if (project.images) {
+        const formData = new FormData();
+        const { length } = images;
+        for (let i = 0; i < length; i = i + 1) {
+            formData.append('projectImages', images[i]);
+        }
+        axiosWithSetting.post(`project/${ projectId }/images`,
+            formData)
+            .then(resp => console.log(resp));
+    }
+};
+
+const axiosSaveProject = (project: any) => {
+    axiosWithSetting.post('project', project)
         .then((response) => {
             uploadFloorImages(response, project);
             uploadMainImage(response, project);
@@ -52,14 +55,14 @@ export const addProject = (project: any) => {
         });
 };
 
-export const getAllProjects = () => {
-    return axios.get(`${baseApiUrl}/project`)
-        .then(res => res.data)
+const axiosGetProjects = async (): Promise<Project[]> => {
+    return await axiosWithSetting.get('project')
+        .then(response => response.data)
         .then(data => mapResponseDataToProjects(data));
 };
 
-export const getProjectById = (id: number) => {
-    return axios.get(`${baseApiUrl}/project/${id}`)
+export const axiosGetProjectById = async (id: number) => {
+    return await axiosWithSetting.get(`project/${id}`)
         .then(res => res.data)
         .then(data => mapResponseDataToProject(data));
 };
@@ -97,8 +100,13 @@ const mapResponseDataToProject = (projectData: any): Project => {
 const mapResponseDataToProjects = (data: any): Project[] => {
     const projects: Project[] = [];
     for (const projectData of data) {
-         projects.push(mapResponseDataToProject(projectData));
+        projects.push(mapResponseDataToProject(projectData));
     }
 
     return projects;
+};
+
+export const DataService = {
+    axiosSaveProject,
+    axiosGetProjects
 };

@@ -1,35 +1,9 @@
 import React from 'react';
 
 import classes from './Steps.module.scss';
+import {StepInfo, steps} from "../../../constants/Steps";
 
-interface StepInfo {
-  title: string;
-  description: string;
-}
-
-const steps: StepInfo[] = [
-  {
-    title: 'Предпроектное предложение',
-    description: 'этап для определения планировки дома и основных технико-экономических ' +
-      'показателей, его внешнего вида,размещения на участке',
-  },
-  {
-    title: 'Проект',
-    description: 'утверждаемая часть рабочего проекта или',
-  },
-  {
-    title: 'Рабочая документация',
-    description: 'комплект документов для производства строительных и' +
-      'монтажных работ',
-  },
-  {
-    title: 'Дизайн проект интерьера',
-    description: 'обязательная стадия для комплексного подхода в' +
-      'проектировании жилого дома',
-  },
-];
-
-const Steps = () => {
+const Steps = React.memo( () => {
   return (
     <div className={ classes ['steps'] }>
       <h3 className={ classes ['steps__title'] }>Основные этапы проектирования</h3>
@@ -38,7 +12,7 @@ const Steps = () => {
       </div>
     </div>
   );
-};
+});
 
 const createStep = (step: StepInfo, stepNumber: number) => {
   return <div className={ classes ['steps__step-item'] }>
