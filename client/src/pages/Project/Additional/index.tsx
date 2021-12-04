@@ -2,6 +2,11 @@ import React from 'react';
 
 import './Additional.scss';
 
+import main_plan from '../../../assets/img/project_page/main-plan.svg'
+import pen from '../../../assets/img/project_page/pen.svg'
+import paint from '../../../assets/img/project_page/paint.svg'
+
+
 const Additional = () => {
     return <section className="project-section project-additional">
         <h3 className="project-section__title project-additional__title">
@@ -18,7 +23,7 @@ const Additional = () => {
             <div className="illustrated-list">
                 <div className="illustrated-list__top">
                     <div className="illustrated-list__img">
-                        <img src="/img/project_page/main-plan.svg" alt=""/>
+                        <img src={main_plan} alt=""/>
                     </div>
                     <div className="illustrated-list__title">
                         Генеральный<br/>план
@@ -37,7 +42,7 @@ const Additional = () => {
             <div className="illustrated-list">
                 <div className="illustrated-list__top">
                     <div className="illustrated-list__img">
-                        <img src="/img/project_page/pen.svg" alt=""/>
+                        <img src={pen} alt=""/>
                     </div>
                     <div className="illustrated-list__title">
                         Инженерный<br/>
@@ -53,7 +58,7 @@ const Additional = () => {
             <div className="illustrated-list project-additional__list">
                 <div className="illustrated-list__top">
                     <div className="illustrated-list__img">
-                        <img src="/img/project_page/pen.svg" alt=""/>
+                        <img src={paint} alt=""/>
                     </div>
                     <div className="illustrated-list__title">
                         Дизайн<br/>

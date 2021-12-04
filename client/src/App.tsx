@@ -7,6 +7,9 @@ import IndividualProject from './pages/IndividualProject';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProjectPage from './pages/Project';
 import Admin from "./pages/Admin";
+import Additional from "./pages/Project/Additional";
+import {AdditionalOptions} from "./pages/AdditionalOptions";
+import {AboutUs} from "./pages/AboutUs";
 
 const App = () => {
     return (
@@ -26,6 +29,14 @@ const App = () => {
                         <Catalogue/>
                     </Route>
                     <Route path={'/catalogue/:projectId'} component={ProjectPage}/>
+
+                    <Route path={'/additional'} exact={true}>
+                        <AdditionalOptions/>
+                    </Route>
+
+                    <Route path={'/about'} exact={true}>
+                        <AboutUs/>
+                    </Route>
                 </Switch>
             </Layout>
         </Router>

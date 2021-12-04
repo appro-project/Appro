@@ -2,6 +2,9 @@ import React from 'react';
 
 import './ProjectStructure.scss';
 
+import sketch_image from '../../../assets/img/project_page/sketch.svg'
+import draw_image from '../../../assets/img/project_page/draw.svg'
+
 const ProjectStructure = () => {
     return <section className="project-section project-structure">
         <h3 className="project-section__title project-structure__title">
@@ -26,7 +29,7 @@ const ProjectStructure = () => {
             <div className="illustrated-list">
                 <div className="illustrated-list__top">
                     <div className="illustrated-list__img">
-                        <img src="/img/project_page/sketch.svg" alt=""/>
+                        <img src={sketch_image} alt=""/>
                     </div>
                     <div className="illustrated-list__title">
                         Архитектурный<br/>
@@ -50,7 +53,7 @@ const ProjectStructure = () => {
             <div className="illustrated-list">
                 <div className="illustrated-list__top">
                     <div className="illustrated-list__img">
-                        <img src="/img/project_page/draw.svg" alt=""/>
+                        <img src={draw_image} alt=""/>
                     </div>
                     <div className="illustrated-list__title">
                         Конструктивный<br/>

@@ -2,6 +2,8 @@ import React from 'react';
 
 import './Changes.scss';
 
+import project_modification from '../../../assets/img/project_page/project-modification.jpg'
+
 const Changes = () => {
     return <section className="project-section project-modification">
         <h3 className="project-section__title project-modification__title">
@@ -19,7 +21,7 @@ const Changes = () => {
                 полностью индивидуальным.</p>
             <div className="project-modification__wrapper">
                 <div className="project-modification__img">
-                    <img src="/img/project_page/project-modification.jpg" alt=""/>
+                    <img src={project_modification} alt=""/>
                 </div>
                 <div className="project-modification__info">
                     <div className="project-modification__info-title">
