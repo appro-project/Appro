@@ -61,7 +61,7 @@ const Changes = () => {
                 </div>
                 <div className="form-field form-field_textarea">
                             <textarea className="form-field__input"
-                                      name="form-text" cols={30} rows={10}
+                                      name="form-text" cols={ 30 } rows={ 10 }
                                       placeholder="Ваше собщение"/>
 
                 </div>
@@ -80,7 +80,7 @@ const Changes = () => {
                 </div>
             </form>
         </div>
-    </section>
+    </section>;
 };
 
 export default Changes;

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const Project = require("../model/Project");
+const Project = require("../model/project");
 const Floor = require("../model/floor");
 const Image = require("../model/image");
 
-const image_base_path = `/img/projects`;
+const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '/img/projects'}`;
 
 router.get('/', (req, res, next) => {
     Project.findAll()
@@ -52,13 +52,15 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
     for (const file of files) {
         const imageLink = `${image_base_path}/${file.originalname.toLowerCase().split(' ').join('-')}`
         Image.addToProject(imageLink, projectId).then(() =>
-            res.status(200)
-                .json({
-                        success: true,
-                        massage: `Image added to project ${projectId}`
-                    }
-                ));
+            console.log(`Image ${imageLink} added to project ${projectId}`)
+        );
     }
+    res.status(200)
+        .json({
+                success: true,
+                massage: `Images added to project ${projectId}`
+            }
+        )
 })
 
 router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res, next) => {
