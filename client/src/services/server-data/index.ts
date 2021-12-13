@@ -1,8 +1,9 @@
-import axios, {AxiosResponse} from "axios";
-import {Project} from "../../entity/Project";
+import { Project } from '../../entity/Project';
+import axios, { AxiosResponse } from 'axios';
+import { Floor } from "../../entity/Floor";
 
 const defaultOptions = {
-    baseURL: 'http://localhost:8080/api/v1/',
+    baseURL: `${(process.env.NODE_ENV === 'production') ? '/api/v1' : 'http://localhost/api/v1'}`,
 };
 
 const axiosWithSetting = axios.create(defaultOptions);
@@ -68,6 +69,7 @@ export const axiosGetProjectById = async (id: number) => {
 };
 
 const mapResponseDataToProject = (projectData: any): Project => {
+    const floorList = mapResponseDataToFloorList(projectData.floorList);
     return {
         id: projectData.id,
         title: projectData.title,
@@ -92,7 +94,7 @@ const mapResponseDataToProject = (projectData: any): Project => {
         style: projectData.style,
         isGaragePresent: projectData.is_garage_present,
         bedroomCount: projectData.bedroom_count,
-        floorList: projectData.floorList,
+        floorList: floorList,
         popularity: projectData.popularity,
     };
 };
@@ -105,6 +107,22 @@ const mapResponseDataToProjects = (data: any): Project[] => {
 
     return projects;
 };
+
+const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
+    const floors: Floor[] = [];
+    for (const floor of floorListResponse){
+        floors.push({
+            index: floor.index,
+            area: floor.area,
+            height: floor.height,
+            isAttic: floor.is_attic,
+            isBasement: floor.is_basement,
+            planningImage: floor.planning_image
+        })
+    }
+    
+    return floors;
+}
 
 export const DataService = {
     axiosSaveProject,

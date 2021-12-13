@@ -7,7 +7,6 @@ import IndividualProject from './pages/IndividualProject';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProjectPage from './pages/Project';
 import Admin from "./pages/Admin";
-import Additional from "./pages/Project/Additional";
 import {AdditionalOptions} from "./pages/AdditionalOptions";
 import {AboutUs} from "./pages/AboutUs";
 

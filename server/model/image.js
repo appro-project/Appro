@@ -1,9 +1,9 @@
 const multer = require("multer");
 const knex = require("../database");
 
+const imageDestination = process.env.NODE_ENV === 'production' ? '/appro/images/' : "../client/public/img/projects/";
 const storage = multer.diskStorage({
-    // TODO: fix path for images
-    destination: "../client/public/img/projects/",
+    destination: imageDestination,
     filename: function(req, file, cb){
         cb(null, file.originalname.toLowerCase().split(' ').join('-'));
     }
@@ -18,7 +18,7 @@ const Image = {
         return knex('floor')
             .where('id', floorId)
             .update({
-                planningImage: imageLink}
+                planning_image: imageLink}
             );
     },
 
