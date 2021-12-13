@@ -12,7 +12,7 @@ const ProjectDetails = React.memo( ({ projectData }: Props) => {
     return <Link to={ `catalogue/${projectData.id}` } className={ classes['project-details'] }>
         <div className={ classes['project-details__content'] }>
             <div className={ classes['project-details__img'] }>
-                <img src={ projectData.mainImage } alt={ projectData.id }/>
+                <img src={ projectData.mainImage } alt={ projectData.id + ""}/>
             </div>
             <div className={ classes['project-details__info'] }>
                  { /*<span>{ projectData.title }</span>*/ }
