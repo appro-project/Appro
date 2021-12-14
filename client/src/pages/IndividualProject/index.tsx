@@ -49,7 +49,9 @@ const IndividualProject = () => {
     </Container>
     { /* Kind of page Footer, should be out of container */ }
     <div className={ classes['individual-project__visited-wrapper'] }>
-      <VisitedProjects/>
+      <Container>
+        <VisitedProjects/>
+      </Container>
     </div>
   </div>;
 };

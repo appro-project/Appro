@@ -51,13 +51,16 @@
 
 @media (min-width: $desktop-width) {
   .principle {
-    margin: 0 20px;
-    width: 430px;
-    height: 440px;
+    //margin: 0 20px;
+    //width: 430px;
+    //height: 440px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
   }
 
   .principle__body {
-    padding: 115px 64px 0 52px;
+    padding: 115px 64px 108px 52px;
   }
 
   .principle__description {

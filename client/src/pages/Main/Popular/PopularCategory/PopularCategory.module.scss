@@ -42,6 +42,8 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
   color: #FFFFFF;
   cursor: pointer;
   user-select: none;
+
+  transition: background-color 0.33s ease-in-out;
 }
 
 //TODO: Fix hover effect

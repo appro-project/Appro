@@ -1,25 +1,35 @@
+@import '../../../common';
+@import '../../../variables';
+
 .GeneralInfo_Wrapper {
-  padding-top: 72px;
+  padding-top: 30px;
   display: flex;
   justify-content: space-between;
-
+  flex-direction: column;
 }
 
 .GeneralInfo_Images {
-  max-width: 1000px;
+  max-width: 100%;
+  width: 100%;
 }
 
-
 .GeneralInfo_Body {
-  padding: 27px 20px 20px 20px;
-  margin-left: 20px;
-  max-width: 493px;
-  max-height: 380px;
-  background: #F5F5F5;
-  border: 1px solid #ECECEC;
+  width: calc(100% + 32px);
+  max-width: calc(100% + 32px);
+  margin: 30px -16px 0;
+  padding: 10px 16px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.GeneralInfo_Body form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .GeneralInfo_Title {
+  display: none;
+  margin: 0 auto 0 0;
   font-family: Montserrat, serif;
   font-style: normal;
   font-weight: 600;
@@ -30,9 +40,7 @@
 }
 
 .GeneralInfo_Types {
-  margin-top: 28px;
-  display: flex;
-
+  display: none;
 }
 
 .GeneralInfo_Type {
@@ -76,66 +84,174 @@
   }
 
   /* стили при наведении курсора на радио */
-  input:not(:disabled):not(:checked) + label:hover::before {
+  input:not(:disabled):not(:checked)+label:hover::before {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
   }
 
   /* стили для активной радиокнопки (при нажатии на неё) */
-  input:not(:disabled):active + label::before {
+  input:not(:disabled):active+label::before {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
   }
 
   /* стили для радиокнопки, находящейся в состоянии checked */
-  input:checked + label::before {
+  input:checked+label::before {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16'%3e%3ccircle r='4' fill='%23EDB528'/%3e%3c/svg%3e");
   }
 }
 
 .GeneralInfo_InfoRows {
-  margin-top: 35px;
+  display: flex;
 }
 
 .GeneralInfo_InfoRow {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-right: 20px;
+
+  &:nth-child(2) {
+    display: none;
+  }
 
   div {
-    width: 50%;
+    width: 100%;
   }
 }
 
 .GeneralInfo_InfoKey {
+  display: none;
   // TODO [tolik]: Think about font definition
   font-family: Montserrat, serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 17px;
   /* identical to box height */
   color: #202020;
+  white-space: nowrap;
 }
 
 .GeneralInfo_InfoValue {
+  position: relative;
   font-family: Montserrat, serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 29px;
-
+  font-size: 14px;
+  line-height: 17px;
   color: #202020;
+  white-space: nowrap;
 
   sup {
+    position: absolute;
+    top: -5px;
     font-size: 11px;
     vertical-align: super;
   }
 }
 
 .GeneralInfo_Button {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  width: 453px;
   font-weight: 600;
   font-size: 24px;
+}
+
+@media (min-width: $tablet-width) {
+  .GeneralInfo_Wrapper {
+    padding-top: 42px;
+  }
+
+  .GeneralInfo_Body {
+    width: calc(100% + 48px);
+    max-width: calc(100% + 48px);
+    margin: 30px -24px 0;
+    padding: 19px 24px;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .GeneralInfo_Title {
+    display: block;
+  }
+
+  .GeneralInfo_InfoRows {
+    margin-left: 20px;
+  }
+
+  .GeneralInfo_InfoKey {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .GeneralInfo_InfoValue {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .GeneralInfo_Wrapper {
+    padding-top: 72px;
+  }
+
+  .GeneralInfo_Body {
+    padding: 27px 20px 20px 20px;
+    margin: 0 0 0 20px;
+    max-width: 493px;
+    max-height: 380px;
+    background: #F5F5F5;
+    border: 1px solid #ECECEC;
+    box-shadow: none;
+  }
+
+  .GeneralInfo_Body form {
+    display: block;
+  }
+
+  .GeneralInfo_Wrapper {
+    flex-direction: row;
+  }
+
+  .GeneralInfo_Images {
+    max-width: 1000px;
+  }
+
+  .GeneralInfo_Title {
+
+    margin: 0 auto 0 0;
+  }
+
+  .GeneralInfo_Types {
+    margin-top: 28px;
+    display: flex;
+  }
+
+  .GeneralInfo_InfoRows {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 35px;
+  }
+
+  .GeneralInfo_InfoRow {
+    margin-right: 0;
+    margin-bottom: 10px;
+
+    &:nth-child(2) {
+      display: flex;
+    }
+
+    div {
+      width: 50%;
+    }
+  }
+
+  .GeneralInfo_InfoKey {
+    display: block;
+  }
+
+  .GeneralInfo_Button {
+    display: flex;
+    justify-content: center;
+    width: 453px;
+    margin-top: 20px;
+  }
+
 }

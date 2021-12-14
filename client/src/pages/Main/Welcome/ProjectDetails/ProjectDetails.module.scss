@@ -14,11 +14,14 @@
 }
 
 .project-details__title,
-.project-details__square,
-.project-details__price {
+.project-details__square {
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
+}
+
+.project-details__price{
+  font-weight: 700;
 }
 
 .project-details__square {

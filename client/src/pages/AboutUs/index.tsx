@@ -22,14 +22,10 @@ export const AboutUs = () => {
                 <div className="project-section__wrapper">
                     <div className="about-main__left">
                         <div className="about-main__image">
-                            <div className="about-main__image-inner">
-                                <img src={about_main_1} alt=""/>
-                            </div>
+                            <img src={about_main_1} alt=""/>
                         </div>
                         <div className="about-main__image about-main__image_certificate">
-                            <div className="about-main__image-inner">
-                                <img src={about_main_2} alt=""/>
-                            </div>
+                            <img src={about_main_2} alt=""/>
                         </div>
                     </div>
                     <div className="about-main__right">

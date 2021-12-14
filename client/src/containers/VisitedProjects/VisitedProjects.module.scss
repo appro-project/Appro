@@ -5,11 +5,24 @@
   @extend ._main-title;
   @extend .title-underscore;
   margin-bottom: 26px;
+  margin-top: 49px;
+}
+
+.visited-projects__items {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 30px;
+  margin-bottom: 72px;
 }
 
 .VisitedProjects_ProjectWrapper {
-  max-width: 328px;
+  max-width: 420px;
 }
+
+.VisitedProjects_ProjectWrapper:last-child {
+  display: none;
+}
+
 
 @media (min-width: $tablet-width) {
   .visited-projects__title {
@@ -17,26 +30,38 @@
   }
 
   .visited-projects__items {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    margin-bottom: 100px;
   }
 
   .VisitedProjects_ProjectWrapper {
-    max-width: 350px;
+    // max-width: 350px;
+    max-width: unset;
   }
 }
 
-  @media (min-width: $desktop-width) {
-    .visited-projects__title {
-      font-size: 48px;
-    }
-
-    .visited-projects__title {
-      margin-bottom: 48px;
-    }
-
-    .VisitedProjects_ProjectWrapper {
-      max-width: 490px;
-    }
+@media (min-width: $desktop-width) {
+  .visited-projects__title {
+    margin-top: 77px;
+    font-size: 48px;
   }
 
+  .visited-projects__title {
+    margin-bottom: 48px;
+  }
+
+  .visited-projects__items {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+
+  .VisitedProjects_ProjectWrapper {
+    // max-width: 490px;
+  }
+
+  .VisitedProjects_ProjectWrapper:last-child {
+    display: block;
+  }
+}
