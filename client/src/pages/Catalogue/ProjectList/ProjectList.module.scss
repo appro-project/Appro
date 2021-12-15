@@ -1,10 +1,25 @@
 @import '../../../common';
 @import '../../../variables';
 
+.project-list__items {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 30px;
+  margin-bottom: 40px;
+}
+
 @media (min-width: $tablet-width) {
   .project-list__items {
-    display: flex; //by two !
-    flex-wrap: wrap;
-    justify-content: space-between;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px 20px;
+  }
+}
+
+
+@media (min-width: $desktop-width) {
+  .project-list__items {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 40px 30px;
+    margin-bottom: 50px;
   }
 }

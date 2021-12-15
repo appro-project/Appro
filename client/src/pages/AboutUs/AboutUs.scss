@@ -35,54 +35,34 @@
 
     width: 435px;
     max-width: 66%;
-    margin: 20px 0 0 20px;
+    height: 290px;
+    margin: 0px 20px 0 0px;
 
     @media screen and (max-width: 767px) {
       width: calc(100% - 10px);
-      max-width: 100%;
-      margin: 10px 0 35px 10px;
-    }
-
-    &-inner {
-      position: relative;
-
-      height: 290px;
-      background: $yellow;
-
-      @media screen and (max-width: 767px) {
-        padding-top: 66%;
-        height: auto;
-      }
+      max-width: 318px;
+      height: 212px;
+      margin: 10px 0 18px 10px;
     }
 
     img {
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      height: calc(100% + 10px);
-      transform: translate(-10px, -20px);
+      width: 100%;
+      height: 100%;
       object-fit: cover;
 
-      @media screen and (max-width: 676px) {
-        width: 100%;
-        height: 100%;
-        transform: translate(-10px, -10px);
-      }
+      box-shadow: 10px 10px #ffb000;
     }
 
     &_certificate {
       max-width: 30%;
       width: 207px;
+      min-width: 207px;
+      height: 290px;
 
-      @media screen and (max-width: 767px) {
+      @media screen and (max-width: $desktop-width) {
         margin-bottom: 0;
         max-width: 100%;
         width: 207px;
-
-        .about-main__image-inner{
-          padding-top: 140%;
-        }
       }
 
 

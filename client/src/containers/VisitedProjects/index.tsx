@@ -22,18 +22,16 @@ class VisitedProjects extends React.PureComponent<PropsType, {}> {
     data.push(mockProjects[0]);
 
     return <section>
-      <Container>
-        <h2 className={ classes['visited-projects__title'] }>
-          Просмотренные проекты
-        </h2>
+      <h2 className={ classes['visited-projects__title'] }>
+        Просмотренные проекты
+      </h2>
 
-        <div className={ classes['visited-projects__items'] }>
-          { data.map((project: Project, idx: number) =>
-              (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
-                <ProjectDetails projectData={ project }/>
-              </div>)) }
-        </div>
-      </Container>
+      <div className={ classes['visited-projects__items'] }>
+        { data.map((project: Project, idx: number) =>
+            (<div className={ classes.VisitedProjects_ProjectWrapper } key={ idx }>
+              <ProjectDetails projectData={ project }/>
+            </div>)) }
+      </div>
     </section>;
   }
 }

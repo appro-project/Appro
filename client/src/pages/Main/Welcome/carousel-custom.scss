@@ -33,23 +33,41 @@
       height: 42px;
       width: 42px;
 
-      &:hover {
-        fill: #fff;
+      path {
+        stroke: #FFFFFF;
+        transition: stroke 0.25s ease-in-out;
+      }
 
-        #arrow {
-          stroke: #E5E5E5;
+      circle {
+        fill: none;
+        transition: all 0.25s ease-in-out;
+      }
+
+      &:hover {
+
+        circle {
+          fill: #FFFFFF;
+          transition: fill 0.25s ease-in-out;
         }
+
+        path {
+          stroke: #E5E5E5;
+          transition: stroke 0.25s ease-in-out;
+        }
+
       }
 
       &:active {
-        fill: $main-orange;
 
-        #arrow {
-          stroke: #fff;
+        path {
+          stroke: #FFFFFF;
+          transition: stroke 0.25s ease-in-out;
         }
 
-        #circle {
+        circle {
           stroke: $main-orange;
+          fill: $main-orange;
+          transition: all 0.25s ease-in-out;
         }
       }
 

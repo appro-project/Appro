@@ -2,7 +2,8 @@
 
 .container {
   /* TODO: replace max-width with scss variable */
-  max-width: 1580px;
+  max-width: $tablet-width;
+  width: 100%;
   margin: 0 auto;
   padding: 0 16px;
   //outline: 1px solid red;
@@ -10,12 +11,14 @@
 
 @media (min-width: $tablet-width) {
   .container {
+    max-width: $desktop-width;
     padding: 0 24px;
   }
 }
 
 @media (min-width: $desktop-width) {
   .container {
+    max-width: $desktop-width-extended;
     padding: 0 30px;
   }
 }

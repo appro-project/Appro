@@ -6,10 +6,6 @@
   padding-top: 72px;
 }
 
-.ProjectLayout_Wrapper {
-  display: flex;
-}
-
 .ProjectLayout_Header {
   @extend ._main-title;
   @extend .title-underscore;
@@ -17,13 +13,14 @@
 }
 
 .ProjectLayout_Slider {
-  max-width: 66%;
-  //max-height: 770px;
+  max-width: 100%;
+  // max-height: 770px;
 }
 
 .ProjectLayout_Info {
-  width: 33%;
+  width: 100%;
   max-width: 493px;
+  overflow-x: scroll;
 }
 
 .ProjectLayout_Attention {
@@ -63,8 +60,7 @@
   }
 }
 
-.ProjectLayout_InfoList {
-}
+.ProjectLayout_InfoList {}
 
 .ProjectLayout_InfoItem {
   display: flex;
@@ -95,6 +91,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 29px;
+
     span {
       font-weight: 500;
       font-size: 24px;
@@ -115,4 +112,23 @@
       line-height: 17px;
     }
   }
+}
+
+@media (min-width: $desktop-width) {
+
+  .ProjectLayout_Wrapper {
+    display: flex;
+    justify-content: space-between
+  }
+
+  .ProjectLayout_Slider {
+    max-width: 66%;
+    // max-height: 770px;
+  }
+
+  .ProjectLayout_Info {
+    width: 33%;
+    max-width: 493px;
+  }
+
 }
