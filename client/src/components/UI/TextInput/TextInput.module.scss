@@ -1,4 +1,4 @@
-@import "../../../variables";
+@import '../../../variables';
 
 .text-input {
   margin-bottom: 20px;
@@ -10,6 +10,10 @@
   width: 100%;
   max-width: 328px;
   border: 1px solid #979797;
+}
+
+.text-input .input__error {
+  border: 1px solid red;
 }
 
 .text-input input::placeholder {

@@ -1,36 +1,26 @@
 {
-  "compileOnSave": false,
-  "buildOnSave": false,
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "target": "ES2015",
     "module": "esnext",
-    "moduleResolution": "node",
-    "target": "es2017",
-    "jsx": "react",
-    "strict": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "inlineSourceMap": false,
-    "baseUrl": "src",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
+    "jsx": "react",
     "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true
+    "baseUrl": "src"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".cache-loader"
-  ],
   "include": [
     "src"
   ]

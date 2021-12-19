@@ -1,27 +1,26 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import { FormLabel } from '@material-ui/core';
+import classes from './FileProperty.module.scss';
 
 interface Props {
-    title: string;
-    required?: boolean;
-    multiple?: boolean;
+  title: string;
+  required?: boolean;
+  multiple?: boolean;
 
-    handleProperty(event: React.ChangeEvent<any>): void;
+  handleProperty(event: React.ChangeEvent<HTMLInputElement>): void;
 }
 
-const FileProperty = ({ title, required, multiple, handleProperty }: Props) =>
-    <React.Fragment>
-        <FormLabel>{ title }</FormLabel>
-        <FormControl>
-            <InputLabel htmlFor={ `${title}-label` }/>
-            <Input type="file" id={ `${title}-label` }
-                   onChange={ event => handleProperty(event) }
-                   inputProps={ { multiple } }
-                   required={ required }/>
-        </FormControl>
-    </React.Fragment>;
+const FileProperty = ({ title, required, multiple, handleProperty }: Props) => (
+  <React.Fragment>
+    <FormLabel>{title}</FormLabel>
+    <FormControl>
+      <label className={classes['file-label']} htmlFor={`${title}-label`}>
+        <input hidden type="file" onChange={(event) => handleProperty(event)} required={required} />
+      </label>
+      {/*<Input disabled inputProps={{ multiple }} />*/}
+    </FormControl>
+  </React.Fragment>
+);
 
 export default FileProperty;

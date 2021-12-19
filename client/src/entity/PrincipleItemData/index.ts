@@ -1,5 +1,5 @@
 export interface PrincipleItemData {
-    backgroundUrl: string;
-    title: string;
-    description: string;
+  backgroundUrl: string;
+  title: string;
+  description: string;
 }

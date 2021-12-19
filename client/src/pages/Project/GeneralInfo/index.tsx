@@ -15,63 +15,61 @@ interface Props {
 }
 
 const GeneralInfo = (props: Props) => {
-  return <section>
-    <div className={ classes.GeneralInfo_Wrapper }>
-      <div className={ classes.GeneralInfo_Images }>
-        <ImageCarousel images={ props.images }/>
+  return (
+    <section>
+      <div className={classes.GeneralInfo_Wrapper}>
+        <div className={classes.GeneralInfo_Images}>
+          <ImageCarousel images={props.images} />
+        </div>
+        <div className={classes.GeneralInfo_Body}>
+          <form>
+            <h2 className={classes.GeneralInfo_Title}>{props.title}</h2>
+            <div className={classes.GeneralInfo_Types}>
+              <div className={classes.GeneralInfo_Type}>
+                <input type="radio" name="original" checked />
+                <label htmlFor="original">Оригинальный</label>
+              </div>
+
+              <div className={classes.GeneralInfo_Type}>
+                <input type="radio" name="original" />
+                <label htmlFor="original">Зеркальный</label>
+              </div>
+            </div>
+
+            <div className={classes.GeneralInfo_InfoRows}>
+              <div className={classes.GeneralInfo_InfoRow}>
+                <div className={classes.GeneralInfo_InfoKey}>общая площадь</div>
+                <div className={classes.GeneralInfo_InfoValue}>
+                  {props.generalArea} м<sup>2</sup>
+                </div>
+              </div>
+
+              <div className={classes.GeneralInfo_InfoRow}>
+                <div className={classes.GeneralInfo_InfoKey}>подготовка проекта</div>
+                <div className={classes.GeneralInfo_InfoValue}>{props.timeToCreate} дней</div>
+              </div>
+
+              <div className={classes.GeneralInfo_InfoRow}>
+                <div className={classes.GeneralInfo_InfoKey}>цена проекта</div>
+                <div className={classes.GeneralInfo_InfoValue}>
+                  <NumberFormat
+                    value={props.projectPrice}
+                    displayType={'text'}
+                    thousandSeparator={' '}
+                    suffix={' грн'}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={classes.GeneralInfo_Button}>
+              <Button title={'Заказать'} buttonType={ButtonType.EXTENDED} />
+            </div>
+          </form>
+        </div>
       </div>
-      <div className={ classes.GeneralInfo_Body }>
-        <form>
-          <h2 className={ classes.GeneralInfo_Title }>{ props.title }</h2>
-          <div className={ classes.GeneralInfo_Types }>
-            <div className={ classes.GeneralInfo_Type }>
-              <input type="radio" name="original" checked/>
-              <label htmlFor="original">Оригинальный</label>
-            </div>
-
-            <div className={ classes.GeneralInfo_Type }>
-              <input type="radio" name="original"/>
-              <label htmlFor="original">Зеркальный</label>
-            </div>
-          </div>
-
-          <div className={ classes.GeneralInfo_InfoRows }>
-            <div className={ classes.GeneralInfo_InfoRow }>
-              <div className={ classes.GeneralInfo_InfoKey }>
-                общая площадь
-              </div>
-              <div className={ classes.GeneralInfo_InfoValue }>
-                { props.generalArea } м<sup>2</sup>
-              </div>
-            </div>
-
-            <div className={ classes.GeneralInfo_InfoRow }>
-              <div className={ classes.GeneralInfo_InfoKey }>
-                подготовка проекта
-              </div>
-              <div className={ classes.GeneralInfo_InfoValue }>
-                { props.timeToCreate } дней
-              </div>
-            </div>
-
-            <div className={ classes.GeneralInfo_InfoRow }>
-              <div className={ classes.GeneralInfo_InfoKey }>
-                цена проекта
-              </div>
-              <div className={ classes.GeneralInfo_InfoValue }>
-                <NumberFormat value={ props.projectPrice } displayType={'text'}
-                              thousandSeparator={" "} suffix={" грн"}/>
-              </div>
-            </div>
-          </div>
-
-          <div className={ classes.GeneralInfo_Button }>
-            <Button title={ 'Заказать' } buttonType={ButtonType.EXTENDED}/>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>;
+    </section>
+  );
 };
 
 export default GeneralInfo;
