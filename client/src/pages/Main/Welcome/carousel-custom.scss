@@ -83,8 +83,12 @@
   .slider-control__bottom {
     position: absolute;
     z-index: 1000;
-    top: 100%;
+    top: 85%;
     right: 50%;
+    height: 40px;
+    width: 40px;
+    transform: rotate(90deg);
+    display: block;
   }
 }
 

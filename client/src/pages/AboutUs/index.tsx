@@ -3,15 +3,22 @@ import Container from '../../containers/hoc/Container';
 import React from 'react';
 
 import about_main_1 from '../../assets/img/aboutUs/about-main-1.jpg';
-
+import classesVisited from '../../containers/VisitedProjects/VisitedProjects.module.scss';
 import about_main_2 from '../../assets/img/aboutUs/about-main-2.jpg';
 import member_1 from '../../assets/img/aboutUs/member-1.jpg';
 import member_2 from '../../assets/img/aboutUs/member-2.jpg';
 import member_3 from '../../assets/img/aboutUs/member-3.jpg';
 import member_4 from '../../assets/img/aboutUs/member-4.jpg';
 import './AboutUs.scss';
+import classes from '../../containers/VisitedProjects/VisitedProjects.module.scss';
+import { Project } from '../../entity/Project';
+import ProjectDetails from '../../containers/ProjectDetails';
+import { useSelector } from 'react-redux';
+import { getViewProjects } from '../../redux/selectors';
 
 export const AboutUs = () => {
+  const projects = useSelector(getViewProjects);
+
   return (
     <section>
       <Container>
@@ -99,7 +106,16 @@ export const AboutUs = () => {
         </section>
 
         <section className="project-section project-more">
-          <h3 className="project-section__title">похожие проекты</h3>
+          <h3 className="project-section__title">Похожие проекты</h3>
+          <div className={classesVisited['visited-projects__items']}>
+            {projects
+              .filter((x, index) => index < 3)
+              .map((project: Project, idx: number) => (
+                <div className={classes.VisitedProjects_ProjectWrapper} key={idx}>
+                  <ProjectDetails projectData={project} />
+                </div>
+              ))}
+          </div>
         </section>
       </Container>
     </section>

@@ -19,7 +19,7 @@ const InfoCard = (props: InfoCardProps) => {
   const [type, setType] = useState<TypeOfHouse>(TypeOfHouse.Mirrored);
 
   const handleChangeType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setType(e.target.value);
+    setType(e.target.value as TypeOfHouse);
   };
 
   return (

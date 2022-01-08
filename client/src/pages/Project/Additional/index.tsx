@@ -1,7 +1,5 @@
 import React from 'react';
-
 import './Additional.scss';
-
 import main_plan from '../../../assets/img/project_page/main-plan.svg';
 import pen from '../../../assets/img/project_page/pen.svg';
 import paint from '../../../assets/img/project_page/paint.svg';

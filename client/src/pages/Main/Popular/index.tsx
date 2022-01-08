@@ -12,7 +12,7 @@ interface PropsType {
 
 const Popular = ({ popularCategories }: PropsType) => {
   return (
-    <section className={classes['popularCategories']}>
+    <section id={'popular-category'} className={classes['popularCategories']}>
       <Container>
         <div className={classes['popular-categories__container']}>
           <div className={classes['popular-categories__title']}>Популярные категории</div>
