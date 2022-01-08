@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 .menu-icon {
   display: block;
   height: 21px;
@@ -12,7 +14,7 @@
   height: 3px;
   width: 100%;
   position: absolute;
-  background-color: #fff;
+  background-color: $white;
 }
 
 .menu-icon:after {
@@ -21,7 +23,7 @@
 
 .menu-icon span {
   width: 100%;
-  background-color: #fff;
+  background-color: $white;
   height: 3px;
   position: absolute;
   top: 9px;

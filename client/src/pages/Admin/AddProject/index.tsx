@@ -1,6 +1,4 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import { Button, DialogTitle, Grid, Typography } from '@material-ui/core';
 import TextProperty from './TextProperty';
 import SelectProperty from './SelectProperty';
 import NumericProperty from './NumericProperty';
@@ -15,31 +13,33 @@ import {
   styleOptions,
   wallMaterialOptions,
 } from '../constants';
+import classes from './AddProject.module.scss';
+import Button from '../../../components/UI/Button';
 
 interface PropsType {
-  handleTitleChange: (event: React.ChangeEvent<any>) => void;
-  handleDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleStyleChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
-  handleGeneralAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleLivingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleBuildingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleTimeToCreateChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTitleChange: (value: string) => void;
+  handleDescriptionChange: (value: string) => void;
+  handleStyleChange: (value: string) => void;
+  handleGeneralAreaChange: (event: number | null) => void;
+  handleLivingAreaChange: (event: number | null) => void;
+  handleBuildingAreaChange: (event: number | null) => void;
+  handleTimeToCreateChange: (event: number | null) => void;
   handleImagesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleMainImageChange: (event: React.ChangeEvent<any>) => void;
-  handleProjectPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleBuildingPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleLengthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleWidthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleFoundationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
-  handleWallMaterialChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
-  handleWallThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleInsulationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
-  handleInsulationThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCeilingChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
-  handleRoofChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
+  handleProjectPriceChange: (event: number | null) => void;
+  handleBuildingPriceChange: (event: number | null) => void;
+  handleLengthChange: (event: number | null) => void;
+  handleWidthChange: (event: number | null) => void;
+  handleFoundationChange: (value: string) => void;
+  handleWallMaterialChange: (value: string) => void;
+  handleWallThicknessChange: (event: number | null) => void;
+  handleInsulationChange: (value: string) => void;
+  handleInsulationThicknessChange: (event: number | null) => void;
+  handleCeilingChange: (value: string) => void;
+  handleRoofChange: (value: string) => void;
   handleGarageChange: () => void;
-  handleBedroomChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleFloorNumberChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBedroomChange: (event: number | null) => void;
+  handleFloorNumberChange: (event: number | null) => void;
   isProjectFilled: boolean;
   saveProject: () => void;
   renderFloors: () => JSX.Element[];
@@ -118,34 +118,23 @@ const AddProject: React.FC<PropsType> = ({
   return (
     <div style={{ padding: 20 }}>
       <Container>
-        <Grid container spacing={3} justifyContent="center" alignItems="center">
-          <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom align="center">
-              Новый проект
-            </Typography>
-          </Grid>
+        <div>
+          <h4 className={classes['title']}>Новый проект</h4>
           <div>
             <div>
-              <DialogTitle>Основная информация</DialogTitle>
+              <p className={classes['subtitle']}>Основная информация</p>
             </div>
-            <Grid item xs={12} container spacing={5}>
-              <Grid item xs={6}>
-                <TextProperty
-                  title={'Название проекта'}
-                  value={title}
-                  handleProperty={handleTitleChange}
-                  required={true}
-                />
-              </Grid>
-              <Grid item xs={6}>
+            <div>
+              <div className={classes['item__two-in-row']}>
+                <TextProperty title={'Название проекта'} value={title} onChange={handleTitleChange} required={true} />
                 <TextProperty
                   title={'Описание'}
                   value={description}
-                  handleProperty={handleDescriptionChange}
+                  onChange={handleDescriptionChange}
                   required={true}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className={classes['item__two-in-row']}>
                 <SelectProperty
                   title={'Стиль'}
                   value={style}
@@ -153,75 +142,65 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleStyleChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
+
                 <NumericProperty
                   title={'Общая площадь проекта, кв.м.'}
                   value={generalArea}
                   required={true}
-                  handleProperty={handleGeneralAreaChange}
+                  onChange={handleGeneralAreaChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
+              </div>
+              <div className={classes['item__three-in-row']}>
                 <NumericProperty
                   title={'Подготовка проекта, дн'}
                   value={timeToCreate}
                   required={true}
-                  handleProperty={handleTimeToCreateChange}
+                  onChange={handleTimeToCreateChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
-                x
                 <NumericProperty
                   title={'Цена проекта, грн'}
                   value={projectPrice}
                   required={true}
-                  handleProperty={handleProjectPriceChange}
+                  onChange={handleProjectPriceChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
+
                 <NumericProperty
                   title={'Цена строительства, грн'}
                   value={buildingPrice}
                   required={true}
-                  handleProperty={handleBuildingPriceChange}
+                  onChange={handleBuildingPriceChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className={classes['item__two-in-row']}>
                 <FileProperty
                   title={'Загрузить основное изображения проекта'}
                   required={true}
                   handleProperty={handleMainImageChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
                 <FileProperty
                   title={'Загрузить изображения проекта'}
                   required={true}
-                  multiple={true}
                   handleProperty={handleImagesChange}
                 />
-              </Grid>
-            </Grid>
-            <DialogTitle style={{ paddingTop: '20px' }}>Детальная информация</DialogTitle>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
+              </div>
+            </div>
+            <p className={classes['subtitle']}>Детальная информация</p>
+            <div>
+              <div className={classes['item__three-in-row']}>
                 <NumericProperty
                   title={'Жилая площадь, кв.м.'}
                   value={livingArea}
                   required={true}
-                  handleProperty={handleLivingAreaChange}
+                  onChange={handleLivingAreaChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
+
                 <NumericProperty
                   title={'Площадь застройки, кв.м.'}
                   value={buildingArea}
                   required={true}
-                  handleProperty={handleBuildingAreaChange}
+                  onChange={handleBuildingAreaChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
+
                 <SelectProperty
                   title={'Фундамент'}
                   value={foundation}
@@ -229,8 +208,8 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleFoundationChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
+              </div>
+              <div className={classes['item__three-in-row']}>
                 <SelectProperty
                   title={'Перекрытия'}
                   value={ceiling}
@@ -238,8 +217,6 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleCeilingChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
                 <SelectProperty
                   title={'Кровля'}
                   value={roof}
@@ -247,16 +224,14 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleRoofChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
                 <NumericProperty
                   title={'Количество спален'}
                   value={bedroomCount}
                   required={true}
-                  handleProperty={handleBedroomChange}
+                  onChange={handleBedroomChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className={classes['item__two-in-row']}>
                 <SelectProperty
                   title={'Материал стен'}
                   value={wallMaterial}
@@ -264,16 +239,14 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleWallMaterialChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
                 <NumericProperty
                   title={'Толщина стен, мм'}
                   value={wallThickness}
                   required={true}
-                  handleProperty={handleWallThicknessChange}
+                  onChange={handleWallThicknessChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className={classes['item__two-in-row']}>
                 <SelectProperty
                   title={'Материал утеплителя'}
                   value={insulation}
@@ -281,56 +254,35 @@ const AddProject: React.FC<PropsType> = ({
                   required={true}
                   handleProperty={handleInsulationChange}
                 />
-              </Grid>
-              <Grid item xs={6}>
+
                 <NumericProperty
                   title={'Толщина утеплителя, мм'}
                   value={insulationThickness}
                   required={true}
-                  handleProperty={handleInsulationThicknessChange}
+                  onChange={handleInsulationThicknessChange}
                 />
-              </Grid>
-              <Grid item xs={12} container spacing={2}>
-                <Grid item xs={2}>
-                  <InputLabel>Габариты застройки</InputLabel>
-                </Grid>
-                <Grid item xs={2}>
-                  <NumericProperty
-                    title={'длина, м'}
-                    value={length}
-                    required={true}
-                    handleProperty={handleLengthChange}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <NumericProperty
-                    title={'ширина, м'}
-                    value={width}
-                    required={true}
-                    handleProperty={handleWidthChange}
-                  />
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <CheckProperty title={'Гараж'} checked={isGaragePresent} handleProperty={handleGarageChange} />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className={classes['item__three-in-row']}>
+                <p>Габариты застройки</p>
+                <NumericProperty title={'длина, м'} value={length} required={true} onChange={handleLengthChange} />
+                <NumericProperty title={'ширина, м'} value={width} required={true} onChange={handleWidthChange} />
+              </div>
+              <CheckProperty title={'Гараж'} checked={isGaragePresent} handleProperty={handleGarageChange} />
+              <div className={classes['item__one-in-row']}>
                 <NumericProperty
                   title={'Количество этажей (включая мансарду и подвал)'}
                   value={floorListLength}
                   required={true}
-                  handleProperty={handleFloorNumberChange}
+                  onChange={handleFloorNumberChange}
                 />
-              </Grid>
+              </div>
               {renderFloors()}
-            </Grid>
+            </div>
           </div>
-          <Grid item lg={8}>
-            <Button variant="contained" color="primary" disabled={isProjectFilled} onClick={saveProject}>
-              Добавить проект
-            </Button>
-          </Grid>
-        </Grid>
+          <div className={classes['item__one-in-row']}>
+            <Button title={'Добавить проект'} disabled={isProjectFilled} actionHandler={saveProject} />
+          </div>
+        </div>
       </Container>
     </div>
   );

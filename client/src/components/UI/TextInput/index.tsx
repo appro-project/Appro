@@ -9,19 +9,18 @@ interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 
   error?: boolean;
+  label?: string;
 }
 
-const TextInput = (props: Props) => {
-  const type = props.type || 'text';
-
+const TextInput = ({ label, type, error, value, onChange, placeholder }: Props) => {
   return (
     <div className={classes['text-input']}>
       <input
-        className={props.error ? classes['input__error'] : ''}
-        value={props.value}
-        onChange={props.onChange}
-        type={type}
-        placeholder={props.placeholder}
+        className={error ? classes['input__error'] : ''}
+        value={value}
+        onChange={onChange}
+        type={type || 'text'}
+        placeholder={placeholder}
       />
     </div>
   );

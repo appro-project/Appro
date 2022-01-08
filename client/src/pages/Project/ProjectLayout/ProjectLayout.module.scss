@@ -35,7 +35,7 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 1.54;
-  color: #202020;
+  color: $black;
 
   &::before {
     content: '';
@@ -56,7 +56,7 @@
     font-weight: normal;
     font-size: 13px;
     line-height: 1.54;
-    color: #202020;
+    color: $black;
   }
 }
 
@@ -73,7 +73,7 @@
     font-weight: 400;
     font-size: 18px;
     line-height: normal;
-    color: #202020;
+    color: $black;
 
     white-space: nowrap;
 

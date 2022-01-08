@@ -10,7 +10,7 @@ const DynamicProjectBreadcrumb = ({ match }: any) => <span>{match.params.project
 // todo: duplicates menuLinks
 const crumbsInfo = [
   ...menuLinks,
-  { breadcrumb: 'Каталог', path: '/catalogue' },
+  { breadcrumb: 'Каталог домов', path: '/catalogue' },
   { breadcrumb: DynamicProjectBreadcrumb, path: '/catalogue/:projectId' },
 ];
 

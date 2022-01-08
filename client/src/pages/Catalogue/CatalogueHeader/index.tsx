@@ -2,7 +2,7 @@ import React from 'react';
 import SortOption from './SortOption';
 import { SortDirection, SortDetails } from '../../../constants/sortData/catalogueSortInfo';
 import { getSortUri } from '../../../services/data';
-import { RouteComponentProps, useHistory, withRouter, useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import classes from './CatalogueHeader.module.scss';
 
 interface StateProps {
@@ -18,10 +18,12 @@ const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) => {
   const handleSort = (id: string, direction: SortDirection) => {
     const currentSearchParams = new URLSearchParams(location.search);
     const currentSearch = currentSearchParams.get(id);
+
     if (!currentSearch && sortDetails) {
       currentSearchParams.delete(sortDetails.id);
     }
     const searchUri = getSortUri(id, direction, currentSearchParams);
+
     applySort(searchUri);
     history.push({
       search: decodeURIComponent(searchUri.toString()),
@@ -63,12 +65,24 @@ const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) => {
         <ul className={classes.CatalogueHeader_SortingItems}>
           <li className={popularityClass}>
             <SortOption sortInfoId={'popularity_sort'} handleSort={handleSort} />
+            <img
+              src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
+              alt=""
+            />
           </li>
           <li className={areaClass}>
             <SortOption sortInfoId={'area_sort'} handleSort={handleSort} />
+            <img
+              src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
+              alt=""
+            />
           </li>
           <li className={priceClass}>
             <SortOption sortInfoId={'projectPrice_sort'} handleSort={handleSort} />
+            <img
+              src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
+              alt=""
+            />
           </li>
         </ul>
       </div>

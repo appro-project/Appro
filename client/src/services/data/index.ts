@@ -145,11 +145,11 @@ const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams
     if (!key.includes('sort')) {
       return;
     }
+
     currentProjects = currentProjects.sort((project1, project2) => {
       if (key === 'area_sort') {
         return compareProjects(project1, project2, value, 'generalArea');
       }
-      //
       if (key === 'popularity_sort') {
         return compareProjects(project1, project2, value, 'popularity');
       }
@@ -166,12 +166,12 @@ const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams
 
 const compareProjects = (project1: Project, project2: Project, order: string, field: string) => {
   // @ts-ignore
-  if (project1[field] < project2[field]) {
+  if (+project1[field] < +project2[field]) {
     return order === 'asc' ? -1 : 1;
   }
 
   // @ts-ignore
-  if (project1[field] > project2[field]) {
+  if (+project1[field] > +project2[field]) {
     return order === 'asc' ? 1 : -1;
   }
 

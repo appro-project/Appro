@@ -44,7 +44,6 @@ catalogueFiltersInfo.set('floor', {
   name: 'Этажность',
   filterType: FilterType.CHECKBOX,
   options: [
-    { name: 'все варианты', id: 'all', isSelected: false },
     { name: '1-этажные', id: '1-floor', isSelected: false },
     { name: '2-этажные', id: '2-floor', isSelected: false },
     { name: '3-этажные', id: '3-floor', isSelected: false },
@@ -57,7 +56,6 @@ catalogueFiltersInfo.set('bedroom', {
   name: 'Спальни',
   filterType: FilterType.CHECKBOX,
   options: [
-    { name: 'все варианты', id: 'all', isSelected: false },
     { name: '1', id: '1', isSelected: false },
     { name: '2', id: '2', isSelected: false },
     { name: '3', id: '3', isSelected: false },
@@ -69,7 +67,6 @@ catalogueFiltersInfo.set('garage', {
   name: 'Гараж',
   filterType: FilterType.RADIO,
   options: [
-    { name: 'все варианты', id: 'all', isSelected: false },
     { name: 'с гаражем', id: 'true', isSelected: false },
     { name: 'без гаража', id: 'false', isSelected: false },
   ],
@@ -95,7 +92,6 @@ catalogueFiltersInfo.set('style', {
   name: 'Стиль',
   filterType: FilterType.CHECKBOX,
   options: [
-    { name: 'все варианты', id: 'all', isSelected: false },
     { name: 'классический', id: 'classic', isSelected: false },
     { name: 'современный', id: 'modern', isSelected: false },
   ],

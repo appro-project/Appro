@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 .CatalogueHeader_Found {
   font-family: Montserrat, serif;
   font-style: normal;
@@ -5,7 +7,7 @@
   font-size: 24px;
   text-transform: uppercase;
 
-  color: #202020;
+  color: $black;
 }
 
 .CatalogueHeader_Sorting {
@@ -29,41 +31,50 @@
   margin-left: 30px;
   cursor: pointer;
   line-height: 20px;
-  padding: 9px 40px 10px 20px;
+  padding: 9px 20px 10px 20px;
   border: 2px solid transparent;
+  display: flex;
+  justify-content: space-between;
 
+  img {
+    margin-left: 10px;
+    opacity: 0;
+  }
   &:hover {
-    border: 2px solid #FFB000;
+    border: 2px solid $yellow;
     border-radius: 4px;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A");
-    background-repeat: no-repeat;
-    background-position: 90% 16px;
+    img {
+      opacity: 1;
+    }
   }
 
   &__ActiveAsc {
-    border: 2px solid #FFB000;
+    border: 2px solid $yellow;
     border-radius: 4px;
-    padding: 9px 40px 10px 20px;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A");
-    background-repeat: no-repeat;
-    background-position: 90% 16px;
+    padding: 9px 20px 10px 20px;
+
+    img {
+      opacity: 1;
+    }
 
     &:hover {
-      background-color: #FFB000 ;
+      background-color: $yellow;
     }
   }
 
   &__ActiveDesc {
-    border: 2px solid #FFB000;
+    border: 2px solid $yellow;
     border-radius: 4px;
-    padding: 9px 40px 10px 20px;
-    // TODO [tplik]: Arrow down SVG here
-    //background-image: none;
-    //background-repeat: no-repeat;
-    //background-position: 90% 16px;
-    background-color: red;
+    padding: 9px 20px 10px 20px;
+    background-color: transparent;
+
+    img {
+      transform: rotate(180deg);
+      opacity: 1;
+    }
+
     &:hover {
-      background-color: #FFB000 ;
+      background-color: $yellow;
     }
   }
 }

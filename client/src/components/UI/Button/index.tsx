@@ -14,6 +14,7 @@ interface Props {
   title: string;
 
   buttonType?: ButtonType;
+  disabled?: boolean;
 
   actionHandler?(): void;
 }
@@ -42,7 +43,7 @@ const Button = (props: Props) => {
   }
 
   return (
-    <button className={activeClasses.join(' ')} onClick={props.actionHandler}>
+    <button disabled={props.disabled} className={activeClasses.join(' ')} onClick={props.actionHandler}>
       {props.title}
     </button>
   );

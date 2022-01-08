@@ -2,7 +2,7 @@
 @import "../../../variables";
 
 .differences {
-  background-color: #3C3C3C;
+  background-color: $dark-grey;
 
   padding: 250px 10px 30px;
   position: relative;
@@ -10,7 +10,7 @@
   p {
     font-size: 16px;
     line-height: 24px;
-    color: #FFFFFF;
+    color: $white;
     margin-bottom: 10px;
 
     &:last-child {
@@ -59,7 +59,7 @@
     font-size: 24px;
     line-height: 30px;
     margin-bottom: 33px;
-    color: #fff;
+    color: $white;
   }
 
   .differences__image-wrapper {

@@ -31,7 +31,7 @@ const Feedback = () => {
   };
 
   return (
-    <section className={classes['feedback']}>
+    <section id={'feedback-form'} className={classes['feedback']}>
       <Container>
         <div className={classes['feedback__header']}>Остались вопросы? Напишите нам!</div>
 

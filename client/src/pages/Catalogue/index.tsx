@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getProjectsByFilters, sortProjectsByParams } from '../../services/data';
 import catalogueSortInfo, {
   defaultSortDetails,
@@ -7,8 +7,7 @@ import catalogueSortInfo, {
 } from '../../constants/sortData/catalogueSortInfo';
 import { Project } from '../../entity/Project';
 import CatalogueItem from './CatalogueItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProjectsFromDb } from '../../redux/actions';
+import { useSelector } from 'react-redux';
 import { getProjects, getProjectsLoading } from '../../redux/selectors';
 import { useLocation } from 'react-router';
 
@@ -16,15 +15,10 @@ const projectsPerPage = 8;
 
 const Catalogue = () => {
   const [state, setState] = useState({ projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1 });
-  const dispatch = useDispatch();
   const location = useLocation();
 
   const projectsLoading = useSelector(getProjectsLoading);
   const projects = useSelector(getProjects);
-
-  useEffect(() => {
-    dispatch(getProjectsFromDb());
-  }, []);
 
   const applyFilter = (searchParams: URLSearchParams) => {
     const filteredProjects = getProjectsByFilters(state.projects, searchParams);

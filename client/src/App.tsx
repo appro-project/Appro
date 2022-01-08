@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from 'containers/hoc/Layout';
 import Index from './pages/Main';
 import Catalogue from './pages/Catalogue';
@@ -9,8 +9,27 @@ import ProjectPage from './pages/Project';
 import Admin from './pages/Admin';
 import { AdditionalOptions } from './pages/AdditionalOptions';
 import { AboutUs } from './pages/AboutUs';
+import { getProjectsFromDb, setViewAllProjects } from './redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjectInLocalStorage } from './services/util/localStorage';
+import { getProjects } from './redux/selectors';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const projects = useSelector(getProjects);
+
+  useEffect(() => {
+    dispatch(getProjectsFromDb());
+  }, []);
+
+  useEffect(() => {
+    const projectInLocalStorage: number[] = getProjectInLocalStorage();
+    if (projectInLocalStorage) {
+      const filterProjects = projects.filter((elem) => projectInLocalStorage.includes(elem.id));
+      dispatch(setViewAllProjects(filterProjects));
+    }
+  }, [projects]);
+
   return (
     <Router>
       <Layout>

@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import AddProject from './AddProject';
 import { FloorDto } from '../../entity/FloorDto';
 import FloorRow from './FloorRow';
-import { connect, useDispatch, useSelector } from 'react-redux';
-// @ts-ignore
-import { ThunkDispatch } from 'redux-thunk';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveProject } from '../../redux/actions';
-import { CircularProgress } from '@material-ui/core';
 import { getProjectSaving } from '../../redux/selectors';
+import Loader from '../../components/UI/Loader';
+import classes from './Admin.module.scss';
 
 interface State {
   id: number;
@@ -68,39 +67,34 @@ const Admin = () => {
   const projectSaving = useSelector(getProjectSaving);
   const dispatch = useDispatch();
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, title: event.target.value });
+  const handleTitleChange = (value: string) => {
+    setState({ ...state, title: value });
   };
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, description: event.target.value });
+  const handleDescriptionChange = (value: string) => {
+    setState({ ...state, description: value });
   };
 
-  const handleStyleChange = (
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>,
-  ) => {
-    setState({ ...state, style: event.target.value as string });
+  const handleStyleChange = (value: string) => {
+    setState({ ...state, style: value });
   };
 
-  const handleGeneralAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, generalArea: event.target.value as unknown as number });
+  const handleGeneralAreaChange = (value: number | null) => {
+    setState({ ...state, generalArea: value });
   };
 
-  const handleLivingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, livingArea: event.target.value as unknown as number });
+  const handleLivingAreaChange = (value: number | null) => {
+    setState({ ...state, livingArea: value });
   };
 
-  const handleBuildingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, buildingArea: event.target.value as unknown as number });
+  const handleBuildingAreaChange = (value: number | null) => {
+    setState({ ...state, buildingArea: value });
   };
 
-  const handleTimeToCreateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTimeToCreateChange = (value: number | null) => {
     setState({
       ...state,
-      timeToCreate: event.target.value as unknown as number,
+      timeToCreate: value,
     });
   };
 
@@ -112,104 +106,87 @@ const Admin = () => {
     setState({ ...state, mainImage: event.target.files[0] });
   };
 
-  const handleProjectPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, projectPrice: event.target.value as unknown as number });
+  const handleProjectPriceChange = (value: number | null) => {
+    setState({ ...state, projectPrice: value });
   };
 
-  const handleBuildingPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, buildingPrice: event.target.value as unknown as number });
+  const handleBuildingPriceChange = (value: number | null) => {
+    setState({ ...state, buildingPrice: value });
   };
 
-  const handleLengthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, length: event.target.value as unknown as number });
+  const handleLengthChange = (value: number | null) => {
+    setState({ ...state, length: value });
   };
 
-  const handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, width: event.target.value as unknown as number });
+  const handleWidthChange = (value: number | null) => {
+    setState({ ...state, width: value });
   };
 
-  const handleFoundationChange = (
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>,
-  ) => {
-    setState({ ...state, foundation: event.target.value as string });
+  const handleFoundationChange = (value: string) => {
+    setState({ ...state, foundation: value });
   };
 
-  const handleWallMaterialChange = (
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>,
-  ) => {
-    setState({ ...state, wallMaterial: event.target.value as string });
+  const handleWallMaterialChange = (value: string) => {
+    setState({ ...state, wallMaterial: value });
   };
 
-  const handleWallThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWallThicknessChange = (value: number | null) => {
     setState({
       ...state,
-      wallThickness: event.target.value as unknown as number,
+      wallThickness: value,
     });
   };
 
-  const handleInsulationChange = (
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>,
-  ) => {
-    setState({ ...state, insulation: event.target.value as string });
+  const handleInsulationChange = (value: string) => {
+    setState({ ...state, insulation: value });
   };
 
-  const handleInsulationThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInsulationThicknessChange = (value: number | null) => {
     setState({
       ...state,
-      insulationThickness: event.target.value as unknown as number,
+      insulationThickness: value,
     });
   };
 
-  const handleCeilingChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setState({ ...state, ceiling: event.target.value as string });
+  const handleCeilingChange = (value: string) => {
+    setState({ ...state, ceiling: value });
   };
 
-  const handleRoofChange = (
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>,
-  ) => {
-    setState({ ...state, roof: event.target.value as string });
+  const handleRoofChange = (value: string) => {
+    setState({ ...state, roof: value });
   };
 
   const handleGarageChange = () => {
     setState({ ...state, isGaragePresent: !state.isGaragePresent });
   };
 
-  const handleBedroomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, bedroomCount: event.target.value as unknown as number });
+  const handleBedroomChange = (value: number | null) => {
+    setState({ ...state, bedroomCount: value });
   };
 
-  const handleFloorNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value as unknown as number;
+  const handleFloorNumberChange = (value: number | null) => {
     const floorList = [];
-    for (let i = 0; i < value; i = i + 1) {
-      floorList.push({
-        id: i + 1,
-        index: null,
-        area: null,
-        height: null,
-        planningImage: null,
-        isAttic: false,
-        isBasement: false,
-      });
+    if (value && value < 7) {
+      if (value) {
+        for (let i = 0; i < value; i = i + 1) {
+          floorList.push({
+            id: i + 1,
+            index: null,
+            area: null,
+            height: null,
+            planningImage: null,
+            isAttic: false,
+            isBasement: false,
+          });
+        }
+      }
     }
     setState({ ...state, floorList });
   };
 
-  const handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
+  const handleFloorIndexChange = (value: number | null, floorId: number) => {
     const floors = [...state.floorList];
-    const index = event.target.value;
+    const index = value;
     floors.filter((i) => i.id === floorId).forEach((i) => (i.index = index));
 
     setState({ ...state, floorList: floors });
@@ -229,17 +206,17 @@ const Admin = () => {
     setState({ ...state, floorList: floors });
   };
 
-  const handleFloorAreaChange = (event: React.ChangeEvent<any>, floorId: number) => {
+  const handleFloorAreaChange = (value: number | null, floorId: number) => {
     const floors = [...state.floorList];
-    const area = event.target.value;
+    const area = value;
     floors.filter((i) => i.id === floorId).forEach((i) => (i.area = area));
 
     setState({ ...state, floorList: floors });
   };
 
-  const handleFloorHeightChange = (event: React.ChangeEvent<any>, floorId: number) => {
+  const handleFloorHeightChange = (value: number | null, floorId: number) => {
     const floors = [...state.floorList];
-    const height = event.target.value;
+    const height = value;
     floors.filter((i) => i.id === floorId).forEach((i) => (i.height = height));
 
     setState({ ...state, floorList: floors });
@@ -381,7 +358,9 @@ const Admin = () => {
           floorListLength={state.floorList.length}
         />
       ) : (
-        <CircularProgress />
+        <div className={classes['container-loader']}>
+          <Loader />
+        </div>
       )}
     </>
   );

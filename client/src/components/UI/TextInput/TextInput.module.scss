@@ -9,11 +9,11 @@
   padding: 20px;
   width: 100%;
   max-width: 328px;
-  border: 1px solid #979797;
+  border: 1px solid $field-grey;
 }
 
 .text-input .input__error {
-  border: 1px solid red;
+  border: 1px solid $red;
 }
 
 .text-input input::placeholder {
@@ -22,7 +22,7 @@
   font-size: 14px;
   line-height: 17px;
 
-  color: #979797;
+  color: $field-grey;
 }
 
 @media (min-width: $tablet-width) {

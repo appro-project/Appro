@@ -13,7 +13,7 @@ interface PropsType {
 }
 
 const Welcome = ({ mockProjects }: PropsType) => {
-  const renderArrowPrev = (clickHandler: () => void, hasPrev: boolean, label: string) => {
+  const renderArrowPrev = (clickHandler: () => void) => {
     const arrowClasses = ['slider-control__prev', 'control-arrow'];
 
     return (
@@ -23,7 +23,7 @@ const Welcome = ({ mockProjects }: PropsType) => {
     );
   };
 
-  const renderArrowNext = (clickHandler: () => void, hasPrev: boolean, label: string) => {
+  const renderArrowNext = (clickHandler: () => void) => {
     const arrowClasses = ['slider-control__next', 'control-arrow'];
 
     return (
@@ -33,6 +33,10 @@ const Welcome = ({ mockProjects }: PropsType) => {
     );
   };
 
+  const handleClickToNextPage = () => {
+    window.scrollTo(pageXOffset, 0);
+  };
+
   return (
     <section className={classes.welcome}>
       <Carousel renderArrowNext={renderArrowNext} renderArrowPrev={renderArrowPrev} infiniteLoop interval={4000}>
@@ -40,6 +44,13 @@ const Welcome = ({ mockProjects }: PropsType) => {
           <ProjectItem key={index} project={project} />
         ))}
       </Carousel>
+      <button
+        onClick={handleClickToNextPage}
+        aria-label="to bottom"
+        className={['slider-control__bottom', 'control-arrow'].join(' ')}
+      >
+        <SliderNext />
+      </button>
     </section>
   );
 };

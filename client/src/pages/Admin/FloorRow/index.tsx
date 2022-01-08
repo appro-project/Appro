@@ -1,18 +1,18 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
 import NumericProperty from '../AddProject/NumericProperty';
 import CheckProperty from '../AddProject/CheckProperty';
 import FileProperty from '../AddProject/FileProperty';
 import { FloorDto } from '../../../entity/FloorDto';
+import classes from '../AddProject/AddProject.module.scss';
 
 interface PropsType {
   floor: FloorDto;
   floorId: number;
-  handleFloorIndexChange: (event: React.ChangeEvent<any>, floorId: number) => void;
+  handleFloorIndexChange: (event: number | null, floorId: number) => void;
   handleFloorAtticChange: (floorId: number) => void;
   handleFloorBasementChange: (floorId: number) => void;
-  handleFloorAreaChange: (event: React.ChangeEvent<any>, floorId: number) => void;
-  handleFloorHeightChange: (event: React.ChangeEvent<any>, floorId: number) => void;
+  handleFloorAreaChange: (event: number | null, floorId: number) => void;
+  handleFloorHeightChange: (event: number | null, floorId: number) => void;
   handleFloorImageChange: (event: React.ChangeEvent<any>, floorId: number) => void;
 }
 
@@ -43,53 +43,50 @@ const FloorRow: React.FC<PropsType> = ({
   };
 
   return (
-    <Grid item xs={12} container spacing={2} key={`floor-${floorId}`}>
-      <Grid item xs={4}>
+    <div>
+      <div className={classes['item__three-in-row']}>
         <NumericProperty
           title={'Номер этажа'}
           value={floor.index}
           disabled={isFloorIndexDisabled()}
-          handleProperty={(event: React.ChangeEvent<any>) => handleFloorIndexChange(event, floorId)}
+          onChange={(event: number | null) => handleFloorIndexChange(event, floorId)}
         />
-      </Grid>
-      <Grid item xs={4}>
+
         <CheckProperty
           title={'Мансарда'}
           checked={floor.isAttic}
           disabled={isFloorAtticDisabled()}
           handleProperty={() => handleFloorAtticChange(floorId)}
         />
-      </Grid>
-      <Grid item xs={4}>
+
         <CheckProperty
           title={'Подвал'}
           checked={floor.isBasement}
           disabled={isFloorBasementDisabled()}
           handleProperty={() => handleFloorBasementChange(floorId)}
         />
-      </Grid>
-      <Grid item xs={4}>
+      </div>
+      <div className={classes['item__two-in-row']}>
         <NumericProperty
           title={'Площадь, м2'}
           value={floor.area}
-          handleProperty={(event: React.ChangeEvent<any>) => handleFloorAreaChange(event, floorId)}
+          onChange={(value: number | null) => handleFloorAreaChange(value, floorId)}
         />
-      </Grid>
-      <Grid item xs={4}>
+
         <NumericProperty
           title={'Высота, м'}
           value={floor.height}
-          handleProperty={(event: React.ChangeEvent<any>) => handleFloorHeightChange(event, floorId)}
+          onChange={(value: number | null) => handleFloorHeightChange(value, floorId)}
         />
-      </Grid>
-      <Grid item xs={6}>
+      </div>
+      <div className={classes['item__two-in-row']}>
         <FileProperty
           title={'Загрузить планировку'}
           required={true}
           handleProperty={(event: React.ChangeEvent<any>) => handleFloorImageChange(event, floorId)}
         />
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

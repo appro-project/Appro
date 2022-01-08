@@ -1,11 +1,10 @@
-import React, { PureComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import classes from './FilterList.module.scss';
 import { FilterType, RangeOption, SingleOption } from '../../../constants/filterData/catalogueFiltersInfo';
-import { RouteComponentProps, useHistory, withRouter, useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { getSearchUri } from '../../../services/data';
 import RangeFilterBlock from './RangeFilter';
 import CheckboxFilterBlock from './CheckboxFilterBlock';
-import RadioFilterBlock from './RadioFilter';
 import { getValidRangeSearchParam } from '../../../services/util';
 
 interface SearchOption {
@@ -98,10 +97,10 @@ const FilterList = ({ applyFilter }: StateProps) => {
           initialOptions={bedroomInitFilter ? bedroomInitFilter.split(',') : undefined}
           applyFilter={(option) => singleOptionClicked('bedroom', FilterType.CHECKBOX, option)}
         />
-        <RadioFilterBlock
+        <CheckboxFilterBlock
           filterId={'garage'}
-          initialOption={garageInitFilter ? garageInitFilter : undefined}
-          applyFilter={(option) => singleOptionClicked('garage', FilterType.RADIO, option)}
+          initialOptions={garageInitFilter ? [garageInitFilter] : undefined}
+          applyFilter={(option) => singleOptionClicked('garage', FilterType.CHECKBOX, option)}
         />
         <RangeFilterBlock
           filterId={'projectPrice'}

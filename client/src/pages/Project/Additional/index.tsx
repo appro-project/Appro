@@ -5,6 +5,7 @@ import './Additional.scss';
 import main_plan from '../../../assets/img/project_page/main-plan.svg';
 import pen from '../../../assets/img/project_page/pen.svg';
 import paint from '../../../assets/img/project_page/paint.svg';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const Additional = () => {
   return (
@@ -13,8 +14,11 @@ const Additional = () => {
       <div className="project-section__text">
         <p>Любой проект, помимо основного состава, может быть дополнен по вашему желанию и нуждам.</p>
         <p>
-          Для уточнения стоимости дополнительных услуг, позвоните по номеру +38 (066) 39-53-654 или заполните форму
-          обратной связи и мы свяжемся с вами.
+          Для уточнения стоимости дополнительных услуг, позвоните по номеру +38 (066) 39-53-654 или{' '}
+          <Link to="/#feedback-form" className="project-section__link-to-feedback">
+            заполните форму обратной связи
+          </Link>{' '}
+          и мы свяжемся с вами.
         </p>
       </div>
       <div className="project-additional__wrapper">

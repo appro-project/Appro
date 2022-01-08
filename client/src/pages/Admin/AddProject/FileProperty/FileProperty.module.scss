@@ -1,5 +1,13 @@
+@import '../../../../variables';
+
 .file-label {
-  width: 100%;
-  border-bottom: 1px solid gray;
   cursor: pointer;
+  display: flex;
+  width: 100%;
+}
+
+.file-input {
+  border-bottom: 1px solid $field-grey;
+  width: 100%;
+  margin-left: 10px;
 }

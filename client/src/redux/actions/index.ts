@@ -1,7 +1,5 @@
-import actionCreatorFactory from 'typescript-fsa';
-import asyncFactory from 'typescript-fsa-redux-thunk';
 import { DataService } from '../../services/server-data';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const saveProject = createAsyncThunk('SAVE_PROJECT', async (arg: { project: any }, thunk) => {
   try {
@@ -11,11 +9,6 @@ export const saveProject = createAsyncThunk('SAVE_PROJECT', async (arg: { projec
   }
 });
 
-//     <{ project: any }, {}>(
-//   'SAVE_PROJECT',
-//   async (params) => await DataService.axiosSaveProject(params),
-// );
-
 export const getProjectsFromDb = createAsyncThunk('GET_PROJECTS', async (arg, thunk) => {
   try {
     return await DataService.axiosGetProjects();
@@ -24,8 +17,5 @@ export const getProjectsFromDb = createAsyncThunk('GET_PROJECTS', async (arg, th
   }
 });
 
-//
-//     createAsync<{}, Project[]>(
-//   'GET_PROJECTS',
-//   async () => await DataService.axiosGetProjects(),
-// );
+export const setViewProject = createAction('SET_VIEW_PROJECT');
+export const setViewAllProjects = createAction('SET_ALL_VIEW_PROJECTS');
