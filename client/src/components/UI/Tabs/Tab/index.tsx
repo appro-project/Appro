@@ -1,41 +1,32 @@
-import React, { Component } from 'react';
-
+import React, { useEffect } from 'react';
 import classes from './Tab.module.scss';
+import { IProjectTubsName } from '../../../../pages/Project/interfaces';
 
 interface Props {
-    label: string;
-    activeTab: string;
+  label: IProjectTubsName;
+  activeTab: boolean;
 
-    onClick(label: string): void;
+  onClick(label: IProjectTubsName): void;
 }
 
-class Tab extends Component<Props, {}> {
+const Tab = ({ label, onClick, activeTab }: Props) => {
+  const handleClick = () => {
+    onClick(label);
+  };
 
-    onClick = () => {
-        const { label, onClick } = this.props;
-        onClick(label);
+  const classNames = [classes.Tab];
+
+  useEffect(() => {
+    if (activeTab) {
+      classNames.push(classes.Tab__Active);
     }
+  }, [activeTab]);
 
-    render() {
-        const { activeTab, label } = this.props;
-        // let className = 'tab-list-item';
-        //
-        // if (activeTab === label) {
-        //     className += ' tab-list-active';
-        // }
-
-        const classNames = [classes.Tab];
-
-        if (activeTab === label) {
-            classNames.push(classes.Tab__Active);
-        }
-
-        return (
-            <li className={ classNames.join(' ') } onClick={ this.onClick }>
-                { label }
-            </li>
-        );
-    }
-}
+  return (
+    <li className={classNames.join(' ')} onClick={handleClick}>
+      {label}
+    </li>
+  );
+};
 
 export default Tab;

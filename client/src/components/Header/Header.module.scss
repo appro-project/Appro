@@ -1,7 +1,7 @@
 @import "../../variables";
 
 .header {
-  background-color: #3C3C3C;
+  background-color: $dark-grey;
   z-index: 2;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .header__top-item {
-  color: #fff;
+  color: $white;
 }
 
 .header__logo {
@@ -74,7 +74,7 @@
 
   .header__top-item-contact,
   .header__top-item-menu {
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   .header__top-item {

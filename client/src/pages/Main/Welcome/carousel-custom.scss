@@ -1,4 +1,4 @@
-@import "../../../variables";
+@import '../../../variables';
 
 .carousel .control-dots {
   bottom: 130px;
@@ -19,8 +19,8 @@
     opacity: 1;
     top: 100px;
 
-
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: none;
     }
 
@@ -34,7 +34,7 @@
       width: 42px;
 
       path {
-        stroke: #FFFFFF;
+        stroke: #ffffff;
         transition: stroke 0.25s ease-in-out;
       }
 
@@ -44,23 +44,20 @@
       }
 
       &:hover {
-
         circle {
-          fill: #FFFFFF;
+          fill: #ffffff;
           transition: fill 0.25s ease-in-out;
         }
 
         path {
-          stroke: #E5E5E5;
+          stroke: #e5e5e5;
           transition: stroke 0.25s ease-in-out;
         }
-
       }
 
       &:active {
-
         path {
-          stroke: #FFFFFF;
+          stroke: #ffffff;
           transition: stroke 0.25s ease-in-out;
         }
 
@@ -70,8 +67,6 @@
           transition: all 0.25s ease-in-out;
         }
       }
-
-
     }
   }
 
@@ -83,6 +78,17 @@
   .slider-control__next {
     top: 80px;
     right: 8px;
+  }
+
+  .slider-control__bottom {
+    position: absolute;
+    z-index: 1000;
+    top: 85%;
+    right: 50%;
+    height: 40px;
+    width: 40px;
+    transform: rotate(90deg);
+    display: block;
   }
 }
 

@@ -1,26 +1,33 @@
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import TextProperty from '../TextProperty';
 
 interface Props {
-    title: string;
-    value: number | null;
-    required?: boolean;
-    disabled?: boolean;
+  title: string;
+  value: number | null;
+  required?: boolean;
+  error?: boolean;
+  disabled?: boolean;
 
-    handleProperty(event: React.ChangeEvent<any>): void;
+  onChange: (value: number | null) => void;
 }
 
-const NumericProperty = ({ title, value, required, disabled, handleProperty }: Props) =>
-    <TextField
-        variant="standard"
-        required = { required }
-        fullWidth
-        id="email"
-        label={ title }
-        name={ title }
-        value={ value || '' }
-        type={ 'number' }
-        disabled={ disabled }
-        onChange={ event => handleProperty(event) }/>;
+const NumericProperty = ({ title, value, required, disabled, onChange }: Props) => {
+  const handleChange = (valueString: string) => {
+    if (valueString.toString().length === 0 || valueString.match(/^\d+$/)) {
+      const valueChecked = valueString.toString() === '' ? null : +valueString;
+      onChange(Number(valueChecked) ? Number(valueChecked) : null);
+    }
+  };
+
+  return (
+    <TextProperty
+      title={title}
+      value={value ? value.toString() : ''}
+      required={required}
+      disabled={disabled}
+      onChange={handleChange}
+    />
+  );
+};
 
 export default NumericProperty;

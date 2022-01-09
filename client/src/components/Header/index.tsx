@@ -18,39 +18,38 @@ const Header = () => {
     headerClasses.push(classes['header--transparent']);
   }
 
-  return <header className={ headerClasses.join(' ') }>
-    <Container>
-      <div className={ classes['header__container'] }>
-        <div className={ classes['header__top'] }>
-          <Link to={ '/' }
-                className={ createHeaderTopItemClass('header__logo') } href="#">
-            <Logo className={ classes['header__logo-img'] }/>
-          </Link>
+  return (
+    <header className={headerClasses.join(' ')}>
+      <Container>
+        <div className={classes['header__container']}>
+          <div className={classes['header__top']}>
+            <Link to={'/'} className={createHeaderTopItemClass('header__logo')} href="#">
+              <Logo className={classes['header__logo-img']} />
+            </Link>
 
-          <a className={ createHeaderTopItemClass('header__top-item-phone') }
-             href="tel:+38 (066) 39-53-654">+38 (066) 39-53-654</a>
-
-          <a className={ createHeaderTopItemClass('header__top-item-lang') } href="#">
-            RU
-          </a>
-
-          <div className={ createHeaderTopItemClass('header__top-item-contact') }>
-            <a href="#">
-              <Button title={ 'Обратная связь' }
-                      buttonType={ ButtonType.TRANSPARENT }/>
+            <a className={createHeaderTopItemClass('header__top-item-phone')} href="tel:+38 (066) 39-53-654">
+              +38 (066) 39-53-654
             </a>
+
+            <a className={createHeaderTopItemClass('header__top-item-lang')} href="#">
+              RU
+            </a>
+
+            <div className={createHeaderTopItemClass('header__top-item-contact')}>
+              <a href="#">
+                <Button title={'Обратная связь'} buttonType={ButtonType.TRANSPARENT} />
+              </a>
+            </div>
+            <div className={createHeaderTopItemClass('header__top-item-menu')} onClick={() => setIsOpened(true)}>
+              <MenuIcon />
+            </div>
           </div>
-          <div className={ createHeaderTopItemClass('header__top-item-menu') }
-               onClick={ () => setIsOpened(true) }>
-            <MenuIcon/>
-          </div>
+
+          <Menu isOpened={isOpened} closeMenu={() => setIsOpened(false)} />
         </div>
-
-        <Menu isOpened={ isOpened } closeMenu={ () => setIsOpened(false) }/>
-
-      </div>
-    </Container>
-  </header>;
+      </Container>
+    </header>
+  );
 };
 
 export default Header;

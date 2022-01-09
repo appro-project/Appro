@@ -7,10 +7,11 @@ interface Props {
 }
 
 const TextArea = (props: Props) => {
-
-  return <div className={ classes['text-area'] }>
-    <textarea placeholder={ props.placeholder }/>
-  </div>;
+  return (
+    <div className={classes['text-area']}>
+      <textarea placeholder={props.placeholder} />
+    </div>
+  );
 };
 
 export default TextArea;

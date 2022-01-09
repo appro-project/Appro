@@ -6,15 +6,17 @@ import classes from './Layout.module.scss';
 import Header from 'components/Header';
 
 interface Props {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const Layout = (props: Props) => {
-    return <Wrapper>
-        <Header/>
-        <main className={ classes.content }>{ props.children }</main>
-        <Footer/>
-    </Wrapper>;
+  return (
+    <Wrapper>
+      <Header />
+      <main className={classes.content}>{props.children}</main>
+      <Footer />
+    </Wrapper>
+  );
 };
 
 export default Layout;

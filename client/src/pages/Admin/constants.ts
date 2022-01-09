@@ -1,7 +1,15 @@
 const styleOptions = ['классический', 'современный'];
 
-const foundationOptions = ['ленточный', 'столбчатый', 'монолитный ленточный',
-    'свайный', 'мелкозаглубленный', 'плитный', 'плавающий', 'винтовой'];
+const foundationOptions = [
+  'ленточный',
+  'столбчатый',
+  'монолитный ленточный',
+  'свайный',
+  'мелкозаглубленный',
+  'плитный',
+  'плавающий',
+  'винтовой',
+];
 
 const ceilingOptions = ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево'];
 
@@ -11,11 +19,4 @@ const wallMaterialOptions = ['кирпич', 'газоблок', 'пенобло
 
 const insulationOptions = ['пенопласт', 'стекловата', 'эковата'];
 
-export {
-    styleOptions,
-    foundationOptions,
-    ceilingOptions,
-    roofOptions,
-    wallMaterialOptions,
-    insulationOptions,
-};
+export { styleOptions, foundationOptions, ceilingOptions, roofOptions, wallMaterialOptions, insulationOptions };
