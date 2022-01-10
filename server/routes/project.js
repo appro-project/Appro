@@ -5,7 +5,7 @@ const Project = require("../model/project");
 const Floor = require("../model/floor");
 const Image = require("../model/image");
 
-const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '/img/projects'}`;
+const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '/Users/ybahinska/IdeaProjects/appro/client/public/img/projects'}`;
 
 router.get('/', (req, res, next) => {
     Project.findAll()

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Grid} from "@material-ui/core";
-import NumericProperty from "../AddProject/NumericProperty";
-import CheckProperty from "../AddProject/CheckProperty";
-import FileProperty from "../AddProject/FileProperty";
+import NumericProperty from "../ViewAddEditProject/NumericProperty";
+import CheckProperty from "../ViewAddEditProject/CheckProperty";
+import FileProperty from "../ViewAddEditProject/FileProperty";
 import {FloorDto} from "../../../entity/FloorDto";
 
 interface PropsType {

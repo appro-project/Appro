@@ -17,6 +17,7 @@ import {
 } from '../constants';
 
 interface PropsType {
+    view: boolean;
     handleTitleChange: (event: React.ChangeEvent<any>) => void;
     handleDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleStyleChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => void;
@@ -43,6 +44,7 @@ interface PropsType {
     isProjectFilled: boolean;
     saveProject: () => void;
     renderFloors: () => JSX.Element[];
+    id?: number;
     title: string;
     description: string;
     generalArea: number | null;
@@ -66,7 +68,8 @@ interface PropsType {
     floorListLength: number;
 }
 
-const AddProject: React.FC<PropsType> = ({
+const ViewAddEditProject: React.FC<PropsType> = ({
+    view,
                                              handleTitleChange,
                                              handleDescriptionChange,
                                              handleStyleChange,
@@ -93,6 +96,7 @@ const AddProject: React.FC<PropsType> = ({
                                              isProjectFilled,
                                              saveProject,
                                              renderFloors,
+                                             id,
                                              title,
                                              description,
                                              generalArea,
@@ -115,14 +119,19 @@ const AddProject: React.FC<PropsType> = ({
                                              timeToCreate,
                                              floorListLength
                                          }) => {
+    const editing = !!id && !view;
+    console.log('view' + view)
 
     return <div style={{padding: 20}}>
         <Container>
             <Grid container spacing={3} justifyContent="center"
                   alignItems="center">
-                <Grid item xs={12}>
-                    <Typography variant="h4" gutterBottom align="center">Новый проект</Typography>
-                </Grid>
+                {/*<Grid item xs={12}>*/}
+                {/*    <Typography variant="h4" gutterBottom align="center">{*/}
+                {/*        (editing) ? `Редактирование проекта ${id}` :*/}
+                {/*            'Новый проект'*/}
+                {/*    }</Typography>*/}
+                {/*</Grid>*/}
                 <div>
                     <div>
                         <DialogTitle>
@@ -134,14 +143,17 @@ const AddProject: React.FC<PropsType> = ({
                                 title={'Название проекта'}
                                 value={title}
                                 handleProperty={handleTitleChange}
-                                required={true}/>
+                                required={true}
+                                disabled={view}
+                            />
                         </Grid>
                         <Grid item xs={6}>
                             <TextProperty
                                 title={'Описание'}
                                 value={description}
                                 handleProperty={handleDescriptionChange}
-                                required={true}/>
+                                required={true}
+                                disabled={view}/>
                         </Grid>
                         <Grid item xs={6}>
                             <SelectProperty
@@ -149,6 +161,7 @@ const AddProject: React.FC<PropsType> = ({
                                 value={style}
                                 options={styleOptions}
                                 required={true}
+                                disabled={view}
                                 handleProperty={handleStyleChange}/>
                         </Grid>
                         <Grid item xs={6}>
@@ -156,6 +169,7 @@ const AddProject: React.FC<PropsType> = ({
                                 title={'Общая площадь проекта, кв.м.'}
                                 value={generalArea}
                                 required={true}
+                                disabled={view}
                                 handleProperty={handleGeneralAreaChange}/>
                         </Grid>
                         <Grid item xs={4}>
@@ -327,4 +341,4 @@ const AddProject: React.FC<PropsType> = ({
     </div>;
 }
 
-export default AddProject;
+export default ViewAddEditProject;
