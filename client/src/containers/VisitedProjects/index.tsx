@@ -10,17 +10,21 @@ const VisitedProjects = () => {
 
   return (
     <section>
-      <h2 className={classes['visited-projects__title']}>Просмотренные проекты</h2>
+      {projects && (
+        <>
+          <h2 className={classes['visited-projects__title']}>Просмотренные проекты</h2>
 
-      <div className={classes['visited-projects__items']}>
-        {projects
-          .filter((x, index) => index < 3)
-          .map((project: Project, idx: number) => (
-            <div className={classes.VisitedProjects_ProjectWrapper} key={idx}>
-              <ProjectDetails projectData={project} />
-            </div>
-          ))}
-      </div>
+          <div className={classes['visited-projects__items']}>
+            {projects
+              .filter((x, index) => index < 3)
+              .map((project: Project, idx: number) => (
+                <div className={classes.VisitedProjects_ProjectWrapper} key={idx}>
+                  <ProjectDetails projectData={project} />
+                </div>
+              ))}
+          </div>
+        </>
+      )}
     </section>
   );
 };

@@ -14,16 +14,8 @@ const Tab = ({ label, onClick, activeTab }: Props) => {
     onClick(label);
   };
 
-  const classNames = [classes.Tab];
-
-  useEffect(() => {
-    if (activeTab) {
-      classNames.push(classes.Tab__Active);
-    }
-  }, [activeTab]);
-
   return (
-    <li className={classNames.join(' ')} onClick={handleClick}>
+    <li className={`${classes.Tab} ${activeTab ? classes.Tab__Active : ''}`} onClick={handleClick}>
       {label}
     </li>
   );

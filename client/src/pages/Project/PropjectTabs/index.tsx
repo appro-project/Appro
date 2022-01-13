@@ -47,6 +47,7 @@ const ProjectTabs = ({ project }: Props) => {
           {activeTab === IProjectTubsName.ALTERNATIVE && <Changes />}
           {activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery />}
         </div>
+        <VisitedProjects />
       </div>
     </>
   );
