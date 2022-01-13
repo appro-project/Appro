@@ -67,7 +67,7 @@ const RangeFilterBlock = React.memo(({ filterId, initialRange, applyFilter }: Pr
     <div className={classes.RangeFilterBlock}>
       <h3 className={classes.RangeFilterBlock_Header}>{filterInfo.name}</h3>
       <div className={classes.RangeFilterBlock_Range}>
-        <input onChange={(e) => setFrom(e.target.value)} value={from} />
+        <input onChange={(e) => setFrom(e.target.value)} value={from} />-
         <input onChange={(e) => setTo(e.target.value)} value={to} />
         <Button title={'OK'} buttonType={ButtonType.TRANSPARENT_SMALL} actionHandler={() => rangeOptionOnClick()} />
       </div>

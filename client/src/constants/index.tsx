@@ -13,7 +13,7 @@ export const menuLinks: MenuLinkInfo[] = [
   { name: 'Главная', path: '/' },
   { name: 'Каталог домов', path: '/catalogue' },
   { name: 'Индивидуальный проект', path: '/individual-project' },
-  { name: 'Реализованные проекты', path: '/finished' },
+  // { name: 'Реализованные проекты', path: '/finished' },
   { name: 'Дополнительные услуги', path: '/additional' },
   { name: 'О нас', path: '/about' },
 ];

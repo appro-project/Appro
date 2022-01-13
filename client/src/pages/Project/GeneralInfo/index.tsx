@@ -21,6 +21,10 @@ const GeneralInfo = (props: Props) => {
           projectPrice={props.projectPrice}
         />
       </div>
+      <p className={classes.GeneralInfo_Text}>
+        Приобретая проект дома в Архитектурном бюро, вы получаете комплект чертежей - 2 экземпляра, необходимый для
+        проведения строительных работ и беспрепятственного получения разрешения на строительство.
+      </p>
     </section>
   );
 };

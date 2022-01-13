@@ -57,7 +57,6 @@ const CatalogueItem: React.FC<PropsType> = React.memo(
             </div>
           </div>
 
-          {/*todo: check if can be extracted above*/}
           <VisitedProjects />
         </Container>
       </div>
