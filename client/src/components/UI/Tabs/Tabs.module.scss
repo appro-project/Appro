@@ -7,14 +7,22 @@
 .TabsList {
   display: flex;
   position: relative;
+  border-bottom: 2px solid $yellow;
+  overflow-x: scroll;
 }
 
 .TabsList::before {
-  content: '';
+  // content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 2;
   border-bottom: 2px solid $yellow;
+}
+
+@media (min-width: $desktop-width) {
+  .TabsList {
+    overflow-x: hidden;
+  }
 }

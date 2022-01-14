@@ -19,8 +19,6 @@
 
 .ProjectLayout_Info {
   width: 100%;
-  max-width: 493px;
-  overflow-x: scroll;
 }
 
 .ProjectLayout_Attention {
@@ -60,7 +58,9 @@
   }
 }
 
-.ProjectLayout_InfoList {}
+.ProjectLayout_InfoList {
+  overflow-x: scroll;
+}
 
 .ProjectLayout_InfoItem {
   display: flex;
@@ -74,9 +74,7 @@
     font-size: 18px;
     line-height: normal;
     color: $black;
-
     white-space: nowrap;
-
   }
 
   span {
@@ -114,7 +112,36 @@
   }
 }
 
+@media (min-width: $tablet-width) {
+
+  .ProjectLayout_InfoItem {
+    span,
+    b {
+      white-space: normal;
+    }
+  }
+}
+
 @media (min-width: $desktop-width) {
+
+  .ProjectLayout_Info {
+    max-width: 493px;
+  }
+
+  .ProjectLayout_InfoList {
+    padding: 27px 20px;
+    background: #F5F5F5;
+  }
+
+  .ProjectLayout_InfoItem {
+    display: flex;
+    align-items: baseline;
+  
+    span,
+    b {
+      white-space: normal;
+    }
+  }
 
   .ProjectLayout_Wrapper {
     display: flex;
@@ -129,6 +156,10 @@
   .ProjectLayout_Info {
     width: 33%;
     max-width: 493px;
+  }
+
+  .ProjectLayout_InfoList{
+    overflow-x: hidden;
   }
 
 }

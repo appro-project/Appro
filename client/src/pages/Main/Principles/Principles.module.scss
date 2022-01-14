@@ -14,8 +14,8 @@
 
   .principles__body {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 40px;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
   }
 }
 
@@ -25,7 +25,8 @@
   }
 
   .principles__body {
-    margin-left: -20px;
-    margin-right: -20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 40px;
   }
 }
