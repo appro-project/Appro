@@ -3,12 +3,20 @@
 
 .project-details__content {
   position: relative;
+  max-width: 100%;
 }
 
-.project-details__img img {
-  object-fit: fill;
-  height: auto;
-  width: 100%;
+.project-details__img {
+  position: relative;
+  padding-top: 60%;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .project-details__info {
@@ -43,6 +51,10 @@
 }
 
 @media (min-width: $tablet-width) {
+  .project-details__content {
+    max-width: unset;
+  }
+
   .project-details__info-text {
     padding: 6px 0;
 

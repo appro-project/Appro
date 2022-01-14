@@ -18,6 +18,12 @@
 
   &__container {
     display: flex;
+
+    @media screen and (max-width: $desktop-width) {
+      display: block;
+    }
+  
+   
   }
 
   &__wrapper {
