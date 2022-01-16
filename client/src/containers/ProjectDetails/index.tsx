@@ -18,7 +18,7 @@ const ProjectDetails = React.memo(({ projectData }: Props) => {
         <div className={classes['project-details__info']}>
           {/*<span>{ projectData.title }</span>*/}
           <div className={classes['project-details__info-text']}>
-            {projectData.id}
+            {projectData.title}
             <span>
               <br />
               проект
