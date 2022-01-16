@@ -15,7 +15,7 @@ const ProjectDetails = (props: Props) => {
   return (
     <div className={classes['project-details']}>
       <div className={classes['project-details__header']}>
-        <div className={classes['project-details__title']}>Проект {projectData.id}</div>
+        <div className={classes['project-details__title']}>Проект {projectData.title}</div>
 
         {/*TODO: Fix square*/}
         <div className={classes['project-details__square']}>
