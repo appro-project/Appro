@@ -16,9 +16,10 @@ import {PrincipleItemData} from "../entity/PrincipleItemData";
 import benefitImage from "../assets/img/main/principles/benefit.jpg";
 import strengthImage from "../assets/img/main/principles/strength.jpg";
 import beautyImage from "../assets/img/main/principles/beauty.jpg";
-import {getProjectsFromDb, saveProject} from "../actions";
+import { deleteProject, getProjectsFromDb, saveProject, updateProject } from "../actions";
 import {createSelector} from "reselect";
 import memoize from 'lodash.memoize';
+import { Action } from "typescript-fsa";
 
 export interface RootState {
     projects: Project[];
@@ -32,11 +33,11 @@ export const initialState: RootState = {
     projects: [{
         floorList: [
             {
-                index: 1, area: 156.94, height: 2.8, planningImage: house_plan_1_2a_1,
+                id: 1, index: 1, area: 156.94, height: 2.8, planningImage: house_plan_1_2a_1,
                 isAttic: false, isBasement: false,
             },
             {
-                index: 2, area: 156.94, height: 2.5, planningImage: house_plan_2_2a_1,
+                id: 1, index: 2, area: 156.94, height: 2.5, planningImage: house_plan_2_2a_1,
                 isAttic: false, isBasement: false,
             }
         ],
@@ -107,6 +108,46 @@ rootReducer.case(saveProject.async.started, (state) => {
 
 rootReducer.case(saveProject.async.failed, (state) => {
     return {...state, projectSaving: false};
+});
+
+//update project
+rootReducer.case(updateProject.async.started, (state) => {
+    return {...state, projectSaving: true};
+});
+
+rootReducer.case(updateProject.async.done, (state, action: Action<Project>) => {
+    const newProjects = state.projects.map(pr => {
+        // @ts-ignore
+        if (pr.id === action.params.id){
+            // @ts-ignore
+            return {...action.params}
+        }
+        return pr
+    })
+    return {...state, projects: newProjects, projectSaving: false};
+});
+
+rootReducer.case(updateProject.async.failed, (state, action: Action<Project>) => {
+    return {...state, projectSaving: false};
+});
+
+
+//delete project
+rootReducer.case(deleteProject.async.started, (state) => {
+  
+    return {...state};
+});
+
+rootReducer.case(deleteProject.async.done, (state, action: Action<{params: {projectId: number}}>) => {
+    // @ts-ignore
+    const newProjects = state.projects.filter(pr => pr.id !== action.params.projectId)
+    
+    return {...state, projects: newProjects};
+});
+
+rootReducer.case(deleteProject.async.failed, (state) => {
+    console.log(state);
+    return {...state};
 });
 
 //get all projects

@@ -1,9 +1,9 @@
 export interface FloorDto{
-    id: number;
+    id: number | null;
     index: number | null;
     area: number | null;
     height: number | null;
-    planningImage: File | null;
-    isAttic: boolean;
-    isBasement: boolean;
+    planningImage: File | string  | null;
+    isAttic: boolean | null;
+    isBasement: boolean | null;
 }

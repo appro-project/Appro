@@ -25,11 +25,32 @@ router.post('/', (req, resp, next) => {
         for (const floor of project.floorList) {
             floor.projectId = Number(id);
             Floor.add(floor)
-                .then((floorId) => resp.status(200)
-                    .json({floorIndex: floor.index, floorId: floorId, projectId: id}))
                 .catch(next);
         }
-    }).catch(next);
+        return id;
+    }).then((id) => resp.status(200)
+        .json({projectId: id}))
+        .catch(next);
+})
+
+router.put('/:projectId', (req, resp, next) => {
+    const project = req.body;
+    const { projectId } = req.params;
+    Project.update(project).then(() => {
+        for (const floor of project.floorList) {
+            Floor.update(floor)
+                .catch(next);
+        }
+    }) .then(( ) => resp.status(200)
+        .json({projectId: projectId}))
+        .catch(next);
+})
+
+router.delete('/:projectId', (req, resp, next) => {
+    const { projectId } = req.params;
+    Project.delete(projectId).then(() => resp.status(200)
+        .json({projectId: projectId}))
+        .catch(next);
 })
 
 router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"), (req, res, next) => {

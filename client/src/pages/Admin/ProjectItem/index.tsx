@@ -1,14 +1,14 @@
 import React from 'react';
 import ViewAddEditProject from '../ViewAddEditProject';
-import {FloorDto} from "../../../entity/FloorDto";
+import { FloorDto } from "../../../entity/FloorDto";
 import FloorRow from "../FloorRow";
-import {getProjectSaving, RootState} from "../../../reducers";
-import {Action, compose} from "redux";
-import {connect} from "react-redux";
+import { getProjectSaving, RootState } from "../../../reducers";
+import { Action, compose } from "redux";
+import { connect } from "react-redux";
 // @ts-ignore
-import {ThunkDispatch} from "redux-thunk";
-import {saveProject} from "../../../actions";
-import {CircularProgress} from "@material-ui/core";
+import { ThunkDispatch } from "redux-thunk";
+import { deleteProject, saveProject, updateProject } from "../../../actions";
+import { Button, CircularProgress, List } from "@material-ui/core";
 import { RouteComponentProps, Router, useParams, withRouter } from "react-router";
 import { match } from "react-router-dom";
 import { axiosGetProjectById } from "../../../services/server-data";
@@ -29,8 +29,8 @@ interface State {
     ceiling: string;
     roof: string;
     buildingPrice: number | null;
-    mainImage: File | null;
-    images: FileList | null;
+    mainImage: File | string | null;
+    images: FileList | string[] | null;
     insulation: string;
     insulationThickness: number | null;
     length: number | null;
@@ -39,6 +39,8 @@ interface State {
     isGaragePresent: boolean;
     bedroomCount: number | null;
     floorList: FloorDto[];
+    edit?: boolean;
+    add?: boolean;
 }
 
 const initialState = {
@@ -65,6 +67,8 @@ const initialState = {
     isGaragePresent: false,
     bedroomCount: null,
     floorList: [] as FloorDto[],
+    edit: false,
+    add: false,
 };
 
 interface StateProps {
@@ -73,11 +77,14 @@ interface StateProps {
 
 interface DispatchProps {
     saveProject(project: any): void;
+    
+    updateProject(project: any): void;
+    
+    deleteProject(projectId: number): void;
 }
 
 interface Props {
-  project?: Project;
-  edit?: boolean;
+    project?: Project;
 }
 
 type PropsType = StateProps & DispatchProps & Props;
@@ -87,123 +94,139 @@ class ProjectItem extends React.Component<PropsType, State> {
     
     componentDidMount() {
         const { project } = this.props;
+        console.log(project)
         if (project) {
-            this.setState({...this.state, ...project});
+            this.setState({ ...this.state, ...project });
+        } else {
+            this.setState({ ...this.state, add: true });
         }
     }
-
+    
     handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, title: event.target.value});
+        this.setState({ ...this.state, title: event.target.value });
     }
-
+    
     handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, description: event.target.value});
+        this.setState({ ...this.state, description: event.target.value });
     }
-
+    
     handleStyleChange = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
     }>) => {
-        this.setState({...this.state, style: event.target.value as string});
+        this.setState({ ...this.state, style: event.target.value as string });
     }
-
+    
     handleGeneralAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, generalArea: event.target.value as unknown as number});
+        this.setState({ ...this.state, generalArea: event.target.value as unknown as number });
     }
-
+    
     handleLivingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, livingArea: event.target.value as unknown as number});
+        this.setState({ ...this.state, livingArea: event.target.value as unknown as number });
     }
-
+    
     handleBuildingAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, buildingArea: event.target.value as unknown as number});
+        this.setState({ ...this.state, buildingArea: event.target.value as unknown as number });
     }
-
+    
     handleTimeToCreateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
             timeToCreate: event.target.value as unknown as number,
         });
     }
-
+    
     handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, images: event.target.files});
+        this.setState({ ...this.state, images: event.target.files });
     }
-
+    
+    handleImageRemove = (imageSrc: string) => {
+        const { images } = this.state;
+        if (images) {
+            // @ts-ignore - images are not null, checked above
+            const newImages = images.filter((i: string) => i !== imageSrc);
+            this.setState({ ...this.state, images: newImages })
+        }
+    }
+    
     handleMainImageChange = (event: React.ChangeEvent<any>) => {
-        this.setState({...this.state, mainImage: event.target.files[0]});
+        this.setState({ ...this.state, mainImage: event.target.files[0] });
     }
-
+    
+    handleMainImageRemove = () => {
+        this.setState({ ...this.state, mainImage: null });
+    }
+    
     handleProjectPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, projectPrice: event.target.value as unknown as number});
+        this.setState({ ...this.state, projectPrice: event.target.value as unknown as number });
     }
-
+    
     handleBuildingPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, buildingPrice: event.target.value as unknown as number});
+        this.setState({ ...this.state, buildingPrice: event.target.value as unknown as number });
     }
-
+    
     handleLengthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, length: event.target.value as unknown as number});
+        this.setState({ ...this.state, length: event.target.value as unknown as number });
     }
-
+    
     handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, width: event.target.value as unknown as number});
+        this.setState({ ...this.state, width: event.target.value as unknown as number });
     }
-
+    
     handleFoundationChange = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
     }>) => {
-        this.setState({...this.state, foundation: event.target.value as string});
+        this.setState({ ...this.state, foundation: event.target.value as string });
     }
-
+    
     handleWallMaterialChange = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
     }>) => {
-        this.setState({...this.state, wallMaterial: event.target.value as string});
+        this.setState({ ...this.state, wallMaterial: event.target.value as string });
     }
-
+    
     handleWallThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
             wallThickness: event.target.value as unknown as number,
         });
     }
-
+    
     handleInsulationChange = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
     }>) => {
-        this.setState({...this.state, insulation: event.target.value as string});
+        this.setState({ ...this.state, insulation: event.target.value as string });
     }
-
+    
     handleInsulationThicknessChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
             insulationThickness: event.target.value as unknown as number,
         });
     }
-
-    handleCeilingChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        this.setState({...this.state, ceiling: event.target.value as string});
+    
+    handleCeilingChange = (event: React.ChangeEvent<{value: unknown}>) => {
+        this.setState({ ...this.state, ceiling: event.target.value as string });
     }
-
+    
     handleRoofChange = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
     }>) => {
-        this.setState({...this.state, roof: event.target.value as string});
+        this.setState({ ...this.state, roof: event.target.value as string });
     }
-
+    
     handleGarageChange = () => {
-        this.setState({...this.state, isGaragePresent: !this.state.isGaragePresent});
+        this.setState({ ...this.state, isGaragePresent: !this.state.isGaragePresent });
     }
-
+    
     handleBedroomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({...this.state, bedroomCount: event.target.value as unknown as number});
+        this.setState({ ...this.state, bedroomCount: event.target.value as unknown as number });
     }
-
+    
     handleFloorNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value as unknown as number;
         const floorList = [];
@@ -218,170 +241,261 @@ class ProjectItem extends React.Component<PropsType, State> {
                 isBasement: false,
             });
         }
-        this.setState({...this.state, floorList});
+        this.setState({ ...this.state, floorList });
     }
-
+    
     handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const index = event.target.value;
         floors.filter(i => i.id === floorId).forEach(i => i.index = index);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
     handleFloorAtticChange = (floorId: number) => {
         const floors = [...this.state.floorList];
         floors.filter(i => i.id === floorId).forEach(i => i.isAttic = !i.isAttic);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
     handleFloorBasementChange = (floorId: number) => {
         const floors = [...this.state.floorList];
         floors.filter(i => i.id === floorId).forEach(i => i.isBasement = !i.isBasement);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
     handleFloorAreaChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const area = event.target.value;
         floors.filter(i => i.id === floorId).forEach(i => i.area = area);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
     handleFloorHeightChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const height = event.target.value;
         floors
             .filter(i => i.id === floorId)
             .forEach(i => i.height = height);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
     handleFloorImageChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...this.state.floorList];
         const image = event.target.files[0];
         floors
             .filter(i => i.id === floorId)
             .forEach(i => i.planningImage = image);
-
-        this.setState({...this.state, floorList: floors});
+        
+        this.setState({ ...this.state, floorList: floors });
     }
-
+    
+    handleFloorImageRemove = (floorId: number | null) => {
+        const floors = [...this.state.floorList];
+        const floor = floors
+            .find(i => i.id === floorId);
+        console.log( floors, floorId)
+    
+        if (floor){
+            floor.planningImage = null;
+            console.log('image removed foo' )
+        }
+        
+    
+        this.setState({ ...this.state, floorList: floors });
+    }
+    
+    handleDeleteFloorClick = (floorId: number | null) => {
+        const newFloors = this.state.floorList.filter(f => f.id !== floorId)
+        
+        this.setState({ ...this.state, floorList: newFloors });
+    }
+    
     isProjectFilled = (): boolean => {
         const {
             title, generalArea, timeToCreate, projectPrice, livingArea,
             buildingArea, wallMaterial, wallThickness, foundation, ceiling,
             roof, buildingPrice, images, insulation, insulationThickness,
-            length, width, style, bedroomCount, floorList
+            length, width, style, bedroomCount, floorList,
         } = this.state;
-
+        
         return !(title && generalArea && timeToCreate && projectPrice && livingArea &&
             buildingArea && wallMaterial && wallThickness && foundation && ceiling &&
             roof && buildingPrice && images && insulation && insulationThickness &&
             length && width && style && bedroomCount && floorList.length > 0);
     }
-
-    renderFloors = () => {
+    
+    renderFloors = (view: boolean) => {
         const floorRows: JSX.Element[] = [];
-        const {floorList} = this.state;
+        const { floorList, add } = this.state;
         for (let i = 0; i < floorList.length; i = i + 1) {
             const floor = floorList[i];
             const floorId = i + 1;
             floorRows.push(
-                <FloorRow floor={floor}
-                          floorId={floorId}
-                          handleFloorIndexChange={this.handleFloorIndexChange}
-                          handleFloorAtticChange={this.handleFloorAtticChange}
-                          handleFloorBasementChange={this.handleFloorBasementChange}
-                          handleFloorAreaChange={this.handleFloorAreaChange}
-                          handleFloorHeightChange={this.handleFloorHeightChange}
-                          handleFloorImageChange={this.handleFloorImageChange}
+                <> <FloorRow
+                    view={ view }
+                    id={floor.id || floorId}
+                    index={ floor.index }
+                    area={floor.area}
+                    height={floor.height}
+                    planningImage={ add ? null : floor.planningImage  }
+                    isAttic={floor.isAttic}
+                    isBasement={floor.isBasement}
+                    handleFloorIndexChange={ this.handleFloorIndexChange }
+                    handleFloorAtticChange={ this.handleFloorAtticChange }
+                    handleFloorBasementChange={ this.handleFloorBasementChange }
+                    handleFloorAreaChange={ this.handleFloorAreaChange }
+                    handleFloorHeightChange={ this.handleFloorHeightChange }
+                    handleFloorImageChange={ this.handleFloorImageChange }
+                    handleFloorImageRemove={this.handleFloorImageRemove}
                 />
+                    
+                    { (this.state.edit || this.state.add) &&
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={ () => this.handleDeleteFloorClick(floor.id) }>
+                        Удалить
+                    </Button> }
+                </>,
             );
         }
         return floorRows;
     }
-
+    
     saveProject = () => {
-        this.props.saveProject(this.state);
-        this.setState({...initialState});
+        if (this.state.edit) {
+            this.props.updateProject(this.state);
+            this.setState({ ...this.state, edit: false });
+            
+        } else if (this.state.add) {
+            this.props.saveProject(this.state);
+            this.setState({ ...initialState });
+        }
     }
-
+    
+    cancelChanges = () => {
+        const { project } = this.props;
+        const { edit } = this.state;
+        if (edit) {
+            this.setState({ ...this.state, edit: !edit, ...project })
+        } else {
+            this.setState({ ...initialState });
+        }
+    }
+    
+    handleEditProjectClick = () => {
+        const { edit } = this.state;
+        
+        this.setState({ ...this.state, edit: !edit })
+    }
+    
+    handleDeleteProjectClick = () => {
+        if (this.props.project) {
+            this.props.deleteProject(this.props.project.id);
+        }
+    }
+    
     render() {
         const projectId = this.props.project?.id;
-        const {projectSaving} = this.props;
+        const { projectSaving } = this.props;
         const isProjectFilled = this.isProjectFilled();
-        const viewProject = !this.props.edit;
+        const { add, edit } = this.state;
+        const viewProject = !(add || edit);
         return <>
-            {!projectSaving
-                ? <ViewAddEditProject
-                     view={viewProject}
-                    handleTitleChange={this.handleTitleChange}
-                                      handleDescriptionChange={this.handleDescriptionChange}
-                                      handleStyleChange={this.handleStyleChange}
-                                      handleGeneralAreaChange={this.handleGeneralAreaChange}
-                                      handleLivingAreaChange={this.handleLivingAreaChange}
-                                      handleBuildingAreaChange={this.handleBuildingAreaChange}
-                                      handleTimeToCreateChange={this.handleTimeToCreateChange}
-                                      handleImagesChange={this.handleImagesChange}
-                                      handleMainImageChange={this.handleMainImageChange}
-                                      handleProjectPriceChange={this.handleProjectPriceChange}
-                                      handleBuildingPriceChange={this.handleBuildingPriceChange}
-                                      handleLengthChange={this.handleLengthChange}
-                                      handleWidthChange={this.handleWidthChange}
-                                      handleFoundationChange={this.handleFoundationChange}
-                                      handleWallMaterialChange={this.handleWallMaterialChange}
-                                      handleWallThicknessChange={this.handleWallThicknessChange}
-                                      handleInsulationChange={this.handleInsulationChange}
-                                      handleInsulationThicknessChange={this.handleInsulationThicknessChange}
-                                      handleCeilingChange={this.handleCeilingChange}
-                                      handleRoofChange={this.handleRoofChange}
-                                      handleGarageChange={this.handleGarageChange}
-                                      handleBedroomChange={this.handleBedroomChange}
-                                      handleFloorNumberChange={this.handleFloorNumberChange}
-                                      isProjectFilled={isProjectFilled}
-                                      saveProject={this.saveProject}
-                                      renderFloors={this.renderFloors}
-                                      id = {Number(projectId)}
-                                      title={this.state.title}
-                                      description={this.state.description}
-                                      generalArea={this.state.generalArea}
-                                      timeToCreate={this.state.timeToCreate}
-                                      projectPrice={this.state.projectPrice}
-                                      buildingPrice={this.state.buildingPrice}
-                                      livingArea={this.state.livingArea}
-                                      buildingArea={this.state.buildingArea}
-                                      foundation={this.state.foundation}
-                                      ceiling={this.state.ceiling}
-                                      roof={this.state.roof}
-                                      bedroomCount={this.state.bedroomCount}
-                                      wallMaterial={this.state.wallMaterial}
-                                      wallThickness={this.state.wallThickness}
-                                      insulation={this.state.insulation}
-                                      insulationThickness={this.state.insulationThickness}
-                                      length={this.state.length}
-                                      width={this.state.width}
-                                      isGaragePresent={this.state.isGaragePresent}
-                                      style={this.state.style}
-                                      floorListLength={this.state.floorList.length}/>
+            { !projectSaving
+                ?
+                <>
+                    { (projectId) &&
+                    <>
+                        <Button variant="contained" color="primary"
+                                onClick={ this.handleEditProjectClick }>
+                            Редактировать
+                        </Button>
+                        <Button variant="contained" color="primary"
+                                onClick={ this.handleDeleteProjectClick }>
+                            Удалить
+                        </Button>
+                    </>
+                    }
+                    <ViewAddEditProject
+                        add={ add }
+                        edit={ edit }
+                        handleTitleChange={ this.handleTitleChange }
+                        handleDescriptionChange={ this.handleDescriptionChange }
+                        handleStyleChange={ this.handleStyleChange }
+                        handleGeneralAreaChange={ this.handleGeneralAreaChange }
+                        handleLivingAreaChange={ this.handleLivingAreaChange }
+                        handleBuildingAreaChange={ this.handleBuildingAreaChange }
+                        handleTimeToCreateChange={ this.handleTimeToCreateChange }
+                        handleImagesChange={ this.handleImagesChange }
+                        handleImageRemove={ this.handleImageRemove }
+                        handleMainImageChange={ this.handleMainImageChange }
+                        handleMainImageRemove={ this.handleMainImageRemove }
+                        handleProjectPriceChange={ this.handleProjectPriceChange }
+                        handleBuildingPriceChange={ this.handleBuildingPriceChange }
+                        handleLengthChange={ this.handleLengthChange }
+                        handleWidthChange={ this.handleWidthChange }
+                        handleFoundationChange={ this.handleFoundationChange }
+                        handleWallMaterialChange={ this.handleWallMaterialChange }
+                        handleWallThicknessChange={ this.handleWallThicknessChange }
+                        handleInsulationChange={ this.handleInsulationChange }
+                        handleInsulationThicknessChange={ this.handleInsulationThicknessChange }
+                        handleCeilingChange={ this.handleCeilingChange }
+                        handleRoofChange={ this.handleRoofChange }
+                        handleGarageChange={ this.handleGarageChange }
+                        handleBedroomChange={ this.handleBedroomChange }
+                        handleFloorNumberChange={ this.handleFloorNumberChange }
+                        isProjectFilled={ isProjectFilled }
+                        saveProject={ this.saveProject }
+                        cancelChanges={ this.cancelChanges }
+                        renderFloors={ () => this.renderFloors(viewProject) }
+                        id={ Number(projectId) }
+                        title={ this.state.title }
+                        description={ this.state.description }
+                        generalArea={ this.state.generalArea }
+                        timeToCreate={ this.state.timeToCreate }
+                        projectPrice={ this.state.projectPrice }
+                        buildingPrice={ this.state.buildingPrice }
+                        livingArea={ this.state.livingArea }
+                        buildingArea={ this.state.buildingArea }
+                        foundation={ this.state.foundation }
+                        ceiling={ this.state.ceiling }
+                        roof={ this.state.roof }
+                        bedroomCount={ this.state.bedroomCount }
+                        wallMaterial={ this.state.wallMaterial }
+                        wallThickness={ this.state.wallThickness }
+                        insulation={ this.state.insulation }
+                        insulationThickness={ this.state.insulationThickness }
+                        length={ this.state.length }
+                        width={ this.state.width }
+                        isGaragePresent={ this.state.isGaragePresent }
+                        style={ this.state.style }
+                        mainImage={ this.state.mainImage }
+                        images={ this.state.images }
+                        floorListLength={ this.state.floorList.length }/>
+                </>
                 : <CircularProgress/>
             }</>;
     }
+    
+    
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
     return {
-        projectSaving: getProjectSaving(state)
+        projectSaving: getProjectSaving(state),
     }
 }
 
 export default compose(connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps,
     (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
-        saveProject: (project: any) => dispatch(saveProject(project))
-    })
+        saveProject: (project: any) => dispatch(saveProject(project)),
+        updateProject: (project: any) => dispatch(updateProject(project)),
+        deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
+    }),
 ), withRouter)(ProjectItem);
 

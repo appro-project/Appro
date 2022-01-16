@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Floor } from "../../entity/Floor";
 
 const defaultOptions = {
-    baseURL: `${(process.env.NODE_ENV === 'production') ? '/api/v1' : 'http://localhost/api/v1'}`,
+    baseURL: `${ (process.env.NODE_ENV === 'production') ? '/api/v1' : 'http://localhost/api/v1' }`,
 };
 
 const axiosWithSetting = axios.create(defaultOptions);
@@ -56,6 +56,26 @@ const axiosSaveProject = (project: any) => {
         });
 };
 
+const axiosUpdateProject = (project: any) => {
+    axiosWithSetting.put(`project/${project.id}`, project)
+        .then((response) => {
+            console.log(response)
+            // uploadFloorImages(response, project);
+            // uploadMainImage(response, project);
+            // uploadProjectImages(response, project);
+        });
+}
+
+const axiosDeleteProject = (projectId: number) => {
+    axiosWithSetting.delete(`project/${projectId}`)
+        .then((response) => {
+            console.log(response)
+            // uploadFloorImages(response, project);
+            // uploadMainImage(response, project);
+            // uploadProjectImages(response, project);
+        });
+}
+
 const axiosGetProjects = async (): Promise<Project[]> => {
     return await axiosWithSetting.get('project')
         .then(response => response.data)
@@ -63,7 +83,7 @@ const axiosGetProjects = async (): Promise<Project[]> => {
 };
 
 export const axiosGetProjectById = async (id: number) => {
-    return await axiosWithSetting.get(`project/${id}`)
+    return await axiosWithSetting.get(`project/${ id }`)
         .then(res => res.data)
         .then(data => mapResponseDataToProject(data));
 };
@@ -104,20 +124,21 @@ const mapResponseDataToProjects = (data: any): Project[] => {
     for (const projectData of data) {
         projects.push(mapResponseDataToProject(projectData));
     }
-
+    
     return projects;
 };
 
 const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
     const floors: Floor[] = [];
-    for (const floor of floorListResponse){
+    for (const floor of floorListResponse) {
         floors.push({
+            id: floor.floor_id,
             index: floor.index,
             area: floor.area,
             height: floor.height,
             isAttic: floor.is_attic,
             isBasement: floor.is_basement,
-            planningImage: floor.planning_image
+            planningImage: floor.planning_image,
         })
     }
     
@@ -126,5 +147,7 @@ const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
 
 export const DataService = {
     axiosSaveProject,
-    axiosGetProjects
+    axiosUpdateProject,
+    axiosDeleteProject,
+    axiosGetProjects,
 };

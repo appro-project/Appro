@@ -8,11 +8,11 @@ interface Props {
     title: string;
     required?: boolean;
     multiple?: boolean;
-
+    disabled?: boolean;
     handleProperty(event: React.ChangeEvent<any>): void;
 }
 
-const FileProperty = ({ title, required, multiple, handleProperty }: Props) =>
+const FileProperty = ({ title, required, multiple, disabled, handleProperty }: Props) =>
     <React.Fragment>
         <FormLabel>{ title }</FormLabel>
         <FormControl>
@@ -20,6 +20,7 @@ const FileProperty = ({ title, required, multiple, handleProperty }: Props) =>
             <Input type="file" id={ `${title}-label` }
                    onChange={ event => handleProperty(event) }
                    inputProps={ { multiple } }
+                   disabled={disabled}
                    required={ required }/>
         </FormControl>
     </React.Fragment>;

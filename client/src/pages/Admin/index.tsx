@@ -33,19 +33,19 @@ interface DispatchProps {
 interface State {
     openProjectId: number | null;
     editProjectId: number | null;
+    addProjectOpen: boolean;
 }
 
 type PropsType = StateProps & DispatchProps;
 
 class Admin extends React.Component<PropsType, State> {
-    state = { openProjectId: null, editProjectId: null };
+    state = { openProjectId: null, editProjectId: null, addProjectOpen: false };
     
     componentDidMount() {
         this.props.getProjectsFromDb();
     }
     
     renderProject = (project: Project): React.ReactElement => {
-        console.log(this.state)
         const open = this.state.openProjectId && this.state.openProjectId == project.id;
         
         return <ListItem alignItems="flex-start" key={ project.id }>
@@ -67,11 +67,7 @@ class Admin extends React.Component<PropsType, State> {
                 unmountOnExit
             >
                 <List component='li' disablePadding key={ project.id }>
-                    <Button variant="contained" color="primary"
-                            onClick={() => this.handleEditProjectClick(project.id)}>
-                        Редактировать
-                    </Button>
-                    <ProjectItem project = {project} edit={this.state.editProjectId === project.id}/>
+                    <ProjectItem project={ project }/>
                 </List>
             </Collapse>
         </ListItem>
@@ -81,31 +77,45 @@ class Admin extends React.Component<PropsType, State> {
         const { projects, projectsLoading } = this.props;
         return <Container>
             { projectsLoading ? <CircularProgress/> :
-                <List>
-                    { projects.map(project => this.renderProject(project)) }
-                </List>
+                <>
+                    { this.renderNewProject() }
+                    <List>
+                        { projects.map(project => this.renderProject(project)) }
+                    </List>
+                </>
             }
         </Container>
         
     }
     
-    private handleOpenProjectClick(projectId: number) {
+    renderNewProject = () => {
+        return <>
+            <Button variant="contained"
+                    color="primary"
+                    onClick={ this.handleNewProjectClick }>
+                Добавить новый проект
+            </Button>
+            <Collapse
+                in={ this.state.addProjectOpen }
+                timeout='auto'
+                unmountOnExit
+            >
+                <ProjectItem />
+            </Collapse>
+        </>
+    }
+    
+    handleNewProjectClick = () => {
+        this.setState({...this.state, addProjectOpen: !this.state.addProjectOpen})
+    }
+    
+    handleOpenProjectClick = (projectId: number) => {
         const { openProjectId } = this.state;
         if (openProjectId == projectId) {
             this.setState({ ...this.state, openProjectId: null })
         } else {
             this.setState({ ...this.state, openProjectId: projectId })
         }
-    }
-    
-    private handleEditProjectClick(projectId: number) {
-        const { editProjectId } = this.state;
-        if (editProjectId == projectId) {
-            this.setState({ ...this.state, editProjectId: null })
-        } else {
-            this.setState({ ...this.state, editProjectId: projectId })
-        }
-        
     }
 }
 
