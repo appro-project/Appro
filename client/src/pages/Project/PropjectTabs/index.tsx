@@ -41,7 +41,7 @@ const ProjectTabs = ({ project }: Props) => {
             />
           )}
           {activeTab === IProjectTubsName.LAYAOUT && <ProjectLayout project={project} />}
-          {activeTab === IProjectTubsName.SIMILAR_PROJECTS && <VisitedProjects />}
+          {/*{activeTab === IProjectTubsName.SIMILAR_PROJECTS && <VisitedProjects />}*/}
           {activeTab === IProjectTubsName.ADDITIONAL_SERVICES && <Additional />}
           {activeTab === IProjectTubsName.COMPOSITION_OF_PROJECT && <ProjectStructure project={project} />}
           {activeTab === IProjectTubsName.ALTERNATIVE && <Changes />}

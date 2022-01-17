@@ -126,14 +126,14 @@ export const initialState: RootState = {
     },
   ],
   popularCategories: [
-    { image: mansardaImg, title: 'Дома с мансардой' },
-    { image: oneFloorImg, title: 'Одноэтажные дома' },
-    { image: twoFloorImg, title: 'Двухэтажные дома' },
-    { image: modernImage, title: 'Cовременные дома' },
-    { image: classicImage, title: 'Классические дома' },
-    { image: smallImage, title: 'Дома до 150 м' },
-    { image: mediumImage, title: 'Дома от 150 до 250м' },
-    { image: largeImage, title: 'Дома от 250 м' },
+    { image: mansardaImg, title: 'Дома с мансардой', link: '/catalogue?floor=attic' },
+    { image: oneFloorImg, title: 'Одноэтажные дома', link: '/catalogue?floor=1-floor' },
+    { image: twoFloorImg, title: 'Двухэтажные дома', link: '/catalogue?floor=2-floor' },
+    { image: modernImage, title: 'Cовременные дома', link: '/catalogue?style=modern' },
+    { image: classicImage, title: 'Классические дома', link: '/catalogue?style=classic' },
+    { image: smallImage, title: 'Дома до 150 м', link: '/catalogue?&area=20-150' },
+    { image: mediumImage, title: 'Дома от 150 до 250м', link: '/catalogue?&area=150-250' },
+    { image: largeImage, title: 'Дома от 250 м', link: '/catalogue?&area=250-500' },
   ],
   principlesData: [
     {
