@@ -32,13 +32,20 @@ const ProjectTabs = ({ project }: Props) => {
         </ol>
         <div className="tab-content">
           {activeTab === IProjectTubsName.All_ABOUT_PROJECT && (
-            <GeneralInfo
-              title={project.title}
-              generalArea={project.generalArea}
-              projectPrice={project.projectPrice}
-              timeToCreate={project.timeToCreate}
-              images={project.images}
-            />
+            <>
+              <GeneralInfo
+                title={project.title}
+                generalArea={project.generalArea}
+                projectPrice={project.projectPrice}
+                timeToCreate={project.timeToCreate}
+                images={project.images}
+              />
+              <ProjectLayout project={project} />
+              <ProjectStructure project={project} />
+              <Changes />
+              <Additional />
+              <Gallery />
+            </>
           )}
           {activeTab === IProjectTubsName.LAYAOUT && <ProjectLayout project={project} />}
           {/*{activeTab === IProjectTubsName.SIMILAR_PROJECTS && <VisitedProjects />}*/}
