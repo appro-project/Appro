@@ -4,6 +4,7 @@ import classes from './ProjectLayout.module.scss';
 import ImageCarousel from '../ImageCarousel';
 import { Project } from '../../../entity/Project';
 import NumberFormat from 'react-number-format';
+import '../Additional/Additional.scss';
 
 interface Props {
   project: Project;
@@ -16,14 +17,11 @@ const ProjectLayout = (props: Props) => {
     .filter((f) => f.planningImage !== null)
     .map((f) => f.planningImage) as string[];
 
-  console.log(props);
-  console.log(floorImages);
-
   const floors = project.floorList.filter((f) => !(f.isBasement || f.isAttic));
 
   return (
     <section className={classes.ProjectLayout}>
-      <div className={classes.ProjectLayout_Header}>Планировка</div>
+      <div className={'project-section__title project-additional__title'}>Планировка</div>
       <div className={classes.ProjectLayout_Wrapper}>
         <div className={classes.ProjectLayout_Slider}>
           <ImageCarousel images={floorImages} />

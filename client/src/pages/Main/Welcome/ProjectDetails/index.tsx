@@ -4,6 +4,7 @@ import Button from '../../../../components/UI/Button';
 
 import classes from './ProjectDetails.module.scss';
 import { Project } from '../../../../entity/Project';
+import { Link } from 'react-router-dom';
 
 interface Props {
   project: Project;
@@ -29,9 +30,9 @@ const ProjectDetails = (props: Props) => {
           {projectData.projectPrice} грн.
           <span className={classes['project-details__price-info']}>цена проекта</span>
         </div>
-        <a href="#" className={classes['project-details__link']}>
+        <Link to={`/catalogue/${projectData.id}`} className={classes['project-details__link']}>
           <Button title={'Подробнее'} />
-        </a>
+        </Link>
       </div>
     </div>
   );
