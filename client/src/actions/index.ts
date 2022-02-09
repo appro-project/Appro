@@ -27,3 +27,8 @@ export const getProjectsFromDb = createAsync<{}, Project[]>(
     'GET_PROJECTS',
     async () => await DataService.axiosGetProjects()
 );
+
+// export const toggleIsVisible = create<{id: number; isVisible: boolean}, Project[]>(
+//     'TOGGLE_IS_VISIBLE',
+//     async () => await DataService.axiosGetProjects()
+// );

@@ -18,8 +18,9 @@ import {
     Typography,
 } from "@material-ui/core";
 import Container from "../../containers/hoc/Container";
-import AddProject from "./AddProject";
 import ProjectItem from "./ProjectItem";
+import classes from './Admin.module.scss';
+import CheckProperty from './ViewAddEditProject/CheckProperty';
 
 interface StateProps {
     projectsLoading: boolean;
@@ -47,29 +48,40 @@ class Admin extends React.Component<PropsType, State> {
     
     renderProject = (project: Project): React.ReactElement => {
         const open = this.state.openProjectId && this.state.openProjectId == project.id;
+
+       const  handleChangeVisible =  () => {
+
+        }
         
         return <ListItem alignItems="flex-start" key={ project.id }>
-            <ListItemAvatar>
-                <Avatar alt={ project.title } src={ project.mainImage }/>
-            </ListItemAvatar>
-            <ListItemText
-                primary={ `${ project.id } - ${ project.title }` }
-                secondary={ project.description }
-            />
-            <Button onClick={ () => this.handleOpenProjectClick(project.id) }>
-                { open ? 'ExpandLess' : 'ExpandMore' }
-            </Button>
-            
-            <Collapse
-                key={ project.id }
-                in={ open }
-                timeout='auto'
-                unmountOnExit
-            >
-                <List component='li' disablePadding key={ project.id }>
-                    <ProjectItem project={ project }/>
-                </List>
-            </Collapse>
+            <div className={classes['item-project-wrapper']}>
+                <div className={classes['item-project-header']}>
+                    <ListItemAvatar>
+                        <Avatar alt={ project.title } src={ project.mainImage }/>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={ `${ project.id } - ${ project.title }` }
+                        secondary={ project.description }
+                    />
+                    <CheckProperty title={ 'Показывать на странице' }
+                                   checked={ project.isVisible ?? false }
+                                   handleProperty={ handleChangeVisible }
+                    />
+                    <Button onClick={ () => this.handleOpenProjectClick(project.id) }>
+                        { open ? 'ExpandLess' : 'ExpandMore' }
+                    </Button>
+                </div>
+                <Collapse
+                    key={ project.id }
+                    in={ open }
+                    timeout='auto'
+                    unmountOnExit
+                >
+                    <List component='li' disablePadding key={ project.id }>
+                        <ProjectItem project={ project }/>
+                    </List>
+                </Collapse>
+            </div>
         </ListItem>
     }
     
@@ -79,9 +91,12 @@ class Admin extends React.Component<PropsType, State> {
             { projectsLoading ? <CircularProgress/> :
                 <>
                     { this.renderNewProject() }
-                    <List>
-                        { projects.map(project => this.renderProject(project)) }
-                    </List>
+                    <div>
+                        <h6 className={classes['title-project-created']}>Существующие проекты:</h6>
+                        <ul className={classes['list-wrapper']}>
+                            { projects.map(project => this.renderProject(project)) }
+                        </ul>
+                    </div>
                 </>
             }
         </Container>
@@ -92,7 +107,8 @@ class Admin extends React.Component<PropsType, State> {
         return <>
             <Button variant="contained"
                     color="primary"
-                    onClick={ this.handleNewProjectClick }>
+                    onClick={ this.handleNewProjectClick }
+            className={classes['button-add-project']}>
                 Добавить новый проект
             </Button>
             <Collapse
@@ -129,5 +145,6 @@ const mapStateToProps = (state: RootState): StateProps => {
 export default compose(withRouter, connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps,
     (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
         getProjectsFromDb: () => dispatch(getProjectsFromDb.action({})),
+        isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
     }),
 ))(Admin);

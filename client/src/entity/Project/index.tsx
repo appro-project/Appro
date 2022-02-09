@@ -26,4 +26,5 @@ export interface Project {
     bedroomCount: number;
     floorList: Floor[];
     popularity: number;
+    isVisible?: boolean;
 }

@@ -13,6 +13,7 @@ import { RouteComponentProps, Router, useParams, withRouter } from "react-router
 import { match } from "react-router-dom";
 import { axiosGetProjectById } from "../../../services/server-data";
 import { Project } from "../../../entity/Project";
+import classes from './ProjectItem.module.scss';
 
 interface State {
     id?: number;
@@ -410,7 +411,7 @@ class ProjectItem extends React.Component<PropsType, State> {
                 ?
                 <>
                     { (projectId) &&
-                    <>
+                    <div className={classes['button-group']}>
                         <Button variant="contained" color="primary"
                                 onClick={ this.handleEditProjectClick }>
                             Редактировать
@@ -419,7 +420,7 @@ class ProjectItem extends React.Component<PropsType, State> {
                                 onClick={ this.handleDeleteProjectClick }>
                             Удалить
                         </Button>
-                    </>
+                    </div>
                     }
                     <ViewAddEditProject
                         add={ add }
