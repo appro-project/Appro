@@ -5,7 +5,7 @@ const Project = require("../model/project");
 const Floor = require("../model/floor");
 const Image = require("../model/image");
 
-const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '/Users/ybahinska/IdeaProjects/appro/client/public/img/projects'}`;
+const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '../client/public/img/projects'}`;
 
 router.get('/', (req, res, next) => {
     Project.findAll()
@@ -39,6 +39,12 @@ router.put('/:projectId', (req, resp, next) => {
     Project.update(project).then(() => {
         for (const floor of project.floorList) {
             Floor.update(floor)
+                .catch(next);
+        }
+        const {imagesToDelete} = project;
+        if (imagesToDelete){
+            console.log(projectId, imagesToDelete)
+            Image.deleteFromProject(imagesToDelete)
                 .catch(next);
         }
     }) .then(( ) => resp.status(200)

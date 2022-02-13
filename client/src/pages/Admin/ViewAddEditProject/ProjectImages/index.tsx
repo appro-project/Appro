@@ -10,6 +10,7 @@ interface Props {
     required?: boolean;
     multiple?: boolean;
     disabled?: boolean;
+    isMain?: boolean;
     
     handleAddImage(event: React.ChangeEvent<any>): void;
     
@@ -17,41 +18,56 @@ interface Props {
     
 }
 
-const ProjectImages = ({ images, title, required, multiple, disabled, handleAddImage, handleRemoveImage }: Props) => {
-    if (images) {
-        return <>
-            <ImageList cols={ 3 } rowHeight={ 164 }>
-                { images.map((item) => (
-                    <ImageListItem key={ item }>
-                        <img
-                            src={ item }
-                            alt={ item }
-                            loading="lazy"
-                        />
-                        { !disabled &&
-                        <ImageListItemBar
-                            position="top"
-                            actionIcon={
-                                <IconButton style={ { width: 40, height: 40 } }
-                                            disabled={ disabled }
-                                            onClick={ () => handleRemoveImage(item) }>
-                                    <img src={ delete_icon }/>
-                                </IconButton>
-                            }
-                            actionPosition="left"
-                        />}
-                    </ImageListItem>
-                )) }
-            </ImageList>
-        </>
+const getImageList = (images: string[], disabled: boolean | undefined,
+                      handleRemoveImage: (id: (string | number)) => void) => {
+    return <ImageList cols={ 3 } rowHeight={ 164 }>
+        { images.map((item) => (
+            <ImageListItem key={ item }>
+                <img
+                    src={ item }
+                    alt={ item }
+                    loading="lazy"
+                />
+                { !disabled &&
+                <ImageListItemBar
+                    position="top"
+                    actionIcon={
+                        <IconButton style={ { width: 40, height: 40 } }
+                                    disabled={ disabled }
+                                    onClick={ () => handleRemoveImage(item) }>
+                            <img src={ delete_icon }/>
+                        </IconButton>
+                    }
+                    actionPosition="left"
+                /> }
+            </ImageListItem>
+        )) }
+    </ImageList>;
+}
+
+const ProjectImages = ({
+                           images,
+                           title,
+                           required,
+                           multiple,
+                           disabled,
+                           isMain,
+                           handleAddImage,
+                           handleRemoveImage,
+                       }: Props) => {
+    if (images && isMain) {
+        return getImageList(images, disabled, handleRemoveImage)
     }
-    return <FileProperty
-        title={ title }
-        required={ required }
-        disabled={ disabled }
-        multiple={ multiple }
-        handleProperty={ handleAddImage }
-    />
+    return <>
+        { images && getImageList(images, disabled, handleRemoveImage) }
+        <FileProperty
+            title={ title }
+            required={ required }
+            disabled={ disabled }
+            multiple={ multiple }
+            handleProperty={ handleAddImage }
+        />
+    </>
 }
 
 export default ProjectImages;

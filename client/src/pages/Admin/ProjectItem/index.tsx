@@ -7,7 +7,7 @@ import { Action, compose } from "redux";
 import { connect } from "react-redux";
 // @ts-ignore
 import { ThunkDispatch } from "redux-thunk";
-import { deleteProject, saveProject, updateProject } from "../../../actions";
+import { deleteImages, deleteProject, saveProject, updateProject } from "../../../actions";
 import { Button, CircularProgress, List } from "@material-ui/core";
 import { RouteComponentProps, Router, useParams, withRouter } from "react-router";
 import { match } from "react-router-dom";
@@ -31,7 +31,7 @@ interface State {
     roof: string;
     buildingPrice: number | null;
     mainImage: File | string | null;
-    images: FileList | string[] | null;
+    images: string[] | null;
     insulation: string;
     insulationThickness: number | null;
     length: number | null;
@@ -42,6 +42,8 @@ interface State {
     floorList: FloorDto[];
     edit?: boolean;
     add?: boolean;
+    imagesToDelete: string[];
+    imagesToAdd: FileList | null;
 }
 
 const initialState = {
@@ -70,6 +72,8 @@ const initialState = {
     floorList: [] as FloorDto[],
     edit: false,
     add: false,
+    imagesToDelete: [],
+    imagesToAdd: null,
 };
 
 interface StateProps {
@@ -82,6 +86,8 @@ interface DispatchProps {
     updateProject(project: any): void;
     
     deleteProject(projectId: number): void;
+    
+    deleteImages(images: string[]): void;
 }
 
 interface Props {
@@ -95,7 +101,7 @@ class ProjectItem extends React.Component<PropsType, State> {
     
     componentDidMount() {
         const { project } = this.props;
-        console.log(project)
+        console.log("projet", project)
         if (project) {
             this.setState({ ...this.state, ...project });
         } else {
@@ -138,15 +144,16 @@ class ProjectItem extends React.Component<PropsType, State> {
     }
     
     handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ ...this.state, images: event.target.files });
+        this.setState({ ...this.state, imagesToAdd: event.target.files });
     }
     
     handleImageRemove = (imageSrc: string) => {
-        const { images } = this.state;
+        const { images, imagesToDelete } = this.state;
         if (images) {
             // @ts-ignore - images are not null, checked above
             const newImages = images.filter((i: string) => i !== imageSrc);
-            this.setState({ ...this.state, images: newImages })
+            imagesToDelete.push(imageSrc)
+            this.setState({ ...this.state, images: newImages, imagesToDelete })
         }
     }
     
@@ -155,7 +162,9 @@ class ProjectItem extends React.Component<PropsType, State> {
     }
     
     handleMainImageRemove = () => {
-        this.setState({ ...this.state, mainImage: null });
+        const { mainImage, imagesToDelete } = this.state;
+        imagesToDelete.push(mainImage)
+        this.setState({ ...this.state, mainImage: null, imagesToDelete });
     }
     
     handleProjectPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,15 +308,17 @@ class ProjectItem extends React.Component<PropsType, State> {
         const floors = [...this.state.floorList];
         const floor = floors
             .find(i => i.id === floorId);
-        console.log( floors, floorId)
-    
-        if (floor){
-            floor.planningImage = null;
-            console.log('image removed foo' )
-        }
+        console.log(floors, floorId)
         
-    
-        this.setState({ ...this.state, floorList: floors });
+        if (!floor) {
+            return;
+        }
+        const { imagesToDelete } = this.state;
+        const floorImageToDelete = floor.planningImage;
+        imagesToDelete.push(floorImageToDelete);
+        floor.planningImage = null;
+
+        this.setState({ ...this.state, floorList: floors, imagesToDelete });
     }
     
     handleDeleteFloorClick = (floorId: number | null) => {
@@ -339,20 +350,20 @@ class ProjectItem extends React.Component<PropsType, State> {
             floorRows.push(
                 <> <FloorRow
                     view={ view }
-                    id={floor.id || floorId}
+                    id={ floor.id || floorId }
                     index={ floor.index }
-                    area={floor.area}
-                    height={floor.height}
-                    planningImage={ add ? null : floor.planningImage  }
-                    isAttic={floor.isAttic}
-                    isBasement={floor.isBasement}
+                    area={ floor.area }
+                    height={ floor.height }
+                    planningImage={ add ? null : floor.planningImage }
+                    isAttic={ floor.isAttic }
+                    isBasement={ floor.isBasement }
                     handleFloorIndexChange={ this.handleFloorIndexChange }
                     handleFloorAtticChange={ this.handleFloorAtticChange }
                     handleFloorBasementChange={ this.handleFloorBasementChange }
                     handleFloorAreaChange={ this.handleFloorAreaChange }
                     handleFloorHeightChange={ this.handleFloorHeightChange }
                     handleFloorImageChange={ this.handleFloorImageChange }
-                    handleFloorImageRemove={this.handleFloorImageRemove}
+                    handleFloorImageRemove={ this.handleFloorImageRemove }
                 />
                     
                     { (this.state.edit || this.state.add) &&
@@ -395,8 +406,21 @@ class ProjectItem extends React.Component<PropsType, State> {
     }
     
     handleDeleteProjectClick = () => {
-        if (this.props.project) {
-            this.props.deleteProject(this.props.project.id);
+        const { project } = this.props;
+        if (project) {
+            this.props.deleteProject(project.id);
+            const imagesToDelete = new Set([project.mainImage]);
+            if (project.images) {
+                project.images.forEach(img => imagesToDelete.add(img))
+            }
+            if (project.floorList) {
+                const floorImages = project.floorList
+                    .map(floor => floor.planningImage)
+                    .filter(img => img !== null)
+                    // @ts-ignore - null is filtered
+                    .forEach(img => imagesToDelete.add(img));
+            }
+            this.props.deleteImages(Array.from(imagesToDelete));
         }
     }
     
@@ -411,7 +435,7 @@ class ProjectItem extends React.Component<PropsType, State> {
                 ?
                 <>
                     { (projectId) &&
-                    <div className={classes['button-group']}>
+                    <div className={ classes['button-group'] }>
                         <Button variant="contained" color="primary"
                                 onClick={ this.handleEditProjectClick }>
                             Редактировать
@@ -497,6 +521,7 @@ export default compose(connect<StateProps, DispatchProps, {}, RootState>(mapStat
         saveProject: (project: any) => dispatch(saveProject(project)),
         updateProject: (project: any) => dispatch(updateProject(project)),
         deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
+        deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
     }),
 ), withRouter)(ProjectItem);
 

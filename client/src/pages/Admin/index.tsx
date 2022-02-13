@@ -50,7 +50,7 @@ class Admin extends React.Component<PropsType, State> {
         const open = this.state.openProjectId && this.state.openProjectId == project.id;
 
        const  handleChangeVisible =  () => {
-
+            console.log("not supported")
         }
         
         return <ListItem alignItems="flex-start" key={ project.id }>
@@ -145,6 +145,6 @@ const mapStateToProps = (state: RootState): StateProps => {
 export default compose(withRouter, connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps,
     (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
         getProjectsFromDb: () => dispatch(getProjectsFromDb.action({})),
-        isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
+  //      isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
     }),
 ))(Admin);

@@ -71,7 +71,7 @@ interface PropsType {
     isGaragePresent: boolean;
     style: string;
     floorListLength: number;
-    mainImage?: string | null;
+    mainImage?: File | string | null;
     images?: string[] | null;
 }
 
@@ -203,8 +203,9 @@ const ViewAddEditProject: React.FC<PropsType> = ({
                                 handleProperty={ handleBuildingPriceChange }/>
                         </Grid>
                         <Grid item xs={ 6 }>
-                            <ProjectImage images={ (add || ! mainImage)  ? null : [mainImage] }
+                            <ProjectImage images={ (mainImage && typeof mainImage === 'string')  ? [mainImage] : null }
                                           title={ 'Загрузить основное изображения проекта' }
+                                          isMain={ true }
                                           required={ true }
                                           disabled={ view }
                                           handleAddImage={ handleMainImageChange }
