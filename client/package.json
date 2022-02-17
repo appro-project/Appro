@@ -12,16 +12,19 @@
     "lodash.memoize": "^4.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.15.5",
     "react-image-gallery": "^1.2.7",
     "react-image-lightbox": "^5.1.1",
     "react-number-format": "^4.7.3",
     "react-range": "^1.8.11",
     "react-redux": "^7.2.6",
     "react-responsive-carousel": "^3.2.21",
+    "react-router": "^5.2.0",
     "react-router-breadcrumbs-hoc": "^3.3.1",
     "react-router-dom": "^5.2.0",
-    "react-router": "^5.2.0",
+    "react-router-hash-link": "^2.4.3",
     "react-scripts": "4.0.3",
+    "react-switch": "^6.0.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
     "reselect": "^4.1.4",
@@ -38,7 +41,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -53,10 +59,15 @@
     ]
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
     "@types/react-image-gallery": "^1.0.4",
     "@types/react-router-dom": "^5.1.5",
+    "@types/react-router-hash-link": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "eslint": "^7.11.0"
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.4.1"
   }
 }

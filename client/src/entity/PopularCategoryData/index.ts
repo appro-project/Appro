@@ -1,4 +1,5 @@
 export interface PopularCategoryData {
-    image: string;
-    title: string;
+  image: string;
+  title: string;
+  link: string;
 }

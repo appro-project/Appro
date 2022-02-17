@@ -1,0 +1,21 @@
+@import '../../../../variables';
+
+.text-input__wrapper {
+  width: 100%;
+}
+
+.text-input {
+  border: 0;
+  border-bottom: 1px solid $dark-grey;
+  padding: 10px;
+}
+
+.text-input .input__error {
+  border-bottom: 1px solid $red;
+  color: $red;
+}
+
+.text-input-label {
+  display: flex;
+  flex-direction: column;
+}

@@ -11,17 +11,14 @@ interface Props {
 }
 
 const ImageCarousel = ({ images }: Props): ReactElement => {
-  const imagesWithThumbnail = images.map(image => ({
+  const imagesWithThumbnail = images.map((image) => ({
     original: image,
     thumbnail: image,
     thumbnailClass: classes.ImageCarousel_Thumbnail,
     originalClass: classes.ImageCarousel_SlideImage,
   }));
 
-  return <ImageGallery items={ imagesWithThumbnail }
-                       showThumbnails={ true }
-                       thumbnailPosition={ 'left' }
-                       showNav={ false }/>;
+  return <ImageGallery items={imagesWithThumbnail} showThumbnails={true} thumbnailPosition={'left'} showNav={false} />;
 };
 
 export default ImageCarousel;

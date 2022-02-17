@@ -2,7 +2,8 @@
 
 @media (min-width: $desktop-width) {
   .welcome {
-    min-height: 100vh;
+    //min-height: 100vh;
+    position: relative;
   }
 }
 

@@ -1,31 +1,26 @@
 import React from 'react';
-import { PrincipleItemData } from '../index';
-
 import classes from './PrincipleItem.module.scss';
+import { PrincipleItemData } from '../../../../entity/PrincipleItemData';
 
 interface Props {
-    principleItem: PrincipleItemData;
+  principleItem: PrincipleItemData;
 }
 
-const PrincipleItem = (prop: Props) => {
-    const { principleItem } = prop;
+const PrincipleItem = ({ principleItem }: Props) => {
+  const backgroundStyles = {
+    backgroundImage: `url(${principleItem.backgroundUrl})`,
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
+  };
 
-    const backgroundStyles = {
-        backgroundImage: `url(${principleItem.backgroundUrl})`,
-        backgroundPosition: 'center center',
-        backgroundSize: 'cover',
-    };
-
-    return <div className={ classes.principle } style={ backgroundStyles }>
-        <div className={ classes.principle__body }>
-            <div className={ classes.principle__title }>
-                { principleItem.title }
-            </div>
-            <div className={ classes.principle__description }>
-                { principleItem.description }
-            </div>
-        </div>
-    </div>;
+  return (
+    <div className={classes.principle} style={backgroundStyles}>
+      <div className={classes.principle__body}>
+        <div className={classes.principle__title}>{principleItem.title}</div>
+        <div className={classes.principle__description}>{principleItem.description}</div>
+      </div>
+    </div>
+  );
 };
 
 export default PrincipleItem;

@@ -1,7 +1,7 @@
-@import "../../variables";
+@import '../../variables';
 
 .footer {
-  background-color: #3C3C3C;
+  background-color: $dark-grey;
 }
 
 .footer__container {
@@ -24,7 +24,7 @@
   font-size: 12px;
   line-height: 15px;
 
-  color: #FFFFFF;
+  color: $white;
 }
 
 .footer__nav {
@@ -52,7 +52,7 @@
 
   a {
     text-decoration: none;
-    @extend .footer__menu-link
+    @extend .footer__menu-link;
   }
 }
 

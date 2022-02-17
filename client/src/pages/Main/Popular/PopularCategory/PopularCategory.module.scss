@@ -1,8 +1,7 @@
-@import "../../../../variables";
-
-$orange-with-opacity: rgba(237, 181, 40, 0.8);
+@import '../../../../variables';
 
 .popular-category {
+  cursor: pointer;
   margin-bottom: 20px;
 
   &:last-child {
@@ -39,7 +38,7 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
   font-size: 18px;
   line-height: 22px;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: $white;
   cursor: pointer;
   user-select: none;
 
@@ -47,12 +46,12 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
 }
 
 //TODO: Fix hover effect
-.popular-category__title:hover {
+.popular-category:hover .popular-category__title {
   background-color: $main-orange;
 }
 
 .popular-category__title:active {
-  background-color: #E1A91C;
+  background-color: $yellow-second;
 }
 
 @media (min-width: $tablet-width) {
@@ -61,11 +60,10 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
     width: 50%;
   }
 
-  .popular-category:nth-last-child(-n+2) {
+  .popular-category:nth-last-child(-n + 2) {
     margin-bottom: 0;
   }
 }
-
 
 @media (min-width: $tablet-width) and (max-width: $desktop-width) {
   .popular-category:nth-child(odd) {
@@ -100,12 +98,12 @@ $orange-with-opacity: rgba(237, 181, 40, 0.8);
     height: 480px;
   }
 
-  .popular-category:nth-last-child(-n+3) {
+  .popular-category:nth-last-child(-n + 3) {
     margin-bottom: 0;
     width: 33.3333%;
   }
 
-  .popular-category:nth-child(-n+3) {
+  .popular-category:nth-child(-n + 3) {
     width: 33.3333%;
   }
 

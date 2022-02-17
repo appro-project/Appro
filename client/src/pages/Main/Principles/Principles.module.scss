@@ -1,5 +1,5 @@
-@import "../../../common";
-@import "../../../variables";
+@import '../../../common';
+@import '../../../variables';
 
 .principles__title {
   @extend ._main-title;
@@ -13,10 +13,9 @@
   }
 
   .principles__body {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -10px;
-    margin-right: -10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
   }
 }
 
@@ -26,7 +25,8 @@
   }
 
   .principles__body {
-    margin-left: -20px;
-    margin-right: -20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 40px;
   }
 }
