@@ -1,6 +1,7 @@
 import { Project } from '../../entity/Project';
 import axios, { AxiosResponse } from 'axios';
 import { Floor } from '../../entity/Floor';
+import { deleteImages } from '../../actions';
 
 const defaultOptions = {
   baseURL: `${process.env.NODE_ENV === 'production' ? '/api/v1' : 'http://localhost/api/v1'}`,
@@ -8,17 +9,17 @@ const defaultOptions = {
 
 const axiosWithSetting = axios.create(defaultOptions);
 
-const uploadFloorImages = (response: AxiosResponse, project: Project) => {
+const uploadFloorImages = (response: AxiosResponse, project: any) => {
   const { floorId, floorIndex, projectId } = response.data;
-  const floor = project.floorList.find((f) => (f.index = floorIndex));
-  if (floor && floor.planningImage) {
+  const floor = project.floorList.find((f) => f.index === floorIndex);
+  if (floor && floor.planningImage && typeof floor.planningImage !== 'string') {
     const formData = new FormData();
     formData.append('floorImage', floor.planningImage);
     axiosWithSetting.post(`project/${projectId}/floor/${floorId}/image`, formData).then((resp) => console.log(resp));
   }
 };
 
-function uploadMainImage(response: AxiosResponse<any>, project: any) {
+const uploadMainImage = (response: AxiosResponse<any>, project: any) => {
   const projectId = response.data.projectId;
   const { mainImage } = project;
   if (mainImage) {
@@ -26,12 +27,12 @@ function uploadMainImage(response: AxiosResponse<any>, project: any) {
     formData.append('mainImage', mainImage);
     axiosWithSetting.post(`project/${projectId}/mainImage`, formData).then((resp) => console.log(resp));
   }
-}
+};
 
 const uploadProjectImages = (response: AxiosResponse, project: any) => {
   const projectId = response.data.projectId;
-  const { images } = project;
-  if (project.images) {
+  const { imagesToAdd: images } = project;
+  if (images) {
     const formData = new FormData();
     const { length } = images;
     for (let i = 0; i < length; i = i + 1) {
@@ -41,11 +42,38 @@ const uploadProjectImages = (response: AxiosResponse, project: any) => {
   }
 };
 
+const axiosDeleteImages = (images: string[]) => {
+  console.log(images);
+  axiosWithSetting.delete(`image`, { data: { images } }).then((resp) => console.log(resp));
+};
+
 const axiosSaveProject = (project: any) => {
   axiosWithSetting.post('project', project).then((response) => {
     uploadFloorImages(response, project);
     uploadMainImage(response, project);
     uploadProjectImages(response, project);
+  });
+};
+
+const axiosUpdateProject = (project: any) => {
+  axiosWithSetting.put(`project/${project.id}`, project).then((response) => {
+    console.log(response);
+    uploadFloorImages(response, project);
+    if (typeof project.mainImage !== 'string') {
+      uploadMainImage(response, project);
+    }
+    if (project.imagesToDelete) {
+      axiosDeleteImages(project.imagesToDelete);
+    }
+    if (project.imagesToAdd) {
+      uploadProjectImages(response, project);
+    }
+  });
+};
+
+const axiosDeleteProject = (projectId: number) => {
+  axiosWithSetting.delete(`project/${projectId}`).then((response) => {
+    console.log(response);
   });
 };
 
@@ -105,8 +133,12 @@ const mapResponseDataToProjects = (data: any): Project[] => {
 
 const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
   const floors: Floor[] = [];
+  if (!floorListResponse) {
+    return floors;
+  }
   for (const floor of floorListResponse) {
     floors.push({
+      id: floor.floor_id,
       index: floor.index,
       area: floor.area,
       height: floor.height,
@@ -121,5 +153,8 @@ const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
 
 export const DataService = {
   axiosSaveProject,
+  axiosUpdateProject,
+  axiosDeleteProject,
   axiosGetProjects,
+  axiosDeleteImages,
 };

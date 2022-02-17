@@ -37,7 +37,7 @@ const App = () => {
           <Route path={'/'} exact={true}>
             <Index />
           </Route>
-          <Route path={'/admin/add'} exact={true}>
+          <Route path={'/admin'} exact={true}>
             <Admin />
           </Route>
           <Route path={'/individual-project'} exact={true}>

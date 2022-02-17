@@ -1,6 +1,26 @@
-.container-loader {
+.list-wrapper {
+  max-height: 420px;
+  overflow: scroll;
+}
+
+.button-add-project {
+  margin-top: 10px;
+}
+
+.title-project-created {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.item-project-wrapper {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
+  flex-direction: column;
+}
+
+.item-project-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

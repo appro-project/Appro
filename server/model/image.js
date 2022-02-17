@@ -1,3 +1,4 @@
+const fs = require('fs')
 const multer = require("multer");
 const knex = require("../database");
 
@@ -14,6 +15,18 @@ const Image = {
         storage: storage
     }),
 
+    deleteFromFS: (file) => {
+        return fs.unlink(file, (res) => console.log(res) )
+    },
+
+    deleteFromProject: (images) => {
+        console.log('images to delete', images)
+        return knex('project_image')
+            .whereIn('path', images)
+            .del()
+
+    },
+
     addToFloor: (imageLink, floorId) => {
         return knex('floor')
             .where('id', floorId)
@@ -29,6 +42,11 @@ const Image = {
           is_main: isMain,
         }).into('project_image');
 
+    },
+    findByProjectId: (projectId) => {
+        return knex.from("project_image as pi")
+            .select("pi.path" )
+            .where('pi.project_id', '=', projectId)
     }
 }
 
