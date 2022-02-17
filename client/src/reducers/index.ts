@@ -107,12 +107,12 @@ rootReducer.case(saveProject.async.started, (state) => {
 });
 
 rootReducer.case(saveProject.async.failed, (state) => {
-    return {...state, projectSaving: false};
+    return {...state, projectSaving: false, projectsLoading: false};
 });
 
 //update project
 rootReducer.case(updateProject.async.started, (state) => {
-    return {...state, projectSaving: true};
+    return {...state, projectSaving: true, projectsLoading: false};
 });
 
 rootReducer.case(updateProject.async.done, (state, action: Action<Project>) => {
@@ -124,7 +124,7 @@ rootReducer.case(updateProject.async.done, (state, action: Action<Project>) => {
         }
         return pr
     })
-    return {...state, projects: newProjects, projectSaving: false};
+    return {...state, projects: newProjects, projectSaving: false, projectsLoading: false};
 });
 
 rootReducer.case(updateProject.async.failed, (state, action: Action<Project>) => {

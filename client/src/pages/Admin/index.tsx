@@ -63,10 +63,10 @@ class Admin extends React.Component<PropsType, State> {
                         primary={ `${ project.id } - ${ project.title }` }
                         secondary={ project.description }
                     />
-                    <CheckProperty title={ 'Показывать на странице' }
-                                   checked={ project.isVisible ?? false }
-                                   handleProperty={ handleChangeVisible }
-                    />
+                    {/*<CheckProperty title={ 'Показывать на странице' }*/}
+                    {/*               checked={ project.isVisible ?? false }*/}
+                    {/*               handleProperty={ handleChangeVisible }*/}
+                    {/*/>*/}
                     <Button onClick={ () => this.handleOpenProjectClick(project.id) }>
                         { open ? 'ExpandLess' : 'ExpandMore' }
                     </Button>

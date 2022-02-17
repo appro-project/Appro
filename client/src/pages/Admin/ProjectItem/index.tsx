@@ -337,7 +337,7 @@ class ProjectItem extends React.Component<PropsType, State> {
         
         return !(title && generalArea && timeToCreate && projectPrice && livingArea &&
             buildingArea && wallMaterial && wallThickness && foundation && ceiling &&
-            roof && buildingPrice && images && insulation && insulationThickness &&
+            roof && buildingPrice && insulation && insulationThickness &&
             length && width && style && bedroomCount && floorList.length > 0);
     }
     
