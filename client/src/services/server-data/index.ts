@@ -71,6 +71,10 @@ const axiosUpdateProject = (project: any) => {
   });
 };
 
+const axiosUpdateProjectConfig = async (id: number, data: any): Promise<Project[]> => {
+  return await axiosWithSetting.patch(`project/${id}`, data).then((res) => res.data);
+};
+
 const axiosDeleteProject = (projectId: number) => {
   axiosWithSetting.delete(`project/${projectId}`).then((response) => {
     console.log(response);
@@ -119,6 +123,7 @@ const mapResponseDataToProject = (projectData: any): Project => {
     bedroomCount: projectData.bedroom_count,
     floorList: floorList,
     popularity: projectData.popularity,
+    showOnMain: projectData.showOnMain,
   };
 };
 
@@ -154,6 +159,7 @@ const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
 export const DataService = {
   axiosSaveProject,
   axiosUpdateProject,
+  axiosUpdateProjectConfig,
   axiosDeleteProject,
   axiosGetProjects,
   axiosDeleteImages,

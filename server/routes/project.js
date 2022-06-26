@@ -102,4 +102,12 @@ router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res
             ));
 })
 
+router.patch('/:projectId', (req, resp, next) => {
+  const config = req.body;
+  const { projectId } = req.params;
+  Project.updateConfig(projectId, config)
+    .then((data) => resp.status(200).json(data))
+    .catch(next);
+});
+
 module.exports = router;

@@ -7,6 +7,7 @@ import { getProjects, getProjectsLoading, RootState } from '../../reducers';
 // @ts-ignore
 import { ThunkDispatch } from 'redux-thunk';
 import { getProjectsFromDb } from '../../actions';
+import { toggleIsShowOnMain } from '../../redux/actions';
 import {
   Avatar,
   Button,
@@ -30,6 +31,7 @@ interface StateProps {
 
 interface DispatchProps {
   getProjectsFromDb(): void;
+  toggleIsShowOnMain(parameters: { id: number; show: boolean }): void;
 }
 
 interface State {
@@ -51,7 +53,7 @@ class Admin extends React.Component<PropsType, State> {
     const open = this.state.openProjectId && this.state.openProjectId == project.id;
 
     const handleChangeVisible = () => {
-      console.log('not supported');
+      this.props.toggleIsShowOnMain({ id: project.id, show: !project.showOnMain });
     };
 
     return (
@@ -62,11 +64,11 @@ class Admin extends React.Component<PropsType, State> {
               <Avatar alt={project.title} src={project.mainImage} />
             </ListItemAvatar>
             <ListItemText primary={`${project.id} - ${project.title}`} secondary={project.description} />
-            {/*<CheckProperty*/}
-            {/*  title={'Показывать на странице'}*/}
-            {/*  checked={project.isVisible ?? false}*/}
-            {/*  handleProperty={handleChangeVisible}*/}
-            {/*/>*/}
+            <CheckProperty
+              title={'Показывать на странице'}
+              checked={project.showOnMain ?? false}
+              handleProperty={handleChangeVisible}
+            />
             <Button onClick={() => this.handleOpenProjectClick(project.id)}>{open ? 'Скрыть' : 'Подробнее'}</Button>
           </div>
           <Collapse key={project.id} in={open} timeout="auto" unmountOnExit>
@@ -143,6 +145,7 @@ export default compose(
     mapStateToProps,
     (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
       getProjectsFromDb: () => dispatch(getProjectsFromDb.action({})),
+      toggleIsShowOnMain: (parameters: { id: number; show: boolean }) => dispatch(toggleIsShowOnMain(parameters)),
       //      isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
     }),
   ),
