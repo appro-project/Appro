@@ -46,9 +46,8 @@ CREATE TABLE project_image (
 
 CREATE TABLE project_config (
     project_id integer NOT NULL DEFAULT nextval('project_config_project_id_seq'::regclass),
+    showonmain boolean DEFAULT false,
     CONSTRAINT pk_project_id PRIMARY KEY (project_id),
     CONSTRAINT fk_project_id FOREIGN KEY (project_id)
-        REFERENCES public.project (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        REFERENCES project (id) MATCH SIMPLE
 )
