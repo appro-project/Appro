@@ -32,7 +32,9 @@ const mapToProject = (data) => {
         'is_garage_present',
         'bedroom_count',
         'mainImage',
-        'images').value();
+        'images',
+        'showOnMain'
+      ).value();
     project.floorList = _.map(data, function (p) {
         return {
             'floor_id': p.floor_id,
@@ -52,6 +54,7 @@ const mapToProject = (data) => {
 
 const getProjectQueryBuilder = () => {
     const imagesQuery = knex.raw('string_agg(i.path, \',\' ORDER BY i.is_main desc)');
+  const projectConfigQuery = knex.raw('(select pc.showonmain from project_config pc where pc.project_id = p.id)');
     const mainImageQuery = knex.raw('(select pi.path from project_image pi where pi.is_main = true and pi.project_id = p.id)');
     return knex.from('project as p')
         .select('p.id',
@@ -84,6 +87,7 @@ const getProjectQueryBuilder = () => {
             'f.is_attic',
             'f.is_basement',
             {mainImage: mainImageQuery},
+            { showOnMain: projectConfigQuery },
             {'images': imagesQuery}
         )
         .leftJoin('project_image as i', {'i.project_id': 'p.id'})
@@ -207,7 +211,18 @@ const Project = {
             )
     },
 
-    findAll: () => {
+  updateConfig: async (id, data) => {
+    return knex("project_config")
+      .insert({
+        project_id: id,
+        showonmain: data.show,
+      })
+      .onConflict("project_id")
+      .merge()
+      .then(() => Project.findAll());
+  },
+
+  findAll: () => {
         return getProjectQueryBuilder()
             .then(data => mapToProjects(data))
     },

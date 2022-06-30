@@ -45,8 +45,9 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.listen(process.env.PORT || 80, function(){
-    console.log("Server is ready to accept connections...");
+const PORT = process.env.PORT || 80;
+app.listen(PORT, function(){
+    console.log(`Server is ready to accept connections on port ${PORT}... `);
 });
 
 module.exports = app;
