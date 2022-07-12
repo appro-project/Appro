@@ -24,7 +24,7 @@ const ProjectTabs = ({ project }: Props) => {
 
   return (
     <>
-      <div className={classes.Tabs}>
+      <div id="scroll-to-top" className={classes.Tabs}>
         <ol className={classes.TabsList}>
           {tubsArray.map((element, index) => {
             return <Tab activeTab={activeTab === element} key={index} label={element} onClick={onClickTabItem} />;
@@ -42,7 +42,7 @@ const ProjectTabs = ({ project }: Props) => {
               />
               <ProjectLayout project={project} />
               <ProjectStructure project={project} />
-              <Changes />
+              <Changes project={project} />
               <Additional />
               <Gallery />
             </>
@@ -51,7 +51,7 @@ const ProjectTabs = ({ project }: Props) => {
           {/*{activeTab === IProjectTubsName.SIMILAR_PROJECTS && <VisitedProjects />}*/}
           {activeTab === IProjectTubsName.ADDITIONAL_SERVICES && <Additional />}
           {activeTab === IProjectTubsName.COMPOSITION_OF_PROJECT && <ProjectStructure project={project} />}
-          {activeTab === IProjectTubsName.ALTERNATIVE && <Changes />}
+          {activeTab === IProjectTubsName.ALTERNATIVE && <Changes project={project} />}
           {activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery />}
         </div>
         <VisitedProjects />

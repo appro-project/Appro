@@ -96,7 +96,7 @@ export const initialState: RootState = {
           isBasement: false,
         },
       ],
-      id: 1,
+      id: 2,
       title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
       description:
         'Современный комфортабельный двухэтажный особняк с террасой и гаражом для 2 автомобилей. В' +
@@ -192,7 +192,8 @@ export const rootReducer = createSlice({
         state.projectsLoading = false;
       })
       .addCase(setViewProject.type, (state: RootState, action: PayloadAction<Project>) => {
-        state.viewProjects = [...state.viewProjects, action.payload];
+        const projects = state.viewProjects.filter((proj) => action.payload.id !== proj.id);
+        state.viewProjects = [action.payload, ...projects];
       })
       .addCase(setViewAllProjects.type, (state: RootState, action: PayloadAction<Project[]>) => {
         state.viewProjects = action.payload;

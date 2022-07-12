@@ -1,7 +1,7 @@
 import { Project } from '../../entity/Project';
 import axios, { AxiosResponse } from 'axios';
 import { Floor } from '../../entity/Floor';
-import { deleteImages } from '../../actions';
+import { IFeedbackForm } from '../../pages/Main/Feedback';
 
 const defaultOptions = {
   baseURL: `${process.env.NODE_ENV === 'production' ? '/api/v1' : 'http://localhost/api/v1'}`,
@@ -93,6 +93,10 @@ export const axiosGetProjectById = async (id: number) => {
     .get(`project/${id}`)
     .then((res) => res.data)
     .then((data) => mapResponseDataToProject(data));
+};
+
+export const axiosPostFeedback = async (value: IFeedbackForm) => {
+  return await axiosWithSetting.post(`feedback`, value);
 };
 
 const mapResponseDataToProject = (projectData: any): Project => {
