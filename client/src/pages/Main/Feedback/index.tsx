@@ -13,6 +13,9 @@ export interface IFeedbackForm {
   phone: string;
   feedback: string;
   project?: string;
+  data?: string;
+  time?: string;
+  anytime?: boolean;
 }
 
 const Feedback = () => {

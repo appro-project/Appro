@@ -118,6 +118,32 @@
     height: 60px;
     font-size: inherit;
     font-weight: 600;
+    transition: 0.33s ease-in-out;
+  }
+
+  .button--extended--transparent {
+    color: $white;
+    border: 2px solid $yellow;
+    background-color: transparent;
+    max-width: 100%;
+    width: 100%;
+
+    height: 60px;
+    font-size: inherit;
+    font-weight: 600;
+    transition: 0.33s ease-in-out;
+
+    &:hover {
+      background-color: $main-orange;
+    }
+
+    &:active {
+      background-color: $yellow-second;
+    }
+
+    &:active {
+      background-color: $yellow-second;
+    }
   }
 
   .button--small {

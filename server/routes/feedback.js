@@ -3,7 +3,7 @@ const feedbackEmail = require('../feedback/feedbackEmail');
 const feedbackMessage = require('../feedback/feedbackMessage');
 const router = express.Router();
 
-router.patch('/',  (req, resp, next) => {
+router.post('/',  async (req, resp, next) => {
     const body = req.body;
 
     try {
@@ -13,10 +13,11 @@ router.patch('/',  (req, resp, next) => {
             Email:  ${body.email};\n
             Сообщение: ${body.feedback};  \n
             Проект: ${body.project}; \n
+            Время звонка: ${body.anytime ? 'в любое время' : `${body.date} ${body.time}`}; \n
         `;
 
-            feedbackEmail(text);
-            feedbackMessage(text);
+            await feedbackEmail(text);
+            await feedbackMessage(text);
 
         resp.status(200) .json({
                 success: true,
@@ -24,7 +25,8 @@ router.patch('/',  (req, resp, next) => {
             }
         )
     } catch (e){
-        resp.status(404) .json({
+        console.log(e)
+        resp.status(401) .json({
                 success: false,
                 massage: `Error` + e.message,
             }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import classes from './CheckboxFilterBlock.module.scss';
 import catalogueFiltersInfo, { SingleOption } from '../../../../constants/filterData/catalogueFiltersInfo';
+import Checkbox from '../../../../components/UI/Checkbox/Checkbox';
 
 interface Props {
   filterId: string;
@@ -58,10 +59,13 @@ const CheckboxFilterBlock = React.memo(({ filterId, initialOptions, applyFilter 
         {(filterInfo.options as SingleOption[]).map((filterOption, idx) => {
           return (
             <li key={idx} className={classes.CheckboxFilterBlock_item}>
-              <input type="checkbox" id={filterOption.name} checked={options.includes(filterOption.id)} />
-              <label onClick={() => optionOnClick(filterOption)} htmlFor={filterOption.name}>
-                {filterOption.name}
-              </label>
+              <Checkbox
+                labelName={filterOption.name}
+                htmlFor={filterOption.name}
+                onClick={() => optionOnClick(filterOption)}
+                checked={options.includes(filterOption.id)}
+                id={filterOption.name}
+              />
             </li>
           );
         })}
