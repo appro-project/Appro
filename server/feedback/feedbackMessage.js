@@ -1,6 +1,14 @@
-const wbm = require('wbm');
+const { ViberClient } = require('messaging-api-viber');
 
-module.exports = (message) => wbm.start().then(async () => {
-    await wbm.sendTo(process.env.PHONE_NUMBER, message);
-    await wbm.end();
-}).catch(err => console.log(err));
+const client = new ViberClient({
+    accessToken: process.env.ACCESS_TOKEN,
+    sender: {
+        name: 'Sender',
+    },
+});
+
+module.exports.sendMessageViber = (text) => client.sendText(process.env.USER_ID, text).then(() => {
+    console.log('sent');
+}).catch(err => {
+    console.error('err', err);
+});

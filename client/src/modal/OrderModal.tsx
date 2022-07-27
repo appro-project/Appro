@@ -31,16 +31,24 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
     try {
       setError(false);
       setLoading(true);
+      console.log('value', value);
 
-      await axiosPostFeedback({ ...value, anytime, project });
+      const date = value.data && value.data.length > 0 ? new Date(value.data) : Date.now();
 
-      setLoading(false);
+      if (date < Date.now()) {
+        setError(true);
+        setLoading(false);
+      } else {
+        await axiosPostFeedback({ ...value, anytime, project });
+        setLoading(false);
+        reset();
+        onClose();
+      }
     } catch (e) {
       console.log(e);
       setError(true);
       setLoading(false);
     }
-    reset();
   };
 
   return (
@@ -81,7 +89,9 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               name="phone"
               control={control}
               defaultValue={''}
-              rules={{}}
+              rules={{
+                required: true,
+              }}
               render={(props) => (
                 <TextInput
                   error={!!errors.phone}
@@ -98,11 +108,10 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               name="data"
               control={control}
               defaultValue={''}
-              rules={{}}
               render={(props) => (
                 <TextInput
-                  mask={'99/99/9999'}
-                  error={!!errors.data}
+                  mask={'99.99.9999'}
+                  error={error}
                   value={props.value}
                   onChange={props.onChange}
                   placeholder="Дата"
@@ -117,7 +126,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               render={(props) => (
                 <TextInput
                   mask={'99:99'}
-                  error={!!errors.phone}
+                  error={error}
                   value={props.value}
                   onChange={props.onChange}
                   placeholder="Время"
@@ -146,12 +155,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               defaultValue={''}
               rules={{}}
               render={(props) => (
-                <TextInput
-                  error={!!errors.feedback}
-                  value={props.value}
-                  onChange={props.onChange}
-                  placeholder="Ваше  собщение (необязательно)"
-                />
+                <TextInput value={props.value} onChange={props.onChange} placeholder="Ваше  собщение (необязательно)" />
               )}
             />
           </div>

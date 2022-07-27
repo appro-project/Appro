@@ -8,16 +8,16 @@ router.post('/',  async (req, resp, next) => {
 
     try {
         const text = `
-            Имя: ${body.name}; \n
-            Телефон:  ${body.phone};  \n
-            Email:  ${body.email};\n
-            Сообщение: ${body.feedback};  \n
-            Проект: ${body.project}; \n
+            Имя: ${body.name ? body.name : '-'}; \n
+            Телефон:  ${body.phone ? body.phone : '-'};  \n
+            Email:  ${body.email ? body.email : '-'};\n
+            Сообщение: ${body.feedback ? body.feedback : '-'};  \n
+            Проект: ${body.project ? body.project : '-'}; \n
             Время звонка: ${body.anytime ? 'в любое время' : `${body.date} ${body.time}`}; \n
         `;
 
             await feedbackEmail(text);
-            await feedbackMessage(text);
+            await feedbackMessage.sendMessageViber(text);
 
         resp.status(200) .json({
                 success: true,
@@ -25,7 +25,6 @@ router.post('/',  async (req, resp, next) => {
             }
         )
     } catch (e){
-        console.log(e)
         resp.status(401) .json({
                 success: false,
                 massage: `Error` + e.message,
