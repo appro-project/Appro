@@ -38,6 +38,9 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
       if (date < Date.now()) {
         setError(true);
         setLoading(false);
+      } else if ((!value.data && value.time) || (value.data && !value.time)) {
+        setError(true);
+        setLoading(false);
       } else {
         await axiosPostFeedback({ ...value, anytime, project });
         setLoading(false);
@@ -97,6 +100,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
                   error={!!errors.phone}
                   value={props.value}
                   onChange={props.onChange}
+                  mask={'+380 999999999'}
                   placeholder="Номер телефона"
                 />
               )}
