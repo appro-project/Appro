@@ -112,10 +112,11 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               name="data"
               control={control}
               defaultValue={''}
+              rules={{ pattern: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/ }}
               render={(props) => (
                 <TextInput
                   mask={'99.99.9999'}
-                  error={error}
+                  error={error || !!errors.data}
                   value={props.value}
                   onChange={props.onChange}
                   placeholder="Дата"
@@ -126,11 +127,11 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
               name="time"
               control={control}
               defaultValue={''}
-              rules={{}}
+              rules={{ pattern: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/ }}
               render={(props) => (
                 <TextInput
                   mask={'99:99'}
-                  error={error}
+                  error={error || !!errors.time}
                   value={props.value}
                   onChange={props.onChange}
                   placeholder="Время"

@@ -13,7 +13,7 @@ router.post('/',  async (req, resp, next) => {
             Email:  ${body.email ? body.email : '-'};\n
             Сообщение: ${body.feedback ? body.feedback : '-'};  \n
             Проект: ${body.project ? body.project : '-'}; \n
-            Время звонка: ${body.anytime ? 'в любое время' : `${body.date} ${body.time}`}; \n
+            Время звонка: ${body.anytime ? 'в любое время' : `${body.data} ${body.time}`}; \n
         `;
 
             await feedbackEmail(text);
