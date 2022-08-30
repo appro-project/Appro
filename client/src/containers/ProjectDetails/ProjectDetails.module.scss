@@ -77,7 +77,7 @@
   }
 
   .project-details__info {
-    padding: 0 20px 0 30px;
+    
     height: 70px;
     font-size: 18px;
   }
@@ -91,5 +91,12 @@
       font-size: 12px;
       font-weight: normal;
     }
+  }
+}
+
+
+@media (min-width: $desktop-width) {
+  .project-details__info {
+    padding: 0 20px 0 30px;
   }
 }
