@@ -27,6 +27,11 @@ export const deleteImages = createAsync<{ images: string[] }, {}>(
   async (params) => await DataService.axiosDeleteImages(params.images),
 );
 
+export const deletePhotos = createAsync<{ photos: string[] }, {}>(
+  'DELETE_PHOTOS',
+  async (params) => await DataService.axiosDeletePhotos(params.photos),
+);
+
 export const getProjectsFromDb = createAsync<{}, Project[]>(
   'GET_PROJECTS',
   async () => await DataService.axiosGetProjects(),

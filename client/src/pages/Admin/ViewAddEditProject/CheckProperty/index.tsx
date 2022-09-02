@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CheckProperty = ({ title, checked, disabled, handleProperty }: Props) => (
-  <div>
+  <div className={classes['check-box']}>
     <p className={classes['label']}>{title}</p>
     <Switch
       checked={checked}

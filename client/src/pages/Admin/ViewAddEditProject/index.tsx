@@ -28,7 +28,9 @@ interface PropsType {
   handleBuildingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTimeToCreateChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleImagesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePhotosChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleImageRemove: (imageSrc: string) => void;
+  handlePhotoRemove: (imageSrc: string) => void;
   handleMainImageChange: (event: React.ChangeEvent<any>) => void;
   handleMainImageRemove: () => void;
   handleProjectPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -71,8 +73,10 @@ interface PropsType {
   isGaragePresent: boolean;
   style: string;
   floorListLength: number;
+  isFinished: boolean;
   mainImage?: File | string | null;
   images?: string[] | null;
+  photos?: string[] | null;
 }
 
 const ViewAddEditProject: React.FC<PropsType> = ({
@@ -86,7 +90,9 @@ const ViewAddEditProject: React.FC<PropsType> = ({
   handleBuildingAreaChange,
   handleTimeToCreateChange,
   handleImagesChange,
+  handlePhotosChange,
   handleImageRemove,
+  handlePhotoRemove,
   handleMainImageChange,
   handleMainImageRemove,
   handleProjectPriceChange,
@@ -131,6 +137,8 @@ const ViewAddEditProject: React.FC<PropsType> = ({
   floorListLength,
   mainImage,
   images,
+  photos,
+  isFinished,
 }) => {
   const view = !(add || edit);
 
@@ -229,6 +237,19 @@ const ViewAddEditProject: React.FC<PropsType> = ({
                   handleRemoveImage={handleImageRemove}
                 />
               </Grid>
+              {isFinished && (
+                <Grid item xs={6}>
+                  <ProjectImage
+                    images={add ? null : photos}
+                    title={'Загрузить фото готового проекта'}
+                    required={false}
+                    multiple={true}
+                    disabled={view}
+                    handleAddImage={handlePhotosChange}
+                    handleRemoveImage={handlePhotoRemove}
+                  />
+                </Grid>
+              )}
             </Grid>
             <DialogTitle style={{ paddingTop: '20px' }}>Детальная информация</DialogTitle>
             <Grid container spacing={2}>

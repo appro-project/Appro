@@ -33,7 +33,9 @@ const mapToProject = (data) => {
         'bedroom_count',
         'mainImage',
         'images',
-        'showOnMain'
+        'photos',
+        'showOnMain',
+        'isFinished',
       ).value();
     project.floorList = _.map(data, function (p) {
         return {
@@ -49,14 +51,21 @@ const mapToProject = (data) => {
     if (project.images) {
         project.images = project.images.split(',');
     }
+    if (project.photos) {
+        project.photos = project.photos.split(',');
+    }
     return project;
 }
 
 const getProjectQueryBuilder = () => {
-    const imagesQuery = knex.raw('string_agg(i.path, \',\' ORDER BY i.is_main desc)');
-  const projectConfigQuery = knex.raw('(select pc.showonmain from project_config pc where pc.project_id = p.id)');
-    const mainImageQuery = knex.raw('(select pi.path from project_image pi where pi.is_main = true and pi.project_id = p.id)');
-    return knex.from('project as p')
+  const imagesQuery = knex.raw('(select string_agg(pi.path, \',\' ORDER BY pi.is_main desc) from project_image as pi\n' +
+    'where "pi"."isPhoto" = false and pi.project_id = p.id)');
+  const photosQuery = knex.raw('(select string_agg(pi.path, \',\' ORDER BY pi.is_main desc) from project_image as pi\n' +
+    'where "pi"."isPhoto" = true and pi.project_id = p.id)');
+  const showonmain = knex.raw('(select pc.showonmain from project_config pc where pc.project_id = p.id)');
+  const isfinished = knex.raw('(select pc.isfinished from project_config pc where pc.project_id = p.id)');
+  const mainImageQuery = knex.raw('(select pi.path from project_image pi where pi.is_main = true and pi.project_id = p.id)');
+  return knex.from('project as p')
         .select('p.id',
             'p.title',
             'p.description',
@@ -87,8 +96,10 @@ const getProjectQueryBuilder = () => {
             'f.is_attic',
             'f.is_basement',
             {mainImage: mainImageQuery},
-            { showOnMain: projectConfigQuery },
-            {'images': imagesQuery}
+            { showOnMain: showonmain },
+            { isFinished: isfinished },
+            {'images': imagesQuery},
+            {'photos': photosQuery},
         )
         .leftJoin('project_image as i', {'i.project_id': 'p.id'})
         .leftJoin("floor as f", {'f.project_id': 'p.id'})
@@ -212,10 +223,16 @@ const Project = {
     },
 
   updateConfig: async (id, data) => {
+      const newData = (data) => {
+        const result = {};
+        if(data.show !== undefined) result.showonmain = data.show;
+        if(data.finished !== undefined) result.isfinished = data.finished;
+        return result;
+      }
     return knex("project_config")
       .insert({
         project_id: id,
-        showonmain: data.show,
+        ...newData(data),
       })
       .onConflict("project_id")
       .merge()

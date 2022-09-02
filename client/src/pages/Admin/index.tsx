@@ -7,7 +7,7 @@ import { getProjects, getProjectsLoading, RootState } from '../../reducers';
 // @ts-ignore
 import { ThunkDispatch } from 'redux-thunk';
 import { getProjectsFromDb } from '../../actions';
-import { toggleIsShowOnMain } from '../../redux/actions';
+import { toggleIsShowOnMain, toggleIsFinished } from '../../redux/actions';
 import {
   Avatar,
   Button,
@@ -32,6 +32,7 @@ interface StateProps {
 interface DispatchProps {
   getProjectsFromDb(): void;
   toggleIsShowOnMain(parameters: { id: number; show: boolean }): void;
+  toggleIsFinished(parameters: { id: number; finished: boolean }): void;
 }
 
 interface State {
@@ -56,6 +57,10 @@ class Admin extends React.Component<PropsType, State> {
       this.props.toggleIsShowOnMain({ id: project.id, show: !project.showOnMain });
     };
 
+    const handleChangeFinished = () => {
+      this.props.toggleIsFinished({ id: project.id, finished: !project.isFinished });
+    };
+
     return (
       <ListItem alignItems="flex-start" key={project.id}>
         <div className={classes['item-project-wrapper']}>
@@ -68,6 +73,11 @@ class Admin extends React.Component<PropsType, State> {
               title={'Показывать на странице'}
               checked={project.showOnMain ?? false}
               handleProperty={handleChangeVisible}
+            />
+            <CheckProperty
+              title={'Реализован'}
+              checked={project.isFinished ?? false}
+              handleProperty={handleChangeFinished}
             />
             <Button onClick={() => this.handleOpenProjectClick(project.id)}>{open ? 'Скрыть' : 'Подробнее'}</Button>
           </div>
@@ -146,6 +156,7 @@ export default compose(
     (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
       getProjectsFromDb: () => dispatch(getProjectsFromDb.action({})),
       toggleIsShowOnMain: (parameters: { id: number; show: boolean }) => dispatch(toggleIsShowOnMain(parameters)),
+      toggleIsFinished: (parameters: { id: number; finished: boolean }) => dispatch(toggleIsFinished(parameters)),
       //      isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
     }),
   ),

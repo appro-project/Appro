@@ -7,7 +7,7 @@ import { Action, compose } from 'redux';
 import { connect } from 'react-redux';
 // @ts-ignore
 import { ThunkDispatch } from 'redux-thunk';
-import { deleteImages, deleteProject, saveProject, updateProject } from '../../../actions';
+import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '../../../actions';
 import { Button, CircularProgress, List } from '@material-ui/core';
 import { RouteComponentProps, Router, useParams, withRouter } from 'react-router';
 import { match } from 'react-router-dom';
@@ -32,6 +32,7 @@ interface State {
   buildingPrice: number | null;
   mainImage: File | string | null;
   images: string[] | null;
+  photos: string[] | null;
   insulation: string;
   insulationThickness: number | null;
   length: number | null;
@@ -43,7 +44,9 @@ interface State {
   edit?: boolean;
   add?: boolean;
   imagesToDelete: string[];
+  photosToDelete: string[];
   imagesToAdd: FileList | null;
+  photosToAdd: FileList | null;
 }
 
 const initialState = {
@@ -61,6 +64,7 @@ const initialState = {
   roof: '',
   buildingPrice: null,
   images: null,
+  photos: null,
   mainImage: null,
   insulation: '',
   insulationThickness: null,
@@ -74,6 +78,8 @@ const initialState = {
   add: false,
   imagesToDelete: [],
   imagesToAdd: null,
+  photosToAdd: null,
+  photosToDelete: [],
 };
 
 interface StateProps {
@@ -82,12 +88,10 @@ interface StateProps {
 
 interface DispatchProps {
   saveProject(project: any): void;
-
   updateProject(project: any): void;
-
   deleteProject(projectId: number): void;
-
   deleteImages(images: string[]): void;
+  deletePhotos(images: string[]): void;
 }
 
 interface Props {
@@ -149,6 +153,10 @@ class ProjectItem extends React.Component<PropsType, State> {
     this.setState({ ...this.state, imagesToAdd: event.target.files });
   };
 
+  handlePhotosChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ ...this.state, photosToAdd: event.target.files });
+  };
+
   handleImageRemove = (imageSrc: string) => {
     const { images, imagesToDelete } = this.state;
     if (images) {
@@ -156,6 +164,16 @@ class ProjectItem extends React.Component<PropsType, State> {
       const newImages = images.filter((i: string) => i !== imageSrc);
       imagesToDelete.push(imageSrc);
       this.setState({ ...this.state, images: newImages, imagesToDelete });
+    }
+  };
+
+  handlePhotoRemove = (photoSrc: string) => {
+    const { photos, photosToDelete } = this.state;
+    if (photos) {
+      // @ts-ignore
+      const newPhotos = photos!.filter((i: string) => i !== photoSrc);
+      photosToDelete.push(photoSrc);
+      this.setState({ ...this.state, photos: newPhotos, photosToDelete });
     }
   };
 
@@ -443,6 +461,9 @@ class ProjectItem extends React.Component<PropsType, State> {
 
   handleDeleteProjectClick = () => {
     const { project } = this.props;
+    const { photosToDelete } = this.state;
+
+    console.log('photosToDelete', photosToDelete);
     if (project) {
       this.props.deleteProject(project.id);
       const imagesToDelete = new Set([project.mainImage]);
@@ -491,7 +512,9 @@ class ProjectItem extends React.Component<PropsType, State> {
               handleBuildingAreaChange={this.handleBuildingAreaChange}
               handleTimeToCreateChange={this.handleTimeToCreateChange}
               handleImagesChange={this.handleImagesChange}
+              handlePhotosChange={this.handlePhotosChange}
               handleImageRemove={this.handleImageRemove}
+              handlePhotoRemove={this.handlePhotoRemove}
               handleMainImageChange={this.handleMainImageChange}
               handleMainImageRemove={this.handleMainImageRemove}
               handleProjectPriceChange={this.handleProjectPriceChange}
@@ -535,7 +558,9 @@ class ProjectItem extends React.Component<PropsType, State> {
               style={this.state.style}
               mainImage={this.state.mainImage}
               images={this.state.images}
+              photos={this.state.photos}
               floorListLength={this.state.floorList.length}
+              isFinished={!!this.props.project?.isFinished}
             />
           </>
         ) : (
@@ -560,6 +585,7 @@ export default compose(
       updateProject: (project: any) => dispatch(updateProject(project)),
       deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
       deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
+      deletePhotos: (photos: string[]) => dispatch(deletePhotos({ photos })),
     }),
   ),
   withRouter,
