@@ -59,9 +59,9 @@ const mapToProject = (data) => {
 
 const getProjectQueryBuilder = () => {
   const imagesQuery = knex.raw('(select string_agg(pi.path, \',\' ORDER BY pi.is_main desc) from project_image as pi\n' +
-    'where "pi"."isPhoto" = false and pi.project_id = p.id)');
+    'where "pi"."is_photo" = false and pi.project_id = p.id)');
   const photosQuery = knex.raw('(select string_agg(pi.path, \',\' ORDER BY pi.is_main desc) from project_image as pi\n' +
-    'where "pi"."isPhoto" = true and pi.project_id = p.id)');
+    'where "pi"."is_photo" = true and pi.project_id = p.id)');
   const showonmain = knex.raw('(select pc.showonmain from project_config pc where pc.project_id = p.id)');
   const isfinished = knex.raw('(select pc.isfinished from project_config pc where pc.project_id = p.id)');
   const mainImageQuery = knex.raw('(select pi.path from project_image pi where pi.is_main = true and pi.project_id = p.id)');

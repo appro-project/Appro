@@ -40,7 +40,7 @@ CREATE TABLE project_image (
                             id SERIAL PRIMARY KEY,
                             path varchar(254) NOT NULL,
                             is_main boolean default false,
-                            isPhoto boolean default false,
+                            is_photo boolean default false,
                             project_id int REFERENCES project (id)
 );
 

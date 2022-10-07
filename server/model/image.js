@@ -44,7 +44,7 @@ const Image = {
           path: imageLink,
           project_id: projectId,
           is_main: isMain,
-          isPhoto: false,
+          is_photo: false,
         }).into('project_image');
     },
 
@@ -53,7 +53,7 @@ const Image = {
           path: imageLink,
           project_id: projectId,
           is_main: isMain,
-          isPhoto: true,
+          is_photo: true,
         }).into('project_image');
     },
 
