@@ -42,9 +42,27 @@ const uploadProjectImages = (response: AxiosResponse, project: any) => {
   }
 };
 
+const uploadProjectPhotos = (response: AxiosResponse, project: any) => {
+  const projectId = response.data.projectId;
+  const { photosToAdd: photos } = project;
+  if (photos) {
+    const formData = new FormData();
+    const { length } = photos;
+    for (let i = 0; i < length; i = i + 1) {
+      formData.append('projectPhotos', photos[i]);
+    }
+    axiosWithSetting.post(`project/${projectId}/photos`, formData).then((resp) => console.log(resp));
+  }
+};
+
 const axiosDeleteImages = (images: string[]) => {
   console.log(images);
   axiosWithSetting.delete(`image`, { data: { images } }).then((resp) => console.log(resp));
+};
+
+const axiosDeletePhotos = (photos: string[]) => {
+  console.log(photos);
+  axiosWithSetting.delete(`photos`, { data: { photos } }).then((resp) => console.log(resp));
 };
 
 const axiosSaveProject = (project: any) => {
@@ -62,16 +80,23 @@ const axiosUpdateProject = (project: any) => {
     if (typeof project.mainImage !== 'string') {
       uploadMainImage(response, project);
     }
-    if (project.imagesToDelete) {
+    if (project.imagesToDelete.length) {
       axiosDeleteImages(project.imagesToDelete);
+    }
+    if (project.photosToDelete.length) {
+      axiosDeletePhotos(project.photosToDelete);
     }
     if (project.imagesToAdd) {
       uploadProjectImages(response, project);
+    }
+    if (project.isFinished && project.photosToAdd) {
+      uploadProjectPhotos(response, project);
     }
   });
 };
 
 const axiosUpdateProjectConfig = async (id: number, data: any): Promise<Project[]> => {
+  console.log('patch: ', id, data);
   return await axiosWithSetting.patch(`project/${id}`, data).then((res) => res.data);
 };
 
@@ -118,6 +143,7 @@ const mapResponseDataToProject = (projectData: any): Project => {
     buildingPrice: projectData.building_price,
     mainImage: projectData.mainImage,
     images: projectData.images,
+    photos: projectData.photos,
     insulation: projectData.insulation,
     insulationThickness: projectData.insulation_thickness,
     length: projectData.length,
@@ -128,12 +154,14 @@ const mapResponseDataToProject = (projectData: any): Project => {
     floorList: floorList,
     popularity: projectData.popularity,
     showOnMain: projectData.showOnMain,
+    isFinished: projectData.isFinished,
   };
 };
 
 const mapResponseDataToProjects = (data: any): Project[] => {
   const projects: Project[] = [];
   for (const projectData of data) {
+    console.log('projectData', projectData);
     projects.push(mapResponseDataToProject(projectData));
   }
 
@@ -167,4 +195,5 @@ export const DataService = {
   axiosDeleteProject,
   axiosGetProjects,
   axiosDeleteImages,
+  axiosDeletePhotos,
 };

@@ -6,6 +6,7 @@ const Floor = require("../model/floor");
 const Image = require("../model/image");
 
 const image_base_path = `${(process.env.NODE_ENV === 'production') ? `/images` : '../client/public/img/projects'}`;
+const photo_base_path = `${(process.env.NODE_ENV === 'production') ? `/photos` : '../client/public/photos/projects'}`;
 
 router.get('/', (req, res, next) => {
     Project.findAll()
@@ -41,10 +42,15 @@ router.put('/:projectId', (req, resp, next) => {
             Floor.update(floor)
                 .catch(next);
         }
-        const {imagesToDelete} = project;
-        if (imagesToDelete){
+        const {imagesToDelete, photosToDelete} = project;
+        if (imagesToDelete && imagesToDelete.length){
             console.log(projectId, imagesToDelete)
             Image.deleteFromProject(imagesToDelete)
+                .catch(next);
+        }
+        if (photosToDelete && photosToDelete.length){
+            console.log(projectId, photosToDelete)
+            Image.deleteFromProject(photosToDelete)
                 .catch(next);
         }
     }) .then(( ) => resp.status(200)
@@ -67,7 +73,7 @@ router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"
         res.status(200)
             .json({
                     success: true,
-                    massage: `Image added to project ${req.params.projectId} floor ${req.params.floorId}`
+                    message: `Image added to project ${req.params.projectId} floor ${req.params.floorId}`
                 }
             ))
         .catch(next);
@@ -85,7 +91,24 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
     res.status(200)
         .json({
                 success: true,
-                massage: `Images added to project ${projectId}`
+                message: `Images added to project ${projectId}`
+            }
+        )
+})
+
+router.post('/:projectId/photos', Image.uploadPhotos.array("projectPhotos", 20), (req, res, next) => {
+    const projectId = req.params.projectId;
+    const {files} = req;
+    for (const file of files) {
+        const link = `${photo_base_path}/${file.originalname.toLowerCase().split(' ').join('-')}`
+        Image.addPhoto(link, projectId).then(() =>
+            console.log(`Photo ${link} added to project ${projectId}`)
+        );
+    }
+    res.status(200)
+        .json({
+                success: true,
+                message: `Photos added to project ${projectId}`
             }
         )
 })
@@ -97,7 +120,7 @@ router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res
         res.status(200)
             .json({
                     success: true,
-                    massage: `Main image added to project ${projectId}`
+                    message: `Main image added to project ${projectId}`
                 }
             ));
 })

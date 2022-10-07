@@ -15,7 +15,14 @@ import { PrincipleItemData } from '../../entity/PrincipleItemData';
 import benefitImage from '../../assets/img/main/principles/benefit.jpg';
 import strengthImage from '../../assets/img/main/principles/strength.jpg';
 import beautyImage from '../../assets/img/main/principles/beauty.jpg';
-import { getProjectsFromDb, saveProject, setViewAllProjects, setViewProject, toggleIsShowOnMain } from '../actions';
+import {
+  getProjectsFromDb,
+  saveProject,
+  setViewAllProjects,
+  setViewProject,
+  toggleIsShowOnMain,
+  toggleIsFinished,
+} from '../actions';
 import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 
@@ -167,6 +174,12 @@ export const rootReducer = createSlice({
   extraReducers: (builder: ActionReducerMapBuilder<NoInfer<RootState>>) => {
     builder
       .addCase(toggleIsShowOnMain.fulfilled, (state: RootState, action: PayloadAction<Project[]>) => {
+        return {
+          ...state,
+          projects: action.payload,
+        };
+      })
+      .addCase(toggleIsFinished.fulfilled, (state: RootState, action: PayloadAction<Project[]>) => {
         return {
           ...state,
           projects: action.payload,

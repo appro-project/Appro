@@ -28,5 +28,16 @@ export const toggleIsShowOnMain = createAsyncThunk(
   },
 );
 
+export const toggleIsFinished = createAsyncThunk(
+  'TOGGLE_IS_FINISHED',
+  async (arg: { id: number; finished: boolean }, thunk) => {
+    try {
+      return await DataService.axiosUpdateProjectConfig(arg.id, { finished: arg.finished });
+    } catch (e) {
+      return thunk.rejectWithValue('Unable to change status');
+    }
+  },
+);
+
 export const setViewProject = createAction('SET_VIEW_PROJECT');
 export const setViewAllProjects = createAction('SET_ALL_VIEW_PROJECTS');

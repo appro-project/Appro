@@ -4,11 +4,11 @@ const router = express.Router();
 const Image = require("../model/image");
 
 router.delete('/', (req, resp, next) => {
-    const { images } = req.body;
-    console.log('images to unlink', images);
-    images.forEach(image => Image.deleteFromFS(image));
+  const { photos } = req.body;
+  console.log('photos to unlink', photos);
 
-    resp.sendStatus(200);
+  photos.forEach(image => Image.deleteFromFS(image));
+  resp.sendStatus(200);
 })
 
 module.exports = router;
