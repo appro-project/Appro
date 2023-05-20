@@ -10,7 +10,34 @@
   color: $black;
 }
 
+
+
+@media (max-width: $desktop-width) {
+  .CatalogueHeader_Found {
+    display: none;
+  }
+
+  .CatalogueHeader_Sorting_Title {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .CatalogueHeader_SortingItems {
+    display: flex;
+    flex-direction: column;
+    background: $grey;
+    min-height: 43px;
+    border-radius: 10px;
+    position: absolute;
+    bottom: -128px;
+    align-items: center;
+    z-index: 1000;
+    right: 0;
+  }
+}
+
 .CatalogueHeader_Sorting {
+  position: relative;
   max-width: calc(100vw - 30px);
   overflow: hidden;
   margin-top: 24px;
@@ -30,6 +57,10 @@
 }
 
 .CatalogueHeader_SortingItem {
+
+  @media (max-width: $desktop-width) {
+    margin-left: 0;
+  }
   margin-left: 20px;
   cursor: pointer;
   line-height: 20px;

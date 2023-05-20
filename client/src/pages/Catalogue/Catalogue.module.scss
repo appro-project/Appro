@@ -32,6 +32,12 @@
   }
 }
 
+.filter-button {
+  display: none;
+}
+
+.filter-wrapper {}
+
 @media (min-width: $desktop-width) {
   .catalogue__title {
     font-size: 48px;
@@ -46,3 +52,17 @@
     grid-gap: 30px;
   }
 }
+
+
+@media (max-width: $desktop-width) {
+  .filter-button {
+    display: block;
+  }
+
+  .filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
