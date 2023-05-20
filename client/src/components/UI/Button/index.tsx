@@ -7,6 +7,7 @@ export enum ButtonType {
   BIG = 'big',
   SMALL = 'small',
   TRANSPARENT_SMALL = 'transparent_small',
+  EXTENDED_TRANSPARENT = 'extended_transparent',
   EXTENDED = 'extended',
 }
 
@@ -15,6 +16,9 @@ interface Props {
 
   buttonType?: ButtonType;
   disabled?: boolean;
+  isButton?: boolean;
+  color?: string;
+  width?: string;
 
   actionHandler?(): void;
 }
@@ -24,6 +28,10 @@ const Button = (props: Props) => {
   const activeClasses = [classes['button']];
   if (props.buttonType && props.buttonType === ButtonType.EXTENDED) {
     activeClasses.push(classes['button--extended']);
+  }
+
+  if (props.buttonType && props.buttonType === ButtonType.EXTENDED_TRANSPARENT) {
+    activeClasses.push(classes['button--extended--transparent']);
   }
 
   if (props.buttonType && props.buttonType === ButtonType.TRANSPARENT) {
@@ -43,7 +51,13 @@ const Button = (props: Props) => {
   }
 
   return (
-    <button disabled={props.disabled} className={activeClasses.join(' ')} onClick={props.actionHandler}>
+    <button
+      type={props.isButton ? 'button' : 'submit'}
+      disabled={props.disabled}
+      className={activeClasses.join(' ')}
+      onClick={props.actionHandler}
+      style={{ color: props.color, width: props.width }}
+    >
       {props.title}
     </button>
   );

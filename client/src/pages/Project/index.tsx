@@ -30,7 +30,7 @@ const ProjectPage = () => {
     const projectInLocalStorage: number[] = getProjectInLocalStorage();
     if (project) {
       const filterProjectInLocalStorage = projectInLocalStorage?.filter((elem) => elem !== project?.id);
-      setProjectInLocalStorage([...filterProjectInLocalStorage, project?.id]);
+      setProjectInLocalStorage([project?.id, ...filterProjectInLocalStorage]);
       dispatch(setViewProject(project));
     }
   }, [project]);

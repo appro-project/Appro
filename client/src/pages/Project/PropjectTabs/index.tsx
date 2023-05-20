@@ -24,7 +24,7 @@ const ProjectTabs = ({ project }: Props) => {
 
   return (
     <>
-      <div className={classes.Tabs}>
+      <div id="scroll-to-top" className={classes.Tabs}>
         <ol className={classes.TabsList}>
           {tubsArray.map((element, index) => {
             return <Tab activeTab={activeTab === element} key={index} label={element} onClick={onClickTabItem} />;
@@ -32,19 +32,26 @@ const ProjectTabs = ({ project }: Props) => {
         </ol>
         <div className="tab-content">
           {activeTab === IProjectTubsName.All_ABOUT_PROJECT && (
-            <GeneralInfo
-              title={project.title}
-              generalArea={project.generalArea}
-              projectPrice={project.projectPrice}
-              timeToCreate={project.timeToCreate}
-              images={project.images}
-            />
+            <>
+              <GeneralInfo
+                title={project.title}
+                generalArea={project.generalArea}
+                projectPrice={project.projectPrice}
+                timeToCreate={project.timeToCreate}
+                images={project.images}
+              />
+              <ProjectLayout project={project} />
+              <ProjectStructure project={project} />
+              <Changes project={project} />
+              <Additional />
+              <Gallery />
+            </>
           )}
           {activeTab === IProjectTubsName.LAYAOUT && <ProjectLayout project={project} />}
           {/*{activeTab === IProjectTubsName.SIMILAR_PROJECTS && <VisitedProjects />}*/}
           {activeTab === IProjectTubsName.ADDITIONAL_SERVICES && <Additional />}
           {activeTab === IProjectTubsName.COMPOSITION_OF_PROJECT && <ProjectStructure project={project} />}
-          {activeTab === IProjectTubsName.ALTERNATIVE && <Changes />}
+          {activeTab === IProjectTubsName.ALTERNATIVE && <Changes project={project} />}
           {activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery />}
         </div>
         <VisitedProjects />

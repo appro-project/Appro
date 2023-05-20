@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './TextInput.module.scss';
+import InputMask from 'react-input-mask';
 
 interface Props {
   placeholder: string;
@@ -10,18 +11,32 @@ interface Props {
 
   error?: boolean;
   label?: string;
+  mask?: string;
 }
 
-const TextInput = ({ label, type, error, value, onChange, placeholder }: Props) => {
+const TextInput = ({ label, type, error, value, onChange, placeholder, mask }: Props) => {
   return (
     <div className={classes['text-input']}>
-      <input
-        className={error ? classes['input__error'] : ''}
-        value={value}
-        onChange={onChange}
-        type={type || 'text'}
-        placeholder={placeholder}
-      />
+      {!mask && (
+        <input
+          className={error ? classes['input__error'] : ''}
+          value={value}
+          onChange={onChange}
+          type={type || 'text'}
+          placeholder={placeholder}
+        />
+      )}
+      {mask && (
+        <InputMask mask={mask} onChange={onChange} value={value}>
+          <input
+            className={error ? classes['input__error'] : ''}
+            // value={value}
+            // onChange={onChange}
+            type={type || 'text'}
+            placeholder={placeholder}
+          />
+        </InputMask>
+      )}
     </div>
   );
 };

@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import classes from './Feedback.module.scss';
 import Container from '../../../containers/hoc/Container';
 import TextInput from '../../../components/UI/TextInput';
 import Button, { ButtonType } from '../../../components/UI/Button';
 import { useForm, Controller } from 'react-hook-form';
+import { axiosPostFeedback } from '../../../services/server-data';
 
-interface IFeedbackForm {
+export interface IFeedbackForm {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   feedback: string;
+  project?: string;
+  data?: string;
+  time?: string;
+  anytime?: boolean;
 }
 
 const Feedback = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { handleSubmit, errors, control, reset } = useForm<IFeedbackForm>({
     defaultValues: {
       name: '',
@@ -25,8 +32,19 @@ const Feedback = () => {
     reValidateMode: 'onChange',
   });
 
-  const onSubmit = (value: IFeedbackForm) => {
-    console.log(value);
+  const onSubmit = async (value: IFeedbackForm) => {
+    try {
+      setError(false);
+      setLoading(true);
+
+      await axiosPostFeedback(value);
+
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(true);
+      setLoading(true);
+    }
     reset();
   };
 
@@ -102,7 +120,7 @@ const Feedback = () => {
                 )}
               />
             </div>
-            <Button buttonType={ButtonType.BIG} title="Отправить сообщение" />
+            <Button disabled={loading} buttonType={ButtonType.BIG} title="Отправить сообщение" />
           </form>
         </div>
       </Container>

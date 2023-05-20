@@ -38,6 +38,8 @@
 
 .CatalogueHeader_Sorting {
   position: relative;
+  max-width: calc(100vw - 30px);
+  overflow: hidden;
   margin-top: 24px;
   margin-bottom: 30px;
   display: flex;

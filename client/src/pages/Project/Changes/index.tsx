@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './Changes.scss';
 
 import project_modification from '../../../assets/img/project_page/project-modification.jpg';
+import { Project } from '../../../entity/Project';
+import classes from '../../Main/Feedback/Feedback.module.scss';
+import TextInput from '../../../components/UI/TextInput';
+import { useForm, Controller } from 'react-hook-form';
+import { IFeedbackForm } from '../../Main/Feedback';
+import { axiosPostFeedback } from '../../../services/server-data';
+import Button, { ButtonType } from '../../../components/UI/Button';
 
-const Changes = () => {
+interface IChangesProps {
+  project: Project;
+}
+
+const Changes = ({ project }: IChangesProps) => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { handleSubmit, errors, control, reset } = useForm<IFeedbackForm>({
+    defaultValues: {
+      name: '',
+      phone: '',
+      feedback: '',
+      project: '',
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
+
+  const onSubmit = async (value: IFeedbackForm) => {
+    console.log(value);
+    try {
+      setError(false);
+      setLoading(true);
+
+      await axiosPostFeedback(value);
+
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(true);
+      setLoading(true);
+    }
+    reset();
+  };
+
   return (
     <section className="project-section project-modification">
       <h3 className="project-section__title project-modification__title">Внесение изменений</h3>
@@ -48,34 +89,83 @@ const Changes = () => {
           <a href="tel:+380672343636">+38 (067) 23436 36</a>
         </p>
         <p>Или заполнив форму ниже. После получения заявки, мы вам перезвоним.</p>
-        <form action="#" className="project-modification__form">
+        <form onSubmit={handleSubmit(onSubmit)} className="project-modification__form">
           <div className="form-field">
             <input
               className="form-field__input"
-              name="form-project"
+              name="project"
               type="text"
               placeholder="Проект"
-              value="Проект 2А-1"
+              value={project.title}
               disabled
             />
           </div>
           <div className="form-field form-field_textarea">
-            <textarea className="form-field__input" name="form-text" cols={30} rows={10} placeholder="Ваше собщение" />
+            <Controller
+              name="feedback"
+              control={control}
+              defaultValue={''}
+              rules={{}}
+              render={(props) => (
+                <textarea
+                  className="form-field__input"
+                  onChange={props.onChange}
+                  value={props.value}
+                  name="feedback"
+                  cols={30}
+                  rows={10}
+                  placeholder="Ваше собщение"
+                />
+                // <TextInput
+                //   error={!!errors.feedback}
+                //   value={props.value}
+                //   onChange={props.onChange}
+                //   placeholder="Ваше сообщение"
+                // />
+              )}
+            />
+            {/*<textarea className="form-field__input" name="feedback" cols={30} rows={10} placeholder="Ваше собщение" />*/}
           </div>
 
           <div className="form-field">
-            <input className="form-field__input" name="form-tel" type="text" placeholder="Номер телефона" />
+            <Controller
+              name="phone"
+              control={control}
+              placeholder="Номер телефона"
+              render={(props) => (
+                <input
+                  className="form-field__input"
+                  onChange={props.onChange}
+                  value={props.value}
+                  name="phone"
+                  type="text"
+                  placeholder="Номер телефона"
+                />
+              )}
+            />
+            {/*<input className="form-field__input" name="phone" type="text" placeholder="Номер телефона" />*/}
           </div>
           <div className="form-field">
-            <input className="form-field__input" type="text" name="form-name" placeholder="Имя" />
+            <Controller
+              name="name"
+              control={control}
+              defaultValue={''}
+              rules={{ required: true }}
+              render={(props) => (
+                <input className="form-field__input" value={props.value} onChange={props.onChange} placeholder="Имя" />
+              )}
+            />
+            {/*<input className="form-field__input" type="text" name="name" placeholder="Имя" />*/}
           </div>
           <div className="form-field form-field_btn">
-            <input
-              type="submit"
-              className="form-field__input yellow-button yellow-button_16"
-              value="Отправить сообщение"
-              placeholder="Ваше собщение"
-            />
+            <Button disabled={loading} buttonType={ButtonType.BIG} title="Отправить сообщение" />
+
+            {/*<input*/}
+            {/*  type="submit"*/}
+            {/*  className="form-field__input yellow-button yellow-button_16"*/}
+            {/*  value="Отправить сообщение"*/}
+            {/*  placeholder="Ваше собщение"*/}
+            {/*/>*/}
           </div>
         </form>
       </div>

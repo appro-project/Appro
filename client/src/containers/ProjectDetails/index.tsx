@@ -9,8 +9,12 @@ interface Props {
 }
 
 const ProjectDetails = React.memo(({ projectData }: Props) => {
+  const onClick = () => {
+    window.scrollTo(0, 200);
+  };
+
   return (
-    <Link to={`catalogue/${projectData.id}`} className={classes['project-details']}>
+    <Link onClick={onClick} to={`/catalogue/${projectData.id}`} className={classes['project-details']}>
       <div className={classes['project-details__content']}>
         <div className={classes['project-details__img']}>
           <img src={projectData.mainImage} alt={projectData.id + ''} />

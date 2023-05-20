@@ -17,6 +17,7 @@ export interface Project {
   buildingPrice: number;
   mainImage: string;
   images: string[];
+  photos: string[];
   insulation: string;
   insulationThickness: number;
   length: number;
@@ -26,4 +27,6 @@ export interface Project {
   bedroomCount: number;
   floorList: Floor[];
   popularity: number;
+  showOnMain?: boolean;
+  isFinished?: boolean;
 }

@@ -7,7 +7,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
-  ignorePatterns: ['src/stories/components/StateOfChargeLinearChart/data*.ts', '.eslintrc.js', 'webpack.config.js'],
+  ignorePatterns: ['src/stories/components/StateOfChargeLinearChart/data*.ts', '.eslintrc.js', 'webpack.config.json'],
   root: true,
   env: {
     node: true,

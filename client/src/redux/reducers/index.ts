@@ -15,7 +15,14 @@ import { PrincipleItemData } from '../../entity/PrincipleItemData';
 import benefitImage from '../../assets/img/main/principles/benefit.jpg';
 import strengthImage from '../../assets/img/main/principles/strength.jpg';
 import beautyImage from '../../assets/img/main/principles/beauty.jpg';
-import { getProjectsFromDb, saveProject, setViewAllProjects, setViewProject } from '../actions';
+import {
+  getProjectsFromDb,
+  saveProject,
+  setViewAllProjects,
+  setViewProject,
+  toggleIsShowOnMain,
+  toggleIsFinished,
+} from '../actions';
 import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 
@@ -96,7 +103,7 @@ export const initialState: RootState = {
           isBasement: false,
         },
       ],
-      id: 1,
+      id: 2,
       title: 'проект 2а-1, 1-этажный, 2 спальни, гараж',
       description:
         'Современный комфортабельный двухэтажный особняк с террасой и гаражом для 2 автомобилей. В' +
@@ -166,6 +173,18 @@ export const rootReducer = createSlice({
   reducers: {},
   extraReducers: (builder: ActionReducerMapBuilder<NoInfer<RootState>>) => {
     builder
+      .addCase(toggleIsShowOnMain.fulfilled, (state: RootState, action: PayloadAction<Project[]>) => {
+        return {
+          ...state,
+          projects: action.payload,
+        };
+      })
+      .addCase(toggleIsFinished.fulfilled, (state: RootState, action: PayloadAction<Project[]>) => {
+        return {
+          ...state,
+          projects: action.payload,
+        };
+      })
       .addCase(saveProject.fulfilled, (state: RootState, action: PayloadAction<Project>) => {
         state.principlesData = [...state.principlesData, action.payload];
       })
@@ -186,7 +205,8 @@ export const rootReducer = createSlice({
         state.projectsLoading = false;
       })
       .addCase(setViewProject.type, (state: RootState, action: PayloadAction<Project>) => {
-        state.viewProjects = [...state.viewProjects, action.payload];
+        const projects = state.viewProjects.filter((proj) => action.payload.id !== proj.id);
+        state.viewProjects = [action.payload, ...projects];
       })
       .addCase(setViewAllProjects.type, (state: RootState, action: PayloadAction<Project[]>) => {
         state.viewProjects = action.payload;

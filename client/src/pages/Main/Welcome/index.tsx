@@ -37,9 +37,11 @@ const Welcome = ({ mockProjects }: PropsType) => {
   return (
     <section className={classes.welcome}>
       <Carousel renderArrowNext={renderArrowNext} renderArrowPrev={renderArrowPrev} infiniteLoop interval={4000}>
-        {mockProjects.map((project, index) => (
-          <ProjectItem key={index} project={project} />
-        ))}
+        {mockProjects
+          .filter((project) => !!project.showOnMain)
+          .map((project, index) => (
+            <ProjectItem key={index} project={project} />
+          ))}
       </Carousel>
       <Link to="/#popular-category">
         <div aria-label="to bottom" className={['slider-control__bottom', 'control-arrow'].join(' ')}>
