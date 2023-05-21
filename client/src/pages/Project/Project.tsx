@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs'
-import ProjectTabs from './PropjectTabs/ProjectTabs'
+import { ProjectTabs } from './PropjectTabs/ProjectTabs'
 import { useParams } from 'react-router'
-import Container from '@/containers/hoc/Container/Container'
+import { Container } from '@/containers/hoc/Container/Container'
 import { Project } from '@/entity/Project'
 
 import classes from './Project.module.scss'
@@ -13,7 +13,7 @@ import { setViewProject } from '@/redux/actions'
 
 type RouteProps = { projectId: string };
 
-const ProjectPage = () => {
+export const ProjectPage = () => {
   const [project, setProject] = useState<Project | null>(null);
   const { projectId } = useParams<RouteProps>();
   const projects = useSelector(getProjects);
@@ -51,5 +51,3 @@ const ProjectPage = () => {
     </section>
   );
 };
-
-export default ProjectPage;

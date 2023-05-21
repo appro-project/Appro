@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '@/actions'
 import { Button, CircularProgress } from '@material-ui/core'
-import { withRouter } from 'react-router'
 import { Project } from '@/entity/Project'
 import classes from './ProjectItem.module.scss'
 
@@ -575,16 +574,13 @@ const mapStateToProps = (state: RootState): StateProps => {
   };
 };
 
-export default compose(
-  connect<StateProps, DispatchProps, {}, RootState>(
-    mapStateToProps,
-    (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
-      saveProject: (project: any) => dispatch(saveProject(project)),
-      updateProject: (project: any) => dispatch(updateProject(project)),
-      deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
-      deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
-      deletePhotos: (photos: string[]) => dispatch(deletePhotos({ photos })),
-    }),
-  ),
-  withRouter,
+export default connect<StateProps, DispatchProps, {}, RootState>(
+  mapStateToProps,
+  (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
+    saveProject: (project: any) => dispatch(saveProject(project)),
+    updateProject: (project: any) => dispatch(updateProject(project)),
+    deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
+    deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
+    deletePhotos: (photos: string[]) => dispatch(deletePhotos({ photos })),
+  }),
 )(ProjectItem);

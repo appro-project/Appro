@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ReactComponent as Logo } from '@/assets/img/logo.svg'
 import classes from './Header.module.scss'
-import Container from '@/containers/hoc/Container/Container'
+import { Container } from '@/containers/hoc/Container/Container'
 import { ButtonType, Button } from '@/components/UI/Button/Button'
 import MenuIcon from '@/components/Header/MenuIcon/MenuIcon'
 import { Menu } from './Menu/Menu'

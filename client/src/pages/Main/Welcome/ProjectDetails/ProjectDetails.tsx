@@ -1,6 +1,4 @@
-import React from 'react'
-
-import Button from '@/components/UI/Button/Button'
+import { Button } from '@/components/UI/Button/Button'
 
 import classes from './ProjectDetails.module.scss'
 import { Project } from '@/entity/Project'
@@ -10,7 +8,7 @@ interface Props {
   project: Project;
 }
 
-const ProjectDetails = (props: Props) => {
+export const ProjectDetails = (props: Props) => {
   const projectData: Project = props.project;
 
   return (
@@ -38,4 +36,3 @@ const ProjectDetails = (props: Props) => {
   );
 };
 
-export default ProjectDetails;

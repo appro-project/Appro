@@ -1,5 +1,5 @@
 import  { ReactNode } from 'react'
-import Wrapper from '../Wrapper/Wrapper'
+import { Wrapper } from '../Wrapper/Wrapper'
 import { Footer } from '@/components/Footer/Footer'
 
 import classes from './Layout.module.scss'

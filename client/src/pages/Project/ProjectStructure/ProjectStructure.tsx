@@ -1,17 +1,16 @@
-import React from 'react'
 
 import './ProjectStructure.scss'
 
 import sketch_image from '@/assets/img/project_page/sketch.svg'
 import draw_image from '@/assets/img/project_page/draw.svg'
 import { Project } from '@/entity/Project'
-import InfoCard from '../GeneralInfo/InfoCard'
+import { InfoCard } from '../GeneralInfo/InfoCard'
 
 interface Props {
   project: Project;
 }
 
-const ProjectStructure = ({ project }: Props) => {
+export const ProjectStructure = ({ project }: Props) => {
   return (
     <section className="project-section project-structure">
       <h3 className="project-section__title project-structure__title">Состав проекта</h3>
@@ -94,4 +93,3 @@ const ProjectStructure = ({ project }: Props) => {
   );
 };
 
-export default ProjectStructure;

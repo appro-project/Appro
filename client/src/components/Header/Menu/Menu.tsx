@@ -1,5 +1,5 @@
 import classes from './Menu.module.scss'
-import { ReactComponent as Logo } from 'assets/img/logo.svg'
+import { ReactComponent as Logo } from '@/assets/img/logo.svg'
 import { contactInfo, MenuLinkInfo, menuLinks } from '@/constants'
 import { Link } from 'react-router-dom'
 

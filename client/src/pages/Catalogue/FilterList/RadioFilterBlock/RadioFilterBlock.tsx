@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 
 import classes from './RadioFilterBlock.module.scss'
 import catalogueFiltersInfo, { SingleOption } from '@/constants/filterData/catalogueFiltersInfo'
@@ -10,7 +10,7 @@ interface Props {
   applyFilter(option: SingleOption): void;
 }
 
-export const RadioFilterBlock = React.memo(({ filterId, initialOption, applyFilter }: Props) => {
+export const RadioFilterBlock = memo(({ filterId, initialOption, applyFilter }: Props) => {
   const filterInfo = catalogueFiltersInfo.get(filterId);
   const getInitialState = () => {
     if (!filterInfo) return undefined;

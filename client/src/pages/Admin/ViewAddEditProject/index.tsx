@@ -5,7 +5,7 @@ import TextProperty from './TextProperty'
 import SelectProperty from './SelectProperty'
 import NumericProperty from './NumericProperty'
 import CheckProperty from './CheckProperty'
-import Container from '@/containers/hoc/Container/Container'
+import { Container } from '@/containers/hoc/Container/Container'
 import {
 	ceilingOptions,
 	foundationOptions,

@@ -4,16 +4,16 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './carousel-custom.scss'
 import { Carousel } from 'react-responsive-carousel'
 import { Project } from '@/entity/Project'
-import ProjectItem from './ProjectItem/ProjectItem'
+import { ProjectItem } from './ProjectItem/ProjectItem'
 import { ReactComponent as SliderPrev } from '@/assets/img/main/welcome/slider-prev.svg'
 import { ReactComponent as SliderNext } from '@/assets/img/main/welcome/slider-next.svg'
-import { HashLink as Link } from 'react-router-hash-link'
+import { Link } from 'react-router-dom'
 
 interface PropsType {
   mockProjects: Project[];
 }
 
-const Welcome = ({ mockProjects }: PropsType) => {
+export const Welcome = ({ mockProjects }: PropsType) => {
   const renderArrowPrev = (clickHandler: () => void) => {
     const arrowClasses = ['slider-control__prev', 'control-arrow'];
 
@@ -51,5 +51,3 @@ const Welcome = ({ mockProjects }: PropsType) => {
     </section>
   );
 };
-
-export default Welcome;

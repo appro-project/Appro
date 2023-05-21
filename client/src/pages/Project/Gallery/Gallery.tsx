@@ -1,8 +1,6 @@
-import React from 'react'
-
 import './Gallery.scss'
 
-const Gallery = () => {
+export const Gallery = () => {
   return (
     <section className="project-section project-gallery">
       <h3 className="project-section__title">Проект в реализации</h3>
@@ -49,5 +47,3 @@ const Gallery = () => {
     </section>
   );
 };
-
-export default Gallery;

@@ -1,14 +1,13 @@
-import React from 'react'
-import Container from '@/containers/hoc/Container/Container'
+import { Container } from '@/containers/hoc/Container/Container'
 import classes from './Principles.module.scss'
-import PrincipleItem from './PrincipleItem/PrincipleItem'
+import { PrincipleItem } from './PrincipleItem/PrincipleItem'
 import { PrincipleItemData } from '@/entity/PrincipleItemData'
 
 interface PropsType {
   principlesData: PrincipleItemData[];
 }
 
-const Principles = ({ principlesData }: PropsType) => {
+export const Principles = ({ principlesData }: PropsType) => {
   return (
     <section className={classes.principles}>
       <Container>
@@ -26,4 +25,3 @@ const Principles = ({ principlesData }: PropsType) => {
   );
 };
 
-export default Principles;

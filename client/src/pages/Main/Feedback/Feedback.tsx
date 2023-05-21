@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 
 import classes from './Feedback.module.scss'
-import Container from '@/containers/hoc/Container/Container'
-import TextInput from '@/components/UI/TextInput/TextInput'
-import Button, { ButtonType } from '@/components/UI/Button/Button'
+import { Container } from '@/containers/hoc/Container/Container'
+import { TextInput } from '@/components/UI/TextInput/TextInput'
+import  {Button, ButtonType } from '@/components/UI/Button/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { axiosPostFeedback } from '@/services/server-data'
 
@@ -18,10 +18,10 @@ export interface IFeedbackForm {
   anytime?: boolean;
 }
 
-const Feedback = () => {
+export const Feedback = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { handleSubmit, errors, control, reset } = useForm<IFeedbackForm>({
+  const { handleSubmit, formState: { errors }, control, reset } = useForm<IFeedbackForm>({
     defaultValues: {
       name: '',
       email: '',
@@ -128,4 +128,3 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;

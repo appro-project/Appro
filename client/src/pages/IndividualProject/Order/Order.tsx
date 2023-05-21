@@ -1,9 +1,9 @@
-import React from 'react'
+import { memo } from 'react'
 
 import classes from './Order.module.scss'
-import ContactForm from './ContactForm/ContactForm'
+import { ContactForm } from './ContactForm/ContactForm'
 
-const Order = React.memo(() => {
+export const Order = memo(() => {
   return (
     <div className={classes['order']}>
       <h3 className={classes['order__title']}>Заказать индивидуальный проект</h3>
@@ -24,5 +24,3 @@ const Order = React.memo(() => {
     </div>
   );
 });
-
-export default Order;

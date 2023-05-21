@@ -1,16 +1,15 @@
-import React from 'react'
 import classes from './ProjectLayout.module.scss'
 
-import ImageCarousel from '../ImageCarousel/ImageCarousel'
+import { ImageCarousel } from '../ImageCarousel/ImageCarousel'
 import { Project } from '@/entity/Project'
-import NumberFormat from 'react-number-format'
+import { NumericFormat } from 'react-number-format'
 import '../Additional/Additional.scss'
 
 interface Props {
   project: Project;
 }
 
-const ProjectLayout = (props: Props) => {
+export const ProjectLayout = (props: Props) => {
   const project = props.project;
 
   const floorImages = props.project.floorList
@@ -87,7 +86,7 @@ const ProjectLayout = (props: Props) => {
               <span>цена строительства</span>
               <b>
                 ≈{' '}
-                <NumberFormat
+                <NumericFormat
                   value={project.buildingPrice}
                   displayType={'text'}
                   thousandSeparator={' '}
@@ -102,4 +101,3 @@ const ProjectLayout = (props: Props) => {
   );
 };
 
-export default ProjectLayout;

@@ -1,14 +1,12 @@
-import React from 'react'
-
 import classes from './IndividualProject.module.scss'
-import Container from '@/containers/hoc/Container/Container'
-import Differences from './Differences/Differences'
-import Steps from './Steps/Steps'
-import Order from './Order/Order'
-import VisitedProjects from '@/containers/VisitedProjects/VisitedProjects'
+import { Container } from '@/containers/hoc/Container/Container'
+import { Differences } from './Differences/Differences'
+import { Steps } from './Steps/Steps'
+import { Order } from './Order/Order'
+import { VisitedProjects } from '@/containers/VisitedProjects/VisitedProjects'
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs'
 
-const IndividualProject = () => {
+export const IndividualProject = () => {
   return (
     <div className={classes.IndividualProject}>
       <Container>
@@ -54,5 +52,3 @@ const IndividualProject = () => {
     </div>
   );
 };
-
-export default IndividualProject;

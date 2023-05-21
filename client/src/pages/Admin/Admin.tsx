@@ -17,7 +17,7 @@ import {
 	ListItemAvatar,
 	ListItemText
 } from '@material-ui/core'
-import Container from '@/containers/hoc/Container/Container'
+import { Container } from '@/containers/hoc/Container/Container'
 import ProjectItem from './ProjectItem'
 import classes from './Admin.module.scss'
 import CheckProperty from './ViewAddEditProject/CheckProperty'

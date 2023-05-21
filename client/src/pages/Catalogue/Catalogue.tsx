@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { getProjectsByFilters, sortProjectsByParams } from '@/services/data'
 import catalogueSortInfo, {
 	defaultSortDetails,
@@ -13,7 +13,7 @@ import { useLocation } from 'react-router'
 
 const projectsPerPage = 8;
 
-const Catalogue = () => {
+export const Catalogue = () => {
   const [state, setState] = useState({ projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1 });
   const location = useLocation();
 
@@ -98,4 +98,3 @@ const Catalogue = () => {
   );
 };
 
-export default Catalogue;

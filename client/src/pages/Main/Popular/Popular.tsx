@@ -1,7 +1,5 @@
-import React from 'react'
-
-import Container from '@/containers/hoc/Container/Container'
-import PopularCategory from './PopularCategory/PopularCategory'
+import { Container } from '@/containers/hoc/Container/Container'
+import { PopularCategory } from './PopularCategory/PopularCategory'
 
 import classes from './Popular.module.scss'
 import { PopularCategoryData } from '@/entity/PopularCategoryData'
@@ -10,7 +8,7 @@ interface PropsType {
   popularCategories: PopularCategoryData[];
 }
 
-const Popular = ({ popularCategories }: PropsType) => {
+export const Popular = ({ popularCategories }: PropsType) => {
   return (
     <section id={'popular-category'} className={classes['popularCategories']}>
       <Container>
@@ -27,5 +25,3 @@ const Popular = ({ popularCategories }: PropsType) => {
     </section>
   );
 };
-
-export default Popular;

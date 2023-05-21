@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './PrincipleItem.module.scss'
 import { PrincipleItemData } from '@/entity/PrincipleItemData'
 
@@ -6,7 +5,7 @@ interface Props {
   principleItem: PrincipleItemData;
 }
 
-const PrincipleItem = ({ principleItem }: Props) => {
+export const PrincipleItem = ({ principleItem }: Props) => {
   const backgroundStyles = {
     backgroundImage: `url(${principleItem.backgroundUrl})`,
     backgroundPosition: 'center center',
@@ -23,4 +22,3 @@ const PrincipleItem = ({ principleItem }: Props) => {
   );
 };
 
-export default PrincipleItem;

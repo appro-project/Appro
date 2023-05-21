@@ -1,5 +1,5 @@
-@import "@/common";
-@import "@/variables";
+@import "~/common";
+@import "~/variables";
 
 .feedback {
   padding-bottom: 50px;
@@ -8,7 +8,7 @@
 
 .feedback__header {
   @extend ._main-title;
-   margin-bottom: 27px;
+  margin-bottom: 27px;
 }
 
 .feedback__input {
@@ -30,7 +30,7 @@
   }
 }
 
-@media (min-width:$desktop-width) {
+@media (min-width: $desktop-width) {
   .feedback {
     background-image: url("@/assets/img/main/feedback/letter-desktop.png");
     padding-bottom: 110px;

@@ -1,10 +1,10 @@
-import React from 'react'
 
 import planImage from '@/assets/img/individual/differences/plan.jpg'
 
 import classes from './Difference.module.scss'
+import { memo } from 'react'
 
-const Differences = React.memo(() => {
+export const Differences = memo(() => {
   return (
     <div className={classes['differences']}>
       <h2 className={classes['differences__title']}>Отличие индивидуального проекта от типового:</h2>
@@ -32,5 +32,3 @@ const Differences = React.memo(() => {
     </div>
   );
 });
-
-export default Differences;

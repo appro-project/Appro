@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import NumberFormat from 'react-number-format'
+import { ChangeEvent, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 import classes from './GeneralInfo.module.scss'
-import Button, { ButtonType } from '@/components/UI/Button/Button'
-import OrderModalConatiner from '@/modal/OrderModalConatiner'
+import  { Button,ButtonType } from '@/components/UI/Button/Button'
+import { OrderModalContainer } from '@/modal/OrderModalContainer'
 
 enum TypeOfHouse {
   Original = 'Original',
@@ -16,11 +16,11 @@ export interface InfoCardProps {
   projectPrice: number;
 }
 
-const InfoCard = (props: InfoCardProps) => {
+export const InfoCard = (props: InfoCardProps) => {
   const [type, setType] = useState<TypeOfHouse>(TypeOfHouse.Mirrored);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleChangeType = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeType = (e: ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value as TypeOfHouse);
   };
 
@@ -75,7 +75,7 @@ const InfoCard = (props: InfoCardProps) => {
             <div className={classes.GeneralInfo_InfoRow}>
               <div className={classes.GeneralInfo_InfoKey}>цена проекта</div>
               <div className={classes.GeneralInfo_InfoValue}>
-                <NumberFormat value={props.projectPrice} displayType={'text'} thousandSeparator={' '} suffix={' грн'} />
+                <NumericFormat value={props.projectPrice} displayType={'text'} thousandSeparator={' '} suffix={' грн'} />
               </div>
             </div>
           </div>
@@ -85,9 +85,8 @@ const InfoCard = (props: InfoCardProps) => {
           </div>
         </form>
       </div>
-      {openModal && <OrderModalConatiner project={props.title} setOpen={setOpenModal} />}
+      {openModal && <OrderModalContainer project={props.title} setOpen={setOpenModal} />}
     </>
   );
 };
 
-export default InfoCard;

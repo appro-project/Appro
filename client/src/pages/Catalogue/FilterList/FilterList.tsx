@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import classes from './FilterList.module.scss'
 import { FilterType, RangeOption, SingleOption } from '@/constants/filterData/catalogueFiltersInfo'
-import { useHistory, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
 import { getSearchUri } from '@/services/data'
-import RangeFilterBlock from './RangeFilter'
+import { RangeFilterBlock } from './RangeFilter/RangeFilterBlock'
 import { CheckboxFilterBlock } from './CheckboxFilterBlock/CheckboxFilterBlock'
 import { getValidRangeSearchParam } from '@/services/util'
 
@@ -17,9 +17,9 @@ interface StateProps {
   applyFilter(searchParams: URLSearchParams): void;
 }
 
-const FilterList = ({ applyFilter }: StateProps) => {
+export const FilterList = ({ applyFilter }: StateProps) => {
   const location = useLocation();
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     const urlFilters = new URLSearchParams(location.search);
@@ -42,11 +42,12 @@ const FilterList = ({ applyFilter }: StateProps) => {
       option.isSelected,
     );
 
-    history.push({
-      search: decodeURIComponent(searchUri.toString()),
-      pathname: location.pathname,
-    });
-    applyFilter(searchUri);
+    // FIXME: fix me
+    // history.push({
+    //   search: decodeURIComponent(searchUri.toString()),
+    //   pathname: location.pathname,
+    // });
+    // applyFilter(searchUri);
   };
 
   const rangeOptionClicked = (filterId: string, option: RangeOption) => {
@@ -59,10 +60,11 @@ const FilterList = ({ applyFilter }: StateProps) => {
       true,
     );
 
-    history.push({
-      search: decodeURIComponent(search.toString()),
-      pathname: location.pathname,
-    });
+    // FIXME: Fix!!
+    // history.push({
+    //   search: decodeURIComponent(search.toString()),
+    //   pathname: location.pathname,
+    // });
 
     applyFilter(search);
   };
@@ -124,4 +126,3 @@ const FilterList = ({ applyFilter }: StateProps) => {
   );
 };
 
-export default FilterList;
