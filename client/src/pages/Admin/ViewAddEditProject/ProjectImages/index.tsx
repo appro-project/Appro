@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button, IconButton, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core';
-import FileProperty from '../FileProperty';
-import delete_icon from '../../../../assets/img/admin/delete.svg';
+import React from 'react'
+import { IconButton, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
+import FileProperty from '../FileProperty'
+import delete_icon from '@/assets/img/admin/delete.svg'
 
 interface Props {
   images: string[] | null | undefined;

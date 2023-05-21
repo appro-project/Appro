@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Range } from 'react-range';
+import React, { useState } from 'react'
+import { Range } from 'react-range'
 
-import classes from './RangeFilterBlock.module.scss';
-import catalogueFiltersInfo, { RangeOption } from '../../../../constants/filterData/catalogueFiltersInfo';
-import Button, { ButtonType } from '../../../../components/UI/Button';
-import { getNumberFromString } from '../../../../services/util';
+import classes from './RangeFilterBlock.module.scss'
+import catalogueFiltersInfo, { RangeOption } from '@/constants/filterData/catalogueFiltersInfo'
+import Button, { ButtonType } from '@/components/UI/Button/Button'
+import { getNumberFromString } from '@/services/util'
 
 interface Props {
   filterId: string;

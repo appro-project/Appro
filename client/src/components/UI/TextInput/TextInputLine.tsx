@@ -1,5 +1,4 @@
-import React from 'react';
-import classes from './TextInput.module.scss';
+import classes from './TextInput.module.scss'
 
 interface Props {
   placeholder: string;
@@ -12,7 +11,7 @@ interface Props {
   label?: string;
 }
 
-const TextInputLine = ({ label, type, error, value, onChange, placeholder }: Props) => {
+export const TextInputLine = ({ label, type, error, value, onChange, placeholder }: Props) => {
   return (
     <div className={classes['text-input']}>
       <label htmlFor={`${label}-${type}`}>
@@ -30,4 +29,3 @@ const TextInputLine = ({ label, type, error, value, onChange, placeholder }: Pro
   );
 };
 
-export default TextInputLine;

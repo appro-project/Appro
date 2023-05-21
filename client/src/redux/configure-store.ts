@@ -1,6 +1,5 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { rootReducer } from './reducers';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { rootReducer } from './reducers'
 
 const customizedMiddleware = getDefaultMiddleware({
   serializableCheck: false,

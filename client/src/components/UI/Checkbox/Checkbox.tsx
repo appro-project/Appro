@@ -1,5 +1,4 @@
-import React from 'react';
-import './checkbox.module.scss';
+import './checkbox.module.scss'
 
 interface CheckboxProps {
   checked: boolean;
@@ -9,7 +8,7 @@ interface CheckboxProps {
   onClick?: () => void;
 }
 
-const Checkbox = ({ id, checked, onClick, htmlFor, labelName }: CheckboxProps) => {
+export const Checkbox = ({ id, checked, onClick, htmlFor, labelName }: CheckboxProps) => {
   return (
     <>
       <input type="checkbox" id={id} checked={checked} />
@@ -19,5 +18,3 @@ const Checkbox = ({ id, checked, onClick, htmlFor, labelName }: CheckboxProps) =
     </>
   );
 };
-
-export default Checkbox;

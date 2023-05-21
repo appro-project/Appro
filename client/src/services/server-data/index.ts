@@ -1,10 +1,12 @@
-import { Project } from '../../entity/Project';
-import axios, { AxiosResponse } from 'axios';
-import { Floor } from '../../entity/Floor';
-import { IFeedbackForm } from '../../pages/Main/Feedback';
+import { Project } from '@/entity/Project'
+import axios, { AxiosResponse } from 'axios'
+import { Floor } from '@/entity/Floor'
+import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
+
+export const currentHost = 'http://185.233.37.235'
 
 const defaultOptions = {
-  baseURL: `${process.env.NODE_ENV === 'production' ? '/api/v1' : 'http://localhost/api/v1'}`,
+  baseURL: `${process.env.NODE_ENV === 'production' ? '/api/v1' : `${currentHost}/api/v1`}`,
 };
 
 const axiosWithSetting = axios.create(defaultOptions);

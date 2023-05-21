@@ -1,6 +1,6 @@
-import React, { Dispatch, useEffect, useState } from 'react';
-import OrderModal from './OrderModal';
-import './modal.scss';
+import React, { Dispatch, useEffect } from 'react'
+import OrderModal from './OrderModal'
+import './modal.scss'
 
 interface OrderMadalConatinerProps {
   setOpen: Dispatch<boolean>;

@@ -1,11 +1,11 @@
-import React, { Dispatch, useState } from 'react';
-import classes from '../pages/Main/Feedback/Feedback.module.scss';
-import { Controller, useForm } from 'react-hook-form';
-import TextInput from '../components/UI/TextInput';
-import Button, { ButtonType } from '../components/UI/Button';
-import { axiosPostFeedback } from '../services/server-data';
-import { IFeedbackForm } from '../pages/Main/Feedback';
-import Checkbox from '../components/UI/Checkbox/Checkbox';
+import React, { useState } from 'react'
+import classes from '../pages/Main/Feedback/Feedback.module.scss'
+import { Controller, useForm } from 'react-hook-form'
+import TextInput from '../components/UI/TextInput/TextInput'
+import Button, { ButtonType } from '../components/UI/Button/Button'
+import { axiosPostFeedback } from '../services/server-data'
+import { IFeedbackForm } from '../pages/Main/Feedback/Feedback'
+import Checkbox from '../components/UI/Checkbox/Checkbox'
 
 interface OrderModalProps {
   onClose: () => void;

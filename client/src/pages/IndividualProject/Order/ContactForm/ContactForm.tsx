@@ -1,8 +1,8 @@
-import classes from '../Order.module.scss';
-import TextInput from '../../../../components/UI/TextInput';
-import TextArea from '../../../../components/UI/TextArea';
-import Button, { ButtonType } from '../../../../components/UI/Button';
-import React from 'react';
+import classes from '../Order.module.scss'
+import TextInput from '@/components/UI/TextInput/TextInput'
+import TextArea from '@/components/UI/TextArea/TabArea'
+import Button, { ButtonType } from '@/components/UI/Button/Button'
+import React from 'react'
 
 const ContactForm: React.FC = React.memo(() => {
   return (

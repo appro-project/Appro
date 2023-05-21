@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 // import classes from './TextProperty.module.scss';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core'
 
 interface Props {
   title: string;

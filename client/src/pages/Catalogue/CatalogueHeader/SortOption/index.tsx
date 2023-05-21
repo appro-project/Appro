@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import catalogueSortInfo, { SortDirection } from '../../../../constants/sortData/catalogueSortInfo';
+import React, { useState } from 'react'
+import catalogueSortInfo, { SortDirection } from '@/constants/sortData/catalogueSortInfo'
 
 interface Props {
   sortInfoId: string;

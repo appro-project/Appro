@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import NumberFormat from 'react-number-format';
-import classes from './GeneralInfo.module.scss';
-import Button, { ButtonType } from '../../../components/UI/Button';
-import OrderModalConatiner from '../../../modal/OrderModalConatiner';
+import React, { useState } from 'react'
+import NumberFormat from 'react-number-format'
+import classes from './GeneralInfo.module.scss'
+import Button, { ButtonType } from '@/components/UI/Button/Button'
+import OrderModalConatiner from '@/modal/OrderModalConatiner'
 
 enum TypeOfHouse {
   Original = 'Original',

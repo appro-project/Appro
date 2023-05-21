@@ -1,19 +1,17 @@
-import React from 'react';
-import ViewAddEditProject from '../ViewAddEditProject';
-import { FloorDto } from '../../../entity/FloorDto';
-import FloorRow from '../FloorRow';
-import { getProjectSaving, RootState } from '../../../reducers';
-import { Action, compose } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react'
+import ViewAddEditProject from '../ViewAddEditProject'
+import { FloorDto } from '@/entity/FloorDto'
+import FloorRow from '../FloorRow'
+import { getProjectSaving, RootState } from '@/reducers'
+import { Action, compose } from 'redux'
+import { connect } from 'react-redux'
 // @ts-ignore
-import { ThunkDispatch } from 'redux-thunk';
-import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '../../../actions';
-import { Button, CircularProgress, List } from '@material-ui/core';
-import { RouteComponentProps, Router, useParams, withRouter } from 'react-router';
-import { match } from 'react-router-dom';
-import { axiosGetProjectById } from '../../../services/server-data';
-import { Project } from '../../../entity/Project';
-import classes from './ProjectItem.module.scss';
+import { ThunkDispatch } from 'redux-thunk'
+import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '@/actions'
+import { Button, CircularProgress } from '@material-ui/core'
+import { withRouter } from 'react-router'
+import { Project } from '@/entity/Project'
+import classes from './ProjectItem.module.scss'
 
 interface State {
   id?: number;
