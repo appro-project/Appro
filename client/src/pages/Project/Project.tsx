@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/components/UI/Breadcrumbs/Breadcrumbs'
 import { ProjectTabs } from './PropjectTabs/ProjectTabs'
 import { useParams } from 'react-router'
 import { Container } from '@/containers/hoc/Container/Container'

@@ -4,7 +4,7 @@ import { Differences } from './Differences/Differences'
 import { Steps } from './Steps/Steps'
 import { Order } from './Order/Order'
 import { VisitedProjects } from '@/containers/VisitedProjects/VisitedProjects'
-import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/components/UI/Breadcrumbs/Breadcrumbs'
 
 export const IndividualProject = () => {
   return (

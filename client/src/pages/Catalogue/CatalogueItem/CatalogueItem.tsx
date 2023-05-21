@@ -1,7 +1,7 @@
 import { FC, memo, useEffect, useState } from 'react'
 import classes from '../Catalogue.module.scss'
 import { Container } from '@/containers/hoc/Container/Container'
-import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/components/UI/Breadcrumbs/Breadcrumbs'
 import { FilterList } from '../FilterList/FilterList'
 import { CatalogueHeader } from '../CatalogueHeader/CatalogueHeader'
 import { ProjectList } from '../ProjectList/ProjectList'
