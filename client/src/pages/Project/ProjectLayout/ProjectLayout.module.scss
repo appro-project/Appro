@@ -1,5 +1,5 @@
-@import "../../../common";
-@import "../../../variables";
+@import "~/common";
+@import "~/variables";
 
 .ProjectLayout {
   min-height: 700px;
@@ -46,7 +46,7 @@
     width: 24px;
     height: 24px;
 
-    background: url("../../../assets/img/project_page/mdi_info.svg") no-repeat center center;
+    background: url("@/assets/img/project_page/mdi_info.svg") no-repeat center center;
     background-size: contain;
   }
 

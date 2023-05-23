@@ -1,21 +1,20 @@
-import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import { Button, DialogTitle, Grid, Typography } from '@material-ui/core';
-import TextProperty from './TextProperty';
-import SelectProperty from './SelectProperty';
-import NumericProperty from './NumericProperty';
-import FileProperty from './FileProperty';
-import CheckProperty from './CheckProperty';
-import Container from '../../../containers/hoc/Container';
+import React from 'react'
+import InputLabel from '@material-ui/core/InputLabel'
+import { Button, DialogTitle, Grid } from '@material-ui/core'
+import TextProperty from './TextProperty'
+import SelectProperty from './SelectProperty'
+import NumericProperty from './NumericProperty'
+import CheckProperty from './CheckProperty'
+import { Container } from '@/containers/hoc/Container/Container'
 import {
-  ceilingOptions,
-  foundationOptions,
-  insulationOptions,
-  roofOptions,
-  styleOptions,
-  wallMaterialOptions,
-} from '../constants';
-import ProjectImage from './ProjectImages';
+	ceilingOptions,
+	foundationOptions,
+	insulationOptions,
+	roofOptions,
+	styleOptions,
+	wallMaterialOptions
+} from '../constants'
+import ProjectImage from './ProjectImages'
 
 interface PropsType {
   add: boolean;

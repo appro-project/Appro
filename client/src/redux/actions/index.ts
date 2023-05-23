@@ -1,5 +1,5 @@
-import { DataService } from '../../services/server-data';
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { DataService } from '@/services/server-data'
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const saveProject = createAsyncThunk('SAVE_PROJECT', async (arg: { project: any }, thunk) => {
   try {

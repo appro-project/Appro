@@ -1,5 +1,5 @@
-@import "../../../common";
-@import "../../../variables";
+@import "~/common";
+@import "~/variables";
 
 .differences {
   background-color: $dark-grey;
@@ -78,7 +78,7 @@
   .differences {
     padding: 66px 0 80px 40px;
 
-    background-image: url("../../../assets/img/individual/differences/wall.png");
+    background-image: url("@/assets/img/individual/differences/wall.png");
     background-repeat: no-repeat ;
     background-position-x: right;
     background-position-y: 0;

@@ -1,4 +1,4 @@
-@import "../../../variables";
+@import "~/variables";
 
 label {
   font-style: normal;
@@ -42,7 +42,7 @@ input[type="checkbox"]:hover + label::before {
 
 input[type="checkbox"]:checked + label::before {
   background-color: #FFB000;
-  background-image: url(../../../assets/img/filters/checkbox-check.svg);
+  background-image: url(@/assets/img/filters/checkbox-check.svg);
   background-position-y: 3px;
   background-position-x: 1px;
   background-repeat: no-repeat;

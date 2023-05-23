@@ -1,6 +1,6 @@
-import { FilterType, RangeOption, SearchOption } from '../../constants/filterData/catalogueFiltersInfo';
-import { SortDirection } from '../../constants/sortData/catalogueSortInfo';
-import { Project } from '../../entity/Project';
+import { FilterType, RangeOption, SearchOption } from '@/constants/filterData/catalogueFiltersInfo'
+import { SortDirection } from '@/constants/sortData/catalogueSortInfo'
+import { Project } from '@/entity/Project'
 
 const getSearchUri = (
   searchOption: SearchOption,

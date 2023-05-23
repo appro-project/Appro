@@ -1,7 +1,7 @@
-import actionCreatorFactory from 'typescript-fsa';
-import asyncFactory from 'typescript-fsa-redux-thunk';
-import { DataService } from '../services/server-data';
-import { Project } from '../entity/Project';
+import actionCreatorFactory from 'typescript-fsa'
+import asyncFactory from 'typescript-fsa-redux-thunk'
+import { DataService } from '../services/server-data'
+import { Project } from '../entity/Project'
 
 const create = actionCreatorFactory('DATA');
 

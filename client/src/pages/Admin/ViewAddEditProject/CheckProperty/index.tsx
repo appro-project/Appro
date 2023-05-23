@@ -1,6 +1,6 @@
-import React from 'react';
-import Switch from 'react-switch';
-import classes from './CheckProperty.module.scss';
+import React from 'react'
+import Switch from 'react-switch'
+import classes from './CheckProperty.module.scss'
 
 interface Props {
   title: string;

@@ -1,21 +1,21 @@
-const styleOptions = ['классический', 'современный'];
+const styleOptions: ReadonlyArray<string> = ['классический', 'современный']
 
-const foundationOptions = ['ленточный', 'плитный', 'свайный', 'комбинированный (свайно-плитный)'];
+const foundationOptions: ReadonlyArray<string> = ['ленточный', 'плитный', 'свайный', 'комбинированный (свайно-плитный)', 'столбчатый']
 
-const ceilingOptions = ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево', 'комбинированная'];
+const ceilingOptions: ReadonlyArray<string> = ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево', 'комбинированная']
 
-const roofOptions = [
-  'битумная черепица',
-  'металлочерепица',
-  'профнастил',
-  'фальцевая',
-  'плоская',
-  'черепица',
-  'сланцевая',
-];
+const roofOptions: ReadonlyArray<string> = [
+	'битумная черепица',
+	'металлочерепица',
+	'профнастил',
+	'фальцевая',
+	'плоская',
+	'черепица',
+	'сланцевая'
+]
 
-const wallMaterialOptions = ['кирпич', 'газоблок', 'пеноблок', 'керамоблок'];
+const wallMaterialOptions: ReadonlyArray<string> = ['кирпич', 'газоблок', 'пеноблок', 'керамоблок']
 
-const insulationOptions = ['минеральная вата', 'пенополистерол', 'фибролит'];
+const insulationOptions: ReadonlyArray<string> = ['минеральная вата', 'пенополистерол', 'фибролит', 'пенопласт']
 
-export { styleOptions, foundationOptions, ceilingOptions, roofOptions, wallMaterialOptions, insulationOptions };
+export { styleOptions, foundationOptions, ceilingOptions, roofOptions, wallMaterialOptions, insulationOptions }

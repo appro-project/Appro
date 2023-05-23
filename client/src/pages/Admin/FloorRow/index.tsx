@@ -1,10 +1,8 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
-import NumericProperty from '../ViewAddEditProject/NumericProperty';
-import CheckProperty from '../ViewAddEditProject/CheckProperty';
-import FileProperty from '../ViewAddEditProject/FileProperty';
-import { FloorDto } from '../../../entity/FloorDto';
-import ProjectImage from '../ViewAddEditProject/ProjectImages';
+import React from 'react'
+import { Grid } from '@material-ui/core'
+import NumericProperty from '../ViewAddEditProject/NumericProperty'
+import CheckProperty from '../ViewAddEditProject/CheckProperty'
+import ProjectImage from '../ViewAddEditProject/ProjectImages'
 
 interface PropsType {
   view: boolean;

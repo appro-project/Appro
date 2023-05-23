@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import catalogueSortInfo, { SortDirection } from '../../../../constants/sortData/catalogueSortInfo';
+import React, { memo, useState } from 'react'
+import catalogueSortInfo, { SortDirection } from '@/constants/sortData/catalogueSortInfo'
 
 interface Props {
   sortInfoId: string;
@@ -7,7 +7,7 @@ interface Props {
   handleSort(id: string, direction: SortDirection): void;
 }
 
-const SortOption = React.memo(({ sortInfoId, handleSort, disabled }: Props) => {
+const SortOption = memo(({ sortInfoId, handleSort, disabled }: Props) => {
   const sortInfo = catalogueSortInfo.get(sortInfoId);
   const [direction, setDirection] = useState(sortInfo?.direction);
   if (!sortInfo) return <React.Fragment />;

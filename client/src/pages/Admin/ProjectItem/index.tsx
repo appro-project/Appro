@@ -1,19 +1,16 @@
-import React from 'react';
-import ViewAddEditProject from '../ViewAddEditProject';
-import { FloorDto } from '../../../entity/FloorDto';
-import FloorRow from '../FloorRow';
-import { getProjectSaving, RootState } from '../../../reducers';
-import { Action, compose } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react'
+import ViewAddEditProject from '../ViewAddEditProject'
+import { FloorDto } from '@/entity/FloorDto'
+import FloorRow from '../FloorRow'
+import { getProjectSaving, RootState } from '@/reducers'
+import { Action, compose } from 'redux'
+import { connect } from 'react-redux'
 // @ts-ignore
-import { ThunkDispatch } from 'redux-thunk';
-import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '../../../actions';
-import { Button, CircularProgress, List } from '@material-ui/core';
-import { RouteComponentProps, Router, useParams, withRouter } from 'react-router';
-import { match } from 'react-router-dom';
-import { axiosGetProjectById } from '../../../services/server-data';
-import { Project } from '../../../entity/Project';
-import classes from './ProjectItem.module.scss';
+import { ThunkDispatch } from 'redux-thunk'
+import { deleteImages, deletePhotos, deleteProject, saveProject, updateProject } from '@/actions'
+import { Button, CircularProgress } from '@material-ui/core'
+import { Project } from '@/entity/Project'
+import classes from './ProjectItem.module.scss'
 
 interface State {
   id?: number;
@@ -577,16 +574,13 @@ const mapStateToProps = (state: RootState): StateProps => {
   };
 };
 
-export default compose(
-  connect<StateProps, DispatchProps, {}, RootState>(
-    mapStateToProps,
-    (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
-      saveProject: (project: any) => dispatch(saveProject(project)),
-      updateProject: (project: any) => dispatch(updateProject(project)),
-      deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
-      deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
-      deletePhotos: (photos: string[]) => dispatch(deletePhotos({ photos })),
-    }),
-  ),
-  withRouter,
+export default connect<StateProps, DispatchProps, {}, RootState>(
+  mapStateToProps,
+  (dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
+    saveProject: (project: any) => dispatch(saveProject(project)),
+    updateProject: (project: any) => dispatch(updateProject(project)),
+    deleteProject: (projectId: number) => dispatch(deleteProject({ projectId })),
+    deleteImages: (images: string[]) => dispatch(deleteImages({ images })),
+    deletePhotos: (photos: string[]) => dispatch(deletePhotos({ photos })),
+  }),
 )(ProjectItem);

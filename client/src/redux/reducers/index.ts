@@ -1,30 +1,30 @@
-import { Project } from '../../entity/Project';
-import house_2a_1 from '../../assets/img/catalogue/house_2A-1.jpg';
-import house_plan_1_2a_1 from '../../assets/img/projects/plan/house_plan_2a_1.jpeg';
-import house_plan_2_2a_1 from '../../assets/img/projects/plan/house_plan_2_2a_1.jpeg';
-import { PopularCategoryData } from '../../entity/PopularCategoryData';
-import mansardaImg from '../../assets/img/main/popular/mansarda.jpg';
-import oneFloorImg from '../../assets/img/main/popular/one_floor.jpg';
-import twoFloorImg from '../../assets/img/main/popular/two_floor.jpg';
-import modernImage from '../../assets/img/main/popular/modern.jpg';
-import classicImage from '../../assets/img/main/popular/classic.jpg';
-import smallImage from '../../assets/img/main/popular/150.jpg';
-import mediumImage from '../../assets/img/main/popular/150_250.jpg';
-import largeImage from '../../assets/img/main/popular/250.jpg';
-import { PrincipleItemData } from '../../entity/PrincipleItemData';
-import benefitImage from '../../assets/img/main/principles/benefit.jpg';
-import strengthImage from '../../assets/img/main/principles/strength.jpg';
-import beautyImage from '../../assets/img/main/principles/beauty.jpg';
+import { Project } from '@/entity/Project'
+import house_2a_1 from '@/assets/img/catalogue/house_2A-1.jpg'
+import house_plan_1_2a_1 from '@/assets/img/projects/plan/house_plan_2a_1.jpeg'
+import house_plan_2_2a_1 from '@/assets/img/projects/plan/house_plan_2_2a_1.jpeg'
+import { PopularCategoryData } from '@/entity/PopularCategoryData'
+import mansardaImg from '@/assets/img/main/popular/mansarda.jpg'
+import oneFloorImg from '@/assets/img/main/popular/one_floor.jpg'
+import twoFloorImg from '@/assets/img/main/popular/two_floor.jpg'
+import modernImage from '@/assets/img/main/popular/modern.jpg'
+import classicImage from '@/assets/img/main/popular/classic.jpg'
+import smallImage from '@/assets/img/main/popular/150.jpg'
+import mediumImage from '@/assets/img/main/popular/150_250.jpg'
+import largeImage from '@/assets/img/main/popular/250.jpg'
+import { PrincipleItemData } from '@/entity/PrincipleItemData'
+import benefitImage from '@/assets/img/main/principles/benefit.jpg'
+import strengthImage from '@/assets/img/main/principles/strength.jpg'
+import beautyImage from '@/assets/img/main/principles/beauty.jpg'
 import {
   getProjectsFromDb,
   saveProject,
   setViewAllProjects,
   setViewProject,
-  toggleIsShowOnMain,
   toggleIsFinished,
-} from '../actions';
-import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
+  toggleIsShowOnMain
+} from '../actions'
+import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers'
 
 export interface RootState {
   projects: Project[];

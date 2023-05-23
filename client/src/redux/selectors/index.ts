@@ -1,4 +1,4 @@
-import { RootState } from '../reducers';
+import { RootState } from '../reducers'
 
 export const getProjects = (state: RootState) => state.projects;
 export const getViewProjects = (state: RootState) => state.viewProjects;
