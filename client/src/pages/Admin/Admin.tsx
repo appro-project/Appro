@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Project } from '@/entity/Project'
-import { Action } from 'redux'
-import { connect } from 'react-redux'
 import { getProjects, getProjectsLoading, RootState } from '@/reducers'
-// @ts-ignore
-import { ThunkDispatch } from 'redux-thunk'
 import { getProjectsFromDb } from '@/actions'
+
 import { toggleIsFinished, toggleIsShowOnMain } from '@/redux/actions'
 import {
 	Avatar,
@@ -21,19 +19,8 @@ import { Container } from '@/containers/hoc/Container/Container'
 import ProjectItem from './ProjectItem'
 import classes from './Admin.module.scss'
 import CheckProperty from './ViewAddEditProject/CheckProperty'
-
-interface StateProps {
-	projectsLoading: boolean;
-	projects: Project[];
-}
-
-interface DispatchProps {
-	getProjectsFromDb(): void;
-
-	toggleIsShowOnMain(parameters: { id: number; show: boolean }): void;
-
-	toggleIsFinished(parameters: { id: number; finished: boolean }): void;
-}
+import { useAppDispatch } from '@/redux/configure-store'
+import { currentHost } from '@/services/server-data'
 
 interface State {
 	openProjectId: number | null;
@@ -41,45 +28,72 @@ interface State {
 	addProjectOpen: boolean;
 }
 
-type PropsType = StateProps & DispatchProps;
+const Admin: React.FC = () => {
+	const [state, setState] = useState<State>({
+		openProjectId: null,
+		editProjectId: null,
+		addProjectOpen: false
+	})
 
-class Admin extends React.Component<PropsType, State> {
-	state = { openProjectId: null, editProjectId: null, addProjectOpen: false }
+	const dispatch = useAppDispatch()
+	const projects = useSelector<RootState, Project[]>((state) => getProjects(state))
+	const projectsLoading = useSelector<RootState, boolean>((state) =>
+		getProjectsLoading(state)
+	)
 
-	componentDidMount() {
-		this.props.getProjectsFromDb()
+	useEffect(() => {
+		dispatch(getProjectsFromDb())
+	}, [])
+
+	const handleOpenProjectClick = (projectId: number) => {
+		setState((prevState) => ({
+			...prevState,
+			openProjectId:
+				prevState.openProjectId === projectId ? null : projectId
+		}))
 	}
 
-	renderProject = (project: Project): React.ReactElement => {
-		const open = this.state.openProjectId && this.state.openProjectId == project.id
+	const handleChangeVisible = (project: Project) => {
+		dispatch(
+			toggleIsShowOnMain({ id: project.id, show: !project.showOnMain })
+		)
+	}
 
-		const handleChangeVisible = () => {
-			this.props.toggleIsShowOnMain({ id: project.id, show: !project.showOnMain })
-		}
+	const handleChangeFinished = (project: Project) => {
+		dispatch(
+			toggleIsFinished({ id: project.id, finished: !project.isFinished })
+		)
+	}
 
-		const handleChangeFinished = () => {
-			this.props.toggleIsFinished({ id: project.id, finished: !project.isFinished })
-		}
+	const renderProject = (project: Project): React.ReactElement => {
+		const open = state.openProjectId === project.id
 
 		return (
 			<ListItem alignItems='flex-start' key={project.id}>
 				<div className={classes['item-project-wrapper']}>
 					<div className={classes['item-project-header']}>
 						<ListItemAvatar>
-							<Avatar alt={project.title} src={project.mainImage} />
+							<Avatar alt={project.title} src={`${currentHost}${project.mainImage}`} />
 						</ListItemAvatar>
-						<ListItemText primary={`${project.id} - ${project.title}`} secondary={project.description} />
+						<ListItemText
+							primary={`${project.id} - ${project.title}`}
+							secondary={project.description}
+						/>
 						<CheckProperty
 							title={'Показывать на странице'}
 							checked={project.showOnMain ?? false}
-							handleProperty={handleChangeVisible}
+							handleProperty={() => handleChangeVisible(project)}
 						/>
 						<CheckProperty
 							title={'Реализован'}
 							checked={project.isFinished ?? false}
-							handleProperty={handleChangeFinished}
+							handleProperty={() => handleChangeFinished(project)}
 						/>
-						<Button onClick={() => this.handleOpenProjectClick(project.id)}>{open ? 'Скрыть' : 'Подробнее'}</Button>
+						<Button
+							onClick={() => handleOpenProjectClick(project.id)}
+						>
+							{open ? 'Скрыть' : 'Подробнее'}
+						</Button>
 					</div>
 					<Collapse key={project.id} in={open} timeout='auto' unmountOnExit>
 						<List component='li' disablePadding key={project.id}>
@@ -91,70 +105,52 @@ class Admin extends React.Component<PropsType, State> {
 		)
 	}
 
-	render() {
-		const { projects, projectsLoading } = this.props
-		return (
-			<Container>
-				{projectsLoading ? (
-					<CircularProgress />
-				) : (
-					<>
-						{this.renderNewProject()}
-						<div>
-							<h6 className={classes['title-project-created']}>Существующие проекты:</h6>
-							<ul className={classes['list-wrapper']}>{projects.map((project) => this.renderProject(project))}</ul>
-						</div>
-					</>
-				)}
-			</Container>
-		)
-	}
-
-	renderNewProject = () => {
+	const renderNewProject = () => {
 		return (
 			<>
 				<Button
 					variant='contained'
 					color='primary'
-					onClick={this.handleNewProjectClick}
+					onClick={() =>
+						setState((prevState) => ({
+							...prevState,
+							addProjectOpen: !prevState.addProjectOpen
+						}))
+					}
 					className={classes['button-add-project']}
 				>
 					Добавить новый проект
 				</Button>
-				<Collapse in={this.state.addProjectOpen} timeout='auto' unmountOnExit>
+				<Collapse
+					in={state.addProjectOpen}
+					timeout='auto'
+					unmountOnExit
+				>
 					<ProjectItem />
 				</Collapse>
 			</>
 		)
 	}
 
-	handleNewProjectClick = () => {
-		this.setState({ ...this.state, addProjectOpen: !this.state.addProjectOpen })
-	}
-
-	handleOpenProjectClick = (projectId: number) => {
-		const { openProjectId } = this.state
-		if (openProjectId == projectId) {
-			this.setState({ ...this.state, openProjectId: null })
-		} else {
-			this.setState({ ...this.state, openProjectId: projectId })
-		}
-	}
+	return (
+		<Container>
+			{projectsLoading ? (
+				<CircularProgress />
+			) : (
+				<>
+					{renderNewProject()}
+					<div>
+						<h6 className={classes['title-project-created']}>
+							Существующие проекты:
+						</h6>
+						<ul className={classes['list-wrapper']}>
+							{projects.map((project) => renderProject(project))}
+						</ul>
+					</div>
+				</>
+			)}
+		</Container>
+	)
 }
 
-const mapStateToProps = (state: RootState): StateProps => {
-	return {
-		projectsLoading: getProjectsLoading(state),
-		projects: getProjects(state)
-	}
-}
-
-export default connect<StateProps, DispatchProps, {}, RootState>(
-	mapStateToProps,
-	(dispatch: ThunkDispatch<RootState, void, Action>): DispatchProps => ({
-		getProjectsFromDb: () => dispatch(getProjectsFromDb.action({})),
-		toggleIsShowOnMain: (parameters: { id: number; show: boolean }) => dispatch(toggleIsShowOnMain(parameters)),
-		toggleIsFinished: (parameters: { id: number; finished: boolean }) => dispatch(toggleIsFinished(parameters))
-		//      isChangeVisible: (id: number) => dispatch(isChangeVisible.action({id})),
-	})
-)(Admin)
+export default Admin

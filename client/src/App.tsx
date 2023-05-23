@@ -31,12 +31,12 @@ export const App = () => {
 	}, [projects])
 
 	return (
-		<Layout>
-			<Routes>
+		<Routes>
+			<Route path={'/admin'} element={<Admin />} />
 
+			<Route element={<Layout />}>
 				<Route path={'/'} element={<Main />} />
 
-				<Route path={'/admin'} element={<Admin />} />
 
 				<Route path={'/individual-project'} element={<IndividualProject />} />
 
@@ -47,8 +47,8 @@ export const App = () => {
 				<Route path={'/additional'} element={<AdditionalOptions />} />
 
 				<Route path={'/about'} element={<AboutUs />} />
-			</Routes>
-		</Layout>)
+			</Route>
+		</Routes>)
 
 }
 
