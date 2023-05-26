@@ -1,6 +1,6 @@
 import React from 'react'
-import InputLabel from '@material-ui/core/InputLabel'
-import { Button, DialogTitle, Grid } from '@material-ui/core'
+import InputLabel from '@mui/material/InputLabel'
+import { Button, DialogTitle, Grid } from '@mui/material'
 import TextProperty from './TextProperty'
 import SelectProperty from './SelectProperty'
 import NumericProperty from './NumericProperty'
@@ -15,13 +15,14 @@ import {
 	wallMaterialOptions
 } from '../constants'
 import ProjectImage from './ProjectImages'
+import { SelectChangeEvent } from '@mui/material/Select'
 
 interface PropsType {
   add: boolean;
   edit: boolean;
   handleTitleChange: (event: React.ChangeEvent<any>) => void;
   handleDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleStyleChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
+  handleStyleChange: (event: SelectChangeEvent) => void;
   handleGeneralAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleLivingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBuildingAreaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -36,13 +37,13 @@ interface PropsType {
   handleBuildingPriceChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleLengthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleWidthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleFoundationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
-  handleWallMaterialChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
+  handleFoundationChange: (event: SelectChangeEvent) => void;
+  handleWallMaterialChange: (event: SelectChangeEvent) => void;
   handleWallThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleInsulationChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
+  handleInsulationChange: (event: SelectChangeEvent) => void;
   handleInsulationThicknessChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCeilingChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
-  handleRoofChange: (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => void;
+  handleCeilingChange: (event: SelectChangeEvent) => void;
+  handleRoofChange: (event: SelectChangeEvent) => void;
   handleGarageChange: () => void;
   handleBedroomChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleFloorNumberChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

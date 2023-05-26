@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Project } from '@/entity/Project'
-import { getProjects, getProjectsLoading, RootState } from '@/reducers'
-import { getProjectsFromDb } from '@/actions'
 
-import { toggleIsFinished, toggleIsShowOnMain } from '@/redux/actions'
 import {
-	Avatar,
+	Avatar, Box,
 	Button,
 	CircularProgress,
 	Collapse,
@@ -14,30 +11,33 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText
-} from '@material-ui/core'
+} from '@mui/material' 
 import { Container } from '@/containers/hoc/Container/Container'
-import ProjectItem from './ProjectItem'
+import ProjectItem from './ProjectItem/ProjectItem'
 import classes from './Admin.module.scss'
 import CheckProperty from './ViewAddEditProject/CheckProperty'
 import { useAppDispatch } from '@/redux/configure-store'
 import { currentHost } from '@/services/server-data'
+import { getProjectsFromDb, ProjectsSliceState } from '@/features/projects/projectsSlice'
+import { getProjects, getProjectsLoading } from '@/redux/selectors'
+import { toggleIsFinished, toggleIsShowOnMain } from '@/features/projects/projectsSlice'
 
-interface State {
+interface CurrentPageState {
 	openProjectId: number | null;
 	editProjectId: number | null;
 	addProjectOpen: boolean;
 }
 
 const Admin: React.FC = () => {
-	const [state, setState] = useState<State>({
+	const [currentPageState, setCurrentPageState] = useState<CurrentPageState>({
 		openProjectId: null,
 		editProjectId: null,
 		addProjectOpen: false
 	})
 
 	const dispatch = useAppDispatch()
-	const projects = useSelector<RootState, Project[]>((state) => getProjects(state))
-	const projectsLoading = useSelector<RootState, boolean>((state) =>
+	const projects = useSelector<ProjectsSliceState, Project[]>((state) => getProjects(state))
+	const projectsLoading = useSelector((state: ProjectsSliceState) =>
 		getProjectsLoading(state)
 	)
 
@@ -46,7 +46,7 @@ const Admin: React.FC = () => {
 	}, [])
 
 	const handleOpenProjectClick = (projectId: number) => {
-		setState((prevState) => ({
+		setCurrentPageState((prevState) => ({
 			...prevState,
 			openProjectId:
 				prevState.openProjectId === projectId ? null : projectId
@@ -66,7 +66,7 @@ const Admin: React.FC = () => {
 	}
 
 	const renderProject = (project: Project): React.ReactElement => {
-		const open = state.openProjectId === project.id
+		const open = currentPageState.openProjectId === project.id
 
 		return (
 			<ListItem alignItems='flex-start' key={project.id}>
@@ -105,14 +105,14 @@ const Admin: React.FC = () => {
 		)
 	}
 
-	const renderNewProject = () => {
+	const addNewProjectPanel = () => {
 		return (
 			<>
 				<Button
 					variant='contained'
 					color='primary'
 					onClick={() =>
-						setState((prevState) => ({
+						setCurrentPageState((prevState) => ({
 							...prevState,
 							addProjectOpen: !prevState.addProjectOpen
 						}))
@@ -122,7 +122,7 @@ const Admin: React.FC = () => {
 					Добавить новый проект
 				</Button>
 				<Collapse
-					in={state.addProjectOpen}
+					in={currentPageState.addProjectOpen}
 					timeout='auto'
 					unmountOnExit
 				>
@@ -133,23 +133,25 @@ const Admin: React.FC = () => {
 	}
 
 	return (
-		<Container>
-			{projectsLoading ? (
-				<CircularProgress />
-			) : (
-				<>
-					{renderNewProject()}
-					<div>
-						<h6 className={classes['title-project-created']}>
-							Существующие проекты:
-						</h6>
-						<ul className={classes['list-wrapper']}>
-							{projects.map((project) => renderProject(project))}
-						</ul>
-					</div>
-				</>
-			)}
-		</Container>
+		<Box sx={{paddingTop:'16px'}}>
+			<Container>
+				{projectsLoading ? (
+					<CircularProgress />
+				) : (
+					<>
+						{addNewProjectPanel()}
+						<div>
+							<h6 className={classes['title-project-created']}>
+								Существующие проекты:
+							</h6>
+							<ul className={classes['list-wrapper']}>
+								{projects.map((project) => renderProject(project))}
+							</ul>
+						</div>
+					</>
+				)}
+			</Container>
+		</Box>
 	)
 }
 

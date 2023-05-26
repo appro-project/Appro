@@ -1,8 +1,8 @@
 import React from 'react'
-import InputLabel from '@material-ui/core/InputLabel'
-import Input from '@material-ui/core/Input'
-import FormControl from '@material-ui/core/FormControl'
-import { FormLabel } from '@material-ui/core'
+import InputLabel from '@mui/material/InputLabel'
+import Input from '@mui/material/Input'
+import FormControl from '@mui/material/FormControl'
+import { FormLabel } from '@mui/material'
 
 interface Props {
   title: string;

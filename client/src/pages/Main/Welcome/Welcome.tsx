@@ -14,6 +14,7 @@ interface PropsType {
 }
 
 export const Welcome = ({ mockProjects }: PropsType) => {
+  console.log('projects to welcome', mockProjects)
   const renderArrowPrev = (clickHandler: () => void) => {
     const arrowClasses = ['slider-control__prev', 'control-arrow'];
 
@@ -38,7 +39,7 @@ export const Welcome = ({ mockProjects }: PropsType) => {
     <section className={classes.welcome}>
       <Carousel renderArrowNext={renderArrowNext} renderArrowPrev={renderArrowPrev} infiniteLoop interval={4000}>
         {mockProjects
-          .filter((project) => !!project.showOnMain)
+          .filter((project) => project.showOnMain)
           .map((project, index) => (
             <ProjectItem key={index} project={project} />
           ))}

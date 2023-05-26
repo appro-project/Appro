@@ -34,7 +34,7 @@ export const CheckboxFilterBlock = memo(({ filterId, initialOptions, applyFilter
   if (!filterInfo) {
     console.warn(`filter info for ${filterId} not found`);
 
-    return <React.Fragment />;
+    return <></>;
   }
 
   const optionOnClick = (clickedOption: SingleOption) => {

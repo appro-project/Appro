@@ -21,5 +21,5 @@ export const menuLinks: MenuLinkInfo[] = [
 export const contactInfo: ContactInfo = {
   address: 'г. Ирпень, ул. Героев Сталинграда, 13',
   phone: '+38 (066) 39-53-654',
-  copyright: '© 2020 Архитектурное Бюро.',
+  copyright: '© 2023 Архитектурное Бюро.',
 };

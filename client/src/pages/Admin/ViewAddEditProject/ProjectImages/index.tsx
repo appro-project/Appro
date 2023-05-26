@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconButton, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
+import { IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 import FileProperty from '../FileProperty'
 import delete_icon from '@/assets/img/admin/delete.svg'
 import { currentHost } from '@/services/server-data'
