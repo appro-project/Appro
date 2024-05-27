@@ -17,27 +17,19 @@ public enum FoundationOptions {
 
     private final String foundation;
 
-//    @JsonCreator
-//    public static String fromValue(String value) {
-//        for (FoundationOptions option : FoundationOptions.values()) {
-//            if (option.foundation.equalsIgnoreCase(value)) {
-//                return option.getFoundation();
-//            }
-//        }
-//        throw new IllegalArgumentException("Unknown foundation material: " + value);
-//    }
-@JsonCreator
-public static FoundationOptions fromValue(String value) {
-    for (FoundationOptions option : FoundationOptions.values()) {
-        if (option.getFoundation().equalsIgnoreCase(value)) {
-            return option;
+
+    @JsonCreator
+    public static FoundationOptions fromValue(String value) {
+        for (FoundationOptions option : FoundationOptions.values()) {
+            if (option.getFoundation().equalsIgnoreCase(value)) {
+                return option;
+            }
         }
+        throw new IllegalArgumentException("Unknown foundation material: " + value);
     }
-    throw new IllegalArgumentException("Unknown foundation material: " + value);
-}
 
     @JsonValue
     public String toValue() {
-       return this.foundation;
+        return this.foundation;
     }
 }

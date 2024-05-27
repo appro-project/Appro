@@ -5,6 +5,7 @@ import com.appro.entity.Project;
 import com.appro.entity.project_options.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.List;
@@ -57,5 +58,11 @@ public interface ProjectMapper {
 
 
     @Mapping(target = "id", ignore = true)
-    Project update(Project originProject, ProjectDto projectDto);
+    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
+    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "stringToFoundationOptions")
+    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "stringToCeilingOptions")
+    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "stringToInsulationOptions")
+    @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
+    @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
+    Project update(@MappingTarget Project originProject, ProjectDto projectDto);
 }

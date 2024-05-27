@@ -65,6 +65,8 @@ router.delete('/:projectId', (req, resp, next) => {
         .catch(next);
 })
 
+/////////////////////////////
+// todo:
 router.post('/:projectId/floor/:floorId/image', Image.upload.single("floorImage"), (req, res, next) => {
     const floorId = req.params.floorId;
 
@@ -95,7 +97,7 @@ router.post('/:projectId/images', Image.upload.array("projectImages", 20), (req,
             }
         )
 })
-
+// todo:
 router.post('/:projectId/photos', Image.uploadPhotos.array("projectPhotos", 20), (req, res, next) => {
     const projectId = req.params.projectId;
     const {files} = req;
@@ -124,7 +126,7 @@ router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res
                 }
             ));
 })
-
+    // todo: ?
 router.patch('/:projectId', (req, resp, next) => {
   const config = req.body;
   const { projectId } = req.params;

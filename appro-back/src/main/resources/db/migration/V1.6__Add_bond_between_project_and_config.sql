@@ -1,0 +1,1 @@
+alter table project add column project_config_id int references project_config (id);

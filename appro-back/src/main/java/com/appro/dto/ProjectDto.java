@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -13,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDto {
-
     private Integer id;
     private String title;
     private String description;
@@ -36,4 +36,6 @@ public class ProjectDto {
     private String style;
     private Boolean isGaragePresent;
     private BigDecimal bedroomCount;
+    private ImageDto mainImage;
+    private ProjectConfigDto projectConfig;
 }

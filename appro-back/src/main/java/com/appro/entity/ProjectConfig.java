@@ -1,30 +1,34 @@
 package com.appro.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
+import lombok.Setter;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Setter
 @Getter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "project_config")
 public class ProjectConfig {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_config_seq")
-    @SequenceGenerator(name = "project_config_seq", sequenceName = "project_config_id_seq", allocationSize = 1)
-    private Integer projectId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "show_on_main")
     private Boolean showOnMain;
 
     @Column(name = "is_finished")
     private Boolean isFinished;
-
-    @OneToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
 
 }

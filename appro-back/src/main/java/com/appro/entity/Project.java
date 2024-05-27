@@ -1,25 +1,43 @@
 package com.appro.entity;
 
 import com.appro.entity.project_options.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.PrePersist;
+
+import lombok.Setter;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
 @Getter
 @Builder
-@ToString
-//@DynamicInsert
-//@DynamicUpdate
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "project")
+@SQLRestriction(value = "is_deleted = false")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -97,9 +115,24 @@ public class Project {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @OneToOne
+    @JoinColumn(name = "main_image_id")
+    private ProjectImage mainImage;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectImage> images;
+
+    @OneToOne
+    @JoinColumn(name = "project_config_id")
+    private ProjectConfig projectConfig;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
+        isDeleted = false;
     }
 
 }

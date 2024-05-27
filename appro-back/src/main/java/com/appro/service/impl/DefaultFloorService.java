@@ -2,6 +2,7 @@ package com.appro.service.impl;
 
 import com.appro.dto.FloorDto;
 import com.appro.entity.Floor;
+import com.appro.exception.FloorNotFoundException;
 import com.appro.mapper.FloorMapper;
 import com.appro.repository.FloorRepository;
 import com.appro.service.FloorService;
@@ -26,7 +27,7 @@ public class DefaultFloorService implements FloorService {
     @Override
     @Transactional
     public FloorDto updateFloor(int id, FloorDto floorDto) {
-        Floor floorToUpdate = floorRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Floor floorToUpdate = floorRepository.findById(id).orElseThrow(() -> new FloorNotFoundException(id));
 
         Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
 
