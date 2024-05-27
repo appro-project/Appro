@@ -11,7 +11,9 @@ export interface Project {
   buildingArea: number;
   wallMaterial: string;
   wallThickness: number;
+  // фундамент
   foundation: string;
+
   ceiling: string;
   roof: string;
   buildingPrice: number;
