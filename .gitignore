@@ -26,5 +26,4 @@ yarn-error.log*
 .idea
 *.iml
 */package-lock.json
-/.github/workflows/ci_cd_deploy.yml
-/appro-back/
+/appro-back/src/main/resources/application-dev.yml
