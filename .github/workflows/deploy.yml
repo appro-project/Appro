@@ -11,7 +11,6 @@ env:
 #  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION
 #  CONTAINER_NAME: MY_CONTAINER_NAME
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,4 +39,5 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: client
+
 
