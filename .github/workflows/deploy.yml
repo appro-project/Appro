@@ -1,12 +1,6 @@
 name: Deploy to Amazon ECS  # Назва pipeline
 
-on:
-  workflow_dispatch:  # Дозволяє ручний запуск workflow з вибором гілки
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
+on: [ workflow_dispatch ]
 
 jobs:
   build:
