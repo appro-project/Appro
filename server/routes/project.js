@@ -126,7 +126,7 @@ router.post('/:projectId/mainImage', Image.upload.single("mainImage"), (req, res
                 }
             ));
 })
-    // todo: ?
+
 router.patch('/:projectId', (req, resp, next) => {
   const config = req.body;
   const { projectId } = req.params;

@@ -5,7 +5,7 @@ import com.appro.dto.ProjectConfigDto;
 import com.appro.dto.ProjectDto;
 import com.appro.entity.Project;
 import com.appro.entity.ProjectConfig;
-import com.appro.entity.ProjectImage;
+import com.appro.entity.Image;
 import com.appro.exception.ProjectNotFoundException;
 import com.appro.mapper.ImageMapper;
 import com.appro.mapper.ProjectConfigMapper;
@@ -86,7 +86,7 @@ public class DefaultProjectService implements ProjectService {
     public ProjectDto addMainImage(int projectId, ImageDto imageDto) {
         Project project = findProjectById(projectId);
 
-        ProjectImage image = imageMapper.toImage(imageDto);
+        Image image = imageMapper.toImage(imageDto);
         image.setProject(project);
 
         imageRepository.save(image);
@@ -100,7 +100,7 @@ public class DefaultProjectService implements ProjectService {
     public ProjectDto addImagesToProject(int projectId, List<ImageDto> imageDtos) {
         Project project = projectRepository.findProjectWithImagesById(projectId);
 
-        List<ProjectImage> images = imageMapper.toImagesList(imageDtos);
+        List<Image> images = imageMapper.toImagesList(imageDtos);
         images.forEach(image -> image.setProject(project));
 
         project.getImages().addAll(images);

@@ -120,10 +120,10 @@ public class Project {
 
     @OneToOne
     @JoinColumn(name = "main_image_id")
-    private ProjectImage mainImage;
+    private Image mainImage;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectImage> images;
+    private List<Image> images;
 
     @OneToOne
     @JoinColumn(name = "project_config_id")

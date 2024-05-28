@@ -21,7 +21,7 @@ public class DefaultFloorService implements FloorService {
     @Transactional
     public FloorDto addFloor(FloorDto floorDto) {
         Floor floor = floorMapper.toFloor(floorDto);
-        return floorMapper.toFloorDto(floorRepository.save(floor));
+        return applyFloorChanges(floor);
     }
 
     @Override
@@ -31,6 +31,10 @@ public class DefaultFloorService implements FloorService {
 
         Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
 
-        return floorMapper.toFloorDto(floorRepository.save(updatedFloor));
+        return applyFloorChanges(updatedFloor);
+    }
+
+    private FloorDto applyFloorChanges(Floor floor) {
+        return floorMapper.toFloorDto(floorRepository.save(floor));
     }
 }

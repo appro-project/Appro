@@ -5,6 +5,7 @@ import com.appro.dto.ProjectConfigDto;
 import com.appro.dto.ProjectDto;
 import com.appro.repository.projection.ProjectProjection;
 import com.appro.service.ProjectService;
+import com.appro.web.handler.TooManyItemsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,11 @@ public class ProjectController {
         return projectService.findProjectById(id);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable int id) {
+        projectService.delete(id);
+    }
+
     @PostMapping
     public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return projectService.create(projectDto);
@@ -39,11 +45,6 @@ public class ProjectController {
         return projectService.updateProject(id, projectDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable int id) {
-        projectService.delete(id);
-    }
-
     @PostMapping("/{id}/mainImage")
     public ProjectDto addMainImage(@PathVariable int id, @RequestBody ImageDto imageDto) {
         return projectService.addMainImage(id, imageDto);
@@ -51,12 +52,17 @@ public class ProjectController {
 
     @PostMapping("/{id}/images")
     public ProjectDto addImagesList(@PathVariable int id, @RequestBody List<ImageDto> imageDtos) {
+        validateItemsCount(imageDtos.size());
         return projectService.addImagesToProject(id, imageDtos);
     }
 
     @PatchMapping("/{id}")
     public ProjectDto updateProjectConfig(@PathVariable int id, @RequestBody ProjectConfigDto projectConfig) {
         return projectService.updateConfig(id, projectConfig);
+    }
+
+    private void validateItemsCount(int count) {
+        if (count > 20) throw new TooManyItemsException();
     }
 
 }

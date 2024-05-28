@@ -1,7 +1,7 @@
 package com.appro.mapper;
 
 import com.appro.dto.ImageDto;
-import com.appro.entity.ProjectImage;
+import com.appro.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -12,9 +12,9 @@ public interface ImageMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "project", ignore = true)
-    ProjectImage toImage(ImageDto imageDto);
+    Image toImage(ImageDto imageDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "project", ignore = true)
-    List<ProjectImage> toImagesList(List<ImageDto> imageDto);
+    List<Image> toImagesList(List<ImageDto> imageDto);
 }

@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "project_image")
-public class ProjectImage {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
