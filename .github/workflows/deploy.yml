@@ -49,6 +49,10 @@ jobs:
          echo "${{ secrets.INSTANCE_SSH_KEY }}" > ~/.ssh/id_rsa
          chmod 600 ~/.ssh/id_rsa
 
+      - name: Debug - Print SSH key
+        run: |
+          cat ~/.ssh/id_rsa
+
       - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.INSTANCE_SSH_PORT }} -H ${{ secrets.INSTANCE_SSH_HOST }} >> ~/.ssh/known_hosts
 
