@@ -43,29 +43,33 @@ jobs:
           username: ${{ secrets.IMAGE_REGISTRY_USER }}
           password: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.INSTANCE_SSH_KEY }}
-          known_hosts: unnecessary
+      - name: Add SSH key
+        run: |
+         echo "${{ secrets.INSTANCE_SSH_KEY }}" > ~/.ssh/id_rsa
+         chmod 600 ~/.ssh/id_rsa
 
       - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.INSTANCE_SSH_PORT }} -H ${{ secrets.INSTANCE_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Debug - Print variables
+        run: |
+          echo "IMAGE_REGISTRY_USER: ${{ secrets.IMAGE_REGISTRY_USER }}"
+          echo "target: ${{ github.event.inputs.target }}"
 
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.INSTANCE_SSH_HOST }}
           username: ${{ secrets.INSTANCE_SSH_USER }}
-          key: ${{ secrets.INSTANCE_SSH_KEY }}
+          key: ~/.ssh/id_rsa
           port: ${{ secrets.INSTANCE_SSH_PORT }}
           script: |
             docker login -u ${{ secrets.IMAGE_REGISTRY_USER }} -p ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
-            docker pull ${{ secrets.IMAGE_REGISTRY_USER }}/husky_repository:appro-v1.0
+            docker pull ${{ secrets.IMAGE_REGISTRY_USER }}/${{ github.event.inputs.target }}:latest
             docker stop my_container || true
             docker rm my_container || true
-            docker run -d --name my_container -p 80:80 ${{ secrets.IMAGE_REGISTRY_USER }}/husky_repository:appro-v1.0
+            docker run -d --name my_container -p 80:80 ${{ secrets.IMAGE_REGISTRY_USER }}/${{ github.event.inputs.target }}:latest
 
       - name: Verify Deployment
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.INSTANCE_SSH_KEY }} ${{ secrets.INSTANCE_SSH_USER }}@${{ secrets.INSTANCE_SSH_HOST }} "docker ps -a"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.INSTANCE_SSH_USER }}@${{ secrets.INSTANCE_SSH_HOST }} "docker ps -a"
