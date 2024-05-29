@@ -27,3 +27,4 @@ yarn-error.log*
 *.iml
 */package-lock.json
 /appro-back/src/main/resources/application-dev.yml
+/.github/workflows/deploy_to_docker_hub.yml
