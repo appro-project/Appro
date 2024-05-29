@@ -61,10 +61,10 @@ jobs:
           port: ${{ secrets.INSTANCE_SSH_PORT }}
           script: |
             docker login -u ${{ secrets.IMAGE_REGISTRY_USER }} -p ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
-            docker pull ${{ secrets.IMAGE_REGISTRY_USER }}/${{ github.event.inputs.target }}:latest
+            docker pull ${{ secrets.IMAGE_REGISTRY_USER }}/husky_repository:appro-v1.0
             docker stop my_container || true
             docker rm my_container || true
-            docker run -d --name my_container -p 80:80 ${{ secrets.IMAGE_REGISTRY_USER }}/${{ github.event.inputs.target }}:latest
+            docker run -d --name my_container -p 80:80 ${{ secrets.IMAGE_REGISTRY_USER }}/husky_repository:appro-v1.0
 
       - name: Verify Deployment
         run: |
