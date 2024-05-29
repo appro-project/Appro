@@ -51,11 +51,13 @@ jobs:
 
       - name: Check SSH key
         run: |
-          cat ~/.ssh/id_rsa
+          head -n 5 ~/.ssh/id_rsa
+          echo "..."
+          tail -n 5 ~/.ssh/id_rsa
 
-      - name: Debug - Print SSH key
+      - name: Verify permissions
         run: |
-          cat ~/.ssh/id_rsa
+          ls -l ~/.ssh/id_rsa
 
       - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.INSTANCE_SSH_PORT }} -H ${{ secrets.INSTANCE_SSH_HOST }} >> ~/.ssh/known_hosts

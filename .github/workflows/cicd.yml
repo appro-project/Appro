@@ -1,0 +1,135 @@
+name: CI/CD
+on:
+  workflow_call:
+    inputs:
+      target:
+        description: Target environment
+        required: true
+        type: string
+      provider:
+        description: Data provider
+        required: true
+        type: string
+    secrets:
+      IMAGE_REGISTRY_USER:
+        required: true
+      IMAGE_REGISTRY_PASSWORD:
+        required: false
+      INSTANCE_SSH_KEY:
+        required: true
+      INSTANCE_SSH_PORT:
+        required: true
+      INSTANCE_SSH_HOST:
+        required: true
+      INSTANCE_SSH_USER:
+        required: true
+
+jobs:
+  build_and_push:
+    name: ${{ inputs.target }} CI/CD -- Data provider ${{ inputs.provider}}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: ${{ github.workspace }}/build/client/package-lock.json
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        id: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: |
+          cd ./client
+          npm install
+
+      - name: Build React Project
+        run: |
+          cd ./goods-partner-frontend
+          npm build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-back-cache
+          key: buildx-back
+
+      - name: Set up Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.IMAGE_REGISTRY_USER }}/${{ vars.DOCKER_IMAGE_NAME }}
+          tags: |
+            # set date tag for last built branch
+            type=raw,value=${{ inputs.target }}-{{date 'YYYY-MM-DD_hh-mm-ssa' tz='Europe/Kiev'}}-{{branch}}
+            # set Arianta/Grande/Development/Demo tag by env for last built branch
+            type=raw,value=${{ inputs.target }}
+            # set latest tag for master branch
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.IMAGE_REGISTRY_USER }}
+          password: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+
+      - name: Docker Build and Push to DockerHub
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          build-args: |
+            "PROFILE_ENV=${{ inputs.provider }}"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          cache-from: type=local,src=/tmp/.buildx-back-cache
+          cache-to: type=local,dest=/tmp/.buildx-back-cache
+
+  deploy:
+    needs: build_and_push
+    name: CD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.INSTANCE_SSH_KEY }}
+          known_hosts: unnecessary
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p ${{ secrets.INSTANCE_SSH_PORT}} -H ${{ secrets.INSTANCE_SSH_HOST }}  >> ~/.ssh/known_hosts
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.INSTANCE_SSH_HOST }}
+          username: ${{ secrets.INSTANCE_SSH_USER }}
+          key: ${{ secrets.INSTANCE_SSH_KEY }}
+          port: ${{ secrets.INSTANCE_SSH_PORT }}
+          script: |
+            cd ./goodspartner
+            bash docker_deploy.sh
