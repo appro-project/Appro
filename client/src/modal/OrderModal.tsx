@@ -16,7 +16,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [anytime, setAnytime] = useState(false)
-	const { handleSubmit, errors, control, reset } = useForm<IFeedbackForm>({
+	const { handleSubmit, formState:{errors}, control, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
 			name: '',
 			email: '',
@@ -68,7 +68,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							defaultValue={''}
 							rules={{ required: true }}
 							render={(props) => (
-								<TextInput error={!!errors.name} value={props.value} onChange={props.onChange} placeholder='Имя' />
+								<TextInput error={!!errors.name} {...props} placeholder='Имя' />
 							)}
 						/>
 					</div>
@@ -83,7 +83,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 									/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 							}}
 							render={(props) => (
-								<TextInput value={props.value} error={!!errors.email} onChange={props.onChange} placeholder='E-mail' />
+								<TextInput  {...props} error={!!errors.email}  placeholder='E-mail' />
 							)}
 						/>
 					</div>
@@ -98,8 +98,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							render={(props) => (
 								<TextInput
 									error={!!errors.phone}
-									value={props.value}
-									onChange={props.onChange}
+									{...props}
 									mask={'+380 999999999'}
 									placeholder='Номер телефона'
 								/>
@@ -117,8 +116,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 								<TextInput
 									mask={'99.99.9999'}
 									error={error || !!errors.data}
-									value={props.value}
-									onChange={props.onChange}
+									{...props}
 									placeholder='Дата'
 								/>
 							)}
@@ -132,8 +130,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 								<TextInput
 									mask={'99:99'}
 									error={error || !!errors.time}
-									value={props.value}
-									onChange={props.onChange}
+									{...props}
 									placeholder='Время'
 								/>
 							)}
@@ -160,7 +157,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							defaultValue={''}
 							rules={{}}
 							render={(props) => (
-								<TextInput value={props.value} onChange={props.onChange} placeholder='Ваше  собщение (необязательно)' />
+								<TextInput  {...props} placeholder='Ваше  собщение (необязательно)' />
 							)}
 						/>
 					</div>

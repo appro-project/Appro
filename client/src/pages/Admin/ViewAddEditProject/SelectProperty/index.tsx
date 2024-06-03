@@ -1,21 +1,21 @@
 import React from 'react'
-// import classes from './TextProperty.module.scss';
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 interface Props {
   title: string;
   value: string;
-  options: string[];
+  options: ReadonlyArray<string>;
   required?: boolean;
   disabled?: boolean;
 
-  handleProperty(event: React.ChangeEvent<any>): void;
+  handleProperty(event: SelectChangeEvent): void;
 }
 
-const getSelectOptions = (options: string[]) => {
+const getSelectOptions = (options: ReadonlyArray<string>) => {
   const renderOptions = [] as JSX.Element[];
   options.forEach((option: string | number, idx: number) =>
     renderOptions.push(
@@ -31,7 +31,7 @@ const getSelectOptions = (options: string[]) => {
 const SelectProperty = ({ title, value, required, disabled, options, handleProperty }: Props) => (
   <FormControl variant={'standard'} fullWidth required={required} disabled={disabled}>
     <InputLabel id={`${title}-label`}> {title}</InputLabel>
-    <Select labelId={`${title}-label`} id={title} value={value} onChange={(event) => handleProperty(event)}>
+    <Select labelId={`${title}-label`} id={title} value={value} onChange={handleProperty}>
       {getSelectOptions(options)}
     </Select>
   </FormControl>

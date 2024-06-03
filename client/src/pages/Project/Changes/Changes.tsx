@@ -16,7 +16,7 @@ interface IChangesProps {
 export const Changes = ({ project }: IChangesProps) => {
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const { handleSubmit, errors, control, reset } = useForm<IFeedbackForm>({
+	const { handleSubmit, formState: { errors }, control, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
 			name: '',
 			phone: '',
@@ -107,19 +107,12 @@ export const Changes = ({ project }: IChangesProps) => {
 							render={(props) => (
 								<textarea
 									className='form-field__input'
-									onChange={props.onChange}
-									value={props.value}
+									{...props}
 									name='feedback'
 									cols={30}
 									rows={10}
 									placeholder='Ваше собщение'
 								/>
-								// <TextInput
-								//   error={!!errors.feedback}
-								//   value={props.value}
-								//   onChange={props.onChange}
-								//   placeholder="Ваше сообщение"
-								// />
 							)}
 						/>
 						{/*<textarea className="form-field__input" name="feedback" cols={30} rows={10} placeholder="Ваше собщение" />*/}
@@ -129,19 +122,17 @@ export const Changes = ({ project }: IChangesProps) => {
 						<Controller
 							name='phone'
 							control={control}
-							placeholder='Номер телефона'
+
 							render={(props) => (
 								<input
+									{...props}
 									className='form-field__input'
-									onChange={props.onChange}
-									value={props.value}
 									name='phone'
 									type='text'
 									placeholder='Номер телефона'
 								/>
 							)}
 						/>
-						{/*<input className="form-field__input" name="phone" type="text" placeholder="Номер телефона" />*/}
 					</div>
 					<div className='form-field'>
 						<Controller
@@ -150,20 +141,14 @@ export const Changes = ({ project }: IChangesProps) => {
 							defaultValue={''}
 							rules={{ required: true }}
 							render={(props) => (
-								<input className='form-field__input' value={props.value} onChange={props.onChange} placeholder='Имя' />
+								<input className='form-field__input' {...props} placeholder='Имя' />
 							)}
 						/>
-						{/*<input className="form-field__input" type="text" name="name" placeholder="Имя" />*/}
+
 					</div>
 					<div className='form-field form-field_btn'>
 						<Button disabled={loading} buttonType={ButtonType.BIG} title='Отправить сообщение' />
 
-						{/*<input*/}
-						{/*  type="submit"*/}
-						{/*  className="form-field__input yellow-button yellow-button_16"*/}
-						{/*  value="Отправить сообщение"*/}
-						{/*  placeholder="Ваше собщение"*/}
-						{/*/>*/}
 					</div>
 				</form>
 			</div>

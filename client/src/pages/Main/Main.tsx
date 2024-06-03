@@ -11,6 +11,7 @@ export const Main = () => {
 	const popularCategories = useSelector(getPopularCategories)
 	const principlesData = useSelector(getPrinciplesData)
 
+
 	return (
 		<>
 			<Welcome mockProjects={mockProjects} />

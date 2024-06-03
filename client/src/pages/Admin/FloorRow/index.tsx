@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import NumericProperty from '../ViewAddEditProject/NumericProperty'
 import CheckProperty from '../ViewAddEditProject/CheckProperty'
 import ProjectImage from '../ViewAddEditProject/ProjectImages'
@@ -10,7 +10,7 @@ interface PropsType {
   index: number | null;
   area: number | null;
   height: number | null;
-  planningImage: string | null;
+  planningImage: string  | null;
   isAttic: boolean | null;
   isBasement: boolean | null;
   handleFloorIndexChange: (event: React.ChangeEvent<any>, floorId: number) => void;

@@ -17,7 +17,7 @@ export interface Project {
   buildingPrice: number;
   mainImage: string;
   images: string[];
-  photos: string[];
+  photos?: string[];
   insulation: string;
   insulationThickness: number;
   length: number;

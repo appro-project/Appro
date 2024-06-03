@@ -9,13 +9,15 @@ import { ProjectPage } from './pages/Project/Project'
 import Admin from './pages/Admin/Admin'
 import { AdditionalOptions } from './pages/AdditionalOptions/AdditionalOptions'
 import { AboutUs } from './pages/AboutUs/AboutUs'
-import { getProjectsFromDb, setViewAllProjects } from './redux/actions'
-import { useDispatch, useSelector } from 'react-redux'
+import { setViewAllProjects } from './redux/actions'
+import { useSelector } from 'react-redux'
 import { getProjectInLocalStorage } from './services/util/localStorage'
 import { getProjects } from './redux/selectors'
+import { useAppDispatch } from '@/redux/configure-store'
+import { getProjectsFromDb } from '@/features/projects/projectsSlice'
 
 export const App = () => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const projects = useSelector(getProjects)
 
 	useEffect(() => {
