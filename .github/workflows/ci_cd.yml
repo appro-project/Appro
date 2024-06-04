@@ -61,13 +61,13 @@ jobs:
         
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          export SERVER_PORT=${{ secrets.SERVER_PORT }}
-          export APPRO_DB_URL=${{ secrets.APPRO_DB_URL }}
-          export DB_USERNAME=${{ secrets.DB_USERNAME }}
-          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          export SERVER_PORT=\${{ secrets.SERVER_PORT }}
+          export APPRO_DB_URL=\${{ secrets.APPRO_DB_URL }}
+          export DB_USERNAME=\${{ secrets.DB_USERNAME }}
+          export DB_PASSWORD=\${{ secrets.DB_PASSWORD }}
           
-          export HUSKY_EMAIL=${{ secrets.HUSKY_EMAIL }}
-          export HUSKY_EMAIL_API_KEY=${{ secrets.HUSKY_EMAIL_API_KEY }}
+          export HUSKY_EMAIL=\${{ secrets.HUSKY_EMAIL }}
+          export HUSKY_EMAIL_API_KEY=\${{ secrets.HUSKY_EMAIL_API_KEY }}
           
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
