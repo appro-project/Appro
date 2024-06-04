@@ -36,7 +36,7 @@ jobs:
     - name: Ensure Maven is installed on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          if [ ! -d "/home/ubuntu/appro/mvn" ] || [ ! -x "/home/ubuntu/appro/mvn/bin/mvn" ];
+          if [ ! -d "/home/ubuntu/appro/mvn" ] || [ ! -x "/home/ubuntu/appro/mvn/bin/mvn" ]
           then
             echo "Maven not found. Installing Maven..."
             sudo apt-get update
