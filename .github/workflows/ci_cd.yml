@@ -70,7 +70,8 @@ jobs:
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
           
-          cd /home/ubuntu/appro/appro-back
+          cd /home/ubuntu/appro/app
+          cd appro-back
           ./mvnw flyway:migrate
           
           mvn package
