@@ -72,6 +72,15 @@ jobs:
             echo "Error: mvn package failed."
             exit 1
           fi
+
+          # Діагностичний вивід перед запуском сервера
+          echo "Starting server with the following environment variables:"
+          echo "SERVER_PORT=${SERVER_PORT}"
+          echo "APPRO_DB_URL=${APPRO_DB_URL}"
+          echo "DB_USERNAME=${DB_USERNAME}"
+          echo "DB_PASSWORD=${DB_PASSWORD}"
+          echo "HUSKY_EMAIL=${HUSKY_EMAIL}"
+          echo "HUSKY_EMAIL_API_KEY=${HUSKY_EMAIL_API_KEY}"
           
           nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
           sleep 30
