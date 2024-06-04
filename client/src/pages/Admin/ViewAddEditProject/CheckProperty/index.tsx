@@ -7,7 +7,7 @@ interface Props {
   checked: boolean;
   disabled?: boolean;
 
-  handleProperty(): void;
+  handleProperty(checked:boolean): void;
 }
 
 const CheckProperty = ({ title, checked, disabled, handleProperty }: Props) => (
@@ -15,7 +15,7 @@ const CheckProperty = ({ title, checked, disabled, handleProperty }: Props) => (
     <p className={classes['label']}>{title}</p>
     <Switch
       checked={checked}
-      onChange={() => handleProperty()}
+      onChange={handleProperty}
       onColor={'#FFCF42'}
       offColor={'#3C3C3C'}
       name="project-garage"

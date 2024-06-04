@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import {TextField} from "@mui/material";
 
 interface Props {
   title: string;
@@ -12,7 +13,7 @@ interface Props {
   required?: boolean;
   disabled?: boolean;
 
-  handleProperty(event: SelectChangeEvent): void;
+  handleProperty(event: React.ChangeEvent<any>): void;
 }
 
 const getSelectOptions = (options: ReadonlyArray<string>) => {
@@ -29,12 +30,14 @@ const getSelectOptions = (options: ReadonlyArray<string>) => {
 };
 
 const SelectProperty = ({ title, value, required, disabled, options, handleProperty }: Props) => (
-  <FormControl variant={'standard'} fullWidth required={required} disabled={disabled}>
-    <InputLabel id={`${title}-label`}> {title}</InputLabel>
-    <Select labelId={`${title}-label`} id={title} value={value} onChange={handleProperty}>
+    <TextField
+        required={required} disabled={disabled}
+        fullWidth
+        variant={'outlined'} label={title} value={value}
+               select
+               onChange={handleProperty}>
       {getSelectOptions(options)}
-    </Select>
-  </FormControl>
+    </TextField>
 );
 
 export default SelectProperty;

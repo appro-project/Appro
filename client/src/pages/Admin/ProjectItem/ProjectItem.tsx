@@ -1,5 +1,5 @@
 import React from 'react'
-import ViewAddEditProject from '../ViewAddEditProject'
+import ViewAddEditProject from '../ViewAddEditProject/current-project'
 import { FloorDto } from '@/entity/FloorDto'
 import FloorRow from '../FloorRow'
 import { Action } from 'redux'

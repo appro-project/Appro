@@ -12,10 +12,9 @@ interface Props {
 
 const TextProperty = ({ title, value, required, disabled, handleProperty }: Props) => (
   <TextField
-    variant="standard"
+    variant={'outlined'}
     required={required}
     fullWidth
-    id="email"
     label={title}
     name={title}
     value={value}

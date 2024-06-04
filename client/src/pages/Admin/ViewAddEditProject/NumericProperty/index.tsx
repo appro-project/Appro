@@ -12,7 +12,7 @@ interface Props {
 
 const NumericProperty = ({ title, value, required, disabled, handleProperty }: Props) => (
   <TextField
-    variant="standard"
+      variant={'outlined'}
     required={required}
     fullWidth
     id="email"

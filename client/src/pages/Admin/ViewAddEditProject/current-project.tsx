@@ -140,6 +140,7 @@ const ViewAddEditProject: React.FC<PropsType> = ({
   photos,
   isFinished,
 }) => {
+
   const view = !(add || edit);
 
   return (

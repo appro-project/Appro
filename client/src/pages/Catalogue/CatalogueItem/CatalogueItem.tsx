@@ -58,9 +58,9 @@ const CatalogueItem: FC<PropsType> = memo(
                 <Button actionHandler={() => setOpenFilter(!openFilter)} title={'Фильтры'} />
               </div>
               {openFilter && <FilterList applyFilter={applyFilter} />}
-              <CatalogueHeader count={currentProjects.length} sortDetails={sortDetails} applySort={applySort} />
             </div>
             <div>
+              <CatalogueHeader count={currentProjects.length} sortDetails={sortDetails} applySort={applySort} />
               <ProjectList projects={currentProjectsPaged} />
               <Pagination
                 itemsLength={currentProjects.length}
