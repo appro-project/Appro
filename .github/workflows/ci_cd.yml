@@ -19,11 +19,3 @@ jobs:
     - name: Test SSH connection
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
-
-
- 
-          
-          cd /home/ubuntu/appro/appro-back
-          mvn package
-          java -jar target/appro-back.jar
-        EOF
