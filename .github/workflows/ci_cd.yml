@@ -14,19 +14,18 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
 
     - name: Copy files to EC2
       run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r . ubuntu@$EC2_IP:/home/ubuntu/appro
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r . ubuntu@13.60.38.144:/home/ubuntu/appro
 
     - name: Deploy application on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$EC2_IP << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@13.60.38.144 << 'EOF'
           cd /home/ubuntu/appro/client
           npm install
           npm run build
