@@ -6,9 +6,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      EC2_IP: ${{ secrets.CHEXIE_IP }}
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -19,16 +16,12 @@ jobs:
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
 
-    - name: Copy files to EC2
+    - name: Test SSH connection
       run: |
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r . ubuntu@13.60.38.144:/home/ubuntu/appro
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
 
-    - name: Deploy application on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@13.60.38.144 << 'EOF'
-          cd /home/ubuntu/appro/client
-          npm install
-          npm run build
+
+ 
           
           cd /home/ubuntu/appro/appro-back
           mvn package
