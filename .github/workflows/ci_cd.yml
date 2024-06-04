@@ -32,39 +32,46 @@ jobs:
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro
 
-    - name: Build and run backend on EC2
-      env:
-        SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        APPRO_DB_URL: ${{ secrets.APPRO_DB_URL }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        HUSKY_EMAIL: ${{ secrets.HUSKY_EMAIL }}
-        HUSKY_EMAIL_API_KEY: ${{ secrets.HUSKY_EMAIL_API_KEY }}
-        
+    - name: Check Maven installation on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          export SERVER_PORT=${SERVER_PORT}
-          export APPRO_DB_URL=${APPRO_DB_URL}
-          export DB_USERNAME=${DB_USERNAME}
-          export DB_PASSWORD=${DB_PASSWORD}
-          export HUSKY_EMAIL=${HUSKY_EMAIL}
-          export HUSKY_EMAIL_API_KEY=${HUSKY_EMAIL_API_KEY}
-          
-          cd /home/ubuntu/appro/appro-back
-          ./mvnw flyway:migrate
-          
-          mvn package
-          if [ $? -ne 0 ]; then
-            echo "Error: mvn package failed."
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mvn -version"
+            #       if [ $? -ne 0 ]; then
+            echo "Error: mvn not installed."
             exit 1
           fi
+    # - name: Build and run backend on EC2
+    #   env:
+    #     SERVER_PORT: ${{ secrets.SERVER_PORT }}
+    #     APPRO_DB_URL: ${{ secrets.APPRO_DB_URL }}
+    #     DB_USERNAME: ${{ secrets.DB_USERNAME }}
+    #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    #     HUSKY_EMAIL: ${{ secrets.HUSKY_EMAIL }}
+    #     HUSKY_EMAIL_API_KEY: ${{ secrets.HUSKY_EMAIL_API_KEY }}
+        
+    #   run: |
+    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+    #       export SERVER_PORT=${SERVER_PORT}
+    #       export APPRO_DB_URL=${APPRO_DB_URL}
+    #       export DB_USERNAME=${DB_USERNAME}
+    #       export DB_PASSWORD=${DB_PASSWORD}
+    #       export HUSKY_EMAIL=${HUSKY_EMAIL}
+    #       export HUSKY_EMAIL_API_KEY=${HUSKY_EMAIL_API_KEY}
           
-          nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
-          sleep 10
-          if ! curl -s http://localhost:8080/actuator/health | grep 'UP'; then
-            echo "Error: Backend is not running."
-            exit 1
-          fi
+    #       cd /home/ubuntu/appro/appro-back
+    #       ./mvnw flyway:migrate
           
-          echo "Backend is running successfully."
-        EOF
+    #       mvn package
+    #       if [ $? -ne 0 ]; then
+    #         echo "Error: mvn package failed."
+    #         exit 1
+    #       fi
+          
+    #       nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
+    #       sleep 10
+    #       if ! curl -s http://localhost:8080/actuator/health | grep 'UP'; then
+    #         echo "Error: Backend is not running."
+    #         exit 1
+    #       fi
+          
+    #       echo "Backend is running successfully."
+    #     EOF
