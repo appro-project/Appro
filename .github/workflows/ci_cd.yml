@@ -31,7 +31,7 @@ jobs:
 
     - name: Copy files to EC2
       run: |
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
 
     - name: Ensure Maven is installed on EC2
       run: |
