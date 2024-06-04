@@ -63,6 +63,9 @@ jobs:
           
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
+
+          # Надання виконуваних дозволів для mvnw
+          chmod +x mvnw
           
           cd /home/ubuntu/appro/app/appro-back
           ./mvnw flyway:migrate
