@@ -1,15 +1,21 @@
 server:
-  port: 3001
+  port: ${SERVER_PORT}
 
 spring:
-  profiles:
-    active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${APPRO_DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     open-in-view: false
 
+  flyway:
+    enabled: true
+
 feedback:
   email:
-    to: guchithehasky@gmail.com
-    from: guchithehasky@gmail.com
-    api-key: eruk wpkt jxic qyon
+    to: ${HUSKY_EMAIL}
+    from: ${HUSKY_EMAIL}
+    api-key: ${HUSKY_EMAIL_API_KEY}
