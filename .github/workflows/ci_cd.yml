@@ -77,6 +77,7 @@ jobs:
           sleep 30
           if ! curl -s http://localhost:${SERVER_PORT}/actuator/health | grep 'UP'; then
             echo "Error: Backend is not running."
+            cat server.log
             exit 1
           fi
           
