@@ -22,23 +22,34 @@ jobs:
 
     - name: Create directory on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/app"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/mvn"
 
     - name: Clean directory on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/*"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/app/*"
 
     - name: Copy files to EC2
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro
 
-    - name: Check Maven installation on EC2
+    - name: Ensure Maven is installed on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mvn -version"
-            #       if [ $? -ne 0 ]; then
-            echo "Error: mvn not installed."
-            exit 1
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          if ! command -v mvn &> /dev/null
+          then
+            echo "Maven not found. Installing Maven..."
+            sudo apt-get update
+            wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+            tar -zxvf apache-maven-3.6.3-bin.tar.gz -C /home/ubuntu/appro/mvn --strip-components=1
+            rm apache-maven-3.6.3-bin.tar.gz
+            echo 'export MAVEN_HOME=/home/ubuntu/appro/mvn' >> ~/.bashrc
+            echo 'export PATH=$MAVEN_HOME/bin:$PATH' >> ~/.bashrc
+            source ~/.bashrc
+          else
+            echo "Maven is already installed."
           fi
+        EOF
     # - name: Build and run backend on EC2
     #   env:
     #     SERVER_PORT: ${{ secrets.SERVER_PORT }}
