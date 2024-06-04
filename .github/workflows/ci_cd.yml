@@ -5,6 +5,9 @@ on: [ workflow_dispatch ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    env:
+      EC2_IP: ${{ secrets.CHEXIE_IP }}
     
     steps:
     - name: Checkout repository
@@ -17,11 +20,11 @@ jobs:
 
     - name: Copy files to EC2
       run: |
-        scp -o StrictHostKeyChecking=no -r . ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro
+        scp -o StrictHostKeyChecking=no -r . ubuntu@$EC2_IP:/home/ubuntu/appro
 
     - name: Deploy application on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@$EC2_IP << 'EOF'
           cd /home/ubuntu/appro/client
           npm install
           npm run build
