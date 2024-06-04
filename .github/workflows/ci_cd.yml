@@ -50,30 +50,21 @@ jobs:
             echo "Maven is already installed."
           fi
         EOF
-    - name: Build and run backend on EC2
-      env:
-        SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        APPRO_DB_URL: ${{ secrets.APPRO_DB_URL }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        HUSKY_EMAIL: ${{ secrets.HUSKY_EMAIL }}
-        HUSKY_EMAIL_API_KEY: ${{ secrets.HUSKY_EMAIL_API_KEY }}
         
+    - name: Build and run backend on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          export SERVER_PORT=\${{ secrets.SERVER_PORT }}
-          export APPRO_DB_URL=\${{ secrets.APPRO_DB_URL }}
-          export DB_USERNAME=\${{ secrets.DB_USERNAME }}
-          export DB_PASSWORD=\${{ secrets.DB_PASSWORD }}
-          
-          export HUSKY_EMAIL=\${{ secrets.HUSKY_EMAIL }}
-          export HUSKY_EMAIL_API_KEY=\${{ secrets.HUSKY_EMAIL_API_KEY }}
+          export SERVER_PORT="${{ secrets.SERVER_PORT }}"
+          export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
+          export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
+          export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
           
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
           
-          cd /home/ubuntu/appro/app
-          cd appro-back
+          cd /home/ubuntu/appro/app/appro-back
           ./mvnw flyway:migrate
           
           mvn clean package
@@ -83,8 +74,8 @@ jobs:
           fi
           
           nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
-          sleep 10
-          if ! curl -s http://localhost:8080/actuator/health | grep 'UP'; then
+          sleep 30
+          if ! curl -s http://localhost:${SERVER_PORT}/actuator/health | grep 'UP'; then
             echo "Error: Backend is not running."
             exit 1
           fi
