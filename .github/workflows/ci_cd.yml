@@ -42,10 +42,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cp /home/ubuntu/appro/application.yml.bak /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml || true"
 
-    - name: List files in appro-back directory
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back/src/main/resources"
-
     - name: Ensure Maven is installed on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
@@ -76,18 +72,6 @@ jobs:
             exit 1
           fi
         EOF
-
-    - name: List files in appro-back directory
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back/src/main/resources"
-        
-    - name: Display application.yml content
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-        cat /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml > ~/app_config_temp.txt
-        echo "The content of application.yml has been saved to ~/app_config_temp.txt"
-        EOF
-
     
     - name: Build and run backend on EC2
       run: |
@@ -106,9 +90,13 @@ jobs:
 
           # Надання виконуваних дозволів для mvnw
           chmod +x mvnw
+
+          # Діагностика Flyway
+          echo "Running Flyway migrations with the following configuration:"
+          cat src/main/resources/application.yml
           
           cd /home/ubuntu/appro/app/appro-back
-          ./mvnw flyway:migrate
+          ./mvnw flyway:migrate -X
           
           mvn clean package
           if [ $? -ne 0 ]; then
@@ -119,7 +107,7 @@ jobs:
           # nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
           java -jar target/appro-back.jar
           sleep 30
-          if ! curl -s http://localhost:${SERVER_PORT}/actuator/health | grep 'UP'; then
+          if ! curl -s http://localhost:80/actuator/health | grep 'UP'; then
             echo "Error: Backend is not running."
             cat server.log
             exit 1
