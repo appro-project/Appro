@@ -20,14 +20,9 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
 
-    # - name: Backup application.yml on EC2
-    #   run: |
-    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cp /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml /home/ubuntu/appro/application.yml.bak || true"
-
     - name: Create directory on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/app"
-    # ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/mvn"
 
     - name: Clean directory on EC2
       run: |
@@ -36,42 +31,6 @@ jobs:
     - name: Copy files to EC2
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
-    # rsync -avz --exclude 'application.yml' -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" ./ ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
-    
-    # - name: Restore application.yml on EC2
-    #   run: |
-    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cp /home/ubuntu/appro/application.yml.bak /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml || true"
-
-    # - name: Ensure Maven is installed on EC2
-    #   run: |
-    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-    #       if [ ! -d "/home/ubuntu/appro/mvn" ] || [ ! -x "/home/ubuntu/appro/mvn/bin/mvn" ]
-    #       then
-    #         echo "Maven not found. Installing Maven..."
-    #         sudo apt-get update
-    #         wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-    #         tar -zxvf apache-maven-3.6.3-bin.tar.gz -C /home/ubuntu/appro/mvn --strip-components=1
-    #         rm apache-maven-3.6.3-bin.tar.gz
-    #         echo 'export MAVEN_HOME=/home/ubuntu/appro/mvn' >> ~/.bashrc
-    #         echo 'export PATH=$MAVEN_HOME/bin:$PATH' >> ~/.bashrc
-    #         source ~/.bashrc
-    #       else
-    #         echo "Maven is already installed."
-    #       fi
-    #     EOF
-
-    # - name: Check for mvnw and provide execute permissions
-    #   run: |
-    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-    #       cd /home/ubuntu/appro/app/appro-back
-    #       if [ -f mvnw ]; then
-    #         echo "mvnw found, setting execute permissions."
-    #         chmod +x mvnw
-    #       else
-    #         echo "Error: mvnw not found."
-    #         exit 1
-    #       fi
-    #     EOF
 
     - name: Prepare application.yml on EC2
       run: |
@@ -117,6 +76,5 @@ jobs:
           fi
           
           sudo nohup java -jar target/appro-back.jar > /home/ubuntu/appro/server.log 2>&1 &
-          # sudo java -jar target/appro-back.jar          
           echo "Backend is running successfully."
         EOF
