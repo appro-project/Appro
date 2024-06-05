@@ -79,9 +79,9 @@ jobs:
           cd /home/ubuntu/appro/app/appro-back
           
           # export SERVER_PORT="${{ secrets.SERVER_PORT }}"
-          # export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
-          # export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-          # export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
+          export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
           # export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
           # export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
           
@@ -96,7 +96,7 @@ jobs:
           cat src/main/resources/application.yml
           
           cd /home/ubuntu/appro/app/appro-back
-          ./mvnw flyway:migrate -X
+          ./mvnw flyway:migrate -Dflyway.url=${APPRO_DB_URL} -Dflyway.user=${DB_USERNAME} -Dflyway.password=${DB_PASSWORD}
           
           mvn clean package
           if [ $? -ne 0 ]; then
