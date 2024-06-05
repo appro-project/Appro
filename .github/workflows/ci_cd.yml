@@ -83,7 +83,11 @@ jobs:
         
     - name: Display application.yml content
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cat /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        cat /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml > ~/app_config_temp.txt
+        echo "The content of application.yml has been saved to ~/app_config_temp.txt"
+        EOF
+
     
     - name: Build and run backend on EC2
       run: |
