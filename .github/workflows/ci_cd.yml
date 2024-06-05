@@ -72,6 +72,10 @@ jobs:
             exit 1
           fi
         EOF
+
+    - name: List files in appro-back directory
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back"
         
     - name: Build and run backend on EC2
       run: |
