@@ -79,13 +79,14 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          npm install
-          npm run build
+          nohup npm install > /home/ubuntu/appro/client_install.log 2>&1 &
+          nohup npm run build > /home/ubuntu/appro/client_build.log 2>&1 &
+          wait
         EOF
 
     - name: Run client 
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          npm start
+          nohup npm start > /home/ubuntu/appro/client_start.log 2>&1 &
         EOF
