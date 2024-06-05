@@ -105,7 +105,7 @@ jobs:
           fi
           
           # nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
-          java -jar target/appro-back.jar
+          sudo java -jar target/appro-back.jar
           sleep 30
           if ! curl -s http://localhost:80/actuator/health | grep 'UP'; then
             echo "Error: Backend is not running."
