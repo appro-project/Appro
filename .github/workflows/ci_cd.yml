@@ -80,6 +80,8 @@ jobs:
     - name: Build and run backend on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          cd /home/ubuntu/appro/app/appro-back
+          
           export SERVER_PORT="${{ secrets.SERVER_PORT }}"
           export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
           export DB_USERNAME="${{ secrets.DB_USERNAME }}"
