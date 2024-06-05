@@ -82,12 +82,12 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/appro-back
           
-          export SERVER_PORT="${{ secrets.SERVER_PORT }}"
-          export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
-          export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-          export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
-          export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
+          # export SERVER_PORT="${{ secrets.SERVER_PORT }}"
+          # export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
+          # export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+          # export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          # export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
+          # export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
           
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
@@ -103,17 +103,9 @@ jobs:
             echo "Error: mvn package failed."
             exit 1
           fi
-
-          # Діагностичний вивід перед запуском сервера
-          echo "Starting server with the following environment variables:"
-          echo "SERVER_PORT=${SERVER_PORT}"
-          echo "APPRO_DB_URL=${APPRO_DB_URL}"
-          echo "DB_USERNAME=${DB_USERNAME}"
-          echo "DB_PASSWORD=${DB_PASSWORD}"
-          echo "HUSKY_EMAIL=${HUSKY_EMAIL}"
-          echo "HUSKY_EMAIL_API_KEY=${HUSKY_EMAIL_API_KEY}"
           
-          nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
+          # nohup java -jar target/appro-back.jar > /dev/null 2>&1 &
+          java -jar target/appro-back.jar
           sleep 30
           if ! curl -s http://localhost:${SERVER_PORT}/actuator/health | grep 'UP'; then
             echo "Error: Backend is not running."
