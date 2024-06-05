@@ -20,10 +20,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
 
-    - name: Create directory on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/app"
-
     - name: Clean directory on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/app/*"
@@ -79,17 +75,17 @@ jobs:
           echo "Backend is running successfully."
         EOF
 
-        - name: Install client dependency & build 
-          run: |
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-             cd /home/ubuntu/appro/app/client
-             npm install
-             npm run build
-          EOF
+    - name: Install client dependency & build 
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          cd /home/ubuntu/appro/app/client
+          npm install
+          npm run build
+        EOF
 
-        - name: Run client 
-          run: |
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-             cd /home/ubuntu/appro/app/client
-             npm start
-          EOF
+    - name: Run client 
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          cd /home/ubuntu/appro/app/client
+          npm start
+        EOF
