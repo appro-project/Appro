@@ -72,6 +72,11 @@ jobs:
             exit 1
           fi
         EOF
+
+    - name: Set JAVA_HOME
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.profile && echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> ~/.profile && source ~/.profile"
+
     
     - name: Build and run backend on EC2
       run: |
