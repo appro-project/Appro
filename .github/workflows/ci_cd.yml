@@ -20,6 +20,10 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
 
+    - name: Backup application.yml on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cp /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml /home/ubuntu/appro/application.yml.bak || true"
+
     - name: Create directory on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mkdir -p /home/ubuntu/appro/app"
@@ -29,18 +33,14 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/app/*"
 
-    - name: Cut application.yml on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mv /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml /home/ubuntu/appro/application.yml || true"
-
     - name: Copy files to EC2
       run: |
         # scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
         rsync -avz --exclude 'application.yml' -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa" ./ ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
     
-    - name: Paste application.yml on EC2
+    - name: Restore application.yml on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "mv /home/ubuntu/appro/application.yml /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml || true"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cp /home/ubuntu/appro/application.yml.bak /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml || true"
 
     - name: Ensure Maven is installed on EC2
       run: |
