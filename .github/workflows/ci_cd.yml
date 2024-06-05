@@ -72,18 +72,30 @@ jobs:
     #         exit 1
     #       fi
     #     EOF
+
+    - name: Prepare application.yml on EC2
+      run: |
+         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+           cd /home/ubuntu/appro/app/appro-back/src/main/resources
+           sed -i "s/\${SERVER_PORT}/${{ secrets.SERVER_PORT }}/g" application.yml
+           sed -i "s|\${APPRO_DB_URL}|${{ secrets.APPRO_DB_URL }}|g" application.yml
+           sed -i "s/\${DB_USERNAME}/${{ secrets.DB_USERNAME }}/g" application.yml
+           sed -i "s/\${DB_PASSWORD}/${{ secrets.DB_PASSWORD }}/g" application.yml
+           sed -i "s/\${HUSKY_EMAIL}/${{ secrets.HUSKY_EMAIL }}/g" application.yml
+           sed -i "s/\${HUSKY_EMAIL_API_KEY}/${{ secrets.HUSKY_EMAIL_API_KEY }}/g" application.yml
+         EOF
     
     - name: Build and run backend on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/appro-back
           
-          export SERVER_PORT="${{ secrets.SERVER_PORT }}"
-          export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
-          export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-          export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
-          export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
+          # export SERVER_PORT="${{ secrets.SERVER_PORT }}"
+          # export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
+          # export DB_USERNAME="${{ secrets.DB_USERNAME }}"
+          # export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          # export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
+          # export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
           
           export MAVEN_HOME=/home/ubuntu/appro/mvn
           export PATH=$MAVEN_HOME/bin:$PATH
