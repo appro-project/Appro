@@ -44,7 +44,7 @@ jobs:
 
     - name: List files in appro-back directory
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back/src/main/resources"
 
     - name: Ensure Maven is installed on EC2
       run: |
