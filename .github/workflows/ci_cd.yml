@@ -73,9 +73,19 @@ jobs:
           fi
         EOF
 
-    - name: Set JAVA_HOME
+    # - name: Set JAVA_HOME
+    #   run: |
+    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.profile && echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> ~/.profile && source ~/.profile"
+
+    - name: Check and free port 80
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.profile && echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> ~/.profile && source ~/.profile"
+        PID=$(sudo lsof -t -i :80)
+        if [ ! -z "$PID" ]; then
+          echo "Port 80 is in use by PID $PID. Terminating process..."
+          sudo kill -9 $PID
+        else
+          echo "Port 80 is free."
+        fi
 
     
     - name: Build and run backend on EC2
