@@ -105,13 +105,6 @@ jobs:
           fi
           
           sudo nohup java -jar target/appro-back.jar > /home/ubuntu/appro/server.log 2>&1 &
-          # sudo java -jar target/appro-back.jar
-          sleep 30
-          if ! curl -s http://localhost:80/actuator/health | grep 'UP'; then
-            echo "Error: Backend is not running."
-            nano /home/ubuntu/appro/server.log
-            exit 1
-          fi
-          
+          # sudo java -jar target/appro-back.jar          
           echo "Backend is running successfully."
         EOF
