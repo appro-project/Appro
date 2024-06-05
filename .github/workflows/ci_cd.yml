@@ -81,6 +81,10 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "ls -la /home/ubuntu/appro/app/appro-back/src/main/resources"
         
+    - name: Display application.yml content
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "cat /home/ubuntu/appro/app/appro-back/src/main/resources/application.yml"
+    
     - name: Build and run backend on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
