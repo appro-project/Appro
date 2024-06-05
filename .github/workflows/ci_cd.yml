@@ -59,6 +59,19 @@ jobs:
             echo "Maven is already installed."
           fi
         EOF
+
+    - name: Check for mvnw and provide execute permissions
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          cd /home/ubuntu/appro/app/appro-back
+          if [ -f mvnw ]; then
+            echo "mvnw found, setting execute permissions."
+            chmod +x mvnw
+          else
+            echo "Error: mvnw not found."
+            exit 1
+          fi
+        EOF
         
     - name: Build and run backend on EC2
       run: |
