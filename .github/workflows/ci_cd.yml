@@ -81,14 +81,11 @@ jobs:
           cd /home/ubuntu/appro/app/client
           npm install --legacy-peer-deps > /home/ubuntu/appro/client_install.log 2>&1 &
           npm run build > /home/ubuntu/appro/client_build.log 2>&1 &
-        EOF
-      # npm install -g typescript /home/ubuntu/appro/client_ts_install.log 2>&1 &
-      # nohup npm run build > /home/ubuntu/appro/client_build.log 2>&1 &
-        
+        EOF        
 
-    # - name: Run client 
-    #   run: |
-    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-    #       cd /home/ubuntu/appro/app/client
-    #       nohup npm start > /home/ubuntu/appro/client_start.log 2>&1 &
-    #     EOF
+    - name: Run client 
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          cd /home/ubuntu/appro/app/client
+          nohup npm start > /home/ubuntu/appro/client_start.log 2>&1 &
+        EOF
