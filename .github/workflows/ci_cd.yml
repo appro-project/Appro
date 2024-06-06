@@ -133,11 +133,9 @@ jobs:
     - name: Run client
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          # export PATH=$PATH:/home/ubuntu/appro/app/client/node_modules/.bin
           echo "Starting client"
           cd /home/ubuntu/appro/app/client
-          npm start
-          # tmux new-session -d -s client "cd /home/ubuntu/appro/app/client && npx vite > /home/ubuntu/appro/client_start.log 2>&1"
+          nohup npm start > /home/ubuntu/appro/client_start.log 2>&1 &         
         EOF
 
 
