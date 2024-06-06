@@ -92,8 +92,8 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          echo "Running npm install"
-          npm install > /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm install --force "
+          npm install --force > /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
     - name: Install additional types
