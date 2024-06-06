@@ -132,7 +132,7 @@ public class DefaultProjectService implements ProjectService {
     }
 
     private boolean isSortableField(String sortBy) {
-        return SORTABLE_FIELDS.contains(sortBy);
+        return sortBy != null && SORTABLE_FIELDS.contains(sortBy);
     }
 
 }
