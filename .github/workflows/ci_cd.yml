@@ -92,15 +92,14 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          echo "Running npm install --force "
-          npm install --force > /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm install --legacy-peer-deps "
+          npm install --legacy-peer-deps > /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
     - name: Install additional types
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          export NODE_OPTIONS="--max-old-space-size=4096"
           echo "Running npm install @types/vite-plugin-svgr --legacy-peer-deps"
           npm install @types/vite-plugin-svgr --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
           echo "Running npm install @types/vite --legacy-peer-deps"
@@ -113,7 +112,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
-          export NODE_OPTIONS="--max-old-space-size=4096"
           echo "Running npm run build"
           npm run build >> /home/ubuntu/appro/client_build.log 2>&1
         EOF
