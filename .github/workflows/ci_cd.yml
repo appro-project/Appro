@@ -78,19 +78,28 @@ jobs:
     - name: Install client dependencies & build
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-        tmux new-session -d -s client_install "cd /home/ubuntu/appro/app/client && 
-        npm install --legacy-peer-deps > /home/ubuntu/appro/client_install.log 2>&1 && 
-        npm install @types/vite-plugin-svgr --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1 && 
-        npm install @types/vite --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1 &&
-        npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1 &&
-        npm run build > /home/ubuntu/appro/client_build.log 2>&1"
+          cd /home/ubuntu/appro/app/client
+          export PATH=$PATH:/home/ubuntu/appro/app/client/node_modules/.bin
+          echo "Running npm install --legacy-peer-deps"
+          npm install --legacy-peer-deps > /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm install @types/vite-plugin-svgr --legacy-peer-deps"
+          npm install @types/vite-plugin-svgr --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm install @types/vite --legacy-peer-deps"
+          npm install @types/vite --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm install @types/node --legacy-peer-deps"
+          npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running npm run build"
+          npm run build > /home/ubuntu/appro/client_build.log 2>&1
         EOF
 
     - name: Run client
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-        tmux new-session -d -s client "cd /home/ubuntu/appro/app/client && npm start > /home/ubuntu/appro/client_start.log 2>&1"
+          export PATH=$PATH:/home/ubuntu/appro/app/client/node_modules/.bin
+          echo "Starting client"
+          tmux new-session -d -s client "cd /home/ubuntu/appro/app/client && npx vite > /home/ubuntu/appro/client_start.log 2>&1"
         EOF
+
 
 
 
