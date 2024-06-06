@@ -104,13 +104,13 @@ jobs:
           npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
-    - name: Build client
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          cd /home/ubuntu/appro/app/client
-          echo "Running npm run build"
-          npm run build >> /home/ubuntu/appro/client_build.log 2>&1
-        EOF
+    # - name: Build client
+    #   run: |
+    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+    #       cd /home/ubuntu/appro/app/client
+    #       echo "Running npm run build"
+    #       npm run build >> /home/ubuntu/appro/client_build.log 2>&1
+    #     EOF
 
 
     # - name: Install client dependencies & build
@@ -133,9 +133,11 @@ jobs:
     - name: Run client
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          export PATH=$PATH:/home/ubuntu/appro/app/client/node_modules/.bin
+          # export PATH=$PATH:/home/ubuntu/appro/app/client/node_modules/.bin
           echo "Starting client"
-          tmux new-session -d -s client "cd /home/ubuntu/appro/app/client && npx vite > /home/ubuntu/appro/client_start.log 2>&1"
+          cd /home/ubuntu/appro/app/client
+          npm start
+          # tmux new-session -d -s client "cd /home/ubuntu/appro/app/client && npx vite > /home/ubuntu/appro/client_start.log 2>&1"
         EOF
 
 
