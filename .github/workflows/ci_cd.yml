@@ -39,6 +39,19 @@ jobs:
            sed -i "s/\${HUSKY_EMAIL}/${{ secrets.HUSKY_EMAIL }}/g" application.yml
            sed -i "s/\${HUSKY_EMAIL_API_KEY}/${{ secrets.HUSKY_EMAIL_API_KEY }}/g" application.yml
          EOF
+
+    - name: Check and free port 80
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+          PORT=80
+          PID=$(sudo lsof -t -i:$PORT)
+          if [ -n "$PID" ]; then
+            echo "Port $PORT is occupied by process $PID. Terminating process."
+            sudo kill -9 $PID
+          else
+            echo "Port $PORT is free."
+          fi
+        EOF
     
     - name: Build and run backend on EC2
       run: |
