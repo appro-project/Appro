@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.math.BigDecimal;
 
 @Entity
 @Setter
@@ -37,10 +36,10 @@ public class Floor {
     private Boolean isBasement;
 
     @Column(name = "area")
-    private BigDecimal area;
+    private Double area;
 
     @Column(name = "height")
-    private BigDecimal height;
+    private Double height;
 
     @Column(name = "planning_image")
     private String planningImage;

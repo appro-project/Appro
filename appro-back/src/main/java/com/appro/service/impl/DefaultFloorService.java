@@ -2,17 +2,24 @@ package com.appro.service.impl;
 
 import com.appro.dto.FloorDto;
 import com.appro.entity.Floor;
+import com.appro.entity.Project;
 import com.appro.exception.FloorNotFoundException;
 import com.appro.mapper.FloorMapper;
 import com.appro.repository.FloorRepository;
+import com.appro.repository.ProjectRepository;
 import com.appro.service.FloorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class DefaultFloorService implements FloorService {
+
+    private final ProjectRepository projectRepository;
 
     private final FloorMapper floorMapper;
     private final FloorRepository floorRepository;
@@ -20,7 +27,15 @@ public class DefaultFloorService implements FloorService {
     @Override
     @Transactional
     public FloorDto addFloor(FloorDto floorDto) {
+        Optional<Project> optionalProject = projectRepository.findById(floorDto.getProjectId());
+        if (optionalProject.isEmpty()) {
+            throw new FloorNotFoundException(floorDto.getProjectId());
+        }
+
+        Project project = optionalProject.get();
+
         Floor floor = floorMapper.toFloor(floorDto);
+        floor.setProject(project);
         return applyFloorChanges(floor);
     }
 
@@ -32,6 +47,12 @@ public class DefaultFloorService implements FloorService {
         Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
 
         return applyFloorChanges(updatedFloor);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FloorDto> findFloorsByProjectId(int projectId) {
+        return floorMapper.toFloorsDto(floorRepository.findFloorsBtProjectId(projectId));
     }
 
     private FloorDto applyFloorChanges(Floor floor) {

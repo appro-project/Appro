@@ -50,6 +50,6 @@ public class DefaultFeedbackService implements FeedBackService {
                 request.name() != null ? request.name() : DASH,
                 request.phone() != null ? request.phone() : DASH,
                 request.email() != null ? request.email() : DASH,
-                request.feedback() != null ? request.feedback() : DASH);
+                request.content() != null ? request.content() : DASH);
     }
 }

@@ -1,13 +1,9 @@
 package com.appro.dto;
 
-import com.appro.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,19 +12,19 @@ import java.math.BigDecimal;
 public class FloorDto {
     private Integer id;
 
-    private BigDecimal index;
+    private Integer index;
 
     private Boolean isAttic;
 
     private Boolean isBasement;
 
-    private BigDecimal area;
+    private Double area;
 
-    private BigDecimal height;
+    private Double height;
 
     private String planningImage;
 
-    private Project project;
+    private Integer projectId;
 }
 
 
