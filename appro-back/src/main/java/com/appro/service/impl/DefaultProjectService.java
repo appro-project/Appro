@@ -1,8 +1,6 @@
 package com.appro.service.impl;
 
-import com.appro.dto.ImageDto;
-import com.appro.dto.ProjectConfigDto;
-import com.appro.dto.ProjectDto;
+import com.appro.dto.*;
 import com.appro.entity.Project;
 import com.appro.entity.ProjectConfig;
 import com.appro.entity.Image;
@@ -13,7 +11,7 @@ import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.repository.ProjectConfigRepository;
 import com.appro.repository.ProjectRepository;
-import com.appro.repository.projection.ProjectProjection;
+import com.appro.service.FloorService;
 import com.appro.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -31,6 +29,8 @@ public class DefaultProjectService implements ProjectService {
     private static final List<String> SORTABLE_FIELDS = List.of("popularity", "generalArea", "projectPrice");
 
     private static final String CREATED_AT = "createdAt";
+
+    private final FloorService floorService;
 
     private final ProjectConfigRepository configRepository;
     private final ProjectRepository projectRepository;
@@ -53,8 +53,11 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProjectProjection findProjectById(Integer projectId) {
-        return projectRepository.findProjectById(projectId);
+    public ProjectDtoFullInfo findProjectById(Integer projectId) {
+        List<FloorDto> floors = floorService.findFloorsByProjectId(projectId);
+        Project project = projectRepository.findProjectById(projectId); // todo optional
+
+        return projectMapper.toProjectDtoFullInfo(project, floors);
     }
 
     @Override

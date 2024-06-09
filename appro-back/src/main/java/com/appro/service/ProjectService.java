@@ -3,8 +3,7 @@ package com.appro.service;
 import com.appro.dto.ImageDto;
 import com.appro.dto.ProjectConfigDto;
 import com.appro.dto.ProjectDto;
-import com.appro.exception.ProjectNotFoundException;
-import com.appro.repository.projection.ProjectProjection;
+import com.appro.dto.ProjectDtoFullInfo;
 
 import java.util.List;
 
@@ -26,9 +25,9 @@ public interface ProjectService {
      * Retrieves the project with the specified ID, returning a projection of the project.
      *
      * @param projectId The ID of the project to be retrieved.
-     * @return A ProjectProjection object representing the project.
+     * @return A ProjectDtoFullInfo object representing the project.
      */
-    ProjectProjection findProjectById(Integer projectId);
+    ProjectDtoFullInfo findProjectById(Integer projectId);
 
     /**
      * Creates a new project based on the provided data transfer object.

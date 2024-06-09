@@ -1,20 +1,38 @@
 package com.appro.mapper;
 
+import com.appro.dto.FloorDto;
 import com.appro.dto.ProjectDto;
+import com.appro.dto.ProjectDtoFullInfo;
 import com.appro.entity.Project;
-import com.appro.entity.project_options.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ProjectOptionsMapper.class})
 public interface ProjectMapper {
 
+    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
+    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
+    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
+    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "optionCeilingToString")
+    @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
+    @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
     ProjectDto toProjectDto(Project project);
 
+    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
+    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
+    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
+    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "optionCeilingToString")
+    @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
+    @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
+    ProjectDtoFullInfo toProjectDtoFullInfo(Project project, @Context List<FloorDto> floors);
+
+    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
+    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
+    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
+    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "optionCeilingToString")
+    @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
+    @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
     List<ProjectDto> toProjectsDto(List<Project> projects);
 
     @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
@@ -25,37 +43,6 @@ public interface ProjectMapper {
     @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
     @Mapping(target = "createdAt", ignore = true)
     Project toProject(ProjectDto projectDto);
-
-    @Named("stringToWallMaterialOptions")
-    static WallMaterialOptions stringToWallMaterialOptions(String wallMaterial) {
-        return WallMaterialOptions.fromValue(wallMaterial);
-    }
-
-    @Named("stringToFoundationOptions")
-    static FoundationOptions stringToFoundationOptions(String foundation) {
-        return FoundationOptions.fromValue(foundation);
-    }
-
-    @Named("stringToCeilingOptions")
-    static CeilingOptions stringToCeilingOptions(String ceiling) {
-        return CeilingOptions.fromValue(ceiling);
-    }
-
-    @Named("stringToInsulationOptions")
-    static InsulationOptions stringToInsulationOptions(String insulation) {
-        return InsulationOptions.fromValue(insulation);
-    }
-
-    @Named("stringToRoofOptions")
-    static RoofOptions stringToRoofOptions(String roof) {
-        return RoofOptions.fromValue(roof);
-    }
-
-    @Named("stringToStyleOptions")
-    static StyleOptions stringToStyleOptions(String style) {
-        return StyleOptions.fromValue(style);
-    }
-
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")

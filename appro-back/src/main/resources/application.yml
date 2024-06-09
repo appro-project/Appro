@@ -16,6 +16,10 @@ spring:
   flyway:
     enabled: true
 
+springdoc:
+  swagger-ui:
+    path: /v1/appro-docs
+
 feedback:
   email:
     to: ${HUSKY_EMAIL}

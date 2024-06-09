@@ -13,7 +13,8 @@ public enum FoundationOptions {
     SLAB("плитный"),
     PILE("свайный"),
     COMBINED("комбинированный (свайно-плитный)"),
-    COLUMNAR("столбчатый");
+    COLUMNAR("столбчатый"),
+    MONOLITH_STRIP("монолитный ленточный");
 
     private final String foundation;
 

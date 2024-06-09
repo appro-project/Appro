@@ -50,19 +50,19 @@ public class Project {
     private String description;
 
     @Column(name = "popularity")
-    private BigDecimal popularity;
+    private Integer popularity;
 
     @Column(name = "general_area")
-    private BigDecimal generalArea;
+    private Double generalArea;
 
     @Column(name = "living_area")
-    private BigDecimal livingArea;
+    private Double livingArea;
 
     @Column(name = "building_area")
-    private BigDecimal buildingArea;
+    private Double buildingArea;
 
     @Column(name = "time_to_create")
-    private BigDecimal timeToCreate;
+    private Integer timeToCreate;
 
     @Column(name = "project_price")
     private BigDecimal projectPrice;
@@ -94,13 +94,13 @@ public class Project {
     private InsulationOptions insulation;
 
     @Column(name = "insulation_thickness")
-    private BigDecimal insulationThickness;
+    private Double insulationThickness;
 
     @Column(name = "length")
-    private BigDecimal length;
+    private Double length;
 
     @Column(name = "width")
-    private BigDecimal width;
+    private Double width;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "style")
@@ -128,6 +128,9 @@ public class Project {
     @OneToOne
     @JoinColumn(name = "project_config_id")
     private ProjectConfig projectConfig;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Floor> floors;
 
     @PrePersist
     public void onCreate() {
