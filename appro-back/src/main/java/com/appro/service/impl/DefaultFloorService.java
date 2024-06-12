@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,8 +50,14 @@ public class DefaultFloorService implements FloorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FloorDto> findFloorsByProjectId(int projectId) {
-        return floorMapper.toFloorsDto(floorRepository.findFloorsBtProjectId(projectId));
+    public Floor findFloorWithProject(int projectId, int floorId) {
+        return floorRepository.findFloor(projectId, floorId);
+    }
+
+    @Override
+    @Transactional
+    public Floor save(Floor floor) {
+        return floorRepository.save(floor);
     }
 
     private FloorDto applyFloorChanges(Floor floor) {

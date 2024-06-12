@@ -14,7 +14,7 @@ public interface ImageMapper {
     @Mapping(target = "project", ignore = true)
     Image toImage(ImageDto imageDto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "project", ignore = true)
-    List<Image> toImagesList(List<ImageDto> imageDto);
+    ImageDto toDto(Image image);
+
+    List<ImageDto> toDtoList(List<Image> images);
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE}
+    active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${APPRO_DB_URL}

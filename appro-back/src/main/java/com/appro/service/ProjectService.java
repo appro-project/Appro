@@ -1,9 +1,9 @@
 package com.appro.service;
 
-import com.appro.dto.ImageDto;
 import com.appro.dto.ProjectConfigDto;
 import com.appro.dto.ProjectDto;
 import com.appro.dto.ProjectDtoFullInfo;
+import com.appro.entity.Project;
 
 import java.util.List;
 
@@ -21,13 +21,13 @@ public interface ProjectService {
      */
     List<ProjectDto> findAll(String sortBy, String sortDirection);
 
-    /**
-     * Retrieves the project with the specified ID, returning a projection of the project.
-     *
-     * @param projectId The ID of the project to be retrieved.
-     * @return A ProjectDtoFullInfo object representing the project.
-     */
-    ProjectDtoFullInfo findProjectById(Integer projectId);
+//    /**
+//     * Retrieves the project with the specified ID, returning a projection of the project.
+//     *
+//     * @param projectId The ID of the project to be retrieved.
+//     * @return A ProjectDtoFullInfo object representing the project.
+//     */
+//    //ProjectDtoFullInfo findProjectById(Integer projectId);
 
     /**
      * Creates a new project based on the provided data transfer object.
@@ -54,24 +54,6 @@ public interface ProjectService {
     void delete(int id);
 
     /**
-     * Adds a main image to the project with the specified ID based on the provided image data transfer object.
-     *
-     * @param projectId The ID of the project to which the main image will be added.
-     * @param imageDto The data transfer object containing the details of the main image to be added.
-     * @return A ProjectDto object representing the project with the added main image.
-     */
-    ProjectDto addMainImage(int projectId, ImageDto imageDto);
-
-    /**
-     * Adds multiple images to the project with the specified ID based on the provided list of image data transfer objects.
-     *
-     * @param projectId The ID of the project to which the images will be added.
-     * @param imageDtos A list of data transfer objects containing the details of the images to be added.
-     * @return A ProjectDto object representing the project with the added images.
-     */
-    ProjectDto addImagesToProject(int projectId, List<ImageDto> imageDtos);
-
-    /**
      * Updates the configuration of the project with the specified ID based on the provided configuration data transfer object.
      *
      * @param id The ID of the project whose configuration will be updated.
@@ -79,4 +61,8 @@ public interface ProjectService {
      * @return A ProjectDto object representing the project with the updated configuration.
      */
     ProjectDto updateConfig(int id, ProjectConfigDto projectConfig);
+
+    Project findProjectById(int id);
+
+    ProjectDtoFullInfo findProjectFullInfo(int id);
 }
