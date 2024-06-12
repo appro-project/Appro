@@ -3,18 +3,28 @@ server:
 
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE}
+    active:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${APPRO_DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   jpa:
     open-in-view: false
 
   flyway:
     enabled: true
+
+images:
+  size:
+    filter: 20
 
 springdoc:
   swagger-ui:
@@ -25,3 +35,10 @@ feedback:
     to: ${HUSKY_EMAIL}
     from: ${HUSKY_EMAIL}
     api-key: ${HUSKY_EMAIL_API_KEY}
+
+aws:
+  bucket:
+    name: ${AWS_BUCKET_NAME}
+  access:
+    key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_ACCESS_SECRET_KEY}

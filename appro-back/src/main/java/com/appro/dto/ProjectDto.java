@@ -1,6 +1,5 @@
 package com.appro.dto;
 
-
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -34,7 +33,6 @@ public class ProjectDto {
     private String style;
     private Boolean isGaragePresent;
     private BigDecimal bedroomCount;
-
-    private ImageDto mainImage; // ??
-    private ProjectConfigDto projectConfig;
+    private String mainImage;
+    private ProjectConfigDto projectConfig; // todo: do we need this shit?
 }
