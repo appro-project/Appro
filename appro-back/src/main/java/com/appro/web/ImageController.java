@@ -23,23 +23,23 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(summary = "Upload project main image")
-    @PostMapping("/{projectId}/mainImage") //
+    @PostMapping("/{projectId}/mainImage") // +
     public ImageDto uploadFile(@PathVariable int projectId, @RequestBody MultipartFile file) {
         return imageService.saveMainImage(projectId, file);
     }
 
     @Operation(summary = "Upload list of photos")
-    @PostMapping("/{projectid}/photos")
+    @PostMapping("/{projectid}/photos") // +
     public List<ImageDto> uploadPhotos(@PathVariable int projectid,
-                                       @RequestParam("projectPhotos") List<MultipartFile> files) {
+                                       @RequestParam("projectPhotos") List<MultipartFile> files) { // todo
         validateImagesSize(files.size());
         return imageService.savePhotos(projectid, files);
     }
 
     @Operation(summary = "Upload list of images")
-    @PostMapping("/{projectid}/images")
+    @PostMapping("/{projectid}/images") // +
     public List<ImageDto> uploadImages(@PathVariable int projectid,
-                                       @RequestParam("projectPhotos") List<MultipartFile> files) {
+                                       @RequestParam("projectPhotos") List<MultipartFile> files) { // todo
         validateImagesSize(files.size());
         return imageService.saveImages(projectid, files);
     }
