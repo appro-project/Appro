@@ -4,6 +4,7 @@ import com.appro.dto.ImageDto;
 import com.appro.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -17,4 +18,9 @@ public interface ImageMapper {
     ImageDto toDto(Image image);
 
     List<ImageDto> toDtoList(List<Image> images);
+
+    @Named("imageToFloorUrl")
+    static String imageToFloorUrl(Image image) {
+        return image != null ? image.getPath() : "";
+    }
 }

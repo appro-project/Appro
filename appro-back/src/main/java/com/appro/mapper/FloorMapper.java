@@ -21,10 +21,7 @@ public interface FloorMapper {
     @Mapping(target = "planningImage", ignore = true)
     Floor toFloor(FloorDto floorDto);
 
-    @Named("imageToFloorUrl")
-    static String imageToFloorUrl(Image image) {
-        return image != null ? image.getPath() : "";
-    }
+
 
     List<FloorDto> toFloorsDto(List<Floor> floors);
 
