@@ -9,7 +9,6 @@ import com.appro.mapper.ProjectConfigMapper;
 import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ProjectConfigRepository;
 import com.appro.repository.ProjectRepository;
-import com.appro.service.FloorService;
 import com.appro.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -27,8 +26,6 @@ public class DefaultProjectService implements ProjectService {
     private static final List<String> SORTABLE_FIELDS = List.of("popularity", "generalArea", "projectPrice");
 
     private static final String CREATED_AT = "createdAt";
-
-    private final FloorService floorService;
 
     private final ProjectConfigRepository configRepository;
     private final ProjectRepository projectRepository;

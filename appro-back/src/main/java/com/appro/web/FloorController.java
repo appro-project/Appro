@@ -1,11 +1,12 @@
 package com.appro.web;
 
 import com.appro.dto.FloorDto;
+import com.appro.mapper.FloorMapper;
 import com.appro.service.FloorService;
+import com.appro.web.request.FloorModelRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/floor")
@@ -13,16 +14,21 @@ import org.springframework.web.multipart.MultipartFile;
 public class FloorController {
 
     private final FloorService floorService;
+    private final FloorMapper mapper;
 
+    // todo: maybe we should pass on project id as path variable?
     @Operation(summary = "Add new floor")
-    @PostMapping // todo: maybe we should pass on project id as path variable?
-    public FloorDto addFloor(@RequestParam FloorDto floorDto, @RequestPart MultipartFile file) {
-        return floorService.addFloor(floorDto, file);
+    @PostMapping // +
+    public FloorDto createFloor(@ModelAttribute FloorModelRequest floorModelRequest) {
+
+        FloorDto floorDto = mapper.toFloorDtoFromModelRequest(floorModelRequest);
+        return floorService.addFloor(floorDto, floorModelRequest.file());
     }
 
     @Operation(summary = "Update floor")
-    @PutMapping("/{id}")
-    public FloorDto updateFloor(@PathVariable int id, @RequestBody FloorDto floorDto) {
-        return floorService.updateFloor(id, floorDto);
+    @PutMapping("/{id}") // +
+    public FloorDto updateFloor(@PathVariable int id, @ModelAttribute FloorModelRequest floorModelRequest) {
+        FloorDto floorDto = mapper.toFloorDtoFromModelRequest(floorModelRequest);
+        return floorService.updateFloor(id, floorDto, floorModelRequest.file());
     }
 }
