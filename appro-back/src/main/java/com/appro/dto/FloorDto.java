@@ -22,7 +22,7 @@ public class FloorDto {
 
     private Double height;
 
-    //private String planningImage;
+    private String planningImage;
 
     private Integer projectId;
 }
