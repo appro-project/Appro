@@ -42,8 +42,9 @@ public class DefaultFloorService implements FloorService {
         floor.setProject(project);
         floor.setPlanningImage(url);
         // todo: should we store planning floor images in image table?
+        floorRepository.save(floor);
 
-        return applyFloorChanges(floor);
+        return floorMapper.toFloorDto(floor, url);
     }
 
     @Override
@@ -52,8 +53,10 @@ public class DefaultFloorService implements FloorService {
         Floor floorToUpdate = floorRepository.findById(id).orElseThrow(() -> new FloorNotFoundException(id));
 
         Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
+        String url = updatedFloor.getPlanningImage();
+        floorRepository.save(updatedFloor);
 
-        return applyFloorChanges(updatedFloor);
+        return floorMapper.toFloorDto(updatedFloor, url);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class DefaultFloorService implements FloorService {
         return floorRepository.save(floor);
     }
 
-    private FloorDto applyFloorChanges(Floor floor) {
-        return floorMapper.toFloorDto(floorRepository.save(floor));
-    }
+//    private FloorDto applyFloorChanges(Floor floor) {
+//        return floorMapper.toFloorDto(floorRepository.save(floor));
+//    }
 }
