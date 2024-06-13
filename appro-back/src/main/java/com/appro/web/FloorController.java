@@ -16,7 +16,7 @@ public class FloorController {
 
     @Operation(summary = "Add new floor")
     @PostMapping // todo: maybe we should pass on project id as path variable?
-    public FloorDto addFloor(@RequestPart FloorDto floorDto, @RequestPart MultipartFile file) {
+    public FloorDto addFloor(@RequestParam FloorDto floorDto, @RequestPart MultipartFile file) {
         return floorService.addFloor(floorDto, file);
     }
 
