@@ -4,6 +4,7 @@ import com.appro.dto.FloorDto;
 import com.appro.entity.Floor;
 import com.appro.entity.Project;
 import com.appro.exception.FloorNotFoundException;
+import com.appro.exception.ProjectNotFoundException;
 import com.appro.mapper.FloorMapper;
 import com.appro.repository.FloorRepository;
 import com.appro.repository.ProjectRepository;
@@ -31,11 +32,12 @@ public class DefaultFloorService implements FloorService {
     @Transactional
     public FloorDto addFloor(FloorDto floorDto, MultipartFile file) {
         Optional<Project> optionalProject = projectRepository.findById(floorDto.getProjectId());
-        if (optionalProject.isEmpty()) {
-            throw new FloorNotFoundException(floorDto.getProjectId()); // todo: fix it
-        }
 
+        if (optionalProject.isEmpty()) {
+            throw new ProjectNotFoundException(floorDto.getProjectId());
+        }
         Project project = optionalProject.get();
+
         String url = s3BucketService.upload(file);
 
         Floor floor = floorMapper.toFloor(floorDto);
@@ -44,16 +46,17 @@ public class DefaultFloorService implements FloorService {
         // todo: should we store planning floor images in image table?
         floorRepository.save(floor);
 
-        return floorMapper.toFloorDto(floor, url);
+        return floorMapper.toFloorDto(floor, url); // todo: fix it
     }
 
     @Override
     @Transactional
-    public FloorDto updateFloor(int id, FloorDto floorDto) {
+    public FloorDto updateFloor(int id, FloorDto floorDto, MultipartFile file) {
         Floor floorToUpdate = floorRepository.findById(id).orElseThrow(() -> new FloorNotFoundException(id));
 
         Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
-        String url = updatedFloor.getPlanningImage();
+        String url = s3BucketService.upload(file);
+
         floorRepository.save(updatedFloor);
 
         return floorMapper.toFloorDto(updatedFloor, url);
