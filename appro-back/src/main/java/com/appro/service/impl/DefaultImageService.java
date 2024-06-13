@@ -37,6 +37,7 @@ public class DefaultImageService implements ImageService {
 
         String url = s3Service.upload(file);
         Image image = createMainImage(url, project);
+        project.setMainImage(image);
 
         return imageMapper.toDto(imageRepository.save(image));
     }

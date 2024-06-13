@@ -49,7 +49,7 @@ public interface ProjectMapper {
     @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
     @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "mainImage", ignore = true) // todo check it
+    @Mapping(target = "mainImage", ignore = true) // todo check it <-
     Project toProject(ProjectDto projectDto);
 
     @Mapping(target = "id", ignore = true)

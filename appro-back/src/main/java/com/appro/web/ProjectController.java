@@ -19,15 +19,14 @@ public class ProjectController {
 
     @Operation(summary = "Find all projects")
     @GetMapping
-    public List<ProjectDto> findProjects(
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false, defaultValue = "ASC") String sortDirection) {
+    public List<ProjectDto> findProjects(@RequestParam(required = false) String sortBy, // +
+                                         @RequestParam(required = false, defaultValue = "ASC") String sortDirection) {
         return projectService.findAll(sortBy, sortDirection);
     }
 
     @Operation(summary = "Find project by id")
     @GetMapping("/{id}")
-    public ProjectDtoFullInfo findProjectById(@PathVariable int id) {
+    public ProjectDtoFullInfo findProjectById(@PathVariable int id) { // +
         return projectService.findProjectFullInfo(id);
     }
 
@@ -39,7 +38,7 @@ public class ProjectController {
 
     @Operation(summary = "Create new project")
     @PostMapping
-    public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
+    public ProjectDto createProject(@RequestBody ProjectDto projectDto) { // +
         return projectService.create(projectDto);
     }
 
