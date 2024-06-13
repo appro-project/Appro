@@ -23,7 +23,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(summary = "Upload project main image")
-    @PostMapping("/{projectId}/mainImage")
+    @PostMapping("/{projectId}/mainImage") //
     public ImageDto uploadFile(@PathVariable int projectId, @RequestBody MultipartFile file) {
         return imageService.saveMainImage(projectId, file);
     }
