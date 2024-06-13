@@ -15,6 +15,7 @@ public interface FloorMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "project", ignore = true)
+    @Mapping(target = "planningImage", ignore = true)
     Floor toFloor(FloorDto floorDto);
 
     List<FloorDto> toFloorsDto(List<Floor> floors);
