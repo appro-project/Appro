@@ -107,14 +107,14 @@ jobs:
           npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
-    - name: Build client
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          cd /home/ubuntu/appro/app/client
-          echo "Running npm run build"
-          # npm run build >> /home/ubuntu/appro/client_build.log 2>&1
-          npm run build --verbose > /home/ubuntu/appro/client_build.log 2>&1
-        EOF
+    # - name: Build client
+    #   run: |
+    #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+    #       cd /home/ubuntu/appro/app/client
+    #       echo "Running npm run build"
+    #       # npm run build >> /home/ubuntu/appro/client_build.log 2>&1
+    #       npm run build --verbose > /home/ubuntu/appro/client_build.log 2>&1
+    #     EOF
 
     - name: Run client
       run: |
