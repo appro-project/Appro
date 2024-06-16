@@ -43,16 +43,24 @@ jobs:
            sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml
          EOF
 
-    - name: Check and free port 80
+    - name: Check and free port 80 & 3000
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          PORT=80
-          PID=$(sudo lsof -t -i:$PORT)
+          
+          PID=$(sudo lsof -t -i:80)
           if [ -n "$PID" ]; then
-            echo "Port $PORT is occupied by process $PID. Terminating process."
+            echo "Port 80 is occupied by process $PID. Terminating process."
             sudo kill -9 $PID
           else
-            echo "Port $PORT is free."
+            echo "Port 80 is free."
+          fi
+
+          PID=$(sudo lsof -t -i:3000)
+          if [ -n "$PID" ]; then
+            echo "Port 3000 is occupied by process $PID. Terminating process."
+            sudo kill -9 $PID
+          else
+            echo "Port 3000 is free."
           fi
         EOF
     
