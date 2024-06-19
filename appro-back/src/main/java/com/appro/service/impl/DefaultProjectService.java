@@ -13,7 +13,6 @@ import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import com.appro.web.request.AddProjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -62,7 +61,6 @@ public class DefaultProjectService implements ProjectService {
         Image mainImage = null;
         if (mainImageInfo != null) {
             mainImage = imageService.findById(mainImageInfo.getId());
-            Hibernate.initialize(mainImage);
             mainImage.setType("main");
             mainImage.setProject(project);
         }
@@ -73,7 +71,6 @@ public class DefaultProjectService implements ProjectService {
         List<ImageInfo> imagesToAdd = updateImages(newImages, currentImages);
         imagesToAdd.forEach(imageInfo -> {
             Image image = imageService.findById(imageInfo.getId());
-            Hibernate.initialize(image);
             image.setType("image");
             image.setProject(project);
         });

@@ -1,15 +1,12 @@
 package com.appro.mapper;
 
 import com.appro.dto.FloorDto;
-import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
 import com.appro.dto.ProjectDtoFullInfo;
-import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.web.request.AddProjectRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 
@@ -28,7 +25,7 @@ public interface ProjectMapper {
     ProjectDto toProjectDto(Project project);
 
 
-//    @Named("filterMainImage")
+//    @Named("filterMainImage") // todo: finished it
 //    static ImageInfo filterMainImage(List<Image> images) {
 //        Image main = images.stream().filter(image -> image.getType().equals("main")).findFirst().orElse(null);
 //        if (main != null) {
@@ -60,24 +57,16 @@ public interface ProjectMapper {
     @Mapping(target = "insulation", source = "insulation", qualifiedByName = "stringToInsulationOptions")
     @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
     @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
-//  @Mapping(target = "mainImage", source = "images", qualifiedByName = "filterMainImage")
-//  @Mapping(target = "images", source = ".", qualifiedByName = "filterImages")
     @Mapping(target = "createdAt", ignore = true)
     Project toProject(AddProjectRequest projectDto);
 
-//    @Named("filterImages")
+//    @Named("filterImages") // todo: finished it
 //    static List<Image> filterImages( List<Image> images, List<ImageInfo> mainImage) {
 //        List<Image> filteredImages = images.stream().filter(image -> image.getType().equals("image")).toList();
 //
 //        //return filteredImages.stream().map(image -> new ImageInfo(image.getId(), image.getPath())).toList();
 //        return List.of(new Image());
 //    }
-
-    @Named("imageToUrl")
-    static String imageToUrl(Image image) {
-        return image != null ? image.getPath() : "";
-    }
-
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
