@@ -1,6 +1,6 @@
 const styleOptions: ReadonlyArray<string> = ['классический', 'современный']
 
-const foundationOptions: ReadonlyArray<string> = ['ленточный', 'плитный', 'свайный', 'комбинированный (свайно-плитный)', 'столбчатый']
+const foundationOptions: ReadonlyArray<string> = ['ленточный', 'плитный', 'свайный', 'комбинированный (свайно-плитный)', 'столбчатый', 'монолитный ленточный']
 
 const ceilingOptions: ReadonlyArray<string> = ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево', 'комбинированная']
 

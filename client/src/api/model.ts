@@ -1,7 +1,6 @@
-import {Floor} from '../Floor'
-import {ImageInfo} from "@/api/model";
+import {Floor} from "@/entity/Floor";
 
-export interface Project {
+export interface UpdateProjectRequest {
     id: number;
     title: string;
     description: string;
@@ -16,9 +15,6 @@ export interface Project {
     ceiling: string;
     roof: string;
     buildingPrice: number;
-    mainImage: ImageInfo;
-    images: ImageInfo[];
-    photos?: ImageInfo[];
     insulation: string;
     insulationThickness: number;
     length: number;
@@ -26,12 +22,16 @@ export interface Project {
     style: string;
     isGaragePresent: boolean;
     bedroomCount: number;
-    floorList: Floor[];
-    popularity: number;
-    projectConfig: ProjectConfig
+    mainImage:ImageInfo;
+    images: ImageInfo[];
 }
 
-export interface ProjectConfig {
+export interface ImageInfo{
+    id: number;
+    path: string;
+}
+
+interface ProjectConfig {
     showOnMain?: boolean;
     isFinished?: boolean;
 }

@@ -31,35 +31,36 @@ public class DefaultFloorService implements FloorService {
     @Override
     @Transactional
     public FloorDto addFloor(FloorDto floorDto, MultipartFile file) {
-        Optional<Project> optionalProject = projectRepository.findById(floorDto.getProjectId());
+//        Optional<Project> optionalProject = projectRepository.findById(floorDto.getProjectId());
+//
+//        if (optionalProject.isEmpty()) {
+//            throw new ProjectNotFoundException(floorDto.getProjectId());
+//        }
+//        Project project = optionalProject.get();
+//
+//        String url = s3BucketService.upload(file);
+//
+//        Floor floor = floorMapper.toFloor(floorDto);
+//        floor.setProject(project);
+//        floor.setPlanningImage(url);
+//        // todo: should we store planning floor images in image table?
+//        floorRepository.save(floor);
 
-        if (optionalProject.isEmpty()) {
-            throw new ProjectNotFoundException(floorDto.getProjectId());
-        }
-        Project project = optionalProject.get();
-
-        String url = s3BucketService.upload(file);
-
-        Floor floor = floorMapper.toFloor(floorDto);
-        floor.setProject(project);
-        floor.setPlanningImage(url);
-        // todo: should we store planning floor images in image table?
-        floorRepository.save(floor);
-
-        return floorMapper.toFloorDto(floor, url); // todo: fix it
+        return null; // todo: fix it
     }
 
     @Override
     @Transactional
     public FloorDto updateFloor(int id, FloorDto floorDto, MultipartFile file) {
         Floor floorToUpdate = floorRepository.findById(id).orElseThrow(() -> new FloorNotFoundException(id));
-
-        Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
-        String url = s3BucketService.upload(file);
-
-        floorRepository.save(updatedFloor);
-
-        return floorMapper.toFloorDto(updatedFloor, url);
+//
+//        Floor updatedFloor = floorMapper.update(floorToUpdate, floorDto);
+//        String url = s3BucketService.upload(file);
+//
+//        floorRepository.save(updatedFloor);
+//
+//        return floorMapper.toFloorDto(updatedFloor, url);
+        return null; // todo: fix it
     }
 
     @Override

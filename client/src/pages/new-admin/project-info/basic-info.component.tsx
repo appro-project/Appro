@@ -5,10 +5,15 @@ import {styleOptions} from "@/pages/Admin/constants";
 import NumericProperty from "@/pages/Admin/ViewAddEditProject/NumericProperty";
 import React, {FC} from "react";
 import {ProjectProps} from "@/pages/new-admin/project-info/model";
+import CheckProperty from "@/pages/Admin/ViewAddEditProject/CheckProperty";
 
 
 export const BasicInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
     const view = mode === 'view';
+
+    console.log("state.style", state.style);
+
+    console.log(styleOptions.includes(state.style));
 
     return (<Grid item xs={12} container spacing={5}>
         <Grid item xs={6}>
@@ -22,7 +27,26 @@ export const BasicInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
         </Grid>
 
 
-        <Grid item xs={2}>
+{/*        <Grid item xs={2}>*/}
+{/*            <CheckProperty*/}
+{/*                title={'Стиль'}*/}
+{/*checked={state.}*/}
+{/*                required={true}*/}
+{/*                disabled={view}*/}
+{/*                handleProperty={e => dispatch({type: 'style', payload: e.target.value})}*/}
+{/*            />*/}
+{/*        </Grid>*/}
+        <Grid item xs={3}>
+            <NumericProperty
+                title={'Подготовка проекта, дн'}
+                value={state.timeToCreate}
+                required={true}
+                disabled={view}
+                handleProperty={e => dispatch({type: 'timeToCreate', payload: e.target.value})}
+            />
+        </Grid>
+
+        <Grid item xs={3}>
             <SelectProperty
                 title={'Стиль'}
                 value={state.style}
@@ -32,24 +56,7 @@ export const BasicInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
                 handleProperty={e => dispatch({type: 'style', payload: e.target.value})}
             />
         </Grid>
-        <Grid item xs={2}>
-            <NumericProperty
-                title={'Общая площадь проекта, кв.м.'}
-                value={state.generalArea}
-                required={true}
-                disabled={view}
-                handleProperty={e => dispatch({type: 'generalArea', payload: e.target.value})}
-            />
-        </Grid>
-        <Grid item xs={2}>
-            <NumericProperty
-                title={'Подготовка проекта, дн'}
-                value={state.timeToCreate}
-                required={true}
-                disabled={view}
-                handleProperty={e => dispatch({type: 'timeToCreate', payload: e.target.value})}
-            />
-        </Grid>
+
         <Grid item xs={6}>
             <TextField
                 label={'Описание'}
@@ -65,26 +72,7 @@ export const BasicInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
 
         </Grid>
 
-        <Grid item xs={3}>
-            <NumericProperty
-                title={'Подготовка проекта, дн'}
-                value={state.timeToCreate}
-                required={true}
-                disabled={view}
-                handleProperty={e => dispatch({type: 'timeToCreate', payload: e.target.value})}
-            />
-        </Grid>
 
-        <Grid item xs={3}>
-            <SelectProperty
-                title={'Стиль'}
-                value={state.style}
-                options={styleOptions}
-                required={true}
-                disabled={view}
-                handleProperty={e => dispatch({type: 'style', payload: e.target.value})}
-            />
-        </Grid>
         <Grid item xs={3}>
             <NumericProperty
                 title={'Общая площадь проекта, кв.м.'}

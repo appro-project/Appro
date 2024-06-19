@@ -706,6 +706,18 @@
     "@svgr/hast-util-to-babel-ast" "8.0.0"
     svg-parser "^2.0.4"
 
+"@tanstack/query-core@5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.44.0.tgz#f7d5e04eaca0ed0c8ff52b36d0a6df142b3a78fb"
+  integrity sha512-Fa1J7iEEyJnjXG1N4+Fz4OXNH/INve3XSn0Htms3X4wgRsXHxMDwqBE2XtDCts7swkwSIs4izEtaFqWVFr/eLQ==
+
+"@tanstack/react-query@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.44.0.tgz#8a93738e17d511f271708d344b93a830d1131625"
+  integrity sha512-zmaD6cw8P2cBOfRHhqRmwvDsAi56gqbiwG2CDR6oQOCXSDOvRagvpP6RUStn+RrfcVUrNjKsxBmrgG6Za8p5zg==
+  dependencies:
+    "@tanstack/query-core" "5.44.0"
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"

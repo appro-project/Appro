@@ -1,9 +1,11 @@
 package com.appro.service;
 
+import com.appro.dto.ImageDto;
 import com.appro.dto.ProjectConfigDto;
 import com.appro.dto.ProjectDto;
 import com.appro.dto.ProjectDtoFullInfo;
 import com.appro.entity.Project;
+import com.appro.web.request.AddProjectRequest;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public interface ProjectService {
     /**
      * Retrieves all projects, optionally sorted by a specified field and direction.
      *
-     * @param sortBy The field by which the results should be sorted.
+     * @param sortBy        The field by which the results should be sorted.
      * @param sortDirection The direction of sorting (asc for ascending, desc for descending).
      * @return A list of ProjectDto objects representing the projects.
      */
@@ -35,12 +37,12 @@ public interface ProjectService {
      * @param projectDto The data transfer object containing the details of the project to be created.
      * @return A ProjectDto object representing the created project.
      */
-    ProjectDto create(ProjectDto projectDto);
+    ProjectDto create(AddProjectRequest projectDto);
 
     /**
      * Updates an existing project with the specified ID based on the provided data transfer object.
      *
-     * @param id The ID of the project to be updated.
+     * @param id         The ID of the project to be updated.
      * @param projectDto The data transfer object containing the updated details of the project.
      * @return A ProjectDto object representing the updated project.
      */
@@ -53,16 +55,10 @@ public interface ProjectService {
      */
     void delete(int id);
 
-    /**
-     * Updates the configuration of the project with the specified ID based on the provided configuration data transfer object.
-     *
-     * @param id The ID of the project whose configuration will be updated.
-     * @param projectConfig The data transfer object containing the updated configuration details of the project.
-     * @return A ProjectDto object representing the project with the updated configuration.
-     */
-    ProjectDto updateConfig(int id, ProjectConfigDto projectConfig);
+
 
     Project findProjectById(int id);
 
     ProjectDtoFullInfo findProjectFullInfo(int id);
+
 }

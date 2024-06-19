@@ -118,10 +118,6 @@ public class Project {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @OneToOne
-    @JoinColumn(name = "main_image_id")
-    private Image mainImage;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 

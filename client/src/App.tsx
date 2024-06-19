@@ -18,6 +18,11 @@ import {getProjectsFromDb} from '@/features/projects/projectsSlice'
 import {ProjectsList} from "@/pages/new-admin/projects-list/projects-list.page";
 import {ProjectInfo} from "@/pages/new-admin/project-info/project-info.component";
 import {AdminLayout} from "@/pages/new-admin/admin-layout.component";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+
+// Create a client
+const queryClient = new QueryClient()
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -36,28 +41,30 @@ export const App = () => {
     }, [projects])
 
     return (
-        <Routes>
-            <Route element={<AdminLayout/>}>
-                <Route path={'/admin'} element={<Admin/>}/>
-                <Route path={'/new-admin'} element={<ProjectsList/>}/>
-                <Route path={'/new-admin/project/:projectId'} element={<ProjectInfo/>}/>
-            </Route>
+        <QueryClientProvider client={queryClient}>
+            <Routes>
+                <Route element={<AdminLayout/>}>
+                    <Route path={'/admin'} element={<Admin/>}/>
+                    <Route path={'/new-admin'} element={<ProjectsList/>}/>
+                    <Route path={'/new-admin/project/:projectId'} element={<ProjectInfo/>}/>
+                </Route>
 
-            <Route element={<Layout/>}>
-                <Route path={'/'} element={<Main/>}/>
+                <Route element={<Layout/>}>
+                    <Route path={'/'} element={<Main/>}/>
 
 
-                <Route path={'/individual-project'} element={<IndividualProject/>}/>
+                    <Route path={'/individual-project'} element={<IndividualProject/>}/>
 
-                <Route path={'/catalogue'} element={<Catalogue/>}/>
+                    <Route path={'/catalogue'} element={<Catalogue/>}/>
 
-                <Route path={'/catalogue/:projectId'} element={<ProjectPage/>}/>
+                    <Route path={'/catalogue/:projectId'} element={<ProjectPage/>}/>
 
-                <Route path={'/additional'} element={<AdditionalOptions/>}/>
+                    <Route path={'/additional'} element={<AdditionalOptions/>}/>
 
-                <Route path={'/about'} element={<AboutUs/>}/>
-            </Route>
-        </Routes>)
+                    <Route path={'/about'} element={<AboutUs/>}/>
+                </Route>
+            </Routes>
+        </QueryClientProvider>)
 
 }
 

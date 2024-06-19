@@ -2,7 +2,7 @@ import React from 'react'
 import InputLabel from '@mui/material/InputLabel'
 import Input from '@mui/material/Input'
 import FormControl from '@mui/material/FormControl'
-import { FormLabel } from '@mui/material'
+import {Box, FormLabel} from '@mui/material'
 
 interface Props {
   title: string;
@@ -13,12 +13,13 @@ interface Props {
 }
 
 const FileProperty = ({ title, required, multiple, disabled, handleProperty }: Props) => (
-  <React.Fragment>
-    <FormLabel>{title}</FormLabel>
-    <FormControl>
-      <InputLabel htmlFor={`${title}-label`} />
+  <Box sx={{my:4}}>
+    <FormLabel></FormLabel>
+    <FormControl >
+        {/*<InputLabel htmlFor={`${title}-label`} >{title}</InputLabel>*/}
       <Input
         type="file"
+        title={title}
         id={`${title}-label`}
         onChange={(event) => handleProperty(event)}
         inputProps={{ multiple }}
@@ -26,7 +27,7 @@ const FileProperty = ({ title, required, multiple, disabled, handleProperty }: P
         required={required}
       />
     </FormControl>
-  </React.Fragment>
+  </Box>
 );
 
 export default FileProperty;

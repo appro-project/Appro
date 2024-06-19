@@ -1,14 +1,6 @@
 package com.appro.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -16,6 +8,7 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "project_image")
@@ -27,14 +20,10 @@ public class Image {
     @Column(name = "path")
     private String path;
 
-    @Column(name = "is_main")
-    private Boolean isMain;
-
-    @Column(name = "is_photo")
-    private Boolean isPhoto;
+    private String type; // main, photo, image
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private Project project; // todo: do we need it?
+    private Project project;
 }
 

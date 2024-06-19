@@ -1,14 +1,11 @@
 package com.appro.service.impl;
 
 import com.appro.dto.ImageDto;
-import com.appro.entity.Floor;
+import com.appro.dto.ImageInfo;
 import com.appro.entity.Image;
-import com.appro.entity.Project;
 import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
-import com.appro.service.FloorService;
 import com.appro.service.ImageService;
-import com.appro.service.ProjectService;
 import com.appro.service.S3BucketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,92 +21,61 @@ public class DefaultImageService implements ImageService {
 
     private final S3BucketService s3Service;
 
-    private final ProjectService projectService;
-    private final FloorService floorService;
-
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
 
-    @Override
-    @Transactional
-    public ImageDto saveMainImage(int projectId, MultipartFile file) {
-        Project project = projectService.findProjectById(projectId);
-
-        String url = s3Service.upload(file);
-        Image image = createMainImage(url, project);
-        project.setMainImage(image);
-
-        return imageMapper.toDto(imageRepository.save(image));
+    public void saveImagesToDb(List<Image> images) {
+        imageRepository.saveAll(images);
     }
 
     @Transactional
-    public List<ImageDto> savePhotos(int projectId, List<MultipartFile> files) {
-        Project project = projectService.findProjectById(projectId);
+    public void removeImages(List<Image> images) {
+        images.forEach(s3Service::delete);
+        imageRepository.deleteAll(images);
+    }
 
+    public void removeImage(String imageUrls) {
+        s3Service.delete(imageRepository.deleteByPath(imageUrls));
+    }
+
+
+    @Override
+    public Image getById(int id) {
+        return imageRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<ImageInfo> saveImages(List<MultipartFile> files) {
         List<Image> images = new ArrayList<>();
 
         files.forEach(file -> {
-            String url = s3Service.upload(file);
-            Image image = createPhoto(url, project);
-            images.add(image);
+            Image savedImageWithId = imageRepository.save(new Image());
+            String url = s3Service.upload(file, savedImageWithId);
+            savedImageWithId.setPath(url);
+            images.add(savedImageWithId);
         });
 
-        return imageMapper.toDtoList(imageRepository.saveAll(images));
+
+        return imageMapper.toImageInfoList(images);
     }
 
-    @Transactional
-    public List<ImageDto> saveImages(int projectId, List<MultipartFile> files) {
-        Project project = projectService.findProjectById(projectId);
 
-        List<Image> photos = new ArrayList<>();
-
-        files.forEach(file -> {
-            String url = s3Service.upload(file);
-            Image image = createImage(url, project);
-            photos.add(image);
-        });
-
-        return imageMapper.toDtoList(imageRepository.saveAll(photos));
-    }
+    // TODO: ALARM!!!!!
 
     @Override
     public ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file) {
-        Floor floor = floorService.findFloorWithProject(projectId, floorId);
+//        Floor floor = floorService.findFloorWithProject(projectId, floorId);
 
-        String url = s3Service.upload(file);
 
-        Image image = createImage(url, floor.getProject());
-
-        floor.setPlanningImage(url);
-        floorService.save(floor);
-
-        return imageMapper.toDto(imageRepository.save(image));
+//        Image image = createImage("url", floor.getProject());
+//        String url = s3Service.upload(file, image);
+//
+//        floor.setPlanningImage(url);
+//        floorService.save(floor);
+//
+//        return imageMapper.toDto(imageRepository.save(image));
+        return null;
     }
 
-    private Image createImage(String imageName, Project project) {
-        return Image.builder()
-                .path(imageName)
-                .isMain(false)
-                .isPhoto(false)
-                .project(project)
-                .build();
-    }
 
-    private Image createMainImage(String imageName, Project project) {
-        return Image.builder()
-                .path(imageName)
-                .isMain(true)
-                .isPhoto(false)
-                .project(project)
-                .build();
-    }
-
-    private Image createPhoto(String imageName, Project project) {
-        return Image.builder()
-                .path(imageName)
-                .isMain(false)
-                .isPhoto(true)
-                .project(project)
-                .build();
-    }
 }

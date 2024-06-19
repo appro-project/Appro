@@ -415,6 +415,7 @@ class ProjectItem extends React.Component<PropsType, State> {
 						handleFloorHeightChange={this.handleFloorHeightChange}
 						handleFloorImageChange={this.handleFloorImageChange}
 						handleFloorImageRemove={this.handleFloorImageRemove}
+						handleDeleteFloorClick={this.handleDeleteFloorClick}
 					/>
 					{(this.state.edit || this.state.add) && (
 						<Button variant='contained' color='primary' onClick={() => this.handleDeleteFloorClick(floor.id)}>
@@ -554,7 +555,8 @@ class ProjectItem extends React.Component<PropsType, State> {
 							images={this.state.images}
 							photos={this.state.photos}
 							floorListLength={this.state.floorList.length}
-							isFinished={!!this.props.project?.isFinished}
+							isFinished={!!this.props.project?.projectConfig.isFinished}
+
 						/>
 					</>
 				) : (

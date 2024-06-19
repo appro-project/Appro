@@ -1,8 +1,10 @@
 package com.appro.web;
 
 import com.appro.dto.ImageDto;
+import com.appro.dto.ImageInfo;
 import com.appro.service.ImageService;
 import com.appro.web.handler.TooManyItemsException;
+import com.appro.web.request.DeleteImagesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/image")
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -22,34 +24,11 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @Operation(summary = "Upload project main image")
-    @PostMapping("/{projectId}/mainImage") // +
-    public ImageDto uploadFile(@PathVariable int projectId, @RequestBody MultipartFile file) {
-        return imageService.saveMainImage(projectId, file);
-    }
-
-    @Operation(summary = "Upload list of photos")
-    @PostMapping("/{projectid}/photos") // +
-    public List<ImageDto> uploadPhotos(@PathVariable int projectid,
-                                       @RequestParam("projectPhotos") List<MultipartFile> files) { // todo
-        validateImagesSize(files.size());
-        return imageService.savePhotos(projectid, files);
-    }
-
     @Operation(summary = "Upload list of images")
-    @PostMapping("/{projectid}/images") // +
-    public List<ImageDto> uploadImages(@PathVariable int projectid,
-                                       @RequestParam("projectPhotos") List<MultipartFile> files) { // todo
-        validateImagesSize(files.size());
-        return imageService.saveImages(projectid, files);
-    }
-
-    @Operation(summary = "Upload floor image")
-    @PostMapping("/{projectId}/floor/{floorId}/image")
-    public ImageDto addFloorImage(@PathVariable int projectId,
-                                  @PathVariable int floorId,
-                                  @RequestParam("floorPlan") MultipartFile file) {
-        return imageService.saveFloorImage(projectId, floorId, file);
+    @PostMapping("/images") // +
+    public List<ImageInfo> uploadImages(@RequestParam("images") List<MultipartFile> images) {
+        validateImagesSize(images.size());
+        return imageService.saveImages(images);
     }
 
     private void validateImagesSize(int size) {

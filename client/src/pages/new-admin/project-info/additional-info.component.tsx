@@ -114,7 +114,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
                 />
             </Grid>
 
-            <Grid item xs={12} spacing={2}>
+            <Grid item xs={12}>
                 <InputLabel>Габариты застройки</InputLabel>
             </Grid>
             <Grid item xs={2.4}>

@@ -3,13 +3,13 @@ import axios, { AxiosResponse } from 'axios'
 import { Floor } from '@/entity/Floor'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 
-export const currentHost = import.meta.env.DEV ? 'http://localhost:3000' : ''
+export const currentHost = import.meta.env.DEV ? 'http://localhost:3001' : ''
 
 const defaultOptions = {
 	baseURL: import.meta.env.PROD ? '/api/v1' : `${currentHost}/api/v1`
 }
 
-const axiosWithSetting = axios.create(defaultOptions)
+export const axiosWithSetting = axios.create(defaultOptions)
 
 const uploadFloorImages = (response: AxiosResponse, project: any) => {
 	const { floorId, floorIndex, projectId } = response.data
@@ -132,31 +132,33 @@ const mapResponseDataToProject = (projectData: any): Project => {
 		id: projectData.id,
 		title: projectData.title,
 		description: projectData.description,
-		generalArea: projectData.general_area,
-		timeToCreate: projectData.time_to_create,
-		projectPrice: projectData.project_price,
-		livingArea: projectData.living_area,
-		buildingArea: projectData.building_area,
-		wallMaterial: projectData.wall_material,
-		wallThickness: projectData.wall_thickness,
+		generalArea: projectData.generalArea,
+		timeToCreate: projectData.timeToCreate,
+		projectPrice: projectData.projectPrice,
+		livingArea: projectData.livingArea,
+		buildingArea: projectData.buildingArea,
+		wallMaterial: projectData.wallMaterial,
+		wallThickness: projectData.wallThickness,
 		foundation: projectData.foundation,
 		ceiling: projectData.ceiling,
 		roof: projectData.roof,
-		buildingPrice: projectData.building_price,
+		buildingPrice: projectData.buildingPrice,
 		mainImage: projectData.mainImage,
 		images: projectData.images,
 		photos: projectData.photos,
 		insulation: projectData.insulation,
-		insulationThickness: projectData.insulation_thickness,
+		insulationThickness: projectData.insulationThickness,
 		length: projectData.length,
 		width: projectData.width,
 		style: projectData.style,
-		isGaragePresent: projectData.is_garage_present,
-		bedroomCount: projectData.bedroom_count,
+		isGaragePresent: projectData.isGaragePresent,
+		bedroomCount: projectData.bedroomCount,
 		floorList: floorList,
 		popularity: projectData.popularity,
-		showOnMain: projectData.showOnMain,
-		isFinished: projectData.isFinished
+		projectConfig: {
+			showOnMain: projectData.projectConfig.showOnMain,
+			isFinished: projectData.isFinished
+		}
 	}
 }
 
@@ -177,13 +179,13 @@ const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
 	}
 	for (const floor of floorListResponse) {
 		floors.push({
-			id: floor.floor_id,
+			id: floor.floorId,
 			index: floor.index,
 			area: floor.area,
 			height: floor.height,
-			isAttic: floor.is_attic,
-			isBasement: floor.is_basement,
-			planningImage: floor.planning_image
+			isAttic: floor.isAttic,
+			isBasement: floor.isBasement,
+			planningImage: floor.planningImage
 		})
 	}
 

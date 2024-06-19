@@ -3,6 +3,7 @@ package com.appro.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.appro.configuration.aws.AwsConfiguration;
+import com.appro.entity.Image;
 import com.appro.service.S3BucketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +26,21 @@ public class DefaultS3BucketService implements S3BucketService {
     private final AwsConfiguration awsClientConfig;
 
     @Override
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file, Image image) {
         File localFile = convertMultipartFileToFile(file);
 
-        amazonS3.putObject(new PutObjectRequest(awsClientConfig.getBucketName(), file.getOriginalFilename(), localFile));
-
-        return getPublicUrl(file.getOriginalFilename());
+        String imageKey = String.valueOf(image.getId());
+        amazonS3.putObject(new PutObjectRequest(awsClientConfig.getBucketName(), imageKey, localFile));
+        return getPublicUrl(imageKey);
     }
 
-    private String getPublicUrl(String fileName) {
-        return amazonS3.getUrl(awsClientConfig.getBucketName(), fileName).toString();
+    @Override
+    public void delete(Image image) {
+        amazonS3.deleteObject(awsClientConfig.getBucketName(), String.valueOf(image.getId()));
+    }
+
+    private String getPublicUrl(String imageKey) {
+        return amazonS3.getUrl(awsClientConfig.getBucketName(), imageKey).toString();
     }
 
 

@@ -1,4 +1,6 @@
 import {FloorDto} from "@/entity/FloorDto";
+import { Project, ProjectConfig} from "@/entity/Project";
+import {ImageInfo} from "@/api/model";
 
 export interface ProjectProps {
     state: State;
@@ -9,6 +11,7 @@ export interface ProjectProps {
 export interface ProjectPropAction {
     type: keyof State
     payload: any;
+    initState?: State;
 }
 
 export interface State {
@@ -26,9 +29,9 @@ export interface State {
     ceiling: string;
     roof: string;
     buildingPrice: number | null;
-    mainImage: File | string | null;
-    images: string[] | null;
-    photos: string[] | null;
+    mainImage: ImageInfo | null;
+    images: ImageInfo[] | null;
+    photos: ImageInfo[] | null;
     insulation: string;
     insulationThickness: number | null;
     length: number | null;
@@ -41,7 +44,7 @@ export interface State {
     add?: boolean;
     imagesToDelete?: string[];
     photosToDelete?: string[];
-    imagesToAdd?: FileList | null;
+    imagesToAdd?: ImageInfo[] | null;
     photosToAdd?: FileList | null;
-    isFinished: boolean;
+    projectConfig: ProjectConfig
 }

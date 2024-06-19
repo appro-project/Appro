@@ -4,6 +4,7 @@ server:
 spring:
   profiles:
     active:
+      - dev
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${APPRO_DB_URL}
@@ -18,6 +19,7 @@ spring:
 
   jpa:
     open-in-view: false
+    show-sql: true
 
   flyway:
     enabled: true

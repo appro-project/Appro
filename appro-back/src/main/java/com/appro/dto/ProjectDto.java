@@ -33,6 +33,7 @@ public class ProjectDto {
     private String style;
     private Boolean isGaragePresent;
     private BigDecimal bedroomCount;
-    private String mainImage;
-    private ProjectConfigDto projectConfig; // todo: do we need this shit?
+    private ImageInfo mainImage;
+    private ImageInfo[] images;
+
 }

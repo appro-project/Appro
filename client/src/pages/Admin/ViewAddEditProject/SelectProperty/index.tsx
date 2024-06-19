@@ -30,6 +30,7 @@ const getSelectOptions = (options: ReadonlyArray<string>) => {
 };
 
 const SelectProperty = ({ title, value, required, disabled, options, handleProperty }: Props) => (
+
     <TextField
         required={required} disabled={disabled}
         fullWidth

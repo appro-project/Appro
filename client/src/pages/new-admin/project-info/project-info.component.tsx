@@ -1,19 +1,24 @@
-import React, {FC, useReducer, useState} from "react";
-import {useSelector} from "react-redux";
-import {ProjectsSliceState} from "@/features/projects/projectsSlice";
-import {Project} from "@/entity/Project";
-import {getProjectById} from "@/redux/selectors";
+import React, {FC, useEffect, useReducer} from "react";
+import {useDispatch} from "react-redux";
 import {useParams} from "react-router";
-import {Box, Paper, Tab, Tabs} from "@mui/material";
+import {Box, Button, Paper, Tab, Tabs} from "@mui/material";
 import {ProjectPropAction, State} from "@/pages/new-admin/project-info/model";
 import {BasicInfo} from "@/pages/new-admin/project-info/basic-info.component";
 import {ImageData} from "@/pages/new-admin/project-info/images-data.component";
 import {AdditionalInfo} from "@/pages/new-admin/project-info/additional-info.component";
 import {FloorsInfo} from "@/pages/new-admin/project-info/floors-info.component";
+import {useSaveProject} from "@/api/useSaveProject";
+import {UpdateProjectRequest} from "@/api/model";
+import {useGetProjectById} from "@/api/useGetProjectById";
+import {useAddImagesToProject} from "@/api/useAddImagesToProject";
 
 
 export const ProjectInfo: FC = () => {
     const {projectId} = useParams();
+    const dispatch = useDispatch();
+
+    const {mutate: saveProject} = useSaveProject();
+    const {mutate: saveImages} = useAddImagesToProject();
 
     const [tabIndex, setTabIndex] = React.useState(0);
 
@@ -21,19 +26,52 @@ export const ProjectInfo: FC = () => {
         setTabIndex(newValue);
     };
 
-    const project = useSelector<ProjectsSliceState, Project>((state) => getProjectById(state, Number(projectId)));
-    const [currentProject, setCurrentProject] = useState<Project>(project);
 
-    const [state, dispatch] = useReducer((prevState, action: ProjectPropAction) => {
+    const {data: project} = useGetProjectById(Number(projectId));
+
+    const [currentProject, localDispatch] = useReducer((prevState: State, action: ProjectPropAction) => {
+
+        if (action.initState) {
+            return {
+                ...action.initState
+            }
+        }
+
         return {
             ...prevState,
             [action.type]: action.payload
         }
     }, project as State);
 
+    useEffect(() => {
+        if (!project) return;
+        localDispatch({type: 'id', payload: 1, initState: {...project, newImages: project.images || []}})
+    }, [project])
+
+    if (!currentProject) {
+        return <div>Loading...</div>
+    }
+
+    const saveProjectHandler = () => {
+        console.log('currentProject', currentProject)
+        const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd', 'floors', 'mainImage', 'floors'])
+        console.log('basicProjectProperties', basicProjectProperties)
+
+
+        saveProject(basicProjectProperties as UpdateProjectRequest)
+        saveImages({id: currentProject.id, images: currentProject.newImages});
+        // if(currentProject.imagesToDelete) {
+        //     currentProject.imagesToDelete.forEach((image) => {
+        //         console.log('delete image', image)
+        //     })
+        // }
+    }
 
     return (
-        <>
+        <Box>
+            <Box display={'flex'} justifyContent={'flex-end'} zIndex={100000000000}>
+                <Button color={'success'} variant={'contained'} onClick={saveProjectHandler}>Зберегти зміни</Button>
+            </Box>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={tabIndex} onChange={handleChange}>
                     <Tab label="Основне"/>
@@ -44,20 +82,20 @@ export const ProjectInfo: FC = () => {
             </Box>
             <Box pt={2}>
                 <CustomTabPanel index={0} tabIndex={tabIndex}>
-                    <BasicInfo state={state} dispatch={dispatch} mode={'edit'}/>
+                    <BasicInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={1} tabIndex={tabIndex}>
-                    <AdditionalInfo state={state} dispatch={dispatch} mode={'edit'}/>
+                    <AdditionalInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={2} tabIndex={tabIndex}>
-                    <FloorsInfo state={state} dispatch={dispatch} mode={'edit'}/>
+                    <FloorsInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={3} tabIndex={tabIndex}>
-                    <ImageData state={state} dispatch={dispatch} mode={'edit'}/>
+                    <ImageData state={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
             </Box>
 
-        </>)
+        </Box>)
 
 }
 
@@ -83,157 +121,12 @@ function CustomTabPanel(props: TabPanelProps) {
     );
 }
 
-//         <DialogTitle style={{ paddingTop: '20px' }}>Детальная информация</DialogTitle>
-//         <Grid container spacing={2}>
-//             <Grid item xs={4}>
-//                 <NumericProperty
-//                     title={'Жилая площадь, кв.м.'}
-//                     value={state.livingArea}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleLivingAreaChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={4}>
-//                 <NumericProperty
-//                     title={'Площадь застройки, кв.м.'}
-//                     value={state.buildingArea}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleBuildingAreaChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={4}>
-//                 <SelectProperty
-//                     title={'Фундамент'}
-//                     value={state.foundation}
-//                     options={foundationOptions}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleFoundationChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={4}>
-//                 <SelectProperty
-//                     title={'Перекрытия'}
-//                     value={state.ceiling}
-//                     options={ceilingOptions}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleCeilingChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={4}>
-//                 <SelectProperty
-//                     title={'Кровля'}
-//                     value={state.roof}
-//                     options={roofOptions}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleRoofChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={4}>
-//                 <NumericProperty
-//                     title={'Количество спален'}
-//                     value={state.bedroomCount}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleBedroomChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={6}>
-//                 <SelectProperty
-//                     title={'Материал стен'}
-//                     value={state.wallMaterial}
-//                     options={wallMaterialOptions}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleWallMaterialChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={6}>
-//                 <NumericProperty
-//                     title={'Толщина стен, мм'}
-//                     value={state.wallThickness}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleWallThicknessChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={6}>
-//                 <SelectProperty
-//                     title={'Материал утеплителя'}
-//                     value={state.insulation}
-//                     options={insulationOptions}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleInsulationChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={6}>
-//                 <NumericProperty
-//                     title={'Толщина утеплителя, мм'}
-//                     value={state.insulationThickness}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleInsulationThicknessChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={12} container spacing={2}>
-//                 <Grid item xs={2}>
-//                     <InputLabel>Габариты застройки</InputLabel>
-//                 </Grid>
-//                 <Grid item xs={2}>
-//                     <NumericProperty
-//                         title={'длина, м'}
-//                         value={state.length}
-//                         required={true}
-//                         disabled={view}
-//                         handleProperty={handleLengthChange}
-//                     />
-//                 </Grid>
-//                 <Grid item xs={2}>
-//                     <NumericProperty
-//                         title={'ширина, м'}
-//                         value={state.width}
-//                         required={true}
-//                         disabled={view}
-//                         handleProperty={handleWidthChange}
-//                     />
-//                 </Grid>
-//             </Grid>
-//             <Grid item xs={12}>
-//                 <CheckProperty
-//                     title={'Гараж'}
-//                     checked={isGaragePresent}
-//                     disabled={view}
-//                     handleProperty={handleGarageChange}
-//                 />
-//             </Grid>
-//             <Grid item xs={6}>
-//                 <NumericProperty
-//                     title={'Количество этажей (включая мансарду и подвал)'}
-//                     value={state.floorListLength}
-//                     required={true}
-//                     disabled={view}
-//                     handleProperty={handleFloorNumberChange}
-//                 />
-//             </Grid>
-//             {renderFloors()}
-//         </Grid>
-// </div>
-// {!view && (
-//     <Grid item lg={8}>
-//         <Button variant="contained" color="primary" disabled={isProjectFilled} onClick={saveProject}>
-//             Сохранить
-//         </Button>
-//         <Button variant="outlined" onClick={cancelChanges}>
-//             Отмена
-//         </Button>
-//     </Grid>
-// )}
-/*</Grid>
-
-
- */
+function _objectWithoutProperties(obj, keys) {
+    var target = {};
+    for (var i in obj) {
+        if (keys.indexOf(i) >= 0) continue;
+        if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+        target[i] = obj[i];
+    }
+    return target;
+}
