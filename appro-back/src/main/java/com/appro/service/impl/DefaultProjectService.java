@@ -4,6 +4,7 @@ import com.appro.dto.*;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.exception.ProjectNotFoundException;
+import com.appro.mapper.CustomProjectMapper;
 import com.appro.mapper.FloorMapper;
 import com.appro.mapper.ProjectConfigMapper;
 import com.appro.mapper.ProjectMapper;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,6 +36,8 @@ public class DefaultProjectService implements ProjectService {
     private final ProjectMapper projectMapper;
     private final FloorMapper floorMapper;
     private final ImageService imageService;
+
+    private final CustomProjectMapper customProjectMapper;
 
 
     @Override
@@ -56,8 +58,9 @@ public class DefaultProjectService implements ProjectService {
 
         // 1. save main image
         ImageInfo mainImageInfo = projectDto.getMainImage();
+        Image mainImage = null;
         if (mainImageInfo != null) {
-            Image mainImage = imageService.getById(mainImageInfo.getId());
+            mainImage = imageService.findById(mainImageInfo.getId());
             mainImage.setType("main");
             mainImage.setProject(project);
         }
@@ -67,16 +70,15 @@ public class DefaultProjectService implements ProjectService {
         List<Image> currentImages = project.getImages().stream().filter(image -> image.getType().equals("image")).toList();
         List<ImageInfo> imagesToAdd = updateImages(newImages, currentImages);
         imagesToAdd.forEach(imageInfo -> {
-            Image image = imageService.getById(imageInfo.getId());
+            Image image = imageService.findById(imageInfo.getId());
             image.setType("image");
             image.setProject(project);
         });
 
-
         // 3. save photos
+        Project projectToSave = projectRepository.save(project);
 
-
-        return applyProjectChanges(project);
+        return customProjectMapper.toProjectDto(projectToSave, mainImage, imagesToAdd);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.appro.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Setter
@@ -32,8 +33,8 @@ public class ProjectDto {
     private Double width;
     private String style;
     private Boolean isGaragePresent;
-    private BigDecimal bedroomCount;
+    private Integer bedroomCount;
     private ImageInfo mainImage;
-    private ImageInfo[] images;
+    private List<ImageInfo> images;
 
 }
