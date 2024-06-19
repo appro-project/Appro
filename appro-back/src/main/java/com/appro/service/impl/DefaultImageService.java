@@ -40,8 +40,8 @@ public class DefaultImageService implements ImageService {
 
 
     @Override
-    public Image getById(int id) {
-        return imageRepository.getReferenceById(id);
+    public Image findById(int id) {
+        return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Can not find Image by id: " + id));
     }
 
     @Override
