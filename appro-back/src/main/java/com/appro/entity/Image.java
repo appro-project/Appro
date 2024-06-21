@@ -25,5 +25,9 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    public Image(String type) {
+        this.type = type;
+    }
 }
 

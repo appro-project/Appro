@@ -4,6 +4,7 @@ import com.appro.dto.ImageDto;
 import com.appro.dto.ImageInfo;
 import com.appro.service.ImageService;
 import com.appro.web.handler.TooManyItemsException;
+import com.appro.web.request.AddImagesRequest;
 import com.appro.web.request.DeleteImagesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,9 @@ public class ImageController {
 
     @Operation(summary = "Upload list of images")
     @PostMapping("/images") // +
-    public List<ImageInfo> uploadImages(@RequestParam("images") List<MultipartFile> images) {
-        validateImagesSize(images.size());
-        return imageService.saveImages(images);
+    public List<ImageInfo> uploadImages(@ModelAttribute AddImagesRequest imagesRequest/*@RequestParam("images") List<MultipartFile> images*/) {
+        validateImagesSize(imagesRequest.images().size());
+        return imageService.saveImages(imagesRequest.images(), imagesRequest.type());
     }
 
     private void validateImagesSize(int size) {
