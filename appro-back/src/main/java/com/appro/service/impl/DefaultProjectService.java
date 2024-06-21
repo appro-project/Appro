@@ -13,6 +13,7 @@ import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import com.appro.web.request.AddProjectRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,10 @@ public class DefaultProjectService implements ProjectService {
     @Override
     @Transactional
     public ProjectDto create(AddProjectRequest projectDto) {
-        Project project = projectMapper.toProject(projectDto);
+        Project projectWithId = projectRepository.save(new Project());
+
+        Project project = projectMapper.toProject(projectDto); // todo: we may produce id on server side, instead of db
+        project.setId(projectWithId.getId());
 
         // 1. save main image
         ImageInfo mainImageInfo = projectDto.getMainImage();
@@ -68,17 +72,19 @@ public class DefaultProjectService implements ProjectService {
         // 2. save images
         List<ImageInfo> newImages = projectDto.getImages();
         List<Image> currentImages = project.getImages().stream().filter(image -> image.getType().equals("image")).toList();
-        List<ImageInfo> imagesToAdd = updateImages(newImages, currentImages);
+        List<Image> imagesToAdd = imageService.imagesFilter(newImages, currentImages);
         imagesToAdd.forEach(imageInfo -> {
             Image image = imageService.findById(imageInfo.getId());
-            image.setType("image");
+            //image.setType("image");
             image.setProject(project);
+            imageService.save(image);
         });
 
         // 3. save photos
         Project projectToSave = projectRepository.save(project);
 
-        return customProjectMapper.toProjectDto(projectToSave, mainImage, imagesToAdd);
+        // todo: change it, u should pass images to add instead of current images
+        return projectMapper.toProjectDto(projectToSave, mainImage, currentImages);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class DefaultProjectService implements ProjectService {
         Project originProject = findProjectById(id);
         Project updatedProject = projectMapper.update(originProject, projectDto);
 
-        return applyProjectChanges(updatedProject);
+        throw new NotImplementedException();//applyProjectChanges(updatedProject);
     }
 
     @Override
@@ -137,16 +143,15 @@ public class DefaultProjectService implements ProjectService {
         imageService.removeImages(toRemove);
 
         return toAdd;
-
     }
 
 
 
 
 
-    private ProjectDto applyProjectChanges(Project project) {
-        return projectMapper.toProjectDto(projectRepository.save(project));
-    }
+//    private ProjectDto applyProjectChanges(Project project) {
+//        return projectMapper.toProjectDto(projectRepository.save(project));
+//    }
 
     private boolean isSortableField(String sortBy) {
         return sortBy != null && SORTABLE_FIELDS.contains(sortBy);

@@ -16,6 +16,8 @@ public interface ImageMapper {
     @Mapping(target = "project", ignore = true)
     Image toImage(ImageDto imageDto);
 
+    Image toImage(ImageInfo imageInfo);
+
     ImageDto toDto(Image image);
 
     ImageInfo toImageInfo(Image image);
@@ -27,5 +29,6 @@ public interface ImageMapper {
         return image != null ? image.getPath() : "";
     }
 
+    @Named("toImageInfoList")
     List<ImageInfo> toImageInfoList(List<Image> images);
 }

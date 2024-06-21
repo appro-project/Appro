@@ -82,6 +82,18 @@ public class CustomProjectMapper {
                 .build();
     }
 
+    private ImageInfo toImageInfo(Image image) {
+        if (image == null) {
+            return null;
+        }
+
+        return ImageInfo.builder()
+                .id(image.getId())
+                .path(image.getPath())
+                .type(image.getType())
+                .build();
+    }
+
     private ProjectConfig getProjectConfig(AddProjectRequest projectRequest) {
         return ProjectConfig.builder()
                 .isFinished(projectRequest.getProjectConfig().getIsFinished())
@@ -112,18 +124,6 @@ public class CustomProjectMapper {
         return Image.builder()
                 .path(imageInfo.getPath())
                 .type(imageInfo.getType())
-                .build();
-    }
-
-    private ImageInfo toImageInfo(Image image) {
-        if (image == null) {
-            return null;
-        }
-
-        return ImageInfo.builder()
-                .id(image.getId())
-                .path(image.getPath())
-                .type(image.getType())
                 .build();
     }
 }

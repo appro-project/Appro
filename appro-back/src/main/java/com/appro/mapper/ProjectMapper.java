@@ -1,8 +1,10 @@
 package com.appro.mapper;
 
 import com.appro.dto.FloorDto;
+import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
 import com.appro.dto.ProjectDtoFullInfo;
+import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.web.request.AddProjectRequest;
 import org.mapstruct.Mapper;
@@ -12,17 +14,22 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = ProjectOptionsMapper.class)
+@Mapper(componentModel = "spring", uses = {ProjectOptionsMapper.class, ImageMapper.class})
 public interface ProjectMapper {
 
+    @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")
+    @Mapping(target = "insulation", source = "project.insulation", qualifiedByName = "optionInsulationToString")
+    @Mapping(target = "foundation", source = "project.foundation", qualifiedByName = "optionFoundationToString")
+    @Mapping(target = "ceiling", source = "project.ceiling", qualifiedByName = "optionCeilingToString")
+    @Mapping(target = "roof", source = "project.roof", qualifiedByName = "optionRoofToString")
+    @Mapping(target = "style", source = "project.style", qualifiedByName = "optionStyleToString")
+    @Mapping(target = "id", source = "project.id")
+    @Mapping(target = "images", source = "imagesInfoList", qualifiedByName = "toImageInfoList")
+    ProjectDto toProjectDto(Project project, Image mainImage, List<Image> imagesInfoList);
 
-    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
-    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
-    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
-    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "optionCeilingToString")
-    @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
-    @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
-    ProjectDto toProjectDto(Project project);
+//    @Mapping(source = "image", target = ".")
+//    ImageInfo toImageInfo(Image image);
+    //ProjectDto toProjectDto(Project project);
 
 
 //    @Named("filterMainImage") // todo: finished it
@@ -59,6 +66,8 @@ public interface ProjectMapper {
     @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
     @Mapping(target = "createdAt", ignore = true)
     Project toProject(AddProjectRequest projectDto);
+
+    Project tempMap(Project project);
 
 //    @Named("filterImages") // todo: finished it
 //    static List<Image> filterImages( List<Image> images, List<ImageInfo> mainImage) {

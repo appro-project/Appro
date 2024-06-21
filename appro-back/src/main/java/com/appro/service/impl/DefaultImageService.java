@@ -45,18 +45,50 @@ public class DefaultImageService implements ImageService {
     }
 
     @Override
-    public List<ImageInfo> saveImages(List<MultipartFile> files) {
+    public List<ImageInfo> saveImages(List<MultipartFile> files, String type) {
         List<Image> images = new ArrayList<>();
 
         files.forEach(file -> {
-            Image savedImageWithId = imageRepository.save(new Image());
+            Image savedImageWithId = imageRepository.save(new Image(type));
             String url = s3Service.upload(file, savedImageWithId);
             savedImageWithId.setPath(url);
             images.add(savedImageWithId);
+            imageRepository.save(savedImageWithId); // todo: remove it, make image.id type of UUID
         });
 
 
         return imageMapper.toImageInfoList(images);
+    }
+
+    @Override
+    public Image save(Image image) {
+        return imageRepository.save(image);
+    }
+
+    // newImage => [1,2,4]
+    // oldImages => [1,2,3]
+    // remove 3 from everywhere
+    // link 4 to project
+    @Override
+    public List<Image> imagesFilter(List<ImageInfo> newImages, List<Image> oldImages) {
+        List<Image> toAdd = new ArrayList<>();
+        List<Image> toRemove = new ArrayList<>();
+
+        newImages.forEach(newImage -> {
+            if (oldImages.stream().noneMatch(i -> i.getId() == newImage.getId())) {
+                toAdd.add(imageMapper.toImage(newImage));
+            }
+        });
+
+        oldImages.forEach(oldImage -> {
+            if (newImages.stream().noneMatch(i -> i.getId() == oldImage.getId())) {
+                toRemove.add(oldImage);
+            }
+        });
+
+        removeImages(toRemove);
+
+        return toAdd;
     }
 
 
