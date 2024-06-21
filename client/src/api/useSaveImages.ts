@@ -11,10 +11,11 @@ export const useSaveImages = () => {
 
 const axiosSaveImages = async ({images}) => {
     const formData = new FormData()
-    const { length } = images;
+    const {length} = images;
     for (let i = 0; i < length; i = i + 1) {
         formData.append('images', images[i])
     }
-   return await axiosWithSetting.post(`/images`, formData).then((resp) => resp.data)
+    formData.append('type', 'image')
+    return await axiosWithSetting.post(`/images`, formData).then((resp) => resp.data)
 
 }

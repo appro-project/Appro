@@ -37,7 +37,7 @@ public interface ProjectService {
      * @param projectDto The data transfer object containing the details of the project to be created.
      * @return A ProjectDto object representing the created project.
      */
-    ProjectDto create(AddProjectRequest projectDto);
+    ProjectDto create(ProjectDto projectDto);
 
     /**
      * Updates an existing project with the specified ID based on the provided data transfer object.
@@ -59,6 +59,6 @@ public interface ProjectService {
 
     Project findProjectById(int id);
 
-    ProjectDtoFullInfo findProjectFullInfo(int id);
+    ProjectDto findProjectFullInfo(int id);
 
 }

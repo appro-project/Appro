@@ -36,5 +36,8 @@ public class ProjectDto {
     private Integer bedroomCount;
     private ImageInfo mainImage;
     private List<ImageInfo> images;
+    private List<ImageInfo> photos;
+
+    private List<FloorDto> floors;
 
 }

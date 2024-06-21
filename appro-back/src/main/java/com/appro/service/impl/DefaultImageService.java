@@ -44,6 +44,7 @@ public class DefaultImageService implements ImageService {
         return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Can not find Image by id: " + id));
     }
 
+    @Transactional
     @Override
     public List<ImageInfo> saveImages(List<MultipartFile> files, String type) {
         List<Image> images = new ArrayList<>();

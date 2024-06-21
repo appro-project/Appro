@@ -2,7 +2,7 @@ import {Project} from "@/entity/Project";
 import {axiosWithSetting} from "@/services/server-data";
 import {AxiosResponse} from "axios";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {UpdateProjectRequest} from "@/api/model";
+import {ProjectDto} from "@/api/model";
 
 
 
@@ -19,14 +19,14 @@ export const useCreateProject = () => {
     return useMutation({mutationFn: axiosCreateProject});
 }
 
-const axiosSaveProject = (project: UpdateProjectRequest) => {
+const axiosSaveProject = (project: ProjectDto) => {
     // const
     return axiosWithSetting.put(`project/${project.id}`, project).then((response) => {
 
     })
 }
 
-const axiosCreateProject = (project: UpdateProjectRequest) => {
+const axiosCreateProject = (project: ProjectDto) => {
     return axiosWithSetting.put('project', project).then((response) => {
         console.log("response", response.data);
     })

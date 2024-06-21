@@ -1,6 +1,4 @@
-import {Floor} from "@/entity/Floor";
-
-export interface UpdateProjectRequest {
+export interface ProjectDto {
     id: number;
     title: string;
     description: string;
@@ -24,7 +22,20 @@ export interface UpdateProjectRequest {
     bedroomCount: number;
     mainImage:ImageInfo;
     images: ImageInfo[];
+    photos: ImageInfo[];
+    floors: FloorDto[];
 }
+
+export interface FloorDto {
+    id?: number | null;
+    index: number | null;
+    area: number | null;
+    height: number | null;
+    planningImage: string | null;
+    isAttic: boolean | null;
+    isBasement: boolean | null;
+}
+
 
 export interface ImageInfo{
     id: number;

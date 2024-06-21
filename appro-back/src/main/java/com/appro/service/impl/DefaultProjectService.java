@@ -1,6 +1,7 @@
 package com.appro.service.impl;
 
-import com.appro.dto.*;
+import com.appro.dto.ImageInfo;
+import com.appro.dto.ProjectDto;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.exception.ProjectNotFoundException;
@@ -11,15 +12,12 @@ import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ProjectRepository;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
-import com.appro.web.request.AddProjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,11 +52,15 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     @Transactional
-    public ProjectDto create(AddProjectRequest projectDto) {
-        Project projectWithId = projectRepository.save(new Project());
-
-        Project project = projectMapper.toProject(projectDto); // todo: we may produce id on server side, instead of db
-        project.setId(projectWithId.getId());
+    public ProjectDto create(ProjectDto projectDto) {
+        Project currentProject;
+        if (projectDto.getId() == null) {
+            Project project = projectMapper.toProject(projectDto);  // is deleted = null
+            currentProject = projectRepository.save(project);
+        } else {
+            Project project = projectRepository.findById(projectDto.getId()).orElseThrow(() -> new ProjectNotFoundException(projectDto.getId()));
+            currentProject = projectMapper.update(project, projectDto);
+        }
 
         // 1. save main image
         ImageInfo mainImageInfo = projectDto.getMainImage();
@@ -66,22 +68,25 @@ public class DefaultProjectService implements ProjectService {
         if (mainImageInfo != null) {
             mainImage = imageService.findById(mainImageInfo.getId());
             mainImage.setType("main");
-            mainImage.setProject(project);
+            mainImage.setProject(currentProject);
         }
 
         // 2. save images
         List<ImageInfo> newImages = projectDto.getImages();
-        List<Image> currentImages = project.getImages().stream().filter(image -> image.getType().equals("image")).toList();
+        List<Image> currentImages = currentProject.getImages().stream().filter(image -> image.getType().equals("image")).toList();
         List<Image> imagesToAdd = imageService.imagesFilter(newImages, currentImages);
+
         imagesToAdd.forEach(imageInfo -> {
             Image image = imageService.findById(imageInfo.getId());
             //image.setType("image");
-            image.setProject(project);
+            image.setProject(currentProject);
             imageService.save(image);
         });
 
         // 3. save photos
-        Project projectToSave = projectRepository.save(project);
+        Project projectToSave = projectRepository.save(currentProject);
+
+        System.out.println(projectToSave.getImages()); // ????
 
         // todo: change it, u should pass images to add instead of current images
         return projectMapper.toProjectDto(projectToSave, mainImage, currentImages);
@@ -90,10 +95,7 @@ public class DefaultProjectService implements ProjectService {
     @Override
     @Transactional
     public ProjectDto updateProject(int id, ProjectDto projectDto) {
-        Project originProject = findProjectById(id);
-        Project updatedProject = projectMapper.update(originProject, projectDto);
-
-        throw new NotImplementedException();//applyProjectChanges(updatedProject);
+        return create(projectDto);
     }
 
     @Override
@@ -112,46 +114,17 @@ public class DefaultProjectService implements ProjectService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProjectDtoFullInfo findProjectFullInfo(int id) {
+    public ProjectDto findProjectFullInfo(int id) {
         Project project = findProjectById(id);
-        List<FloorDto> floorDtoList = floorMapper.toFloorsDto(project.getFloors());
 
-        return projectMapper.toProjectDtoFullInfo(project, floorDtoList);
+        Image mainImage = project.getImages().stream().filter(image -> image.getType().equals("main"))
+                .findFirst().orElse(null);
+
+        List<Image> images = project.getImages().stream().filter(image -> image.getType().equals("image")).toList();
+
+        return projectMapper.toProjectDto(project, mainImage, images);
     }
 
-
-    // newImage => [1,2,4]
-    // oldImages => [1,2,3]
-    // remove 3 from everywhere
-    // link 4 to project
-    List<ImageInfo> updateImages(List<ImageInfo> newImages, List<Image> oldImages) {
-        List<ImageInfo> toAdd = new ArrayList<>();
-        List<Image> toRemove = new ArrayList<>();
-
-        newImages.forEach(newImage -> {
-            if (oldImages.stream().noneMatch(i -> i.getId() == newImage.getId())) {
-                toAdd.add(newImage);
-            }
-        });
-
-        oldImages.forEach(oldImage -> {
-            if (newImages.stream().noneMatch(i -> i.getId() == oldImage.getId())) {
-                toRemove.add(oldImage);
-            }
-        });
-
-        imageService.removeImages(toRemove);
-
-        return toAdd;
-    }
-
-
-
-
-
-//    private ProjectDto applyProjectChanges(Project project) {
-//        return projectMapper.toProjectDto(projectRepository.save(project));
-//    }
 
     private boolean isSortableField(String sortBy) {
         return sortBy != null && SORTABLE_FIELDS.contains(sortBy);

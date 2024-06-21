@@ -8,7 +8,7 @@ import {ImageData} from "@/pages/new-admin/project-info/images-data.component";
 import {AdditionalInfo} from "@/pages/new-admin/project-info/additional-info.component";
 import {FloorsInfo} from "@/pages/new-admin/project-info/floors-info.component";
 import {useSaveProject} from "@/api/useSaveProject";
-import {UpdateProjectRequest} from "@/api/model";
+import {ProjectDto} from "@/api/model";
 import {useGetProjectById} from "@/api/useGetProjectById";
 import {useAddImagesToProject} from "@/api/useAddImagesToProject";
 
@@ -54,17 +54,10 @@ export const ProjectInfo: FC = () => {
 
     const saveProjectHandler = () => {
         console.log('currentProject', currentProject)
-        const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd', 'floors', 'mainImage', 'floors'])
-        console.log('basicProjectProperties', basicProjectProperties)
+       const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd', ])
+       console.log('basicProjectProperties =>>>>>>', basicProjectProperties)
 
-
-        saveProject(basicProjectProperties as UpdateProjectRequest)
-        saveImages({id: currentProject.id, images: currentProject.newImages});
-        // if(currentProject.imagesToDelete) {
-        //     currentProject.imagesToDelete.forEach((image) => {
-        //         console.log('delete image', image)
-        //     })
-        // }
+       saveProject(basicProjectProperties as ProjectDto)
     }
 
     return (

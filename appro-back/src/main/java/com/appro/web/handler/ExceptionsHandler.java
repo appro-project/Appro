@@ -14,6 +14,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(NoSuchMethodException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(NoSuchMethodException e) {
+        e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.METHOD_NOT_ALLOWED.value(),
                 LocalDateTime.now(),
@@ -24,6 +25,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler({ IllegalArgumentException.class, IllegalStateException.class })
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(RuntimeException e) {
+        e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),
@@ -34,6 +36,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(TooManyItemsException.class)
     public ResponseEntity<ErrorResponse> handleTooManyImagesException(TooManyItemsException e) {
+        e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),

@@ -20,7 +20,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public ProjectDto createProject(@RequestBody AddProjectRequest projectDto) {
+    public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return projectService.create(projectDto);
     }
 
@@ -34,7 +34,7 @@ public class ProjectController {
 
     @Operation(summary = "Find project by id")
     @GetMapping("/{id}")
-    public ProjectDtoFullInfo findProjectById(@PathVariable int id) { // +
+    public ProjectDto findProjectById(@PathVariable int id) { // +
         return projectService.findProjectFullInfo(id);
     }
 
@@ -48,6 +48,8 @@ public class ProjectController {
     @Operation(summary = "Update project")
     @PutMapping("/{id}")
     public ProjectDto updateProject(@PathVariable int id, @RequestBody ProjectDto projectDto) {
+        projectDto.setId(id);
+
         return projectService.updateProject(id, projectDto);
     }
 
