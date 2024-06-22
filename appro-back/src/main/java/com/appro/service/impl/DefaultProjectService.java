@@ -5,7 +5,6 @@ import com.appro.dto.ProjectDto;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.exception.ProjectNotFoundException;
-import com.appro.mapper.CustomProjectMapper;
 import com.appro.mapper.FloorMapper;
 import com.appro.mapper.ProjectConfigMapper;
 import com.appro.mapper.ProjectMapper;
@@ -13,6 +12,7 @@ import com.appro.repository.ProjectRepository;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class DefaultProjectService implements ProjectService {
     private final FloorMapper floorMapper;
     private final ImageService imageService;
 
-    private final CustomProjectMapper customProjectMapper;
+    private final BeanFactory beanFactory;
 
 
     @Override
@@ -74,11 +74,10 @@ public class DefaultProjectService implements ProjectService {
         // 2. save images
         List<ImageInfo> newImages = projectDto.getImages();
         List<Image> currentImages = currentProject.getImages().stream().filter(image -> image.getType().equals("image")).toList();
-        List<Image> imagesToAdd = imageService.imagesFilter(newImages, currentImages);
+        List<Image> imagesToAdd = imageService.processNewAndOldImages(newImages, currentImages);
 
         imagesToAdd.forEach(imageInfo -> {
             Image image = imageService.findById(imageInfo.getId());
-            //image.setType("image");
             image.setProject(currentProject);
             imageService.save(image);
         });
@@ -86,16 +85,14 @@ public class DefaultProjectService implements ProjectService {
         // 3. save photos
         Project projectToSave = projectRepository.save(currentProject);
 
-        System.out.println(projectToSave.getImages()); // ????
-
-        // todo: change it, u should pass images to add instead of current images
         return projectMapper.toProjectDto(projectToSave, mainImage, currentImages);
     }
 
     @Override
     @Transactional
     public ProjectDto updateProject(int id, ProjectDto projectDto) {
-        return create(projectDto);
+        ProjectService proxyServer = beanFactory.getBean(ProjectService.class);
+        return proxyServer.create(projectDto);
     }
 
     @Override

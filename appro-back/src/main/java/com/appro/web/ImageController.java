@@ -7,16 +7,13 @@ import com.appro.web.request.AddImagesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/images")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -26,10 +23,16 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(summary = "Upload list of images")
-    @PostMapping("/images") // +
+    @PostMapping
     public List<ImageInfo> uploadImages(@ModelAttribute AddImagesRequest imagesRequest) {
         validateImagesSize(imagesRequest.images().size());
         return imageService.saveImages(imagesRequest.images(), imagesRequest.type());
+    }
+
+    @Operation(summary = "Delete images")
+    @DeleteMapping
+    public void deleteImages(@RequestBody List<ImageInfo> imageInfos) {
+        imageService.removeImages(imageInfos);
     }
 
     private void validateImagesSize(int size) {

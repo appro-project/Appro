@@ -1,14 +1,16 @@
 package com.appro.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Setter
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
 public class ImageInfo {
     private int id;
     private String path;

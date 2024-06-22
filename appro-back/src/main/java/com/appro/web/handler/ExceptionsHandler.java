@@ -1,19 +1,23 @@
 package com.appro.web.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @RestControllerAdvice
 public class ExceptionsHandler {
 
     private static final String TOO_MANY_ITEMS = "Cannot add more than 20 items at a time.";
 
-    @ExceptionHandler(NoSuchMethodException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(NoSuchMethodException e) {
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(HttpRequestMethodNotSupportedException e) {
+        log.error("Method not supported error:", e);
         e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.METHOD_NOT_ALLOWED.value(),
@@ -25,6 +29,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler({ IllegalArgumentException.class, IllegalStateException.class })
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(RuntimeException e) {
+        log.error("Bad request exception: ", e);
         e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -36,6 +41,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(TooManyItemsException.class)
     public ResponseEntity<ErrorResponse> handleTooManyImagesException(TooManyItemsException e) {
+        log.error("Too many items error: ", e);
         e.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),

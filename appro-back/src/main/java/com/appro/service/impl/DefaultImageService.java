@@ -3,11 +3,14 @@ package com.appro.service.impl;
 import com.appro.dto.ImageDto;
 import com.appro.dto.ImageInfo;
 import com.appro.entity.Image;
+import com.appro.exception.ImageNotFoundException;
 import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.service.ImageService;
 import com.appro.service.S3BucketService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultImageService implements ImageService {
@@ -24,24 +28,20 @@ public class DefaultImageService implements ImageService {
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
 
-    public void saveImagesToDb(List<Image> images) {
-        imageRepository.saveAll(images);
-    }
+    private final BeanFactory beanFactory;
 
     @Transactional
-    public void removeImages(List<Image> images) {
-        images.forEach(s3Service::delete);
-        imageRepository.deleteAll(images);
+    public void removeImages(List<ImageInfo> imageInfos) {
+        List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
+        log.info("Starting to delete images from S3 storage.");
+        imageList.forEach(s3Service::delete);
+        log.info("Images successfully deleted from S3. Proceeding to delete images from database.");
+        imageRepository.deleteAll(imageList);
     }
-
-    public void removeImage(String imageUrls) {
-        s3Service.delete(imageRepository.deleteByPath(imageUrls));
-    }
-
 
     @Override
     public Image findById(int id) {
-        return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Can not find Image by id: " + id));
+        return imageRepository.findById(id).orElseThrow(() -> new ImageNotFoundException(id));
     }
 
     @Transactional
@@ -50,15 +50,19 @@ public class DefaultImageService implements ImageService {
         List<Image> images = new ArrayList<>();
 
         files.forEach(file -> {
-            Image savedImageWithId = imageRepository.save(new Image(type));
-            String url = s3Service.upload(file, savedImageWithId);
-            savedImageWithId.setPath(url);
-            images.add(savedImageWithId);
-            imageRepository.save(savedImageWithId); // todo: remove it, make image.id type of UUID
+            try {
+                Image savedImageWithId = imageRepository.save(new Image(type));
+                String url = s3Service.upload(file, savedImageWithId);
+                savedImageWithId.setPath(url);
+                images.add(savedImageWithId);
+                imageRepository.save(savedImageWithId);
+            } catch (Exception e) {
+                log.error("Failed to save image: {}", file.getOriginalFilename(), e);
+            }
         });
-
-
-        return imageMapper.toImageInfoList(images);
+        List<ImageInfo> savedImages = imageMapper.toImageInfoList(images);
+        log.info("Successfully saved {} images.", savedImages.size());
+        return savedImages;
     }
 
     @Override
@@ -66,14 +70,11 @@ public class DefaultImageService implements ImageService {
         return imageRepository.save(image);
     }
 
-    // newImage => [1,2,4]
-    // oldImages => [1,2,3]
-    // remove 3 from everywhere
-    // link 4 to project
     @Override
-    public List<Image> imagesFilter(List<ImageInfo> newImages, List<Image> oldImages) {
+    public List<Image> processNewAndOldImages(List<ImageInfo> newImages, List<Image> oldImages) {
+        log.info("Processing new and old images. New images count: {}, Old images count: {}", newImages.size(), oldImages.size());
         List<Image> toAdd = new ArrayList<>();
-        List<Image> toRemove = new ArrayList<>();
+        List<ImageInfo> toRemove = new ArrayList<>();
 
         newImages.forEach(newImage -> {
             if (oldImages.stream().noneMatch(i -> i.getId() == newImage.getId())) {
@@ -83,12 +84,15 @@ public class DefaultImageService implements ImageService {
 
         oldImages.forEach(oldImage -> {
             if (newImages.stream().noneMatch(i -> i.getId() == oldImage.getId())) {
-                toRemove.add(oldImage);
+                toRemove.add(imageMapper.toImageInfo(oldImage));
             }
         });
 
-        removeImages(toRemove);
+        ImageService proxyImageService = beanFactory.getBean(ImageService.class);
+        proxyImageService.removeImages(toRemove);
 
+        log.info("Removed {} old images.", toRemove.size());
+        log.info("Added {} new images.", toAdd.size());
         return toAdd;
     }
 
@@ -97,16 +101,16 @@ public class DefaultImageService implements ImageService {
 
     @Override
     public ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file) {
-//        Floor floor = floorService.findFloorWithProject(projectId, floorId);
+        //        Floor floor = floorService.findFloorWithProject(projectId, floorId);
 
 
-//        Image image = createImage("url", floor.getProject());
-//        String url = s3Service.upload(file, image);
-//
-//        floor.setPlanningImage(url);
-//        floorService.save(floor);
-//
-//        return imageMapper.toDto(imageRepository.save(image));
+        //        Image image = createImage("url", floor.getProject());
+        //        String url = s3Service.upload(file, image);
+        //
+        //        floor.setPlanningImage(url);
+        //        floorService.save(floor);
+        //
+        //        return imageMapper.toDto(imageRepository.save(image));
         return null;
     }
 

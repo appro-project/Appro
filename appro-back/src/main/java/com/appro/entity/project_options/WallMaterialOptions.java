@@ -16,7 +16,7 @@ public enum WallMaterialOptions {
 
     private final String wallMaterial;
 
-    @JsonCreator
+    @JsonCreator // To convert json value in enum
     public static WallMaterialOptions fromValue(String value) {
         for (WallMaterialOptions option : WallMaterialOptions.values()) {
             if (option.getWallMaterial().equalsIgnoreCase(value)) {

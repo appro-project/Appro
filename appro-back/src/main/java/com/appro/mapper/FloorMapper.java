@@ -3,7 +3,11 @@ package com.appro.mapper;
 import com.appro.dto.FloorDto;
 import com.appro.entity.Floor;
 import com.appro.web.request.FloorModelRequest;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Context;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
