@@ -30,5 +30,25 @@ public interface ImageMapper {
     }
 
     @Named("toImageInfoList")
-    List<ImageInfo> toImageInfoList(List<Image> images);
+    default List<ImageInfo> toImageInfoList(List<Image> images) {
+        return images.stream()
+                .map(this::toImageInfo)
+                .toList();
+    }
+
+    @Named("toImageInfoListFilterByTypeImage")
+    default List<ImageInfo> toImageInfoListFilterByTypeImage(List<Image> images) {
+        return images.stream()
+                .filter(image -> "image".equals(image.getType()))
+                .map(this::toImageInfo)
+                .toList();
+    }
+
+    @Named("toImageInfoListFilterByTypePhoto")
+    default List<ImageInfo> toImageInfoListFilterByTypePhoto(List<Image> images) {
+        return images.stream()
+                .filter(image -> "photo".equals(image.getType()))
+                .map(this::toImageInfo)
+                .toList();
+    }
 }

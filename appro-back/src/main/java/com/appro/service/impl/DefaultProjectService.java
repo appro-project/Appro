@@ -5,8 +5,6 @@ import com.appro.dto.ProjectDto;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.exception.ProjectNotFoundException;
-import com.appro.mapper.FloorMapper;
-import com.appro.mapper.ProjectConfigMapper;
 import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ProjectRepository;
 import com.appro.service.ImageService;
@@ -31,9 +29,7 @@ public class DefaultProjectService implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    private final ProjectConfigMapper configMapper;
     private final ProjectMapper projectMapper;
-    private final FloorMapper floorMapper;
     private final ImageService imageService;
 
     private final BeanFactory beanFactory;
@@ -85,7 +81,7 @@ public class DefaultProjectService implements ProjectService {
         // 3. save photos
         Project projectToSave = projectRepository.save(currentProject);
 
-        return projectMapper.toProjectDto(projectToSave, mainImage, currentImages);
+        return projectMapper.toProjectDto(projectToSave);
     }
 
     @Override
@@ -112,16 +108,8 @@ public class DefaultProjectService implements ProjectService {
     @Override
     @Transactional(readOnly = true)
     public ProjectDto findProjectFullInfo(int id) {
-        Project project = findProjectById(id);
-
-        Image mainImage = project.getImages().stream().filter(image -> image.getType().equals("main"))
-                .findFirst().orElse(null);
-
-        List<Image> images = project.getImages().stream().filter(image -> image.getType().equals("image")).toList();
-
-        return projectMapper.toProjectDto(project, mainImage, images);
+        return projectMapper.toProjectDto(findProjectById(id));
     }
-
 
     private boolean isSortableField(String sortBy) {
         return sortBy != null && SORTABLE_FIELDS.contains(sortBy);

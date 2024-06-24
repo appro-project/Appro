@@ -6,6 +6,7 @@ import com.appro.entity.Project;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -19,8 +20,18 @@ public interface ProjectMapper {
     @Mapping(target = "roof", source = "project.roof", qualifiedByName = "optionRoofToString")
     @Mapping(target = "style", source = "project.style", qualifiedByName = "optionStyleToString")
     @Mapping(target = "id", source = "project.id")
-    @Mapping(target = "images", source = "imagesInfoList", qualifiedByName = "toImageInfoList")
-    ProjectDto toProjectDto(Project project, Image mainImage, List<Image> imagesInfoList);
+    @Mapping(target = "mainImage", source = "images", qualifiedByName = "findMainImage")
+    @Mapping(target = "images", source = "images", qualifiedByName = "toImageInfoListFilterByTypeImage")
+    @Mapping(target = "photos", source = "images", qualifiedByName = "toImageInfoListFilterByTypePhoto")
+    ProjectDto toProjectDto(Project project);
+
+    @Named("findMainImage")
+    default Image findMainImage(List<Image> images) {
+        return images.stream()
+                .filter(image -> "main".equals(image.getType()))
+                .findFirst()
+                .orElse(null);
+    }
 
 
     @Mapping(target = "id", ignore = true)
