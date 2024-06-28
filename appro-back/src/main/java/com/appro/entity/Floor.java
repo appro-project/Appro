@@ -9,16 +9,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
-import lombok.Setter;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 
 @Entity
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @EqualsAndHashCode(of="id")
 @AllArgsConstructor
