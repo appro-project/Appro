@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class ProjectNotFoundException extends RuntimeException {
 
-    private static final String MESSAGE = "Project with id: %s does not exist";
+    private static final String MESSAGE = "Project with id: %d does not exist";
 
     public ProjectNotFoundException(int id) {
         super(String.format(MESSAGE, id));

@@ -65,4 +65,15 @@ public interface ProjectMapper {
     @Mapping(target = "createdAt", ignore = true)
     Project toProject(ProjectDto projectDto);
 
+    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
+    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "stringToFoundationOptions")
+    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "stringToCeilingOptions")
+    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "stringToInsulationOptions")
+    @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
+    @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "floors", ignore = true)
+    Project toProjectWithOutDetachedEntities(ProjectDto projectDto);
+
 }

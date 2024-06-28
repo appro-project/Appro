@@ -1,4 +1,4 @@
-package com.appro.web.handler;
+package com.appro.exception;
 
 public class TooManyItemsException extends RuntimeException {
 

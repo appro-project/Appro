@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -71,6 +72,7 @@ public class DefaultImageService implements ImageService {
     }
 
     @Override
+    @Transactional
     public List<Image> processNewAndOldImages(List<ImageInfo> newImages, List<Image> oldImages) {
         log.info("Processing new and old images. New images count: {}, Old images count: {}", newImages.size(), oldImages.size());
         List<Image> toAdd = new ArrayList<>();
@@ -94,6 +96,12 @@ public class DefaultImageService implements ImageService {
         log.info("Removed {} old images.", toRemove.size());
         log.info("Added {} new images.", toAdd.size());
         return toAdd;
+    }
+
+    @Override
+    public Image findMainImage(int projectId) {
+        Optional<Image> optionalImage = imageRepository.findMainImageByProjectId(projectId);
+        return optionalImage.orElse(null);
     }
 
 

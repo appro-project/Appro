@@ -48,7 +48,7 @@ public class Floor {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private Project project; // todo remove it
+    private Project project;
 
 }
 

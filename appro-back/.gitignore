@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/test-image-2.jpeg
+/test-image-1.jpeg

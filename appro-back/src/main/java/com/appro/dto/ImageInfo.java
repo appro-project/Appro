@@ -1,10 +1,6 @@
 package com.appro.dto;
 
-import lombok.Setter;
-import lombok.Getter;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Setter
 @Getter

@@ -14,15 +14,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface FloorMapper {
 
-    @Mapping(target = "planningImage", ignore = true)
-    @Mapping(target = "projectId", source = "project.id")
-    FloorDto toFloorDto(Floor floor, @Context String url);
-
-    @AfterMapping
-    default void setPlanningImageUrl(@MappingTarget FloorDto floorDto, @Context String url) {
-        floorDto.setPlanningImage(url);
-    }
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "planningImage", ignore = true)
     FloorDto toFloorDtoFromModelRequest(FloorModelRequest floorModelRequest);

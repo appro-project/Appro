@@ -1,0 +1,36 @@
+server:
+  port: 3002
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 4
+  flyway:
+    enabled: true
+#    locations: classpath:db/migration, db/test
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+#aws:
+#  region:
+#    eu: us-east-1
+#  bucket:
+#    name: test
+#  access:
+#    key: test
+#    secret-key: test
+#  endpoint:
+#    url: http://localhost:4566
+
+
+feedback:
+  email:
+    to: guchithehasky@gmail.com
+    from: guchithehasky@gmail.com
+    api-key: eruk wpkt jxic qyon

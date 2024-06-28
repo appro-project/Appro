@@ -1,8 +1,9 @@
 package com.appro.web;
 
 import com.appro.dto.ImageInfo;
+import com.appro.exception.InvalidImageTypeException;
 import com.appro.service.ImageService;
-import com.appro.web.handler.TooManyItemsException;
+import com.appro.exception.TooManyItemsException;
 import com.appro.web.request.AddImagesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -26,18 +27,25 @@ public class ImageController {
     @PostMapping
     public List<ImageInfo> uploadImages(@ModelAttribute AddImagesRequest imagesRequest) {
         validateImagesSize(imagesRequest.images().size());
+        validateImageType(imagesRequest.type());
         return imageService.saveImages(imagesRequest.images(), imagesRequest.type());
     }
 
-    @Operation(summary = "Delete images")
+    @Operation(summary = "Delete images or photos")
     @DeleteMapping
-    public void deleteImages(@RequestBody List<ImageInfo> imageInfos) {
-        imageService.removeImages(imageInfos);
+    public void deleteImages(@RequestBody List<ImageInfo> images) {
+        imageService.removeImages(images);
     }
 
     private void validateImagesSize(int size) {
         if (size > imagesSizeFilter) {
             throw new TooManyItemsException(size);
+        }
+    }
+
+    private void validateImageType(String type) {
+        if (!type.equals("image") && !type.equals("photo")) {
+            throw new InvalidImageTypeException(type);
         }
     }
 }

@@ -1,11 +1,7 @@
 package com.appro.service;
 
-import com.appro.dto.ImageDto;
-import com.appro.dto.ProjectConfigDto;
-import com.appro.dto.ProjectDto;
-import com.appro.dto.ProjectDtoFullInfo;
+import com.appro.dto.*;
 import com.appro.entity.Project;
-import com.appro.web.request.AddProjectRequest;
 
 import java.util.List;
 
@@ -22,14 +18,6 @@ public interface ProjectService {
      * @return A list of ProjectDto objects representing the projects.
      */
     List<ProjectDto> findAll(String sortBy, String sortDirection);
-
-//    /**
-//     * Retrieves the project with the specified ID, returning a projection of the project.
-//     *
-//     * @param projectId The ID of the project to be retrieved.
-//     * @return A ProjectDtoFullInfo object representing the project.
-//     */
-//    //ProjectDtoFullInfo findProjectById(Integer projectId);
 
     /**
      * Creates a new project based on the provided data transfer object.
@@ -61,4 +49,5 @@ public interface ProjectService {
 
     ProjectDto findProjectFullInfo(int id);
 
+    ProjectDto addFloorPlanningImage(int projectId, int floorId, ImageInfo imageInfo);
 }

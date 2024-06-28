@@ -1,0 +1,33 @@
+INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+                     living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
+                     roof, building_price, insulation, insulation_thickness, length, width, style,
+                     is_garage_present, bedroom_count, created_at, is_deleted)
+VALUES ('Будинок із привидами', 'Рухлять минулого століття', 3, 293.6, 28, 49998, 250.4, 301.5, 'CERAMIC_BLOCK',
+        0.4, 'COLUMNAR', 'WOOD', 'FLAT', 2000000, 'EXPANDED_POLYSTYRENE', 0.15, 24.2, 32.5, 'CLASSIC',
+        true, 8, now(), false);
+
+
+INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+                     living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
+                     roof, building_price, insulation, insulation_thickness, length, width, style,
+                     is_garage_present, bedroom_count, created_at, is_deleted)
+VALUES ('Будинок на пагорбі', 'По сценарію тут повісилась людина', 4, 383.6, 24, 65998, 244.4, 275.5, 'GAS_BLOCK', 0.35,
+        'PILE', 'IRON_CONCRETE', 'TILE', 1990099, 'FIBREBOARD', 0.15, 24.2, 32.5, 'MODERN',
+        true, 8, now(), false);
+
+INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+                     living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
+                     roof, building_price, insulation, insulation_thickness, length, width, style,
+                     is_garage_present, bedroom_count, created_at, is_deleted)
+VALUES ('Будинок із привидами', 'Рухлять минулого століття', 1, 233.6, 28, 29998, 250.4, 301.5, 'CERAMIC_BLOCK',
+        0.4, 'COLUMNAR', 'WOOD', 'FLAT', 2000000, 'EXPANDED_POLYSTYRENE', 0.15, 24.2, 32.5, 'CLASSIC',
+        true, 8, now(), false);
+
+
+INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+                     living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
+                     roof, building_price, insulation, insulation_thickness, length, width, style,
+                     is_garage_present, bedroom_count, created_at, is_deleted)
+VALUES ('Будинок на пагорбі', 'По сценарію тут повісилась людина', 2, 283.6, 24, 35998, 244.4, 275.5, 'GAS_BLOCK', 0.35,
+        'PILE', 'IRON_CONCRETE', 'TILE', 1990099, 'FIBREBOARD', 0.15, 24.2, 32.5, 'MODERN',
+        true, 8, now(), false);

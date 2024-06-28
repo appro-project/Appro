@@ -1,5 +1,8 @@
 package com.appro.web.handler;
 
+import com.appro.exception.InvalidImageTypeException;
+import com.appro.exception.ProjectNotFoundException;
+import com.appro.exception.TooManyItemsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +53,28 @@ public class ExceptionsHandler {
                 TOO_MANY_ITEMS);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProjectNotFoundException(ProjectNotFoundException e) {
+        log.error("Project not found error: ", e);
+        e.printStackTrace();
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now(),
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.getReasonPhrase());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidImageTypeException.class)
+    public ResponseEntity<ErrorResponse> handleProjectImageTypeException(InvalidImageTypeException e) {
+        log.error("Could not recognize image type.");
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now(),
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }

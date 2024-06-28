@@ -17,6 +17,8 @@ public interface ImageService {
 
     List<Image> processNewAndOldImages(List<ImageInfo> newImages, List<Image> oldImages);
 
+    Image findMainImage(int projectId);
+
     ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file);
 
     void removeImages(List<ImageInfo> imageInfos);
