@@ -28,8 +28,7 @@ public class TestAwsConfiguration {
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(localStackContainer.getEndpointOverride(LocalStackContainer.Service.S3).toString(),
                         REGION.id()))
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withPathStyleAccessEnabled(true) // абезпечує доступ до бакетів через URL у форматі http://s3.amazonaws.com/bucket-name
-
+                .withPathStyleAccessEnabled(true) // provides access to buckets via URL in the format http://s3.amazonaws.com/bucket-name
                 .build();
     }
 }

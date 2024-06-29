@@ -16,7 +16,7 @@ import java.util.Optional;
 @TestPropertySource(properties = {
         "spring.datasource.url=jdbc:h2:mem:project-test-db"
 })
-class ProjectRepositoryTest extends AbstractBaseJpaITest {
+class ProjectRepositoryITest extends AbstractBaseJpaITest {
     private static final int PROJECT_ID = 1;
     private static final int SECOND_ID = 2;
     private static final int THIRD_ID = 3;

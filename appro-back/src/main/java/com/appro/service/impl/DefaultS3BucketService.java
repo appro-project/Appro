@@ -35,7 +35,7 @@ public class DefaultS3BucketService implements S3BucketService {
             amazonS3.putObject(new PutObjectRequest(awsClientConfig.getBucketName(), imageKey, localFile));
         } catch (Exception e) {
             log.error("Error uploading file to S3 for image ID: {}", image.getId(), e);
-            throw new S3OperationException("Failed to upload image to S3", e);
+            throw new S3OperationException("Failed upload image to S3", e);
         }
         String url = getPublicUrl(imageKey);
         log.info("Successfully uploaded image ID: {} to S3 with URL: {}", image.getId(), url);
@@ -53,13 +53,18 @@ public class DefaultS3BucketService implements S3BucketService {
         }
     }
 
-    private String getPublicUrl(String imageKey) {
+    String getPublicUrl(String imageKey) {
         return amazonS3.getUrl(awsClientConfig.getBucketName(), imageKey).toString();
     }
 
 
-    private File convertMultipartFileToFile(MultipartFile file) {
-        File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+    File convertMultipartFileToFile(MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            throw new S3OperationException("Can not convert multipart file cause file name is null.");
+        }
+
+        File convertedFile = new File(originalFilename);
         try {
             Files.copy(file.getInputStream(), convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             log.info("Converted multipart file to local file: {}", convertedFile.getAbsolutePath());
