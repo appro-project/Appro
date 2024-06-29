@@ -15,7 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AbstractBaseITest {
+public abstract class AbstractBaseITest {
 
     private static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
 

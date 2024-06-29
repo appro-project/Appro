@@ -1,44 +1,35 @@
 package com.appro.repository;
 
+import com.appro.AbstractBaseJpaITest;
 import com.appro.entity.Floor;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.entity.project_options.*;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 
-@DataJpaTest(properties = {
-        "spring.datasource.url=jdbc:h2:mem:testdb",
-        "spring.datasource.driverClassName=org.h2.Driver",
-        "spring.datasource.username=sa",
-        "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
-        "spring.jpa.hibernate.ddl-auto=create-drop",
-        "spring.flyway.enabled=true"
+@TestPropertySource(properties = {
+        "spring.datasource.url=jdbc:h2:mem:project-test-db"
 })
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProjectRepositoryTest {
+class ProjectRepositoryTest extends AbstractBaseJpaITest {
     private static final int PROJECT_ID = 1;
     private static final int SECOND_ID = 2;
     private static final int THIRD_ID = 3;
 
-    @Autowired
-    private ProjectRepository repository;
-
     @BeforeEach
     void setUp() {
         Project project = createProject();
-        repository.save(project);
+        projectRepository.save(project);
     }
 
     @AfterEach
     void tearDown() {
-        repository.deleteAll();
+        projectRepository.deleteAll();
     }
 
     @Test
@@ -49,7 +40,7 @@ class ProjectRepositoryTest {
         Project expectedProject = createProject();
 
         // when
-        Optional<Project> project = repository.findById(PROJECT_ID);
+        Optional<Project> project = projectRepository.findById(PROJECT_ID);
         Project actualProject = null;
         if (project.isPresent()) {
             actualProject = project.get();
@@ -94,7 +85,7 @@ class ProjectRepositoryTest {
         Image secondExpectedImage = expectedImages.get(1);
 
         // when
-        Optional<Project> project = repository.findById(SECOND_ID);
+        Optional<Project> project = projectRepository.findById(SECOND_ID);
         Project actualProject = null;
         if (project.isPresent()) {
             actualProject = project.get();
@@ -130,7 +121,7 @@ class ProjectRepositoryTest {
         Floor expectedSecondFloor = expectedFloorsList.get(1);
 
         // when
-        Optional<Project> project = repository.findById(THIRD_ID);
+        Optional<Project> project = projectRepository.findById(THIRD_ID);
         Project actualProject = null;
         if (project.isPresent()) {
             actualProject = project.get();
