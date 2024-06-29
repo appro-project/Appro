@@ -1,6 +1,9 @@
 package com.appro.service.impl;
 
+import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
+import com.appro.entity.Floor;
+import com.appro.entity.Image;
 import com.appro.entity.Project;
 import com.appro.exception.ProjectNotFoundException;
 import com.appro.mapper.FloorMapper;
@@ -54,12 +57,20 @@ class DefaultProjectServiceTest {
     private List<Project> projects;
     private List<ProjectDto> projectDtos;
     private Project project;
+    private ProjectDto projectDto;
+    private Floor floor;
+    private ImageInfo imageInfo;
+    private Image image;
 
     @BeforeEach
     void setUp() {
         projects = createProjects();
         projectDtos = createProjectDtos();
         project = createProject();
+        projectDto = createProjectDto();
+        floor = createFloor();
+        imageInfo = createImageInfo();
+        image = createImage();
     }
 
     @Test
@@ -207,6 +218,93 @@ class DefaultProjectServiceTest {
         verify(projectRepository).findById(projectId);
     }
 
+    @Test
+    @Order(14)
+    @DisplayName("Test - find project dto.")
+    void givenProject_whenFindByIdFullInfo_thenReturnProjectDto() {
+        // given
+        int projectId = project.getId();
+        ProjectService proxyServer = mock(ProjectService.class);
+
+        when(beanFactory.getBean(ProjectService.class)).thenReturn(proxyServer);
+        when(proxyServer.findProjectById(projectId)).thenReturn(project);
+        when(projectMapper.toProjectDto(project)).thenReturn(projectDto);
+
+        // when
+        ProjectDto actualProjectDto = projectService.findProjectFullInfo(projectId);
+
+        // then
+        assertEquals(projectDto, actualProjectDto);
+        verify(beanFactory).getBean(ProjectService.class);
+        verify(proxyServer).findProjectById(projectId);
+        verify(projectMapper).toProjectDto(project);
+    }
+
+    @Test
+    @Order(15)
+    @DisplayName("Test - find not existing project, throw exception.")
+    void givenNotExistingProject_whenFindByIdFullInfo_thenThrowProjectNotFoundException() {
+        // given
+        int projectId = 100;
+        ProjectService proxyServer = mock(ProjectService.class);
+
+        when(beanFactory.getBean(ProjectService.class)).thenReturn(proxyServer);
+        when(proxyServer.findProjectById(projectId)).thenThrow(new ProjectNotFoundException(projectId));
+
+        // when / then
+        assertThrows(ProjectNotFoundException.class, () -> projectService.findProjectFullInfo(projectId));
+        verify(beanFactory).getBean(ProjectService.class);
+        verify(proxyServer).findProjectById(projectId);
+        verify(projectMapper, never()).toProjectDto(any(Project.class));
+    }
+
+    @Test
+    @Order(16)
+    @DisplayName("Test - add floor planning image.")
+    void givenFloorPlanningImage_whenAddFloorPlanningImage_thenReturnUpdatedProjectDto() {
+        // given
+        int projectId = project.getId();
+        int floorId = floor.getId();
+        ProjectService proxyServer = mock(ProjectService.class);
+
+        when(beanFactory.getBean(ProjectService.class)).thenReturn(proxyServer);
+        when(proxyServer.findProjectById(projectId)).thenReturn(project);
+        when(floorService.findByIdAndProjectId(floorId, projectId)).thenReturn(floor);
+        when(imageMapper.toImage(imageInfo)).thenReturn(image);
+        when(projectMapper.toProjectDto(project)).thenReturn(projectDto);
+
+        // when
+        ProjectDto actualProjectDto = projectService.addFloorPlanningImage(projectId, floorId, imageInfo);
+
+        // then
+        assertEquals(projectDto, actualProjectDto);
+        verify(beanFactory).getBean(ProjectService.class);
+        verify(proxyServer).findProjectById(projectId);
+        verify(floorService).findByIdAndProjectId(floorId, projectId);
+        verify(imageMapper).toImage(imageInfo);
+        verify(imageService).save(image);
+        assertEquals(imageInfo.getPath(), floor.getPlanningImage());
+        verify(projectMapper).toProjectDto(project);
+    }
+
+    @Test
+    @Order(17)
+    @DisplayName("Test - is sortable field.")
+    void givenSortableField_whenIsSortableField_thenReturnTrue() {
+        assertTrue(projectService.isSortableField("id"));
+        assertTrue(projectService.isSortableField("popularity"));
+        assertTrue(projectService.isSortableField("generalArea"));
+        assertTrue(projectService.isSortableField("projectPrice"));
+    }
+
+    @Test
+    @Order(18)
+    @DisplayName("Test - is non sortable field.")
+    void givenNonSortableField_whenIsSortableField_thenReturnFalse() {
+        assertFalse(projectService.isSortableField("non sortable field"));
+        assertFalse(projectService.isSortableField(null));
+    }
+
     private void testFindAllWithSorting(String sortBy, String sortDirection) {
         // given
         Sort.Direction direction = Sort.Direction.fromString(sortDirection);
@@ -244,6 +342,32 @@ class DefaultProjectServiceTest {
                 new ProjectDto(),
                 new ProjectDto(),
                 new ProjectDto());
+    }
+
+    private ProjectDto createProjectDto() {
+        return ProjectDto.builder()
+                .id(1)
+                .build();
+    }
+
+    private Floor createFloor() {
+        return Floor.builder()
+                .id(1)
+                .planningImage(null)
+                .build();
+    }
+
+    private ImageInfo createImageInfo() {
+        return ImageInfo.builder()
+                .path("image/path")
+                .build();
+    }
+
+    private Image createImage() {
+        return Image.builder()
+                .id(1)
+                .path("image/path")
+                .build();
     }
 
 

@@ -138,7 +138,7 @@ public class DefaultProjectService implements ProjectService {
         return withFloorPlanningImage;
     }
 
-    private boolean isSortableField(String sortBy) {
+    boolean isSortableField(String sortBy) {
         return sortBy != null && SORTABLE_FIELDS.contains(sortBy);
     }
 
