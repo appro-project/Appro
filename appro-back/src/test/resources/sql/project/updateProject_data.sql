@@ -22,9 +22,9 @@ INSERT INTO project_image (path, type, project_id)
 VALUES ('http://127.0.0.1:51774/my-s3-bucket/4',
         'image', 1);
 
-INSERT INTO project_image (path, type, project_id)
+INSERT INTO project_image (path, type)
 VALUES ('http://127.0.0.1:51774/my-s3-bucket/5',
-        'image', 1);
+        'image');
 
 INSERT INTO project_image (path, type)
 VALUES ('http://127.0.0.1:51774/my-s3-bucket/6',
@@ -38,6 +38,5 @@ INSERT INTO project_image (path, type)
 VALUES ('http://127.0.0.1:51774/my-s3-bucket/8',
         'image');
 
-INSERT INTO floor (index, is_attic, is_basement, area, height, planning_image, project_id)
-VALUES (0, false, true, 84.0, 2.5,
-        'http://127.0.0.1:51774/my-s3-bucket/4', 1);
+INSERT INTO floor (index, is_attic, is_basement, area, height, image_id, project_id)
+VALUES (0, false, true, 84.0, 2.5, 2, 1);

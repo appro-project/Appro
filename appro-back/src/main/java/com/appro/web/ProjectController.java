@@ -2,11 +2,9 @@ package com.appro.web;
 
 import com.appro.dto.*;
 import com.appro.service.ProjectService;
-import com.appro.web.request.AddImagesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -48,14 +46,6 @@ public class ProjectController {
         projectDto.setId(id);
 
         return projectService.updateProject(id, projectDto);
-    }
-
-    @Operation(summary = "Add floor planning image")
-    @PostMapping("/{projectId}/floor/{floorId}/image")
-    public ProjectDto addFloorPlanningImage(@PathVariable int projectId,
-                                            @PathVariable int floorId,
-                                            @RequestBody ImageInfo imageInfo) {
-        return projectService.addFloorPlanningImage(projectId, floorId, imageInfo);
     }
 
 }

@@ -19,8 +19,8 @@ public interface ImageService {
 
     Image findMainImage(int projectId);
 
-    ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file);
+//    ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file);
 
-    void removeImages(List<ImageInfo> imageInfos);
+    //void removeImages(List<ImageInfo> imageInfos);
 
 }

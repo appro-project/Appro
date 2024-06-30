@@ -33,7 +33,6 @@ public interface ProjectMapper {
                 .orElse(null);
     }
 
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -46,7 +45,6 @@ public interface ProjectMapper {
     @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
     Project update(@MappingTarget Project project, ProjectDto projectDto);
 
-
     @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
     @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
     @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
@@ -54,16 +52,6 @@ public interface ProjectMapper {
     @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
     @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
     List<ProjectDto> toProjectsDto(List<Project> projects);
-
-
-    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
-    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "stringToFoundationOptions")
-    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "stringToCeilingOptions")
-    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "stringToInsulationOptions")
-    @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
-    @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
-    @Mapping(target = "createdAt", ignore = true)
-    Project toProject(ProjectDto projectDto);
 
     @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
     @Mapping(target = "foundation", source = "foundation", qualifiedByName = "stringToFoundationOptions")

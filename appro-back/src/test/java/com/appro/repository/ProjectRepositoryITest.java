@@ -119,6 +119,8 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
         int expectedFloorsSize = expectedFloorsList.size();
         Floor expectedFirstFloor = expectedFloorsList.get(0);
         Floor expectedSecondFloor = expectedFloorsList.get(1);
+        Image expectedFirstFloorImage = expectedFirstFloor.getPlanningImage();
+        Image expectedSecondImage = expectedSecondFloor.getPlanningImage();
 
         // when
         Optional<Project> project = projectRepository.findById(THIRD_ID);
@@ -142,13 +144,19 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
         Assertions.assertEquals(expectedFirstFloor.getArea(), actualFirstFloor.getArea());
         Assertions.assertEquals(expectedFirstFloor.getIsAttic(), actualFirstFloor.getIsAttic());
         Assertions.assertEquals(expectedFirstFloor.getIsBasement(), actualFirstFloor.getIsBasement());
-        Assertions.assertEquals(expectedFirstFloor.getPlanningImage(), actualFirstFloor.getPlanningImage());
+
+        Image firstFlorImage = actualFirstFloor.getPlanningImage();
+        Assertions.assertEquals(expectedFirstFloorImage.getPath(), firstFlorImage.getPath());
+        Assertions.assertEquals(expectedFirstFloorImage.getType(), firstFlorImage.getType());
 
         Assertions.assertEquals(expectedSecondFloor.getIndex(), actualSecondFloor.getIndex());
         Assertions.assertEquals(expectedSecondFloor.getArea(), actualSecondFloor.getArea());
         Assertions.assertEquals(expectedSecondFloor.getIsAttic(), actualSecondFloor.getIsAttic());
         Assertions.assertEquals(expectedSecondFloor.getIsBasement(), actualSecondFloor.getIsBasement());
-        Assertions.assertEquals(expectedSecondFloor.getPlanningImage(), actualSecondFloor.getPlanningImage());
+
+        Image secondFlorImage = actualSecondFloor.getPlanningImage();
+        Assertions.assertEquals(expectedSecondImage.getPath(), secondFlorImage.getPath());
+        Assertions.assertEquals(expectedSecondImage.getType(), secondFlorImage.getType());
     }
 
     private Project createProject() {
@@ -191,6 +199,20 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
                         .build());
     }
 
+    private Image firstFloorImage() {
+        return Image.builder()
+                .path("http://127.0.0.1:51774/my-s3-bucket/3")
+                .type("image")
+                .build();
+    }
+
+    private Image secondFloorImage() {
+        return Image.builder()
+                .path("http://127.0.0.1:51774/my-s3-bucket/4")
+                .type("photo")
+                .build();
+    }
+
     private List<Floor> createFloors() {
         return List.of(
                 Floor.builder()
@@ -199,7 +221,7 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
                         .isAttic(false)
                         .isBasement(true)
                         .height(2.8)
-                        .planningImage("http://127.0.0.1:51774/my-s3-bucket/1")
+                        .planningImage(firstFloorImage())
                         .build(),
                 Floor.builder()
                         .index(1)
@@ -207,7 +229,7 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
                         .isAttic(true)
                         .isBasement(false)
                         .height(223.5)
-                        .planningImage("http://127.0.0.1:51774/my-s3-bucket/2")
+                        .planningImage(secondFloorImage())
                         .build());
     }
 }

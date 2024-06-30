@@ -57,7 +57,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private FloorMapper floorMapper;
 
     @Test
-    @Order(1)
     @Sql(scripts = "classpath:sql/project/insert_projects.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'id' direction 'ASC'.")
@@ -87,7 +86,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(2)
     @Sql(scripts = "classpath:sql/project/insert_projects.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'id' direction 'DESC'.")
@@ -117,7 +115,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(3)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'popularity' direction 'ASC'.")
@@ -149,7 +146,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(4)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'popularity' direction 'DESC'.")
@@ -181,7 +177,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(5)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'general area' direction 'ASC'.")
@@ -213,7 +208,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(6)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'general area' direction 'DESC'.")
@@ -245,7 +239,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(7)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'project price' direction 'ASC'.")
@@ -277,7 +270,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(8)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'project price' direction 'DESC'.")
@@ -309,7 +301,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(9)
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, by default values. Sort - 'creating date', direction - 'ASC'.")
@@ -341,7 +332,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(10)
     @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find project by id with additional data.")
@@ -371,7 +361,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(11)
     @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find project by id with additional data.")
@@ -395,7 +384,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(12)
     @Sql(scripts = "classpath:sql/project/deleteProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - delete project by id.")
@@ -418,11 +406,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         List<ProjectDto> afterRemove = projectService.findAll(ID, ASC);
         Assertions.assertEquals(1, afterRemove.size());
 
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.findProjectById(FIRST_PROJECT_ID));
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.findProjectFullInfo(FIRST_PROJECT_ID));
     }
 
     @Test
-    @Order(13)
     @Sql(scripts = "classpath:sql/project/deleteProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - delete project by not existing id.")
@@ -453,12 +440,11 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(14)
     @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - update project attributes")
     void givenProject_whenUpdate_thenModifyProjectAttributes() {
-        Project projectBeforeUpdate = projectService.findProjectById(FIRST_PROJECT_ID);
+        Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
 
         ProjectDto updateProjectRequestBody = createProject();
 
@@ -504,12 +490,12 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(15)
     @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - update project images")
     void givenProject_whenUpdate_thenModifyProjectImages() {
-        Project projectBeforeUpdate = projectService.findProjectById(FIRST_PROJECT_ID);
+        Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+        assert projectBeforeUpdate != null;
         Image mainImageBeforeUpdate = imageService.findMainImage(projectBeforeUpdate.getId());
         List<Image> imagesBeforeUpdate = projectBeforeUpdate.getImages();
 
@@ -559,12 +545,12 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(16)
     @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - update project floors")
     void givenProject_whenUpdate_thenModifyProjectFloors() {
-        Project projectBeforeUpdate = projectService.findProjectById(FIRST_PROJECT_ID);
+        Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+        assert projectBeforeUpdate != null;
         List<Floor> floorsBeforeUpdate = projectBeforeUpdate.getFloors();
 
         ProjectDto updateProjectRequestBody = createProject();
@@ -602,52 +588,26 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         Assertions.assertEquals(firstExpectedFloor.getHeight(), firstActualFloor.getHeight());
         Assertions.assertEquals(firstExpectedFloor.getIsAttic(), firstActualFloor.getIsAttic());
         Assertions.assertEquals(firstExpectedFloor.getIsBasement(), firstActualFloor.getIsBasement());
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage(), firstActualFloor.getPlanningImage());
+
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
         // second floor
         Assertions.assertEquals(secondExpectedFloor.getIndex(), secondActualFloor.getIndex());
         Assertions.assertEquals(secondExpectedFloor.getArea(), secondActualFloor.getArea());
         Assertions.assertEquals(secondExpectedFloor.getHeight(), secondActualFloor.getHeight());
         Assertions.assertEquals(secondExpectedFloor.getIsAttic(), secondActualFloor.getIsAttic());
         Assertions.assertEquals(secondExpectedFloor.getIsBasement(), secondActualFloor.getIsBasement());
-        Assertions.assertEquals(secondExpectedFloor.getPlanningImage(), secondActualFloor.getPlanningImage());
 
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
+        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
         Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(firstActualFloor)));
         Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(secondActualFloor)));
     }
 
     @Test
-    @Order(17)
-    @Sql(scripts = "classpath:sql/project/floorProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - add planing image to floor")
-    public void givenProjectWithFloor_whenAddPlanningImage_thenReturnProjectWithFloorAndPlanningImage() {
-
-        ImageInfo imageRequestedBody = createImageInfo();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ImageInfo> entity = new HttpEntity<>(imageRequestedBody, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL + "/1/floor/1/image",
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
-
-        ProjectDto projectDto = response.getBody();
-
-        String expectedPlanningImage = "http://127.0.0.1:51774/my-s3-bucket/8";
-        String actualPlanningImage = projectDto.getFloors().get(0).getPlanningImage();
-
-        Assertions.assertEquals(expectedPlanningImage, actualPlanningImage);
-    }
-
-    @Test
-    @Order(18)
+    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - create project, check fields.")
     public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFields() {
@@ -699,7 +659,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(19)
+    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - create project, check options.")
     public void givenProjectDto_whenCreate_thenReturnNewProjectCheckOptions() {
@@ -737,7 +697,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(20)
+    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - create project, check images.")
     public void givenProjectDto_whenCreate_thenReturnNewProjectCheckImages() {
@@ -788,7 +748,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(21)
+    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - create project, check floors.")
     public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFloors() {
@@ -831,14 +791,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         Assertions.assertEquals(expectedFirstFloor.getIsBasement(), actualFirstFloor.getIsBasement());
         Assertions.assertEquals(expectedFirstFloor.getIsAttic(), actualFirstFloor.getIsAttic());
         Assertions.assertEquals(expectedFirstFloor.getHeight(), actualFirstFloor.getHeight());
-        Assertions.assertEquals(expectedFirstFloor.getPlanningImage(), actualFirstFloor.getPlanningImage());
+        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getId(), actualFirstFloor.getPlanningImage().getId());
+        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getType(), actualFirstFloor.getPlanningImage().getType());
+        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getPath(), actualFirstFloor.getPlanningImage().getPath());
 
         Assertions.assertEquals(expectedSecondFloor.getIndex(), actualSecondFloor.getIndex());
         Assertions.assertEquals(expectedSecondFloor.getIsBasement(), actualSecondFloor.getIsBasement());
         Assertions.assertEquals(expectedSecondFloor.getIsAttic(), actualSecondFloor.getIsAttic());
         Assertions.assertEquals(expectedSecondFloor.getHeight(), actualSecondFloor.getHeight());
-        Assertions.assertEquals(expectedSecondFloor.getPlanningImage(), actualSecondFloor.getPlanningImage());
-    }
+        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getId(), actualSecondFloor.getPlanningImage().getId());
+        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getType(), actualSecondFloor.getPlanningImage().getType());
+        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getPath(), actualSecondFloor.getPlanningImage().getPath());    }
 
     private String createUrl(String sort, String sortDirection) {
         String sortBy = "?sortBy=";
@@ -870,7 +833,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .style("современный")
                 .isGaragePresent(false)
                 .bedroomCount(24)
-                .mainImage(createImageInfo())
+                .mainImage(createMainImageInfo())
                 .images(createImages())
                 .floors(createFloors())
                 .build();
@@ -878,10 +841,22 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
     private ImageInfo createImageInfo() {
         return ImageInfo.builder()
-                .id(8)
+                .id(6)
                 .type("image")
-                .path("http://127.0.0.1:51774/my-s3-bucket/8")
+                .path("http://127.0.0.1:51774/my-s3-bucket/6")
                 .build();
+    }
+
+    private ImageInfo createMainImageInfo() {
+        return ImageInfo.builder()
+                .id(3)
+                .type("main")
+                .path("http://127.0.0.1:51774/my-s3-bucket/3")
+                .build();
+    }
+
+    private Image createImage() {
+        return new Image();
     }
 
     private List<ImageInfo> createImages() {
@@ -906,7 +881,11 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                         .isAttic(false)
                         .isBasement(true)
                         .height(2.8)
-                        .planningImage("http://127.0.0.1:51774/my-s3-bucket/4")
+                        .planningImage(ImageInfo.builder()
+                                .id(6)
+                                .type("image")
+                                .path("http://127.0.0.1:51774/my-s3-bucket/6")
+                                .build())
                         .build(),
                 FloorDto.builder()
                         .index(1)
@@ -914,7 +893,11 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                         .isAttic(true)
                         .isBasement(false)
                         .height(223.5)
-                        .planningImage("http://127.0.0.1:51774/my-s3-bucket/5")
+                        .planningImage(ImageInfo.builder()
+                                .id(7)
+                                .type("image")
+                                .path("http://127.0.0.1:51774/my-s3-bucket/7")
+                                .build())
                         .build());
     }
 }

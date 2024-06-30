@@ -5,10 +5,6 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.appro.AbstractAmazonS3ITest;
 import com.appro.dto.ImageInfo;
-import com.appro.entity.Image;
-import com.appro.exception.ImageNotFoundException;
-import com.appro.repository.ImageRepository;
-import com.appro.service.ImageService;
 import com.appro.service.impl.DefaultImageService;
 import com.appro.web.handler.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -51,11 +47,6 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private ImageService imageService;
-    @Autowired
-    private ImageRepository imageRepository;
-
-    @Autowired
     private AmazonS3 amazonS3;
 
     private LogCaptor logCaptor;
@@ -80,7 +71,6 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(1)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - upload images.")
     public void givenListOfImages_whenUpload_thenStoreInDBAndS3() {
@@ -111,7 +101,6 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(2)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - upload photos.")
     public void givenListOfPhotos_whenUpload_thenStoreInDBAndS3() {
@@ -142,105 +131,6 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(3)
-    @Sql(scripts = "classpath:sql/image/insert_images.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - remove images.")
-    public void givenListOfImages_whenRemove_thenEmptyDBAndRemoveFromS3() {
-
-        Image firstImage = imageService.findById(FIRST_IMAGE_ID);
-        Image secondImage = imageService.findById(SECOND_IMAGE_ID);
-        List<Image> imagesBeforeRemove = imageRepository.findAll();
-        int expectedSizeBeforeRemove = 2;
-        int actualSizeBeforeRemove = imagesBeforeRemove.size();
-
-        Assertions.assertNotNull(firstImage);
-        Assertions.assertNotNull(secondImage);
-        Assertions.assertNotNull(imagesBeforeRemove);
-        Assertions.assertEquals(expectedSizeBeforeRemove, actualSizeBeforeRemove);
-
-        List<ImageInfo> imagesForDelete = List.of(
-                new ImageInfo(1, createUrl(FIRST_IMAGE_ID), IMAGE_TYPE),
-                new ImageInfo(2, createUrl(SECOND_IMAGE_ID), IMAGE_TYPE));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<List<ImageInfo>> requestEntity = new HttpEntity<>(imagesForDelete, headers);
-
-        ResponseEntity<Void> response = restTemplate.exchange(
-                IMAGE_URL,
-                HttpMethod.DELETE,
-                requestEntity,
-                Void.class
-        );
-
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        List<Image> imagesAfterRemove = imageRepository.findAll();
-        int expectedSizeAfterRemove = 0;
-        int actualSizeAfterRemove = imagesAfterRemove.size();
-
-        Assertions.assertEquals(expectedSizeAfterRemove, actualSizeAfterRemove);
-
-        Assertions.assertThrows(ImageNotFoundException.class, () -> imageService.findById(FIRST_IMAGE_ID));
-        Assertions.assertThrows(ImageNotFoundException.class, () -> imageService.findById(SECOND_IMAGE_ID));
-
-        assertTrue(logCaptor.getInfoLogs().contains("Starting to delete images from S3 storage."));
-        assertTrue(logCaptor.getInfoLogs().contains("Images successfully deleted from S3. Proceeding to delete images from database."));
-    }
-
-    @Test
-    @Order(4)
-    @Sql(scripts = "classpath:sql/image/insert_photos.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - remove photos.")
-    public void givenListOfPhotos_whenRemove_thenEmptyDBAndRemoveFromS3() {
-
-        Image firstImage = imageService.findById(FIRST_IMAGE_ID);
-        Image secondImage = imageService.findById(SECOND_IMAGE_ID);
-        List<Image> imagesBeforeRemove = imageRepository.findAll();
-        int expectedSizeBeforeRemove = 2;
-        int actualSizeBeforeRemove = imagesBeforeRemove.size();
-
-        Assertions.assertNotNull(firstImage);
-        Assertions.assertNotNull(secondImage);
-        Assertions.assertNotNull(imagesBeforeRemove);
-        Assertions.assertEquals(expectedSizeBeforeRemove, actualSizeBeforeRemove);
-
-        List<ImageInfo> imagesForDelete = List.of(
-                new ImageInfo(FIRST_IMAGE_ID, createUrl(FIRST_IMAGE_ID), PHOTO_TYPE),
-                new ImageInfo(SECOND_IMAGE_ID, createUrl(SECOND_IMAGE_ID), PHOTO_TYPE));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<List<ImageInfo>> requestEntity = new HttpEntity<>(imagesForDelete, headers);
-
-        ResponseEntity<Void> response = restTemplate.exchange(
-                IMAGE_URL,
-                HttpMethod.DELETE,
-                requestEntity,
-                Void.class
-        );
-
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        List<Image> imagesAfterRemove = imageRepository.findAll();
-        int expectedSizeAfterRemove = 0;
-        int actualSizeAfterRemove = imagesAfterRemove.size();
-
-        Assertions.assertEquals(expectedSizeAfterRemove, actualSizeAfterRemove);
-
-        Assertions.assertThrows(ImageNotFoundException.class, () -> imageService.findById(FIRST_IMAGE_ID));
-        Assertions.assertThrows(ImageNotFoundException.class, () -> imageService.findById(SECOND_IMAGE_ID));
-
-        assertTrue(logCaptor.getInfoLogs().contains("Starting to delete images from S3 storage."));
-        assertTrue(logCaptor.getInfoLogs().contains("Images successfully deleted from S3. Proceeding to delete images from database."));
-    }
-
-    @Test
-    @Order(5)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - upload images with incorrect image type.")
     public void givenIncorrectImageType_whenUpload_thenReturnBadRequest() {
@@ -265,7 +155,6 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
     }
 
     @Test
-    @Order(6)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - upload more than 20 images.")
     public void givenListOfImages_whenUpload_thenReturnBadRequest() {

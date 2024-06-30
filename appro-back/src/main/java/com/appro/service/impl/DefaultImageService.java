@@ -1,6 +1,5 @@
 package com.appro.service.impl;
 
-import com.appro.dto.ImageDto;
 import com.appro.dto.ImageInfo;
 import com.appro.entity.Image;
 import com.appro.exception.ImageNotFoundException;
@@ -10,7 +9,6 @@ import com.appro.service.ImageService;
 import com.appro.service.S3BucketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,17 +26,6 @@ public class DefaultImageService implements ImageService {
 
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
-
-    private final BeanFactory beanFactory;
-
-    @Transactional
-    public void removeImages(List<ImageInfo> imageInfos) {
-        List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
-        log.info("Starting to delete images from S3 storage.");
-        imageList.forEach(s3Service::delete);
-        log.info("Images successfully deleted from S3. Proceeding to delete images from database.");
-        imageRepository.deleteAll(imageList);
-    }
 
     @Override
     public Image findById(int id) {
@@ -90,8 +77,7 @@ public class DefaultImageService implements ImageService {
             }
         });
 
-        ImageService proxyImageService = beanFactory.getBean(ImageService.class);
-        proxyImageService.removeImages(toRemove);
+        removeImages(toRemove);
 
         log.info("Removed {} old images.", toRemove.size());
         log.info("Added {} new images.", toAdd.size());
@@ -104,23 +90,11 @@ public class DefaultImageService implements ImageService {
         return optionalImage.orElse(null);
     }
 
-
-    // TODO: ALARM!!!!!
-
-    @Override
-    public ImageDto saveFloorImage(int projectId, int floorId, MultipartFile file) {
-        //        Floor floor = floorService.findFloorWithProject(projectId, floorId);
-
-
-        //        Image image = createImage("url", floor.getProject());
-        //        String url = s3Service.upload(file, image);
-        //
-        //        floor.setPlanningImage(url);
-        //        floorService.save(floor);
-        //
-        //        return imageMapper.toDto(imageRepository.save(image));
-        return null;
+    void removeImages(List<ImageInfo> imageInfos) {
+        List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
+        log.info("Starting to delete images from S3 storage.");
+        imageList.forEach(s3Service::delete);
+        log.info("Images successfully deleted from S3. Proceeding to delete images from database.");
+        imageRepository.deleteAll(imageList);
     }
-
-
 }

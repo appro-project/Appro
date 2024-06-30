@@ -43,11 +43,6 @@ public interface ProjectService {
      */
     void delete(int id);
 
-
-
-    Project findProjectById(int id);
-
     ProjectDto findProjectFullInfo(int id);
 
-    ProjectDto addFloorPlanningImage(int projectId, int floorId, ImageInfo imageInfo);
 }

@@ -1,6 +1,10 @@
 package com.appro.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,7 +41,5 @@ public class ProjectDto {
     private ImageInfo mainImage;
     private List<ImageInfo> images;
     private List<ImageInfo> photos;
-
     private List<FloorDto> floors;
-
 }

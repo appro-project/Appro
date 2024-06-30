@@ -1,1 +1,1 @@
-TRUNCATE project, project_image, floor, project_config RESTART IDENTITY;
+TRUNCATE project, project_image, floor RESTART IDENTITY;

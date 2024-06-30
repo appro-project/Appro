@@ -74,6 +74,4 @@ public class DefaultS3BucketService implements S3BucketService {
         }
         return convertedFile;
     }
-
-
 }
