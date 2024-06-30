@@ -2,9 +2,6 @@ server:
   port: ${SERVER_PORT}
 
 spring:
-  profiles:
-    active:
-      - dev
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${APPRO_DB_URL}
