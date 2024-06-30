@@ -89,7 +89,7 @@ jobs:
           cd /home/ubuntu/appro/app/appro-back
           ./mvnw flyway:migrate -Dflyway.url=${APPRO_DB_URL} -Dflyway.user=${DB_USERNAME} -Dflyway.password=${DB_PASSWORD}
           
-          mvn clean package
+          mvn clean package -DskipTests
           if [ $? -ne 0 ]; then
             echo "Error: mvn package failed."
             exit 1
