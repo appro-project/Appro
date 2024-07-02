@@ -29,11 +29,11 @@ springdoc:
   swagger-ui:
     path: /v1/appro-docs
 
-#feedback:
-#  email:
-#    to: ${HUSKY_EMAIL}
-#    from: ${HUSKY_EMAIL}
-#    api-key: ${HUSKY_EMAIL_API_KEY}
+feedback:
+  email:
+    to: ${HUSKY_EMAIL}
+    from: ${HUSKY_EMAIL}
+    api-key: ${HUSKY_EMAIL_API_KEY}
 
 aws:
   bucket:
