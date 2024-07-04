@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @Getter
 @Builder
 @NoArgsConstructor
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @Table(name = "floor")
 public class Floor {
@@ -46,7 +46,7 @@ public class Floor {
     @Column(name = "height")
     private Double height;
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image planningImage;
 

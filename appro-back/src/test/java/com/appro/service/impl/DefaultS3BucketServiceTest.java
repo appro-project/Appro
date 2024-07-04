@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.appro.configuration.aws.AwsConfiguration;
 import com.appro.entity.Image;
 import com.appro.exception.S3OperationException;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,6 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doThrow;
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class DefaultS3BucketServiceTest {
 
@@ -42,6 +47,16 @@ class DefaultS3BucketServiceTest {
     private AwsConfiguration awsClientConfig;
     @InjectMocks
     DefaultS3BucketService s3BucketService;
+
+    @AfterAll
+    static void cleanupFiles() {
+        try {
+            Files.deleteIfExists(Paths.get(FILE_NAME));
+            log.info("Test files deleted successfully.");
+        } catch (IOException e) {
+            log.error("Failed to delete test files.", e);
+        }
+    }
 
 
     @Test

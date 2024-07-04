@@ -21,6 +21,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,6 +71,17 @@ class ImageControllerITest extends AbstractAmazonS3ITest {
 
         objectListing = amazonS3.listObjects(BUCKET_NAME);
         log.info("S3 local bucket objects count after cleanup: {}", objectListing.getObjectSummaries().size());
+    }
+
+    @AfterAll
+    static void cleanupFiles() {
+        try {
+            Files.deleteIfExists(Paths.get("test-image-1.jpeg"));
+            Files.deleteIfExists(Paths.get("test-image-2.jpeg"));
+            log.info("Test files deleted successfully.");
+        } catch (IOException e) {
+            log.error("Failed to delete test files.", e);
+        }
     }
 
     @Test

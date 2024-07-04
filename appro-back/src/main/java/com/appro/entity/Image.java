@@ -15,13 +15,19 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.Objects;
 
 
 @Entity
 @Setter
 @Getter
 @Builder
-@EqualsAndHashCode(of = "id")
+@DynamicInsert
+@DynamicUpdate
+@EqualsAndHashCode(of = {"id", "path", "type"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "project_image")

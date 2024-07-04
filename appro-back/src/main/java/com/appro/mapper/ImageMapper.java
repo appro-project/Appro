@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
 
+    List<Image> toImageList(List<ImageInfo> imageInfo);
 
     Image toImage(ImageInfo imageInfo);
 
@@ -24,6 +25,7 @@ public interface ImageMapper {
 
     @Named("toImageInfoListFilterByTypeImage")
     default List<ImageInfo> toImageInfoListFilterByTypeImage(List<Image> images) {
+        if (images == null) return List.of();
         return images.stream()
                 .filter(image -> "image".equals(image.getType()))
                 .map(this::toImageInfo)
@@ -31,9 +33,10 @@ public interface ImageMapper {
     }
 
     @Named("toImageInfoListFilterByTypePhoto")
-    default List<ImageInfo> toImageInfoListFilterByTypePhoto(List<Image> images) {
-        return images.stream()
-                .filter(image -> "photo".equals(image.getType()))
+    default List<ImageInfo> toImageInfoListFilterByTypePhoto(List<Image> photos) {
+        if (photos == null) return List.of();
+        return photos.stream()
+                .filter(photo -> "photo".equals(photo.getType()))
                 .map(this::toImageInfo)
                 .toList();
     }

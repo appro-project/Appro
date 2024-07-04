@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
@@ -71,8 +72,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -81,8 +82,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
     }
 
     @Test
@@ -100,8 +101,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -110,8 +111,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
     }
 
     @Test
@@ -129,8 +130,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -139,10 +140,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -160,8 +161,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -170,10 +171,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -191,8 +192,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -201,10 +202,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -222,8 +223,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -232,10 +233,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -253,8 +254,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -263,10 +264,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -284,8 +285,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -294,10 +295,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -315,8 +316,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().isEmpty());
 
         List<ProjectDto> actualProjects = response.getBody();
@@ -325,10 +326,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyElementsOf(expectedProjects);
 
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
-        Assertions.assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
-        Assertions.assertEquals(THIRD_PROJECT_ID, actualProjects.get(2).getId());
-        Assertions.assertEquals(FOURTH_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
+        assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
+        assertEquals(THIRD_PROJECT_ID, actualProjects.get(2).getId());
+        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(3).getId());
     }
 
     @Test
@@ -345,8 +346,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto project = response.getBody();
 
@@ -354,10 +355,10 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         List<ImageInfo> actualImages = project.getImages();
         List<FloorDto> actualFloors = project.getFloors();
 
-        Assertions.assertEquals(expectedProjectId, project.getId());
-        Assertions.assertNotNull(actualMainImage);
-        Assertions.assertNotNull(actualImages);
-        Assertions.assertNotNull(actualFloors);
+        assertEquals(expectedProjectId, project.getId());
+        assertNotNull(actualMainImage);
+        assertNotNull(actualImages);
+        assertNotNull(actualFloors);
     }
 
     @Test
@@ -375,12 +376,12 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ErrorResponse errorResponse = response.getBody();
-        Assertions.assertEquals(expectedErrorMessage, errorResponse.message());
-        Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
+        assertEquals(expectedErrorMessage, errorResponse.message());
+        assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
     }
 
     @Test
@@ -391,7 +392,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
         List<ProjectDto> beforeRemove = projectService.findAll(ID, ASC);
 
-        Assertions.assertEquals(2, beforeRemove.size());
+        assertEquals(2, beforeRemove.size());
 
         ResponseEntity<Void> response = restTemplate.exchange(
                 PROJECT_URL + '/' + FIRST_PROJECT_ID,
@@ -400,11 +401,11 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 Void.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertNull(response.getBody());
 
         List<ProjectDto> afterRemove = projectService.findAll(ID, ASC);
-        Assertions.assertEquals(1, afterRemove.size());
+        assertEquals(1, afterRemove.size());
 
         Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.findProjectFullInfo(FIRST_PROJECT_ID));
     }
@@ -419,7 +420,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int expectedProjectsSizeBeforeDelete = 2;
         int actualProjectsSizeBeforeDelete = projectRepository.findAll().size();
 
-        Assertions.assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeBeforeDelete);
+        assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeBeforeDelete);
 
         ResponseEntity<ErrorResponse> response = restTemplate.exchange(
                 PROJECT_URL + '/' + THIRD_PROJECT_ID,
@@ -428,15 +429,15 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 new ParameterizedTypeReference<>() {}
         );
 
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         int actualProjectsSizeAfterDelete = projectRepository.findAll().size();
-        Assertions.assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeAfterDelete);
+        assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeAfterDelete);
 
         ErrorResponse errorResponse = response.getBody();
-        Assertions.assertEquals(expectedErrorMessage, errorResponse.message());
-        Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
+        assertEquals(expectedErrorMessage, errorResponse.message());
+        assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
     }
 
     @Test
@@ -459,13 +460,13 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto updatedProject = response.getBody();
 
         // Assert it same project
-        Assertions.assertEquals(projectBeforeUpdate.getId(), updatedProject.getId());
+        assertEquals(projectBeforeUpdate.getId(), updatedProject.getId());
 
         // Assert attributes
         Assertions.assertNotEquals(projectBeforeUpdate.getTitle(), updatedProject.getTitle());
@@ -496,7 +497,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     void givenProject_whenUpdate_thenModifyProjectImages() {
         Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
         assert projectBeforeUpdate != null;
-        Image mainImageBeforeUpdate = imageService.findMainImage(projectBeforeUpdate.getId());
+        Image mainImageBeforeUpdate = projectBeforeUpdate.getImages().stream().filter(image -> image.getType().equals("main")).findFirst().orElse(null);
         List<Image> imagesBeforeUpdate = projectBeforeUpdate.getImages();
 
         ProjectDto updateProjectRequestBody = createProject();
@@ -512,8 +513,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto updatedProject = response.getBody();
 
@@ -522,7 +523,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
         Assertions.assertNotEquals(mainImageBeforeUpdate.getId(), newMainImage.getId());
         Assertions.assertNotEquals(mainImageBeforeUpdate.getPath(), newMainImage.getPath());
-        Assertions.assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
+        assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
 
         // Assert images
         int expectedImagesSize = 2;
@@ -533,12 +534,12 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int imagesSizeAfterUpdate = actualImages.size();
         List<ImageInfo> expectedImages = createImages();
 
-        Assertions.assertEquals(expectedImagesSize, imagesSizeAfterUpdate);
+        assertEquals(expectedImagesSize, imagesSizeAfterUpdate);
 
-        Assertions.assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
-        Assertions.assertEquals(expectedImages.get(0).getType(), actualImages.get(0).getType());
-        Assertions.assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
-        Assertions.assertEquals(expectedImages.get(1).getType(), actualImages.get(1).getType());
+        assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
+        assertEquals(expectedImages.get(0).getType(), actualImages.get(0).getType());
+        assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
+        assertEquals(expectedImages.get(1).getType(), actualImages.get(1).getType());
 
         Assertions.assertFalse(imagesBeforeUpdate.contains(firstImage));
         Assertions.assertFalse(imagesBeforeUpdate.contains(secondImage));
@@ -566,8 +567,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto updatedProject = response.getBody();
 
@@ -581,27 +582,27 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         FloorDto firstExpectedFloor = expectedFloors.get(0);
         FloorDto secondExpectedFloor = expectedFloors.get(1);
 
-        Assertions.assertEquals(expectedFloorSize, actualFloorSize);
+        assertEquals(expectedFloorSize, actualFloorSize);
         // first floor
-        Assertions.assertEquals(firstExpectedFloor.getIndex(), firstActualFloor.getIndex());
-        Assertions.assertEquals(firstExpectedFloor.getArea(), firstActualFloor.getArea());
-        Assertions.assertEquals(firstExpectedFloor.getHeight(), firstActualFloor.getHeight());
-        Assertions.assertEquals(firstExpectedFloor.getIsAttic(), firstActualFloor.getIsAttic());
-        Assertions.assertEquals(firstExpectedFloor.getIsBasement(), firstActualFloor.getIsBasement());
+        assertEquals(firstExpectedFloor.getIndex(), firstActualFloor.getIndex());
+        assertEquals(firstExpectedFloor.getArea(), firstActualFloor.getArea());
+        assertEquals(firstExpectedFloor.getHeight(), firstActualFloor.getHeight());
+        assertEquals(firstExpectedFloor.getIsAttic(), firstActualFloor.getIsAttic());
+        assertEquals(firstExpectedFloor.getIsBasement(), firstActualFloor.getIsBasement());
 
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
+        assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
+        assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
+        assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
         // second floor
-        Assertions.assertEquals(secondExpectedFloor.getIndex(), secondActualFloor.getIndex());
-        Assertions.assertEquals(secondExpectedFloor.getArea(), secondActualFloor.getArea());
-        Assertions.assertEquals(secondExpectedFloor.getHeight(), secondActualFloor.getHeight());
-        Assertions.assertEquals(secondExpectedFloor.getIsAttic(), secondActualFloor.getIsAttic());
-        Assertions.assertEquals(secondExpectedFloor.getIsBasement(), secondActualFloor.getIsBasement());
+        assertEquals(secondExpectedFloor.getIndex(), secondActualFloor.getIndex());
+        assertEquals(secondExpectedFloor.getArea(), secondActualFloor.getArea());
+        assertEquals(secondExpectedFloor.getHeight(), secondActualFloor.getHeight());
+        assertEquals(secondExpectedFloor.getIsAttic(), secondActualFloor.getIsAttic());
+        assertEquals(secondExpectedFloor.getIsBasement(), secondActualFloor.getIsBasement());
 
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
-        Assertions.assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
+        assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
+        assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
+        assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
         Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(firstActualFloor)));
         Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(secondActualFloor)));
     }
@@ -615,7 +616,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int expectedProjectsSizeBeforeCreating = 0;
         int actualProjectsSizeBeforeCreating = project.size();
 
-        Assertions.assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
         ProjectDto expectedProject = createProject();
 
@@ -630,32 +631,32 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto actualProject = response.getBody();
 
         // Assert fields
-        Assertions.assertEquals(FIRST_PROJECT_ID, actualProject.getId());
-        Assertions.assertEquals(expectedProject.getTitle(), actualProject.getTitle());
-        Assertions.assertEquals(expectedProject.getDescription(), actualProject.getDescription());
-        Assertions.assertEquals(expectedProject.getPopularity(), actualProject.getPopularity());
-        Assertions.assertEquals(expectedProject.getGeneralArea(), actualProject.getGeneralArea());
-        Assertions.assertEquals(expectedProject.getTimeToCreate(), actualProject.getTimeToCreate());
-        Assertions.assertEquals(expectedProject.getProjectPrice(), actualProject.getProjectPrice());
-        Assertions.assertEquals(expectedProject.getLivingArea(), actualProject.getLivingArea());
-        Assertions.assertEquals(expectedProject.getBuildingArea(), actualProject.getBuildingArea());
-        Assertions.assertEquals(expectedProject.getWallThickness(), actualProject.getWallThickness());
-        Assertions.assertEquals(expectedProject.getBuildingPrice(), actualProject.getBuildingPrice());
-        Assertions.assertEquals(expectedProject.getInsulationThickness(), actualProject.getInsulationThickness());
-        Assertions.assertEquals(expectedProject.getLength(), actualProject.getLength());
-        Assertions.assertEquals(expectedProject.getWidth(), actualProject.getWidth());
-        Assertions.assertEquals(expectedProject.getIsGaragePresent(), actualProject.getIsGaragePresent());
-        Assertions.assertEquals(expectedProject.getBedroomCount(), actualProject.getBedroomCount());
+        assertEquals(FIRST_PROJECT_ID, actualProject.getId());
+        assertEquals(expectedProject.getTitle(), actualProject.getTitle());
+        assertEquals(expectedProject.getDescription(), actualProject.getDescription());
+        assertEquals(expectedProject.getPopularity(), actualProject.getPopularity());
+        assertEquals(expectedProject.getGeneralArea(), actualProject.getGeneralArea());
+        assertEquals(expectedProject.getTimeToCreate(), actualProject.getTimeToCreate());
+        assertEquals(expectedProject.getProjectPrice(), actualProject.getProjectPrice());
+        assertEquals(expectedProject.getLivingArea(), actualProject.getLivingArea());
+        assertEquals(expectedProject.getBuildingArea(), actualProject.getBuildingArea());
+        assertEquals(expectedProject.getWallThickness(), actualProject.getWallThickness());
+        assertEquals(expectedProject.getBuildingPrice(), actualProject.getBuildingPrice());
+        assertEquals(expectedProject.getInsulationThickness(), actualProject.getInsulationThickness());
+        assertEquals(expectedProject.getLength(), actualProject.getLength());
+        assertEquals(expectedProject.getWidth(), actualProject.getWidth());
+        assertEquals(expectedProject.getIsGaragePresent(), actualProject.getIsGaragePresent());
+        assertEquals(expectedProject.getBedroomCount(), actualProject.getBedroomCount());
 
         int expectedProjectsSizeAfterCreating = 1;
         int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
-        Assertions.assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+        assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
     }
 
     @Test
@@ -667,7 +668,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int expectedProjectsSizeBeforeCreating = 0;
         int actualProjectsSizeBeforeCreating = project.size();
 
-        Assertions.assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
         ProjectDto expectedProject = createProject();
 
@@ -682,18 +683,18 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto actualProject = response.getBody();
 
         // Assert options
-        Assertions.assertEquals(expectedProject.getWallMaterial(), actualProject.getWallMaterial());
-        Assertions.assertEquals(expectedProject.getFoundation(), actualProject.getFoundation());
-        Assertions.assertEquals(expectedProject.getCeiling(), actualProject.getCeiling());
-        Assertions.assertEquals(expectedProject.getRoof(), actualProject.getRoof());
-        Assertions.assertEquals(expectedProject.getInsulation(), actualProject.getInsulation());
-        Assertions.assertEquals(expectedProject.getStyle(), actualProject.getStyle());
+        assertEquals(expectedProject.getWallMaterial(), actualProject.getWallMaterial());
+        assertEquals(expectedProject.getFoundation(), actualProject.getFoundation());
+        assertEquals(expectedProject.getCeiling(), actualProject.getCeiling());
+        assertEquals(expectedProject.getRoof(), actualProject.getRoof());
+        assertEquals(expectedProject.getInsulation(), actualProject.getInsulation());
+        assertEquals(expectedProject.getStyle(), actualProject.getStyle());
     }
 
     @Test
@@ -705,7 +706,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int expectedProjectsSizeBeforeCreating = 0;
         int actualProjectsSizeBeforeCreating = project.size();
 
-        Assertions.assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
         ProjectDto expectedProject = createProject();
 
@@ -720,31 +721,31 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto actualProject = response.getBody();
 
         // Assert images
         String expectedMainImageType = "main";
         String expectedImageType = "image";
-        Assertions.assertNotNull(actualProject.getMainImage());
-        Assertions.assertNotNull(actualProject.getImages());
-        Assertions.assertNotNull(actualProject.getFloors());
+        assertNotNull(actualProject.getMainImage());
+        assertNotNull(actualProject.getImages());
+        assertNotNull(actualProject.getFloors());
 
         ImageInfo expectedMainImage = expectedProject.getMainImage();
         ImageInfo actualMainImage = actualProject.getMainImage();
-        Assertions.assertEquals(expectedMainImage.getPath(), actualMainImage.getPath());
-        Assertions.assertEquals(expectedMainImageType, actualMainImage.getType());
+        assertEquals(expectedMainImage.getPath(), actualMainImage.getPath());
+        assertEquals(expectedMainImageType, actualMainImage.getType());
 
         int expectedImageSize = 2;
         List<ImageInfo> expectedImages = expectedProject.getImages();
         List<ImageInfo> actualImages = actualProject.getImages();
-        Assertions.assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
-        Assertions.assertEquals(expectedImageType, actualImages.get(0).getType());
-        Assertions.assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
-        Assertions.assertEquals(expectedImageType, actualImages.get(1).getType());
-        Assertions.assertEquals(expectedImageSize, actualProject.getImages().size());
+        assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
+        assertEquals(expectedImageType, actualImages.get(0).getType());
+        assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
+        assertEquals(expectedImageType, actualImages.get(1).getType());
+        assertEquals(expectedImageSize, actualProject.getImages().size());
     }
 
     @Test
@@ -756,7 +757,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int expectedProjectsSizeBeforeCreating = 0;
         int actualProjectsSizeBeforeCreating = project.size();
 
-        Assertions.assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
         ProjectDto expectedProject = createProject();
 
@@ -771,14 +772,14 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 ProjectDto.class
         );
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
         ProjectDto actualProject = response.getBody();
 
         // Assert floors
         int expectedFloorSize = 2;
-        Assertions.assertEquals(expectedFloorSize, actualProject.getFloors().size());
+        assertEquals(expectedFloorSize, actualProject.getFloors().size());
 
         List<FloorDto> expectedFloors = expectedProject.getFloors();
         FloorDto expectedFirstFloor = expectedFloors.get(0);
@@ -787,21 +788,66 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         List<FloorDto> actualFloors = actualProject.getFloors();
         FloorDto actualFirstFloor = actualFloors.get(0);
         FloorDto actualSecondFloor = actualFloors.get(1);
-        Assertions.assertEquals(expectedFirstFloor.getIndex(), actualFirstFloor.getIndex());
-        Assertions.assertEquals(expectedFirstFloor.getIsBasement(), actualFirstFloor.getIsBasement());
-        Assertions.assertEquals(expectedFirstFloor.getIsAttic(), actualFirstFloor.getIsAttic());
-        Assertions.assertEquals(expectedFirstFloor.getHeight(), actualFirstFloor.getHeight());
-        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getId(), actualFirstFloor.getPlanningImage().getId());
-        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getType(), actualFirstFloor.getPlanningImage().getType());
-        Assertions.assertEquals(expectedFirstFloor.getPlanningImage().getPath(), actualFirstFloor.getPlanningImage().getPath());
+        assertEquals(expectedFirstFloor.getIndex(), actualFirstFloor.getIndex());
+        assertEquals(expectedFirstFloor.getIsBasement(), actualFirstFloor.getIsBasement());
+        assertEquals(expectedFirstFloor.getIsAttic(), actualFirstFloor.getIsAttic());
+        assertEquals(expectedFirstFloor.getHeight(), actualFirstFloor.getHeight());
+        assertEquals(expectedFirstFloor.getPlanningImage().getId(), actualFirstFloor.getPlanningImage().getId());
+        assertEquals(expectedFirstFloor.getPlanningImage().getType(), actualFirstFloor.getPlanningImage().getType());
+        assertEquals(expectedFirstFloor.getPlanningImage().getPath(), actualFirstFloor.getPlanningImage().getPath());
 
-        Assertions.assertEquals(expectedSecondFloor.getIndex(), actualSecondFloor.getIndex());
-        Assertions.assertEquals(expectedSecondFloor.getIsBasement(), actualSecondFloor.getIsBasement());
-        Assertions.assertEquals(expectedSecondFloor.getIsAttic(), actualSecondFloor.getIsAttic());
-        Assertions.assertEquals(expectedSecondFloor.getHeight(), actualSecondFloor.getHeight());
-        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getId(), actualSecondFloor.getPlanningImage().getId());
-        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getType(), actualSecondFloor.getPlanningImage().getType());
-        Assertions.assertEquals(expectedSecondFloor.getPlanningImage().getPath(), actualSecondFloor.getPlanningImage().getPath());    }
+        assertEquals(expectedSecondFloor.getIndex(), actualSecondFloor.getIndex());
+        assertEquals(expectedSecondFloor.getIsBasement(), actualSecondFloor.getIsBasement());
+        assertEquals(expectedSecondFloor.getIsAttic(), actualSecondFloor.getIsAttic());
+        assertEquals(expectedSecondFloor.getHeight(), actualSecondFloor.getHeight());
+        assertEquals(expectedSecondFloor.getPlanningImage().getId(), actualSecondFloor.getPlanningImage().getId());
+        assertEquals(expectedSecondFloor.getPlanningImage().getType(), actualSecondFloor.getPlanningImage().getType());
+        assertEquals(expectedSecondFloor.getPlanningImage().getPath(), actualSecondFloor.getPlanningImage().getPath());    }
+
+    @Test
+    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @DisplayName("Test - create new project without detached entities.")
+    public void givenProjectDtoWithoutDetachedEntities_whenCreate_thenReturnNewProject() {
+        List<Project> project = projectRepository.findAll();
+        int expectedProjectsSizeBeforeCreating = 0;
+        int actualProjectsSizeBeforeCreating = project.size();
+        // Projects count before creating
+        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+        ProjectDto expectedProject = createProjectWithOutDetachedEntities();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
+
+        ResponseEntity<ProjectDto> response = restTemplate.exchange(
+                PROJECT_URL,
+                HttpMethod.POST,
+                entity,
+                ProjectDto.class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        List<Project> actualProjects = projectRepository.findAll();
+        int expectedProjectsSizeAfterCreating = 1;
+        int actualProjectsSizeAfterCreating = actualProjects.size();
+        // Projects count after creating
+        assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+
+        ProjectDto actualProject = response.getBody();
+
+        assertThat(actualProject)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "images", "photos", "floors")
+                .isEqualTo(expectedProject);
+
+        assertTrue(actualProject.getFloors().isEmpty());
+        assertTrue(actualProject.getImages().isEmpty());
+        assertTrue(actualProject.getPhotos().isEmpty());
+    }
 
     private String createUrl(String sort, String sortDirection) {
         String sortBy = "?sortBy=";
@@ -839,32 +885,46 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .build();
     }
 
-    private ImageInfo createImageInfo() {
-        return ImageInfo.builder()
-                .id(6)
-                .type("image")
-                .path("http://127.0.0.1:51774/my-s3-bucket/6")
+    private ProjectDto createProjectWithOutDetachedEntities() {
+        return ProjectDto.builder()
+                .title("Білий дім")
+                .description("Тут живе Байден")
+                .popularity(3)
+                .generalArea(768.5)
+                .timeToCreate(62)
+                .projectPrice(BigDecimal.valueOf(120000.0))
+                .livingArea(650.0)
+                .buildingArea(598.5)
+                .wallMaterial("кирпич")
+                .wallThickness(BigDecimal.valueOf(0.5))
+                .foundation("ленточный")
+                .ceiling("комбинированная")
+                .roof("битумная черепица")
+                .buildingPrice(BigDecimal.valueOf(55998889.0))
+                .insulation("минеральная вата")
+                .insulationThickness(0.3)
+                .length(55.8)
+                .width(64.7)
+                .style("современный")
+                .isGaragePresent(false)
+                .bedroomCount(24)
                 .build();
     }
 
     private ImageInfo createMainImageInfo() {
         return ImageInfo.builder()
                 .id(3)
-                .type("main")
+                .type("image")
                 .path("http://127.0.0.1:51774/my-s3-bucket/3")
                 .build();
-    }
-
-    private Image createImage() {
-        return new Image();
     }
 
     private List<ImageInfo> createImages() {
         return List.of(
                 ImageInfo.builder()
-                        .id(6)
+                        .id(5)
                         .type("image")
-                        .path("http://127.0.0.1:51774/my-s3-bucket/6")
+                        .path("http://127.0.0.1:51774/my-s3-bucket/5")
                         .build(),
                 ImageInfo.builder()
                         .id(7)
@@ -894,9 +954,9 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                         .isBasement(false)
                         .height(223.5)
                         .planningImage(ImageInfo.builder()
-                                .id(7)
+                                .id(2)
                                 .type("image")
-                                .path("http://127.0.0.1:51774/my-s3-bucket/7")
+                                .path("http://127.0.0.1:51774/my-s3-bucket/2")
                                 .build())
                         .build());
     }

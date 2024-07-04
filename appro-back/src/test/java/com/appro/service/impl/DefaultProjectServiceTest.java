@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import com.appro.entity.Image;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -236,10 +237,10 @@ class DefaultProjectServiceTest {
     }
 
     private Project createProject() {
-        return Project.builder()
-                .id(1)
-                .isDeleted(false)
-                .build();
+        return Project.builder().
+                 id(1).
+                 isDeleted(false).
+                 build();
     }
 
     private List<Project> createProjects() {
@@ -258,9 +259,9 @@ class DefaultProjectServiceTest {
     }
 
     private ProjectDto createProjectDto() {
-        return ProjectDto.builder()
-                .id(1)
-                .build();
+        return ProjectDto.builder().
+                 id(1).
+                 build();
     }
 
 }
