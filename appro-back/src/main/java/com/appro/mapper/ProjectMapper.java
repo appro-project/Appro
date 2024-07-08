@@ -9,9 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ProjectOptionsMapper.class, ImageMapper.class, FloorMapper.class})
@@ -32,14 +30,13 @@ public interface ProjectMapper {
 
     default void update(Project project, ProjectDto projectDto, Image mainImage, List<Image> images, List<Floor> floors) {
         updateProjectFromDto(project, projectDto);
-        updateImages(project, mainImage, images);
+        updateImages(project, images);
+        updateMainImage(project, mainImage);
         updateFloors(project, floors);
     }
 
-    default void updateImages(Project project, Image mainImage, List<Image> images) {
-        List<Image> existingImages = project.getImages() == null ?
-                List.of() :
-                project.getImages();
+    default void updateImages(Project project, List<Image> images) {
+        List<Image> existingImages = project.getImages() == null ? new ArrayList<>() : new ArrayList<>(project.getImages());
 
         if (existingImages.isEmpty()) {
             existingImages = new ArrayList<>();
@@ -54,23 +51,29 @@ public interface ProjectMapper {
                     !newImageIds.contains(existingImage.getId())
             );
         }
-
-        if (mainImage != null) {
-            existingImages.removeIf(image -> "main".equals(image.getType()));
-            mainImage.setType("main");
-            mainImage.setProject(project);
-            existingImages.add(mainImage);
-        }
-
         Set<Integer> existingImageIds = existingImages.stream()
                 .map(Image::getId)
                 .collect(Collectors.toSet());
 
         for (Image newImage : images) {
-            if (!existingImageIds.contains(newImage.getId())) {
+            if (!existingImageIds.contains(newImage.getId()) && !newImage.getType().equals("main")) {
                 newImage.setProject(project);
                 existingImages.add(newImage);
             }
+        }
+    }
+
+    default void updateMainImage(Project project, Image mainImage) {
+        List<Image> existingImages = project.getImages();
+
+        if (mainImage != null) {
+            existingImages.removeIf(image -> "main".equals(image.getType()));
+
+            mainImage.setType("main");
+            mainImage.setProject(project);
+            existingImages.add(mainImage);
+
+            project.setImages(existingImages);
         }
     }
 
@@ -84,11 +87,6 @@ public interface ProjectMapper {
             Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
             existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
         }
-
-//        for (Floor floor : floors) {
-//            floor.setProject(project);
-//            existingFloors.add(floor);
-//        }
 
         for (Floor floor : floors) {
             floor.setProject(project);
@@ -113,7 +111,8 @@ public interface ProjectMapper {
 
     @Named("findMainImage")
     default Image findMainImage(List<Image> images) {
-        if (images == null) return null;
+        if (images == null)
+            return null;
         return images.stream()
                 .filter(image -> "main".equals(image.getType()))
                 .findFirst()

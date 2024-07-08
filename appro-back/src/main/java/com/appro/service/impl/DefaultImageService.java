@@ -7,6 +7,8 @@ import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.service.ImageService;
 import com.appro.service.S3BucketService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,15 @@ public class DefaultImageService implements ImageService {
                     return existingImage;
                 })
                 .orElseGet(() -> imageMapper.toImage(imageInfo));
+//        return imageRepository.findById(imageInfo.getId())
+//                .map(existingImage -> {
+//                    existingImage.setPath(imageInfo.getPath());
+//                    existingImage.setType(imageInfo.getType());
+//                    return existingImage;
+//                })
+//                .orElseGet(() -> {
+//                    return imageMapper.toImage(imageInfo);
+//                });
     }
 
     @Override

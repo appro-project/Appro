@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageInfo {
-    private int id;
+    private Integer id;
     private String path;
     private String type;
 }

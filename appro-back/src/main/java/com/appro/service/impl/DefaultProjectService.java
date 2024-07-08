@@ -12,9 +12,10 @@ import com.appro.mapper.FloorMapper;
 import com.appro.mapper.ImageMapper;
 import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ProjectRepository;
-import com.appro.service.FloorService;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -38,13 +39,15 @@ public class DefaultProjectService implements ProjectService {
     private static final String CREATED_AT = "createdAt";
 
     private final ImageService imageService;
-    private final FloorService floorService;
 
     private final ProjectMapper projectMapper;
     private final FloorMapper floorMapper;
     private final ImageMapper imageMapper;
 
     private final ProjectRepository projectRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @Transactional(readOnly = true)

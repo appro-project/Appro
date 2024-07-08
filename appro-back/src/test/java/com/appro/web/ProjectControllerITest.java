@@ -1,7 +1,6 @@
 package com.appro.web;
 
 import com.appro.AbstractAmazonS3ITest;
-import com.appro.config.DataSourceTestConfiguration;
 import com.appro.dto.FloorDto;
 import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
@@ -14,30 +13,21 @@ import com.appro.mapper.ImageMapper;
 import com.appro.repository.ProjectRepository;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
-import com.appro.web.handler.ErrorResponse;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.ttddyy.dsproxy.QueryCount;
 import net.ttddyy.dsproxy.QueryCountHolder;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -101,7 +91,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     @DisplayName("Test - find all projects, sort by 'id' direction 'ASC'.")
     void givenProjects_whenFindAll_thenReturnProjectsSortByIdDirectionASC() throws Exception {
         QueryCountHolder.clear();
-
 
         mockMvc.perform(get(createUrl(ID, ASC))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -355,8 +344,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         int totalQueryCount = (int) queryCount.getTotal();
         int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(2, totalQueryCount);
-        assertEquals(2, selectQueryCount); // todo: better 1
+        assertEquals(3, totalQueryCount);
+        assertEquals(3, selectQueryCount); // todo: better 1
     }
 
     @Test
@@ -512,6 +501,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         void givenProject_whenUpdate_thenModifyProjectImages() throws Exception {
             Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
             assert projectBeforeUpdate != null;
+
             Image mainImageBeforeUpdate = projectBeforeUpdate.getImages().stream()
                     .filter(image -> image.getType().equals("main"))
                     .findFirst()
@@ -549,7 +539,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
             assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
 
             // Assert images
-            int expectedImagesSize = 2;
+            int expectedImagesSize = 3; // 2 projects images + 1 planing image
             List<ImageInfo> actualImages = updatedProject.getImages();
             Image firstImage = imageMapper.toImage(actualImages.get(0));
             Image secondImage = imageMapper.toImage(actualImages.get(1));
@@ -595,13 +585,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                     .andReturn()
                     .getResponse()
                     .getContentAsString();
-
-//             mockMvc.perform(put(PROJECT_URL + '/' + FIRST_PROJECT_ID)
-//                            .contentType(MediaType.APPLICATION_JSON)
-//                            .content(projectJson))
-//                    .andReturn()
-//                    .getResponse()
-//                    .getContentAsString();
 
             ProjectDto updatedProject = objectMapper.readValue(responseJson, ProjectDto.class);
 
@@ -652,11 +635,11 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
             assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
-            ProjectDto expectedProject = createProject();
+            ProjectDto expectedProject = createFullProject(null, null, null);
 
             String projectJson = objectMapper.writeValueAsString(expectedProject);
 
-            String responseJson = mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+            mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(projectJson))
                     .andExpect(status().isOk())
@@ -686,7 +669,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         }
 
         @Test
-        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
         @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
         @DisplayName("Test - create project, check options.")
         public void givenProjectDto_whenCreate_thenReturnNewProjectCheckOptions() throws Exception {
@@ -696,7 +678,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
             assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
-            ProjectDto expectedProject = createProject();
+            ProjectDto expectedProject = createFullProject(null, null, null);
 
             String projectJson = objectMapper.writeValueAsString(expectedProject);
 
@@ -727,7 +709,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
             assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
-            ProjectDto expectedProject = createProject();
+            ProjectDto expectedProject = createFullProject(createMainImageInfo(), createImages(), null);
 
             String projectJson = objectMapper.writeValueAsString(expectedProject);
 
@@ -759,7 +741,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
             assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
 
-            ProjectDto expectedProject = createProject();
+            ProjectDto expectedProject = createFullProject(null, null, createFloors());
 
             String projectJson = objectMapper.writeValueAsString(expectedProject);
 
@@ -842,6 +824,35 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private String createUrl(int id) {
         String template = "%s%d";
         return String.format(template, PROJECT_URL, id);
+    }
+
+    private ProjectDto createFullProject(ImageInfo mainImage, List<ImageInfo> images, List<FloorDto> floors) {
+        return ProjectDto.builder()
+                .title("Білий дім")
+                .description("Тут живе Байден")
+                .popularity(3)
+                .generalArea(768.5)
+                .timeToCreate(62)
+                .projectPrice(BigDecimal.valueOf(120000.0))
+                .livingArea(650.0)
+                .buildingArea(598.5)
+                .wallMaterial("кирпич")
+                .wallThickness(BigDecimal.valueOf(0.5))
+                .foundation("ленточный")
+                .ceiling("комбинированная")
+                .roof("битумная черепица")
+                .buildingPrice(BigDecimal.valueOf(55998889.0))
+                .insulation("минеральная вата")
+                .insulationThickness(0.3)
+                .length(55.8)
+                .width(64.7)
+                .style("современный")
+                .isGaragePresent(false)
+                .bedroomCount(24)
+                .mainImage(mainImage)
+                .images(images)
+                .floors(floors)
+                .build();
     }
 
     private ProjectDto createProject() {
