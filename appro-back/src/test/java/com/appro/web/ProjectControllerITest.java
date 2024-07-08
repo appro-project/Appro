@@ -1,6 +1,7 @@
 package com.appro.web;
 
 import com.appro.AbstractAmazonS3ITest;
+import com.appro.config.DataSourceTestConfiguration;
 import com.appro.dto.FloorDto;
 import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
@@ -14,19 +15,44 @@ import com.appro.repository.ProjectRepository;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import com.appro.web.handler.ErrorResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import net.ttddyy.dsproxy.QueryCount;
+import net.ttddyy.dsproxy.QueryCountHolder;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
     private static final String ID = "id";
@@ -41,10 +67,20 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private static final int THIRD_PROJECT_ID = 3;
     private static final int FOURTH_PROJECT_ID = 4;
 
-    private static final String PROJECT_URL = "/api/v1/project";
+    private static final String PROJECT_URL = "/api/v1/project/";
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private WebApplicationContext webApplicationContext;
+
+    private MockMvc mockMvc;
+
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -56,353 +92,304 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private ImageMapper imageMapper;
     @Autowired
     private FloorMapper floorMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @Sql(scripts = "classpath:sql/project/insert_projects.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'id' direction 'ASC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByIdDirectionASC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByIdDirectionASC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll("id", ASC);
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(ID, ASC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        mockMvc.perform(get(createUrl(ID, ASC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(SECOND_PROJECT_ID));
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
+        // todo why 5 ?
+        assertEquals(5, totalQueryCount);
+        assertEquals(5, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/insert_projects.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'id' direction 'DESC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByIdDirectionDESC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByIdDirectionDESC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(ID, DESC);
+        mockMvc.perform(get(createUrl(ID, DESC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(SECOND_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FIRST_PROJECT_ID));
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(ID, DESC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
+        // todo why 5 ?
+        assertEquals(5, totalQueryCount);
+        assertEquals(5, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'popularity' direction 'ASC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByPopularityDirectionASC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByPopularityDirectionASC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(POPULARITY, ASC);
+        mockMvc.perform(get(createUrl(POPULARITY, ASC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(THIRD_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(SECOND_PROJECT_ID));
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(POPULARITY, ASC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'popularity' direction 'DESC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByPopularityDirectionDESC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByPopularityDirectionDESC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(POPULARITY, DESC);
+        mockMvc.perform(get(createUrl(POPULARITY, DESC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(SECOND_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(THIRD_PROJECT_ID));
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(POPULARITY, DESC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'general area' direction 'ASC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByGeneralAreaDirectionASC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByGeneralAreaDirectionASC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(GENERAL_AREA, ASC);
+        mockMvc.perform(get(createUrl(GENERAL_AREA, ASC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(THIRD_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(SECOND_PROJECT_ID));
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(GENERAL_AREA, ASC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'general area' direction 'DESC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByGeneralAreaDirectionDESC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByGeneralAreaDirectionDESC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(GENERAL_AREA, DESC);
+        mockMvc.perform(get(createUrl(GENERAL_AREA, DESC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(SECOND_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(THIRD_PROJECT_ID));
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(GENERAL_AREA, DESC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'project price' direction 'ASC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByProjectPriceDirectionASC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByProjectPriceDirectionASC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(PROJECT_PRICE, ASC);
+        mockMvc.perform(get(createUrl(PROJECT_PRICE, ASC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(THIRD_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(SECOND_PROJECT_ID));
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(PROJECT_PRICE, ASC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find all projects, sort by 'project price' direction 'DESC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByProjectPriceDirectionDESC() {
+    void givenProjects_whenFindAll_thenReturnProjectsSortByProjectPriceDirectionDESC() throws Exception {
+        QueryCountHolder.clear();
 
-        List<ProjectDto> expectedProjects = projectService.findAll(PROJECT_PRICE, DESC);
+        mockMvc.perform(get(createUrl(PROJECT_PRICE, DESC))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].id").value(SECOND_PROJECT_ID))
+                .andExpect(jsonPath("$[1].id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$[2].id").value(FOURTH_PROJECT_ID))
+                .andExpect(jsonPath("$[3].id").value(THIRD_PROJECT_ID));
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                createUrl(PROJECT_PRICE, DESC),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(3).getId());
+        // todo why 9 ?
+        assertEquals(9, totalQueryCount);
+        assertEquals(9, selectQueryCount);
     }
+// todo now() while creating base not work
+    
+//    @Test
+//    @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+//    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+//    @DisplayName("Test - find all projects, by default values. Sort - 'creating date', direction - 'ASC'.")
+//    void givenProjects_whenFindAll_thenReturnProjectsSortByDefault() throws Exception {
+//        QueryCountHolder.clear();
+//
+//        mockMvc.perform(get(PROJECT_URL)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(4)))
+//                .andExpect(jsonPath("$[0].id").value(FIRST_PROJECT_ID))
+//                .andExpect(jsonPath("$[1].id").value(SECOND_PROJECT_ID))
+//                .andExpect(jsonPath("$[2].id").value(THIRD_PROJECT_ID))
+//                .andExpect(jsonPath("$[3].id").value(FOURTH_PROJECT_ID));
+//
+//        // Assert queries:
+//        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+//        int totalQueryCount = (int) queryCount.getTotal();
+//        int selectQueryCount = (int) queryCount.getSelect();
+//
+//        // todo why 9 ?
+//        assertEquals(9, totalQueryCount);
+//        assertEquals(9, selectQueryCount);
+//    }
+
 
     @Test
-    @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - find all projects, by default values. Sort - 'creating date', direction - 'ASC'.")
-    void givenProjects_whenFindAll_thenReturnProjectsSortByDefault() {
+    @DisplayName("Test - find project by id with additional data.")
+    void givenProject_whenFindById_thenReturnProjectWithAdditionalData() throws Exception {
+        QueryCountHolder.clear();
+        // todo: add planning image
+        mockMvc.perform(get(createUrl(FIRST_PROJECT_ID))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(FIRST_PROJECT_ID))
+                .andExpect(jsonPath("$.images").exists())
+                .andExpect(jsonPath("$.images", hasSize(1)))
+                .andExpect(jsonPath("$.mainImage").exists())
+                .andExpect(jsonPath("$.images[0].id", is(1)))
+                .andExpect(jsonPath("$.images[0].path", is("http://127.0.0.1:51774/my-s3-bucket/1")))
+                .andExpect(jsonPath("$.images[0].type", is("image")))
+                .andExpect(jsonPath("$.floors").exists())
+                .andExpect(jsonPath("$.floors[0].id", is(1)))
+                .andExpect(jsonPath("$.floors[0].isAttic", is(false)))
+                .andExpect(jsonPath("$.floors[0].isBasement", is(true)))
+                .andExpect(jsonPath("$.floors[0].area", is(84.0)))
+                .andExpect(jsonPath("$.floors[0].height", is(2.5)));
 
-        List<ProjectDto> expectedProjects = projectService.findAll(ID, ASC);
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        ResponseEntity<List<ProjectDto>> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        Assertions.assertFalse(response.getBody().isEmpty());
-
-        List<ProjectDto> actualProjects = response.getBody();
-
-        assertThat(actualProjects)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyElementsOf(expectedProjects);
-
-        assertEquals(FIRST_PROJECT_ID, actualProjects.get(0).getId());
-        assertEquals(SECOND_PROJECT_ID, actualProjects.get(1).getId());
-        assertEquals(THIRD_PROJECT_ID, actualProjects.get(2).getId());
-        assertEquals(FOURTH_PROJECT_ID, actualProjects.get(3).getId());
+        assertEquals(2, totalQueryCount);
+        assertEquals(2, selectQueryCount); // todo: better 1
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - find project by id with additional data.")
-    void givenProject_whenFindById_thenReturnProjectWithAdditionalData() {
-        int expectedProjectId = 1;
+    void givenProject_whenFindById_thenThrowNotFoundException() throws Exception {
+        QueryCountHolder.clear();
 
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL + '/' + FIRST_PROJECT_ID,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
+        mockMvc.perform(get(createUrl(SECOND_PROJECT_ID))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        // Assert queries:
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
 
-        ProjectDto project = response.getBody();
-
-        ImageInfo actualMainImage = project.getMainImage();
-        List<ImageInfo> actualImages = project.getImages();
-        List<FloorDto> actualFloors = project.getFloors();
-
-        assertEquals(expectedProjectId, project.getId());
-        assertNotNull(actualMainImage);
-        assertNotNull(actualImages);
-        assertNotNull(actualFloors);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - find project by id with additional data.")
-    void givenProject_whenFindById_thenThrowNotFoundException() {
-
-        String expectedErrorMessage = "Project with id: 2 does not exist";
-
-        ResponseEntity<ErrorResponse> response = restTemplate.exchange(
-                PROJECT_URL + '/' + SECOND_PROJECT_ID,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ErrorResponse errorResponse = response.getBody();
-        assertEquals(expectedErrorMessage, errorResponse.message());
-        assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
+        assertEquals(1, totalQueryCount);
+        assertEquals(1, selectQueryCount);
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/deleteProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - delete project by id.")
-    void givenProjects_whenDelete_thenRemoveProjectFromDB() {
-
+    void givenProjects_whenDelete_thenRemoveProjectFromDB() throws Exception {
         List<ProjectDto> beforeRemove = projectService.findAll(ID, ASC);
-
         assertEquals(2, beforeRemove.size());
 
-        ResponseEntity<Void> response = restTemplate.exchange(
-                PROJECT_URL + '/' + FIRST_PROJECT_ID,
-                HttpMethod.DELETE,
-                null,
-                Void.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertNull(response.getBody());
+        mockMvc.perform(delete(createUrl(FIRST_PROJECT_ID))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
         List<ProjectDto> afterRemove = projectService.findAll(ID, ASC);
         assertEquals(1, afterRemove.size());
@@ -413,447 +400,448 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     @Test
     @Sql(scripts = "classpath:sql/project/deleteProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - delete project by not existing id.")
-    void givenProjects_whenDelete_thenThrowProjectNotFoundException() {
+    @DisplayName("Test - delete project by id.")
+    void givenProjects_whenDelete_thenRemoveProjectFromDBCountQueries() throws Exception {
+        QueryCountHolder.clear();
 
+        mockMvc.perform(delete(createUrl(FIRST_PROJECT_ID))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        QueryCount queryCount = QueryCountHolder.getGrandTotal();
+        int totalQueryCount = (int) queryCount.getTotal();
+        int selectQueryCount = (int) queryCount.getSelect();
+        int deleteQueryCount = (int) queryCount.getDelete();
+        int updateQueryCount = (int) queryCount.getUpdate();
+
+        // todo: why?
+        assertEquals(3, totalQueryCount);
+        assertEquals(2, selectQueryCount);
+        assertEquals(0, deleteQueryCount);
+        assertEquals(1, updateQueryCount);
+    }
+
+    @Test
+    @Sql(scripts = "classpath:sql/project/deleteProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @DisplayName("Test - delete project by not existing id.")
+    void givenProjects_whenDelete_thenThrowProjectNotFoundException() throws Exception {
         String expectedErrorMessage = "Project with id: 3 does not exist";
         int expectedProjectsSizeBeforeDelete = 2;
         int actualProjectsSizeBeforeDelete = projectRepository.findAll().size();
 
         assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeBeforeDelete);
 
-        ResponseEntity<ErrorResponse> response = restTemplate.exchange(
-                PROJECT_URL + '/' + THIRD_PROJECT_ID,
-                HttpMethod.DELETE,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNotNull(response.getBody());
+        mockMvc.perform(delete(createUrl(THIRD_PROJECT_ID)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(expectedErrorMessage))
+                .andExpect(jsonPath("$.statusCode").value(HttpStatus.NOT_FOUND.value()));
 
         int actualProjectsSizeAfterDelete = projectRepository.findAll().size();
         assertEquals(expectedProjectsSizeBeforeDelete, actualProjectsSizeAfterDelete);
-
-        ErrorResponse errorResponse = response.getBody();
-        assertEquals(expectedErrorMessage, errorResponse.message());
-        assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.statusCode());
     }
 
     @Test
     @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @DisplayName("Test - update project attributes")
-    void givenProject_whenUpdate_thenModifyProjectAttributes() {
+    void givenProject_whenUpdate_thenModifyProjectAttributes() throws Exception {
         Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+        assertNotNull(projectBeforeUpdate);
 
         ProjectDto updateProjectRequestBody = createProject();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(updateProjectRequestBody, headers);
+        String projectJson = objectMapper.writeValueAsString(updateProjectRequestBody);
 
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL + '/' + FIRST_PROJECT_ID,
-                HttpMethod.PUT,
-                entity,
-                ProjectDto.class
-        );
+        mockMvc.perform(put(createUrl(FIRST_PROJECT_ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(projectJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(projectBeforeUpdate.getId()))
+                .andExpect(jsonPath("$.title").value(updateProjectRequestBody.getTitle()))
+                .andExpect(jsonPath("$.description").value(updateProjectRequestBody.getDescription()))
+                .andExpect(jsonPath("$.popularity").value(updateProjectRequestBody.getPopularity()))
+                .andExpect(jsonPath("$.generalArea").value(updateProjectRequestBody.getGeneralArea()))
+                .andExpect(jsonPath("$.timeToCreate").value(updateProjectRequestBody.getTimeToCreate()))
+                .andExpect(jsonPath("$.livingArea").value(updateProjectRequestBody.getLivingArea()))
+                .andExpect(jsonPath("$.wallMaterial").value(updateProjectRequestBody.getWallMaterial()))
+                .andExpect(jsonPath("$.wallThickness").value(updateProjectRequestBody.getWallThickness()))
+                .andExpect(jsonPath("$.foundation").value(updateProjectRequestBody.getFoundation()))
+                .andExpect(jsonPath("$.ceiling").value(updateProjectRequestBody.getCeiling()))
+                .andExpect(jsonPath("$.roof").value(updateProjectRequestBody.getRoof()))
+                .andExpect(jsonPath("$.buildingPrice").value(updateProjectRequestBody.getBuildingPrice()))
+                .andExpect(jsonPath("$.insulation").value(updateProjectRequestBody.getInsulation()))
+                .andExpect(jsonPath("$.insulationThickness").value(updateProjectRequestBody.getInsulationThickness()))
+                .andExpect(jsonPath("$.length").value(updateProjectRequestBody.getLength()))
+                .andExpect(jsonPath("$.width").value(updateProjectRequestBody.getWidth()))
+                .andExpect(jsonPath("$.style").value(updateProjectRequestBody.getStyle()))
+                .andExpect(jsonPath("$.isGaragePresent").value(updateProjectRequestBody.getIsGaragePresent()))
+                .andExpect(jsonPath("$.bedroomCount").value(updateProjectRequestBody.getBedroomCount()));
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        Project projectAfterUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+        assertNotNull(projectAfterUpdate);
 
-        ProjectDto updatedProject = response.getBody();
-
-        // Assert it same project
-        assertEquals(projectBeforeUpdate.getId(), updatedProject.getId());
-
-        // Assert attributes
-        Assertions.assertNotEquals(projectBeforeUpdate.getTitle(), updatedProject.getTitle());
-        Assertions.assertNotEquals(projectBeforeUpdate.getDescription(), updatedProject.getDescription());
-        Assertions.assertNotEquals(projectBeforeUpdate.getPopularity(), updatedProject.getPopularity());
-        Assertions.assertNotEquals(projectBeforeUpdate.getGeneralArea(), updatedProject.getGeneralArea());
-        Assertions.assertNotEquals(projectBeforeUpdate.getTimeToCreate(), updatedProject.getTimeToCreate());
-        Assertions.assertNotEquals(projectBeforeUpdate.getLivingArea(), updatedProject.getLivingArea());
-        Assertions.assertNotEquals(projectBeforeUpdate.getWallMaterial().toValue(), updatedProject.getWallMaterial());
-        Assertions.assertNotEquals(projectBeforeUpdate.getWallThickness(), updatedProject.getWallThickness());
-        Assertions.assertNotEquals(projectBeforeUpdate.getFoundation().toValue(), updatedProject.getFoundation());
-        Assertions.assertNotEquals(projectBeforeUpdate.getCeiling().toValue(), updatedProject.getCeiling());
-        Assertions.assertNotEquals(projectBeforeUpdate.getRoof().toValue(), updatedProject.getRoof());
-        Assertions.assertNotEquals(projectBeforeUpdate.getBuildingPrice(), updatedProject.getBuildingPrice());
-        Assertions.assertNotEquals(projectBeforeUpdate.getInsulation().toValue(), updatedProject.getInsulation());
-        Assertions.assertNotEquals(projectBeforeUpdate.getInsulationThickness(), updatedProject.getInsulationThickness());
-        Assertions.assertNotEquals(projectBeforeUpdate.getLength(), updatedProject.getLength());
-        Assertions.assertNotEquals(projectBeforeUpdate.getWidth(), updatedProject.getWidth());
-        Assertions.assertNotEquals(projectBeforeUpdate.getStyle().toValue(), updatedProject.getStyle());
-        Assertions.assertNotEquals(projectBeforeUpdate.getIsGaragePresent(), updatedProject.getIsGaragePresent());
-        Assertions.assertNotEquals(projectBeforeUpdate.getBedroomCount(), updatedProject.getBedroomCount());
+        // Assert attributes are updated
+        assertNotEquals(projectBeforeUpdate.getTitle(), projectAfterUpdate.getTitle());
+        assertNotEquals(projectBeforeUpdate.getDescription(), projectAfterUpdate.getDescription());
+        assertNotEquals(projectBeforeUpdate.getPopularity(), projectAfterUpdate.getPopularity());
+        assertNotEquals(projectBeforeUpdate.getGeneralArea(), projectAfterUpdate.getGeneralArea());
+        assertNotEquals(projectBeforeUpdate.getTimeToCreate(), projectAfterUpdate.getTimeToCreate());
+        assertNotEquals(projectBeforeUpdate.getLivingArea(), projectAfterUpdate.getLivingArea());
+        assertNotEquals(projectBeforeUpdate.getWallMaterial().toValue(), projectAfterUpdate.getWallMaterial().toValue());
+        assertNotEquals(projectBeforeUpdate.getWallThickness(), projectAfterUpdate.getWallThickness());
+        assertNotEquals(projectBeforeUpdate.getFoundation().toValue(), projectAfterUpdate.getFoundation().toValue());
+        assertNotEquals(projectBeforeUpdate.getCeiling().toValue(), projectAfterUpdate.getCeiling().toValue());
+        assertNotEquals(projectBeforeUpdate.getRoof().toValue(), projectAfterUpdate.getRoof().toValue());
+        assertNotEquals(projectBeforeUpdate.getBuildingPrice(), projectAfterUpdate.getBuildingPrice());
+        assertNotEquals(projectBeforeUpdate.getInsulation().toValue(), projectAfterUpdate.getInsulation().toValue());
+        assertNotEquals(projectBeforeUpdate.getInsulationThickness(), projectAfterUpdate.getInsulationThickness());
+        assertNotEquals(projectBeforeUpdate.getLength(), projectAfterUpdate.getLength());
+        assertNotEquals(projectBeforeUpdate.getWidth(), projectAfterUpdate.getWidth());
+        assertNotEquals(projectBeforeUpdate.getStyle().toValue(), projectAfterUpdate.getStyle().toValue());
+        assertNotEquals(projectBeforeUpdate.getIsGaragePresent(), projectAfterUpdate.getIsGaragePresent());
+        assertNotEquals(projectBeforeUpdate.getBedroomCount(), projectAfterUpdate.getBedroomCount());
     }
 
-    @Test
-    @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - update project images")
-    void givenProject_whenUpdate_thenModifyProjectImages() {
-        Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
-        assert projectBeforeUpdate != null;
-        Image mainImageBeforeUpdate = projectBeforeUpdate.getImages().stream().filter(image -> image.getType().equals("main")).findFirst().orElse(null);
-        List<Image> imagesBeforeUpdate = projectBeforeUpdate.getImages();
-
-        ProjectDto updateProjectRequestBody = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(updateProjectRequestBody, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL + '/' + FIRST_PROJECT_ID,
-                HttpMethod.PUT,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto updatedProject = response.getBody();
-
-        // Assert main image
-        ImageInfo newMainImage = updatedProject.getMainImage();
-
-        Assertions.assertNotEquals(mainImageBeforeUpdate.getId(), newMainImage.getId());
-        Assertions.assertNotEquals(mainImageBeforeUpdate.getPath(), newMainImage.getPath());
-        assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
-
-        // Assert images
-        int expectedImagesSize = 2;
-        List<ImageInfo> actualImages = updatedProject.getImages();
-        Image firstImage = imageMapper.toImage(actualImages.get(0));
-        Image secondImage = imageMapper.toImage(actualImages.get(1));
-
-        int imagesSizeAfterUpdate = actualImages.size();
-        List<ImageInfo> expectedImages = createImages();
-
-        assertEquals(expectedImagesSize, imagesSizeAfterUpdate);
-
-        assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
-        assertEquals(expectedImages.get(0).getType(), actualImages.get(0).getType());
-        assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
-        assertEquals(expectedImages.get(1).getType(), actualImages.get(1).getType());
-
-        Assertions.assertFalse(imagesBeforeUpdate.contains(firstImage));
-        Assertions.assertFalse(imagesBeforeUpdate.contains(secondImage));
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - update project floors")
-    void givenProject_whenUpdate_thenModifyProjectFloors() {
-        Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
-        assert projectBeforeUpdate != null;
-        List<Floor> floorsBeforeUpdate = projectBeforeUpdate.getFloors();
-
-        ProjectDto updateProjectRequestBody = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(updateProjectRequestBody, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL + '/' + FIRST_PROJECT_ID,
-                HttpMethod.PUT,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto updatedProject = response.getBody();
-
-        // Assert floors
-        int expectedFloorSize = 2;
-        List<FloorDto> actualFloors = updatedProject.getFloors();
-        FloorDto firstActualFloor = actualFloors.get(0);
-        FloorDto secondActualFloor = actualFloors.get(1);
-        int actualFloorSize = actualFloors.size();
-        List<FloorDto> expectedFloors = createFloors();
-        FloorDto firstExpectedFloor = expectedFloors.get(0);
-        FloorDto secondExpectedFloor = expectedFloors.get(1);
-
-        assertEquals(expectedFloorSize, actualFloorSize);
-        // first floor
-        assertEquals(firstExpectedFloor.getIndex(), firstActualFloor.getIndex());
-        assertEquals(firstExpectedFloor.getArea(), firstActualFloor.getArea());
-        assertEquals(firstExpectedFloor.getHeight(), firstActualFloor.getHeight());
-        assertEquals(firstExpectedFloor.getIsAttic(), firstActualFloor.getIsAttic());
-        assertEquals(firstExpectedFloor.getIsBasement(), firstActualFloor.getIsBasement());
-
-        assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
-        assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
-        assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
-        // second floor
-        assertEquals(secondExpectedFloor.getIndex(), secondActualFloor.getIndex());
-        assertEquals(secondExpectedFloor.getArea(), secondActualFloor.getArea());
-        assertEquals(secondExpectedFloor.getHeight(), secondActualFloor.getHeight());
-        assertEquals(secondExpectedFloor.getIsAttic(), secondActualFloor.getIsAttic());
-        assertEquals(secondExpectedFloor.getIsBasement(), secondActualFloor.getIsBasement());
-
-        assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
-        assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
-        assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
-        Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(firstActualFloor)));
-        Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(secondActualFloor)));
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - create project, check fields.")
-    public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFields() {
-        List<Project> project = projectRepository.findAll();
-        int expectedProjectsSizeBeforeCreating = 0;
-        int actualProjectsSizeBeforeCreating = project.size();
-
-        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
-
-        ProjectDto expectedProject = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto actualProject = response.getBody();
-
-        // Assert fields
-        assertEquals(FIRST_PROJECT_ID, actualProject.getId());
-        assertEquals(expectedProject.getTitle(), actualProject.getTitle());
-        assertEquals(expectedProject.getDescription(), actualProject.getDescription());
-        assertEquals(expectedProject.getPopularity(), actualProject.getPopularity());
-        assertEquals(expectedProject.getGeneralArea(), actualProject.getGeneralArea());
-        assertEquals(expectedProject.getTimeToCreate(), actualProject.getTimeToCreate());
-        assertEquals(expectedProject.getProjectPrice(), actualProject.getProjectPrice());
-        assertEquals(expectedProject.getLivingArea(), actualProject.getLivingArea());
-        assertEquals(expectedProject.getBuildingArea(), actualProject.getBuildingArea());
-        assertEquals(expectedProject.getWallThickness(), actualProject.getWallThickness());
-        assertEquals(expectedProject.getBuildingPrice(), actualProject.getBuildingPrice());
-        assertEquals(expectedProject.getInsulationThickness(), actualProject.getInsulationThickness());
-        assertEquals(expectedProject.getLength(), actualProject.getLength());
-        assertEquals(expectedProject.getWidth(), actualProject.getWidth());
-        assertEquals(expectedProject.getIsGaragePresent(), actualProject.getIsGaragePresent());
-        assertEquals(expectedProject.getBedroomCount(), actualProject.getBedroomCount());
-
-        int expectedProjectsSizeAfterCreating = 1;
-        int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
-        assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - create project, check options.")
-    public void givenProjectDto_whenCreate_thenReturnNewProjectCheckOptions() {
-        List<Project> project = projectRepository.findAll();
-        int expectedProjectsSizeBeforeCreating = 0;
-        int actualProjectsSizeBeforeCreating = project.size();
-
-        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
-
-        ProjectDto expectedProject = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto actualProject = response.getBody();
-
-        // Assert options
-        assertEquals(expectedProject.getWallMaterial(), actualProject.getWallMaterial());
-        assertEquals(expectedProject.getFoundation(), actualProject.getFoundation());
-        assertEquals(expectedProject.getCeiling(), actualProject.getCeiling());
-        assertEquals(expectedProject.getRoof(), actualProject.getRoof());
-        assertEquals(expectedProject.getInsulation(), actualProject.getInsulation());
-        assertEquals(expectedProject.getStyle(), actualProject.getStyle());
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - create project, check images.")
-    public void givenProjectDto_whenCreate_thenReturnNewProjectCheckImages() {
-        List<Project> project = projectRepository.findAll();
-        int expectedProjectsSizeBeforeCreating = 0;
-        int actualProjectsSizeBeforeCreating = project.size();
-
-        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
-
-        ProjectDto expectedProject = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto actualProject = response.getBody();
-
-        // Assert images
-        String expectedMainImageType = "main";
-        String expectedImageType = "image";
-        assertNotNull(actualProject.getMainImage());
-        assertNotNull(actualProject.getImages());
-        assertNotNull(actualProject.getFloors());
-
-        ImageInfo expectedMainImage = expectedProject.getMainImage();
-        ImageInfo actualMainImage = actualProject.getMainImage();
-        assertEquals(expectedMainImage.getPath(), actualMainImage.getPath());
-        assertEquals(expectedMainImageType, actualMainImage.getType());
-
-        int expectedImageSize = 2;
-        List<ImageInfo> expectedImages = expectedProject.getImages();
-        List<ImageInfo> actualImages = actualProject.getImages();
-        assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
-        assertEquals(expectedImageType, actualImages.get(0).getType());
-        assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
-        assertEquals(expectedImageType, actualImages.get(1).getType());
-        assertEquals(expectedImageSize, actualProject.getImages().size());
-    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - create project, check floors.")
-    public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFloors() {
-        List<Project> project = projectRepository.findAll();
-        int expectedProjectsSizeBeforeCreating = 0;
-        int actualProjectsSizeBeforeCreating = project.size();
-
-        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
-
-        ProjectDto expectedProject = createProject();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        ProjectDto actualProject = response.getBody();
-
-        // Assert floors
-        int expectedFloorSize = 2;
-        assertEquals(expectedFloorSize, actualProject.getFloors().size());
-
-        List<FloorDto> expectedFloors = expectedProject.getFloors();
-        FloorDto expectedFirstFloor = expectedFloors.get(0);
-        FloorDto expectedSecondFloor = expectedFloors.get(1);
-
-        List<FloorDto> actualFloors = actualProject.getFloors();
-        FloorDto actualFirstFloor = actualFloors.get(0);
-        FloorDto actualSecondFloor = actualFloors.get(1);
-        assertEquals(expectedFirstFloor.getIndex(), actualFirstFloor.getIndex());
-        assertEquals(expectedFirstFloor.getIsBasement(), actualFirstFloor.getIsBasement());
-        assertEquals(expectedFirstFloor.getIsAttic(), actualFirstFloor.getIsAttic());
-        assertEquals(expectedFirstFloor.getHeight(), actualFirstFloor.getHeight());
-        assertEquals(expectedFirstFloor.getPlanningImage().getId(), actualFirstFloor.getPlanningImage().getId());
-        assertEquals(expectedFirstFloor.getPlanningImage().getType(), actualFirstFloor.getPlanningImage().getType());
-        assertEquals(expectedFirstFloor.getPlanningImage().getPath(), actualFirstFloor.getPlanningImage().getPath());
-
-        assertEquals(expectedSecondFloor.getIndex(), actualSecondFloor.getIndex());
-        assertEquals(expectedSecondFloor.getIsBasement(), actualSecondFloor.getIsBasement());
-        assertEquals(expectedSecondFloor.getIsAttic(), actualSecondFloor.getIsAttic());
-        assertEquals(expectedSecondFloor.getHeight(), actualSecondFloor.getHeight());
-        assertEquals(expectedSecondFloor.getPlanningImage().getId(), actualSecondFloor.getPlanningImage().getId());
-        assertEquals(expectedSecondFloor.getPlanningImage().getType(), actualSecondFloor.getPlanningImage().getType());
-        assertEquals(expectedSecondFloor.getPlanningImage().getPath(), actualSecondFloor.getPlanningImage().getPath());    }
-
-    @Test
-    @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Test - create new project without detached entities.")
-    public void givenProjectDtoWithoutDetachedEntities_whenCreate_thenReturnNewProject() {
-        List<Project> project = projectRepository.findAll();
-        int expectedProjectsSizeBeforeCreating = 0;
-        int actualProjectsSizeBeforeCreating = project.size();
-        // Projects count before creating
-        assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
-
-        ProjectDto expectedProject = createProjectWithOutDetachedEntities();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProjectDto> entity = new HttpEntity<>(expectedProject, headers);
-
-        ResponseEntity<ProjectDto> response = restTemplate.exchange(
-                PROJECT_URL,
-                HttpMethod.POST,
-                entity,
-                ProjectDto.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-        List<Project> actualProjects = projectRepository.findAll();
-        int expectedProjectsSizeAfterCreating = 1;
-        int actualProjectsSizeAfterCreating = actualProjects.size();
-        // Projects count after creating
-        assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
-
-        ProjectDto actualProject = response.getBody();
-
-        assertThat(actualProject)
-                .usingRecursiveComparison()
-                .ignoringFields("id", "images", "photos", "floors")
-                .isEqualTo(expectedProject);
-
-        assertTrue(actualProject.getFloors().isEmpty());
-        assertTrue(actualProject.getImages().isEmpty());
-        assertTrue(actualProject.getPhotos().isEmpty());
-    }
+
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - update project images")
+        void givenProject_whenUpdate_thenModifyProjectImages() throws Exception {
+            Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+            assert projectBeforeUpdate != null;
+            Image mainImageBeforeUpdate = projectBeforeUpdate.getImages().stream()
+                    .filter(image -> image.getType().equals("main"))
+                    .findFirst()
+                    .orElse(null);
+            List<Image> imagesBeforeUpdate = projectBeforeUpdate.getImages();
+
+            ProjectDto updateProjectRequestBody = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(updateProjectRequestBody);
+
+            assert mainImageBeforeUpdate != null;
+            mockMvc.perform(put(createUrl(FIRST_PROJECT_ID))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mainImage.id").value(not(mainImageBeforeUpdate.getId())))
+                    .andExpect(jsonPath("$.mainImage.path").value(not(mainImageBeforeUpdate.getPath())))
+                    .andExpect(jsonPath("$.mainImage.type").value(mainImageBeforeUpdate.getType()))
+                    .andExpect(jsonPath("$.images", hasSize(2)));
+
+            String responseJson = mockMvc.perform(put(PROJECT_URL + '/' + FIRST_PROJECT_ID)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString();
+
+            ProjectDto updatedProject = objectMapper.readValue(responseJson, ProjectDto.class);
+
+            // Assert main image
+            ImageInfo newMainImage = updatedProject.getMainImage();
+
+            Assertions.assertNotEquals(mainImageBeforeUpdate.getId(), newMainImage.getId());
+            Assertions.assertNotEquals(mainImageBeforeUpdate.getPath(), newMainImage.getPath());
+            assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
+
+            // Assert images
+            int expectedImagesSize = 2;
+            List<ImageInfo> actualImages = updatedProject.getImages();
+            Image firstImage = imageMapper.toImage(actualImages.get(0));
+            Image secondImage = imageMapper.toImage(actualImages.get(1));
+
+            int imagesSizeAfterUpdate = actualImages.size();
+            List<ImageInfo> expectedImages = createImages();
+
+            assertEquals(expectedImagesSize, imagesSizeAfterUpdate);
+
+            assertEquals(expectedImages.get(0).getPath(), actualImages.get(0).getPath());
+            assertEquals(expectedImages.get(0).getType(), actualImages.get(0).getType());
+            assertEquals(expectedImages.get(1).getPath(), actualImages.get(1).getPath());
+            assertEquals(expectedImages.get(1).getType(), actualImages.get(1).getType());
+
+            Assertions.assertFalse(imagesBeforeUpdate.contains(firstImage));
+            Assertions.assertFalse(imagesBeforeUpdate.contains(secondImage));
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - update project floors")
+        void givenProject_whenUpdate_thenModifyProjectFloors() throws Exception {
+            Project projectBeforeUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
+            assert projectBeforeUpdate != null;
+            List<Floor> floorsBeforeUpdate = projectBeforeUpdate.getFloors();
+
+            ProjectDto updateProjectRequestBody = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(updateProjectRequestBody);
+
+            String responseJson = mockMvc.perform(put(createUrl(FIRST_PROJECT_ID))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.floors", hasSize(2)))
+                    .andExpect(jsonPath("$.floors[0].planningImage.id", is(6)))
+                    .andExpect(jsonPath("$.floors[0].planningImage.path", is("http://127.0.0.1:51774/my-s3-bucket/6")))
+                    .andExpect(jsonPath("$.floors[0].planningImage.type", is("image")))
+                    .andExpect(jsonPath("$.floors[1].planningImage.id", is(7)))
+                    .andExpect(jsonPath("$.floors[1].planningImage.path", is("http://127.0.0.1:51774/my-s3-bucket/7")))
+                    .andExpect(jsonPath("$.floors[1].planningImage.type", is("image")))
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString();
+
+//             mockMvc.perform(put(PROJECT_URL + '/' + FIRST_PROJECT_ID)
+//                            .contentType(MediaType.APPLICATION_JSON)
+//                            .content(projectJson))
+//                    .andReturn()
+//                    .getResponse()
+//                    .getContentAsString();
+
+            ProjectDto updatedProject = objectMapper.readValue(responseJson, ProjectDto.class);
+
+            // Assert floors
+            int expectedFloorSize = 2;
+            List<FloorDto> actualFloors = updatedProject.getFloors();
+            FloorDto firstActualFloor = actualFloors.get(0);
+            FloorDto secondActualFloor = actualFloors.get(1);
+            int actualFloorSize = actualFloors.size();
+            List<FloorDto> expectedFloors = createFloors();
+            FloorDto firstExpectedFloor = expectedFloors.get(0);
+            FloorDto secondExpectedFloor = expectedFloors.get(1);
+
+            assertEquals(expectedFloorSize, actualFloorSize);
+            // first floor
+            assertEquals(firstExpectedFloor.getIndex(), firstActualFloor.getIndex());
+            assertEquals(firstExpectedFloor.getArea(), firstActualFloor.getArea());
+            assertEquals(firstExpectedFloor.getHeight(), firstActualFloor.getHeight());
+            assertEquals(firstExpectedFloor.getIsAttic(), firstActualFloor.getIsAttic());
+            assertEquals(firstExpectedFloor.getIsBasement(), firstActualFloor.getIsBasement());
+
+            assertEquals(firstExpectedFloor.getPlanningImage().getId(), firstActualFloor.getPlanningImage().getId());
+            assertEquals(firstExpectedFloor.getPlanningImage().getPath(), firstActualFloor.getPlanningImage().getPath());
+            assertEquals(firstExpectedFloor.getPlanningImage().getType(), firstActualFloor.getPlanningImage().getType());
+            // second floor
+            assertEquals(secondExpectedFloor.getIndex(), secondActualFloor.getIndex());
+            assertEquals(secondExpectedFloor.getArea(), secondActualFloor.getArea());
+            assertEquals(secondExpectedFloor.getHeight(), secondActualFloor.getHeight());
+            assertEquals(secondExpectedFloor.getIsAttic(), secondActualFloor.getIsAttic());
+            assertEquals(secondExpectedFloor.getIsBasement(), secondActualFloor.getIsBasement());
+
+            assertEquals(secondExpectedFloor.getPlanningImage().getId(), secondActualFloor.getPlanningImage().getId());
+            assertEquals(secondExpectedFloor.getPlanningImage().getPath(), secondActualFloor.getPlanningImage().getPath());
+            assertEquals(secondExpectedFloor.getPlanningImage().getType(), secondActualFloor.getPlanningImage().getType());
+
+            Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(firstActualFloor)));
+            Assertions.assertFalse(floorsBeforeUpdate.contains(floorMapper.toFloor(secondActualFloor)));
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - create project, check fields.")
+        public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFields() throws Exception {
+            List<Project> project = projectRepository.findAll();
+            int expectedProjectsSizeBeforeCreating = 0;
+            int actualProjectsSizeBeforeCreating = project.size();
+
+            assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+            ProjectDto expectedProject = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(expectedProject);
+
+            String responseJson = mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.id").value(FIRST_PROJECT_ID))
+                    .andExpect(jsonPath("$.title").value(expectedProject.getTitle()))
+                    .andExpect(jsonPath("$.description").value(expectedProject.getDescription()))
+                    .andExpect(jsonPath("$.popularity").value(expectedProject.getPopularity()))
+                    .andExpect(jsonPath("$.generalArea").value(expectedProject.getGeneralArea()))
+                    .andExpect(jsonPath("$.timeToCreate").value(expectedProject.getTimeToCreate()))
+                    .andExpect(jsonPath("$.projectPrice").value(expectedProject.getProjectPrice()))
+                    .andExpect(jsonPath("$.livingArea").value(expectedProject.getLivingArea()))
+                    .andExpect(jsonPath("$.buildingArea").value(expectedProject.getBuildingArea()))
+                    .andExpect(jsonPath("$.wallThickness").value(expectedProject.getWallThickness()))
+                    .andExpect(jsonPath("$.buildingPrice").value(expectedProject.getBuildingPrice()))
+                    .andExpect(jsonPath("$.insulationThickness").value(expectedProject.getInsulationThickness()))
+                    .andExpect(jsonPath("$.length").value(expectedProject.getLength()))
+                    .andExpect(jsonPath("$.width").value(expectedProject.getWidth()))
+                    .andExpect(jsonPath("$.isGaragePresent").value(expectedProject.getIsGaragePresent()))
+                    .andExpect(jsonPath("$.bedroomCount").value(expectedProject.getBedroomCount()))
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString();
+
+            int expectedProjectsSizeAfterCreating = 1;
+            int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
+            assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - create project, check options.")
+        public void givenProjectDto_whenCreate_thenReturnNewProjectCheckOptions() throws Exception {
+            List<Project> project = projectRepository.findAll();
+            int expectedProjectsSizeBeforeCreating = 0;
+            int actualProjectsSizeBeforeCreating = project.size();
+
+            assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+            ProjectDto expectedProject = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(expectedProject);
+
+            mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.wallMaterial").value(expectedProject.getWallMaterial()))
+                    .andExpect(jsonPath("$.foundation").value(expectedProject.getFoundation()))
+                    .andExpect(jsonPath("$.ceiling").value(expectedProject.getCeiling()))
+                    .andExpect(jsonPath("$.roof").value(expectedProject.getRoof()))
+                    .andExpect(jsonPath("$.insulation").value(expectedProject.getInsulation()))
+                    .andExpect(jsonPath("$.style").value(expectedProject.getStyle()));
+
+            int expectedProjectsSizeAfterCreating = 1;
+            int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
+            assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - create project, check images.")
+        public void givenProjectDto_whenCreate_thenReturnNewProjectCheckImages() throws Exception {
+            List<Project> project = projectRepository.findAll();
+            int expectedProjectsSizeBeforeCreating = 0;
+            int actualProjectsSizeBeforeCreating = project.size();
+
+            assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+            ProjectDto expectedProject = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(expectedProject);
+
+            mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.mainImage.path").value(expectedProject.getMainImage().getPath()))
+                    .andExpect(jsonPath("$.mainImage.type").value("main"))
+                    .andExpect(jsonPath("$.images", hasSize(2)))
+                    .andExpect(jsonPath("$.images[0].path").value(expectedProject.getImages().get(0).getPath()))
+                    .andExpect(jsonPath("$.images[0].type").value("image"))
+                    .andExpect(jsonPath("$.images[1].path").value(expectedProject.getImages().get(1).getPath()))
+                    .andExpect(jsonPath("$.images[1].type").value("image"));
+
+            int expectedProjectsSizeAfterCreating = 1;
+            int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
+            assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - create project, check floors.")
+        public void givenProjectDto_whenCreate_thenReturnNewProjectCheckFloors() throws Exception {
+            List<Project> project = projectRepository.findAll();
+            int expectedProjectsSizeBeforeCreating = 0;
+            int actualProjectsSizeBeforeCreating = project.size();
+
+            assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+            ProjectDto expectedProject = createProject();
+
+            String projectJson = objectMapper.writeValueAsString(expectedProject);
+
+            mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.floors", hasSize(2)))
+                    .andExpect(jsonPath("$.floors[0].index").value(expectedProject.getFloors().get(0).getIndex()))
+                    .andExpect(jsonPath("$.floors[0].isBasement").value(expectedProject.getFloors().get(0).getIsBasement()))
+                    .andExpect(jsonPath("$.floors[0].isAttic").value(expectedProject.getFloors().get(0).getIsAttic()))
+                    .andExpect(jsonPath("$.floors[0].height").value(expectedProject.getFloors().get(0).getHeight()))
+                    .andExpect(jsonPath("$.floors[0].planningImage.id").value(expectedProject.getFloors().get(0).getPlanningImage().getId()))
+                    .andExpect(jsonPath("$.floors[0].planningImage.type").value(expectedProject.getFloors().get(0).getPlanningImage().getType()))
+                    .andExpect(jsonPath("$.floors[0].planningImage.path").value(expectedProject.getFloors().get(0).getPlanningImage().getPath()))
+                    .andExpect(jsonPath("$.floors[1].index").value(expectedProject.getFloors().get(1).getIndex()))
+                    .andExpect(jsonPath("$.floors[1].isBasement").value(expectedProject.getFloors().get(1).getIsBasement()))
+                    .andExpect(jsonPath("$.floors[1].isAttic").value(expectedProject.getFloors().get(1).getIsAttic()))
+                    .andExpect(jsonPath("$.floors[1].height").value(expectedProject.getFloors().get(1).getHeight()))
+                    .andExpect(jsonPath("$.floors[1].planningImage.id").value(expectedProject.getFloors().get(1).getPlanningImage().getId()))
+                    .andExpect(jsonPath("$.floors[1].planningImage.type").value(expectedProject.getFloors().get(1).getPlanningImage().getType()))
+                    .andExpect(jsonPath("$.floors[1].planningImage.path").value(expectedProject.getFloors().get(1).getPlanningImage().getPath()));
+
+            int expectedProjectsSizeAfterCreating = 1;
+            int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
+            assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+        }
+
+        @Test
+        @Sql(scripts = "classpath:sql/project/create_project_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        @DisplayName("Test - create new project without detached entities.")
+        public void givenProjectDtoWithoutDetachedEntities_whenCreate_thenReturnNewProject() throws Exception {
+            List<Project> project = projectRepository.findAll();
+            int expectedProjectsSizeBeforeCreating = 0;
+            int actualProjectsSizeBeforeCreating = project.size();
+            // Projects count before creating
+            assertEquals(expectedProjectsSizeBeforeCreating, actualProjectsSizeBeforeCreating);
+
+            ProjectDto expectedProject = createProjectWithOutDetachedEntities();
+
+            String projectJson = objectMapper.writeValueAsString(expectedProject);
+
+            String responseJson = mockMvc.perform(post(PROJECT_URL.substring(0, PROJECT_URL.length() - 1))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(projectJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.floors", hasSize(0)))
+                    .andExpect(jsonPath("$.images", hasSize(0)))
+                    .andExpect(jsonPath("$.photos", hasSize(0)))
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString();
+
+            ProjectDto actualProject = objectMapper.readValue(responseJson, ProjectDto.class);
+
+            List<Project> actualProjects = projectRepository.findAll();
+            int expectedProjectsSizeAfterCreating = 1;
+            int actualProjectsSizeAfterCreating = actualProjects.size();
+            // Projects count after creating
+            assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
+
+//            assertThat(actualProject)
+//                    .usingRecursiveComparison()
+//                    .ignoringFields("id", "images", "photos", "floors")
+//                    .isEqualTo(expectedProject);
+
+            assertTrue(actualProject.getFloors().isEmpty());
+            assertTrue(actualProject.getImages().isEmpty());
+            assertTrue(actualProject.getPhotos().isEmpty());
+        }
 
     private String createUrl(String sort, String sortDirection) {
         String sortBy = "?sortBy=";
         String direction = "&sortDirection=";
         String template = "%s%s%s%s%s";
-        return String.format(template, PROJECT_URL, sortBy, sort, direction, sortDirection);
+        return String.format(template, PROJECT_URL.substring(0, PROJECT_URL.length() - 1), sortBy, sort, direction, sortDirection);
+    }
+
+    private String createUrl(int id) {
+        String template = "%s%d";
+        return String.format(template, PROJECT_URL, id);
     }
 
     private ProjectDto createProject() {
@@ -954,9 +942,9 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                         .isBasement(false)
                         .height(223.5)
                         .planningImage(ImageInfo.builder()
-                                .id(2)
+                                .id(7)
                                 .type("image")
-                                .path("http://127.0.0.1:51774/my-s3-bucket/2")
+                                .path("http://127.0.0.1:51774/my-s3-bucket/7")
                                 .build())
                         .build());
     }

@@ -85,18 +85,18 @@ public interface ProjectMapper {
             existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
         }
 
-        for (Floor floor : floors) {
-            floor.setProject(project);
-            existingFloors.add(floor);
-        }
-
 //        for (Floor floor : floors) {
 //            floor.setProject(project);
-//            if (floor.getPlanningImage() != null) {
-//                floor.getPlanningImage().setProject(project);
-//            }
 //            existingFloors.add(floor);
 //        }
+
+        for (Floor floor : floors) {
+            floor.setProject(project);
+            if (floor.getPlanningImage() != null) {
+                floor.getPlanningImage().setProject(project);
+            }
+            existingFloors.add(floor);
+        }
     }
 
     @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")

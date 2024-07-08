@@ -12,6 +12,7 @@ import com.appro.mapper.FloorMapper;
 import com.appro.mapper.ImageMapper;
 import com.appro.mapper.ProjectMapper;
 import com.appro.repository.ProjectRepository;
+import com.appro.service.FloorService;
 import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -36,6 +38,7 @@ public class DefaultProjectService implements ProjectService {
     private static final String CREATED_AT = "createdAt";
 
     private final ImageService imageService;
+    private final FloorService floorService;
 
     private final ProjectMapper projectMapper;
     private final FloorMapper floorMapper;
@@ -72,13 +75,10 @@ public class DefaultProjectService implements ProjectService {
         Project project = findProjectById(id);
         List<Image> imagesToDelete = getImagesForDeleteFromS3(projectDto, project);
 
-        try {
             project = applyChangesAndSave(projectDto, project);
             imageService.removeImages(imageMapper.toImageInfoList(imagesToDelete));
             log.info("Updated project with id: {}", id);
-        } catch (Exception e) {
-            throw new ProjectException(id);
-        }
+
         return projectMapper.toProjectDto(project);
     }
 

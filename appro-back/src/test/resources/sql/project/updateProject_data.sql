@@ -40,3 +40,6 @@ VALUES ('http://127.0.0.1:51774/my-s3-bucket/8',
 
 INSERT INTO floor (index, is_attic, is_basement, area, height, image_id, project_id)
 VALUES (0, false, true, 84.0, 2.5, 2, 1);
+
+INSERT INTO floor (index, is_attic, is_basement, area, height, image_id, project_id)
+VALUES (1, true, false, 84.0, 2.5, 2, 1);

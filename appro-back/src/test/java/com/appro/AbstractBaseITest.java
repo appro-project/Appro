@@ -1,5 +1,6 @@
 package com.appro;
 
+import com.appro.config.DataSourceTestConfiguration;
 import com.appro.config.TestAwsConfiguration;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -11,10 +12,11 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestAwsConfiguration.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        classes = {TestAwsConfiguration.class, DataSourceTestConfiguration.class})
 @Testcontainers
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public abstract class AbstractBaseITest {
 
     private static final PostgreSQLContainer<?> POSTGRES_CONTAINER;

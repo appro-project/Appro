@@ -2,6 +2,7 @@ package com.appro.service.impl;
 
 import com.appro.dto.ImageInfo;
 import com.appro.entity.Image;
+import com.appro.exception.ImageNotFoundException;
 import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.service.ImageService;
@@ -24,6 +25,12 @@ public class DefaultImageService implements ImageService {
 
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Image findById(int id) {
+        return imageRepository.findById(id).orElseThrow(() -> new ImageNotFoundException(id));
+    }
 
     @Override
     @Transactional
