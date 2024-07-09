@@ -7,8 +7,6 @@ import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.service.ImageService;
 import com.appro.service.S3BucketService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,12 +25,6 @@ public class DefaultImageService implements ImageService {
 
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
-
-    @Override
-    @Transactional(readOnly = true)
-    public Image findById(int id) {
-        return imageRepository.findById(id).orElseThrow(() -> new ImageNotFoundException(id));
-    }
 
     @Override
     @Transactional
@@ -64,23 +56,14 @@ public class DefaultImageService implements ImageService {
                     return existingImage;
                 })
                 .orElseGet(() -> imageMapper.toImage(imageInfo));
-//        return imageRepository.findById(imageInfo.getId())
-//                .map(existingImage -> {
-//                    existingImage.setPath(imageInfo.getPath());
-//                    existingImage.setType(imageInfo.getType());
-//                    return existingImage;
-//                })
-//                .orElseGet(() -> {
-//                    return imageMapper.toImage(imageInfo);
-//                });
     }
 
     @Override
-    public void removeImages(List<ImageInfo> imageInfos) {
-        List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
+    public void removeImages(List<Image> images) {
+       // List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
         log.info("Starting to delete images from S3 storage.");
-        imageList.forEach(s3Service::delete);
+        images.forEach(s3Service::delete);
         log.info("Images successfully deleted from S3. Proceeding to delete images from database.");
-        imageRepository.deleteAll(imageList);
+        imageRepository.deleteAll(images);
     }
 }

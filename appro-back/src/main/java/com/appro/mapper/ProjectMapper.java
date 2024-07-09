@@ -36,31 +36,32 @@ public interface ProjectMapper {
     }
 
     default void updateImages(Project project, List<Image> images) {
-        List<Image> existingImages = project.getImages() == null ? new ArrayList<>() : new ArrayList<>(project.getImages());
-
-        if (existingImages.isEmpty()) {
-            existingImages = new ArrayList<>();
-            project.setImages(existingImages);
-        } else {
-            Set<Integer> newImageIds = images.stream()
-                    .map(Image::getId)
-                    .collect(Collectors.toSet());
-
-            existingImages.removeIf(existingImage ->
-                    !"main".equals(existingImage.getType()) &&
-                    !newImageIds.contains(existingImage.getId())
-            );
+        List<Image> currentImages = project.getImages();
+        if (currentImages == null) {
+            currentImages = new ArrayList<>();
+            project.setImages(currentImages);
         }
-        Set<Integer> existingImageIds = existingImages.stream()
-                .map(Image::getId)
-                .collect(Collectors.toSet());
 
-        for (Image newImage : images) {
-            if (!existingImageIds.contains(newImage.getId()) && !newImage.getType().equals("main")) {
-                newImage.setProject(project);
-                existingImages.add(newImage);
+        Map<Integer, Image> newImageMap = images.stream()
+                .collect(Collectors.toMap(Image::getId, image -> image));
+
+        List<Image> imagesToRemove = new ArrayList<>(currentImages);
+        imagesToRemove.removeIf(image -> newImageMap.containsKey(image.getId()) || "main".equals(image.getType()));
+
+        for (Image image : imagesToRemove) {
+            image.setProject(null);
+        }
+
+        currentImages.clear();
+
+        for (Image image : images) {
+            if (!"main".equals(image.getType())) {
+                image.setProject(project);
             }
+            currentImages.add(image);
         }
+
+        project.setImages(currentImages);
     }
 
     default void updateMainImage(Project project, Image mainImage) {
@@ -96,6 +97,65 @@ public interface ProjectMapper {
             existingFloors.add(floor);
         }
     }
+//default void updateFloors(Project project, List<Floor> floors) {
+//    List<Floor> existingFloors = project.getFloors() == null ? new ArrayList<>() : new ArrayList<>(project.getFloors());
+//
+//    if (floors == null) {
+//        // Якщо floors == null, відв'язуємо всі поверхи та їх зображення
+//        for (Floor floor : existingFloors) {
+//            floor.setProject(null);
+//            if (floor.getPlanningImage() != null) {
+//                floor.getPlanningImage().setProject(null);
+//            }
+//        }
+//        existingFloors.clear();
+//    } else {
+//        Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
+//
+//        // Видаляємо поверхи, яких немає в новому списку
+//        existingFloors.removeIf(floor -> {
+//            boolean toRemove = !floorsIds.contains(floor.getId());
+//            if (toRemove) {
+//                floor.setProject(null);
+//                if (floor.getPlanningImage() != null) {
+//                    floor.getPlanningImage().setProject(null);
+//                }
+//            }
+//            return toRemove;
+//        });
+//
+//        // Оновлюємо або додаємо нові поверхи
+//        for (Floor newFloor : floors) {
+//            Optional<Floor> existingFloorOpt = existingFloors.stream()
+//                    .filter(floor -> floor.getId().equals(newFloor.getId()))
+//                    .findFirst();
+//
+//            if (existingFloorOpt.isPresent()) {
+//                Floor existingFloor = existingFloorOpt.get();
+//                existingFloor.setArea(newFloor.getArea());
+//                existingFloor.setHeight(newFloor.getHeight());
+//                existingFloor.setIndex(newFloor.getIndex());
+//                existingFloor.setIsAttic(newFloor.getIsAttic());
+//                existingFloor.setIsBasement(newFloor.getIsBasement());
+//                existingFloor.setPlanningImage(newFloor.getPlanningImage());
+//
+//                if (existingFloor.getPlanningImage() != null) {
+//                    existingFloor.getPlanningImage().setProject(project);
+//                }
+//            } else {
+//                newFloor.setProject(project);
+//                if (newFloor.getPlanningImage() != null) {
+//                    newFloor.getPlanningImage().setProject(project);
+//                }
+//                existingFloors.add(newFloor);
+//            }
+//        }
+//    }
+//
+//    project.setFloors(existingFloors);
+//}
+
+
 
     @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")
     @Mapping(target = "insulation", source = "project.insulation", qualifiedByName = "optionInsulationToString")

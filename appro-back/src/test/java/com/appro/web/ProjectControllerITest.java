@@ -11,16 +11,18 @@ import com.appro.exception.ProjectNotFoundException;
 import com.appro.mapper.FloorMapper;
 import com.appro.mapper.ImageMapper;
 import com.appro.repository.ProjectRepository;
-import com.appro.service.ImageService;
 import com.appro.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.ttddyy.dsproxy.QueryCount;
 import net.ttddyy.dsproxy.QueryCountHolder;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,16 +31,9 @@ import org.springframework.web.context.WebApplicationContext;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.not;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,9 +59,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
     private MockMvc mockMvc;
 
-    @LocalServerPort
-    private int port;
-
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -76,8 +68,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private ProjectRepository projectRepository;
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private ImageService imageService;
     @Autowired
     private ImageMapper imageMapper;
     @Autowired
@@ -520,9 +510,15 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                     .andExpect(jsonPath("$.mainImage.id").value(not(mainImageBeforeUpdate.getId())))
                     .andExpect(jsonPath("$.mainImage.path").value(not(mainImageBeforeUpdate.getPath())))
                     .andExpect(jsonPath("$.mainImage.type").value(mainImageBeforeUpdate.getType()))
-                    .andExpect(jsonPath("$.images", hasSize(2)));
+                    .andExpect(jsonPath("$.images", hasSize(2)))
+                    .andExpect(jsonPath("$.images[0].id", is(5)))
+                    .andExpect(jsonPath("$.images[0].path", is("http://127.0.0.1:51774/my-s3-bucket/5")))
+                    .andExpect(jsonPath("$.images[0].type", is("image")))
+                    .andExpect(jsonPath("$.images[1].id", is(8)))
+                    .andExpect(jsonPath("$.images[1].path", is("http://127.0.0.1:51774/my-s3-bucket/8")))
+                    .andExpect(jsonPath("$.images[1].type", is("image")));
 
-            String responseJson = mockMvc.perform(put(PROJECT_URL + '/' + FIRST_PROJECT_ID)
+            String responseJson = mockMvc.perform(put(createUrl(FIRST_PROJECT_ID))
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(projectJson))
                     .andReturn()
@@ -539,7 +535,7 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
             assertEquals(mainImageBeforeUpdate.getType(), newMainImage.getType());
 
             // Assert images
-            int expectedImagesSize = 3; // 2 projects images + 1 planing image
+            int expectedImagesSize = 2;
             List<ImageInfo> actualImages = updatedProject.getImages();
             Image firstImage = imageMapper.toImage(actualImages.get(0));
             Image secondImage = imageMapper.toImage(actualImages.get(1));
@@ -926,9 +922,9 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                         .path("http://127.0.0.1:51774/my-s3-bucket/5")
                         .build(),
                 ImageInfo.builder()
-                        .id(7)
+                        .id(8)
                         .type("image")
-                        .path("http://127.0.0.1:51774/my-s3-bucket/7")
+                        .path("http://127.0.0.1:51774/my-s3-bucket/8")
                         .build());
     }
 
