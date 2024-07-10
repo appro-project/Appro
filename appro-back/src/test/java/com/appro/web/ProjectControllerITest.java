@@ -276,34 +276,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         assertEquals(9, totalQueryCount);
         assertEquals(9, selectQueryCount);
     }
-// todo now() while creating base not work
-    
-//    @Test
-//    @Sql(scripts = "classpath:sql/project/findProjects_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-//    @Sql(scripts = "classpath:sql/truncate_all.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-//    @DisplayName("Test - find all projects, by default values. Sort - 'creating date', direction - 'ASC'.")
-//    void givenProjects_whenFindAll_thenReturnProjectsSortByDefault() throws Exception {
-//        QueryCountHolder.clear();
-//
-//        mockMvc.perform(get(PROJECT_URL)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(4)))
-//                .andExpect(jsonPath("$[0].id").value(FIRST_PROJECT_ID))
-//                .andExpect(jsonPath("$[1].id").value(SECOND_PROJECT_ID))
-//                .andExpect(jsonPath("$[2].id").value(THIRD_PROJECT_ID))
-//                .andExpect(jsonPath("$[3].id").value(FOURTH_PROJECT_ID));
-//
-//        // Assert queries:
-//        QueryCount queryCount = QueryCountHolder.getGrandTotal();
-//        int totalQueryCount = (int) queryCount.getTotal();
-//        int selectQueryCount = (int) queryCount.getSelect();
-//
-//        // todo why 9 ?
-//        assertEquals(9, totalQueryCount);
-//        assertEquals(9, selectQueryCount);
-//    }
-
 
     @Test
     @Sql(scripts = "classpath:sql/project/findProjectById_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -481,8 +453,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         assertNotEquals(projectBeforeUpdate.getIsGaragePresent(), projectAfterUpdate.getIsGaragePresent());
         assertNotEquals(projectBeforeUpdate.getBedroomCount(), projectAfterUpdate.getBedroomCount());
     }
-
-
 
         @Test
         @Sql(scripts = "classpath:sql/project/updateProject_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
