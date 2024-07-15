@@ -126,51 +126,7 @@ export const axiosPostFeedback = async (value: IFeedbackForm) => {
 	return await axiosWithSetting.post(`feedback`, value)
 }
 
-const mapResponseDataToProject = (projectData: any): Project => {
-	const floorList = mapResponseDataToFloorList(projectData.floorList)
-	return {
-		id: projectData.id,
-		title: projectData.title,
-		description: projectData.description,
-		generalArea: projectData.generalArea,
-		timeToCreate: projectData.timeToCreate,
-		projectPrice: projectData.projectPrice,
-		livingArea: projectData.livingArea,
-		buildingArea: projectData.buildingArea,
-		wallMaterial: projectData.wallMaterial,
-		wallThickness: projectData.wallThickness,
-		foundation: projectData.foundation,
-		ceiling: projectData.ceiling,
-		roof: projectData.roof,
-		buildingPrice: projectData.buildingPrice,
-		mainImage: projectData.mainImage,
-		images: projectData.images,
-		photos: projectData.photos,
-		insulation: projectData.insulation,
-		insulationThickness: projectData.insulationThickness,
-		length: projectData.length,
-		width: projectData.width,
-		style: projectData.style,
-		isGaragePresent: projectData.isGaragePresent,
-		bedroomCount: projectData.bedroomCount,
-		floorList: floorList,
-		popularity: projectData.popularity,
-		projectConfig: {
-			showOnMain: projectData.projectConfig.showOnMain,
-			isFinished: projectData.isFinished
-		}
-	}
-}
 
-const mapResponseDataToProjects = (data: any): Project[] => {
-	const projects: Project[] = []
-	for (const projectData of data) {
-		console.log('projectData', projectData)
-		projects.push(mapResponseDataToProject(projectData))
-	}
-
-	return projects
-}
 
 const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
 	const floors: Floor[] = []

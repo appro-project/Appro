@@ -28,9 +28,9 @@ export const App = () => {
     const dispatch = useAppDispatch()
     const projects = useSelector(getProjects)
 
-    useEffect(() => {
-        dispatch(getProjectsFromDb())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getProjectsFromDb())
+    // }, [])
 
     useEffect(() => {
         const projectInLocalStorage: number[] = getProjectInLocalStorage()
@@ -45,6 +45,7 @@ export const App = () => {
             <Routes>
                 <Route element={<AdminLayout/>}>
                     <Route path={'/admin'} element={<Admin/>}/>
+                    <Route path={'/new-admin/project/new'} element={<ProjectInfo/>}/>
                     <Route path={'/new-admin/project/:projectId'} element={<ProjectInfo/>}/>
                     <Route path={'/new-admin'} element={<ProjectsList/>}/>
                 </Route>

@@ -6,12 +6,13 @@ import {ProjectDto} from "@/api/model";
 
 
 
-export const useSaveProject = () => {
+export const useSaveProject = (onSuccess) => {
     const queryClient = useQueryClient()
     return useMutation({mutationFn: axiosSaveProject,
         onSuccess: (value, value2) => {
             queryClient.invalidateQueries({ queryKey: ['project'] })
             queryClient.invalidateQueries({ queryKey: ['project'] })
+            onSuccess();
         },});
 }
 

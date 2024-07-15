@@ -1,50 +1,50 @@
-import {FloorDto} from "@/entity/FloorDto";
-import { Project, ProjectConfig} from "@/entity/Project";
-import {ImageInfo} from "@/api/model";
+import {
+    CeilingOptions,
+    FloorDto,
+    FoundationOptions,
+    ImageInfo,
+    InsulationOptions,
+    ProjectDto, RoofOptions,
+    StyleOptions,
+    WallMaterialOptions
+} from "@/api/model";
 
 export interface ProjectProps {
-    state: State;
+    projectDto: ProjectDto;
     dispatch: (action: ProjectPropAction) => void;
     mode: 'view' | 'edit' | 'add';
 }
 
 export interface ProjectPropAction {
-    type: keyof State
+    type: keyof ProjectDto
     payload: any;
-    initState?: State;
+    initState?: ProjectDto;
 }
 
-export interface State {
-    id?: number;
-    title: string;
-    description: string;
-    generalArea: number | null;
-    timeToCreate: number | null;
-    projectPrice: number | null;
-    livingArea: number | null;
-    buildingArea: number | null;
-    wallMaterial: string;
-    wallThickness: number | null;
-    foundation: string;
-    ceiling: string;
-    roof: string;
-    buildingPrice: number | null;
-    mainImage: ImageInfo | null;
-    images: ImageInfo[] | null;
-    photos: ImageInfo[] | null;
-    insulation: string;
-    insulationThickness: number | null;
-    length: number | null;
-    width: number | null;
-    style: string;
-    isGaragePresent: boolean;
-    bedroomCount: number | null;
-    floorList: FloorDto[];
-    edit?: boolean;
-    add?: boolean;
-    imagesToDelete?: string[];
-    photosToDelete?: string[];
-    imagesToAdd?: ImageInfo[] | null;
-    photosToAdd?: FileList | null;
-    projectConfig: ProjectConfig
+export const initialState:ProjectDto = {
+    id: 0,
+    title: '',
+    style: StyleOptions.Classic,
+    timeToCreate: 0,
+    images: [],
+    photos: [],
+    generalArea: 0,
+    projectPrice: 0,
+    livingArea: 0,
+    buildingArea: 0,
+    wallMaterial: WallMaterialOptions.AeratedConcreteBlock,
+    wallThickness: 0,
+    foundation: FoundationOptions.Pile,
+    ceiling: CeilingOptions.Combined,
+    roof: RoofOptions.Flat,
+    buildingPrice: 0,
+    insulation: InsulationOptions.MineralWool,
+    insulationThickness: 0,
+    length: 0,
+    width: 0,
+    isGaragePresent: false,
+    bedroomCount: 0,
+    description: '',
+    mainImage: undefined,
+    floors: [],
 }

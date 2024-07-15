@@ -1,8 +1,7 @@
-import React, {FC, useEffect, useReducer} from "react";
-import {useDispatch} from "react-redux";
+import React, {FC, useEffect, useReducer, useState} from "react";
 import {useParams} from "react-router";
 import {Box, Button, Paper, Tab, Tabs} from "@mui/material";
-import {ProjectPropAction, State} from "@/pages/new-admin/project-info/model";
+import {initialState, ProjectPropAction} from "@/pages/new-admin/project-info/model";
 import {BasicInfo} from "@/pages/new-admin/project-info/basic-info.component";
 import {ImageData} from "@/pages/new-admin/project-info/images-data.component";
 import {AdditionalInfo} from "@/pages/new-admin/project-info/additional-info.component";
@@ -10,15 +9,18 @@ import {FloorsInfo} from "@/pages/new-admin/project-info/floors-info.component";
 import {useSaveProject} from "@/api/useSaveProject";
 import {ProjectDto} from "@/api/model";
 import {useGetProjectById} from "@/api/useGetProjectById";
-import {useAddImagesToProject} from "@/api/useAddImagesToProject";
+import {CustomSnackbar} from "@/pages/new-admin/custom-snackbar.component";
 
 
 export const ProjectInfo: FC = () => {
     const {projectId} = useParams();
-    const dispatch = useDispatch();
 
-    const {mutate: saveProject} = useSaveProject();
-    const {mutate: saveImages} = useAddImagesToProject();
+    const [openSnackbar, setOpenSnackbar] = useState(true);
+
+
+    const {mutate: saveProject, isPending} = useSaveProject(() => {
+       setOpenSnackbar(true)
+    });
 
     const [tabIndex, setTabIndex] = React.useState(0);
 
@@ -29,7 +31,8 @@ export const ProjectInfo: FC = () => {
 
     const {data: project} = useGetProjectById(Number(projectId));
 
-    const [currentProject, localDispatch] = useReducer((prevState: State, action: ProjectPropAction) => {
+
+    const [currentProject, localDispatch] = useReducer((prevState: ProjectDto, action: ProjectPropAction) => {
 
         if (action.initState) {
             return {
@@ -41,7 +44,7 @@ export const ProjectInfo: FC = () => {
             ...prevState,
             [action.type]: action.payload
         }
-    }, project as State);
+    }, project ? project as ProjectDto : initialState);
 
     useEffect(() => {
         if (!project) return;
@@ -54,17 +57,25 @@ export const ProjectInfo: FC = () => {
 
     const saveProjectHandler = () => {
         console.log('currentProject', currentProject)
-       const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd', ])
-       console.log('basicProjectProperties =>>>>>>', basicProjectProperties)
+        const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd',])
+        console.log('basicProjectProperties =>>>>>>', basicProjectProperties)
 
-       saveProject(basicProjectProperties as ProjectDto)
+        saveProject(basicProjectProperties as ProjectDto)
     }
 
     return (
         <Box>
             <Box display={'flex'} justifyContent={'flex-end'} zIndex={100000000000}>
-                <Button color={'success'} variant={'contained'} onClick={saveProjectHandler}>Зберегти зміни</Button>
+                <Button color={'success'} variant={'contained'}
+                        disabled={isPending}
+                        onClick={saveProjectHandler}>Зберегти зміни</Button>
             </Box>
+
+            <CustomSnackbar title={"Проект збережено"}
+                            open={openSnackbar}
+                            handleClose={() => setOpenSnackbar(false)}
+            />
+
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={tabIndex} onChange={handleChange}>
                     <Tab label="Основне"/>
@@ -75,16 +86,16 @@ export const ProjectInfo: FC = () => {
             </Box>
             <Box pt={2}>
                 <CustomTabPanel index={0} tabIndex={tabIndex}>
-                    <BasicInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
+                    <BasicInfo projectDto={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={1} tabIndex={tabIndex}>
-                    <AdditionalInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
+                    <AdditionalInfo projectDto={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={2} tabIndex={tabIndex}>
-                    <FloorsInfo state={currentProject} dispatch={localDispatch} mode={'edit'}/>
+                    <FloorsInfo projectDto={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
                 <CustomTabPanel index={3} tabIndex={tabIndex}>
-                    <ImageData state={currentProject} dispatch={localDispatch} mode={'edit'}/>
+                    <ImageData projectDto={currentProject} dispatch={localDispatch} mode={'edit'}/>
                 </CustomTabPanel>
             </Box>
 

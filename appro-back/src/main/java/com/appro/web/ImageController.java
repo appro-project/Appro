@@ -31,11 +31,6 @@ public class ImageController {
         return imageService.saveImages(imagesRequest.images(), imagesRequest.type());
     }
 
-//    @Operation(summary = "Delete images or photos")
-//    @DeleteMapping
-//    public void deleteImages(@RequestBody List<ImageInfo> images) {
-//        imageService.removeImages(images);
-//    }
 
     private void validateImagesSize(int size) {
         if (size > imagesSizeFilter) {

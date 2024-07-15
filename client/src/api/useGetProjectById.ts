@@ -2,7 +2,7 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 import {axiosWithSetting} from "@/services/server-data";
 
 export const useGetProjectById = (id:number) => {
-    return useQuery({queryKey: [`projects-${id}`], queryFn: () =>  axiosGetProjectById (id)});
+    return useQuery({queryKey: [`projects-${id}`], queryFn: () =>  axiosGetProjectById (id), enabled: !!id});
 }
 
 const axiosGetProjectById = (id:number) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import ViewAddEditProject from '../ViewAddEditProject/current-project'
 import { FloorDto } from '@/entity/FloorDto'
-import FloorRow from '../FloorRow'
+import FloorRow from '../../new-admin/project-info/floor-row'
 import { Action } from 'redux'
 import { connect } from 'react-redux'
 // @ts-ignore

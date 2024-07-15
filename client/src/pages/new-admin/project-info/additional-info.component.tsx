@@ -14,14 +14,14 @@ import {
 import InputLabel from "@mui/material/InputLabel";
 
 
-export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
+export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
     const view = mode === 'view';
     return (
         <Grid container spacing={2}>
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'Жилая площадь, кв.м.'}
-                    value={state.livingArea}
+                    value={projectDto.livingArea}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'livingArea', payload: e.target.value})}
@@ -30,7 +30,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'Площадь застройки, кв.м.'}
-                    value={state.buildingArea}
+                    value={projectDto.buildingArea}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'buildingArea', payload: e.target.value})}
@@ -39,7 +39,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Фундамент'}
-                    value={state.foundation}
+                    value={projectDto.foundation}
                     options={foundationOptions}
                     required={true}
                     disabled={view}
@@ -49,7 +49,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Перекрытия'}
-                    value={state.ceiling}
+                    value={projectDto.ceiling}
                     options={ceilingOptions}
                     required={true}
                     disabled={view}
@@ -59,7 +59,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Кровля'}
-                    value={state.roof}
+                    value={projectDto.roof}
                     options={roofOptions}
                     required={true}
                     disabled={view}
@@ -69,7 +69,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'Количество спален'}
-                    value={state.bedroomCount}
+                    value={projectDto.bedroomCount}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'bedroomCount', payload: e.target.value})}
@@ -78,7 +78,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Материал стен'}
-                    value={state.wallMaterial}
+                    value={projectDto.wallMaterial}
                     options={wallMaterialOptions}
                     required={true}
                     disabled={view}
@@ -88,7 +88,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'Толщина стен, мм'}
-                    value={state.wallThickness}
+                    value={projectDto.wallThickness}
                     required={true}
                     disabled={view}
                     handleProperty={event => dispatch({type: 'wallThickness', payload: event.target.value})}
@@ -97,7 +97,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Материал утеплителя'}
-                    value={state.insulation}
+                    value={projectDto.insulation}
                     options={insulationOptions}
                     required={true}
                     disabled={view}
@@ -107,7 +107,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'Толщина утеплителя, мм'}
-                    value={state.insulationThickness}
+                    value={projectDto.insulationThickness}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'insulationThickness', payload: e.target.value})}
@@ -120,7 +120,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'длина, м'}
-                    value={state.length}
+                    value={projectDto.length}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'length', payload: e.target.value})}
@@ -129,7 +129,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <NumericProperty
                     title={'ширина, м'}
-                    value={state.width}
+                    value={projectDto.width}
                     required={true}
                     disabled={view}
                     handleProperty={e => dispatch({type: 'width', payload: e.target.value})}
@@ -138,7 +138,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
             <Grid item xs={2.4}>
                 <CheckProperty
                     title={'Гараж'}
-                    checked={state.isGaragePresent}
+                    checked={projectDto.isGaragePresent}
                     disabled={view}
                     handleProperty={checked => dispatch({type: 'isGaragePresent', payload: checked})}
                 />

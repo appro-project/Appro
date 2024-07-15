@@ -7,7 +7,7 @@ import delete_icon from "@/assets/img/admin/delete.svg";
 import {useSaveImages} from "@/api/useSaveImages";
 import {ImageInfo} from "@/api/model";
 
-export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
+export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
     const view = mode === 'view';
     const addNew = false;
 
@@ -15,7 +15,7 @@ export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
 
     useEffect(() => {
         if (imagesPreview) {
-            const {images} = state;
+            const {images} = projectDto;
             dispatch({type: 'images', payload: images ? [...images, ...imagesPreview] : imagesPreview});
         }
     }, [imagesPreview]);
@@ -24,12 +24,9 @@ export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
         saveImages({images: event.target.files})
     }
 
-    const handlePhotosChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({type: 'photosToAdd', payload: event.target.files});
-    }
 
     const handleImageRemove = (imageSrc: string) => {
-        const images = state.images;
+        const images = projectDto.images;
 
         if (images) {
             const newImages = images.filter((i: ImageInfo) => i.path !== imageSrc);
@@ -37,29 +34,13 @@ export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
         }
     }
 
-    const handlePhotoRemove = (photoSrc: string) => {
-        const photos = state.photos;
-        const photosToDelete = state.photosToDelete || [];
-        if (photos) {
-            const newPhotos = photos.filter((i: ImageInfo) => i.path !== photoSrc);
-            photosToDelete.push(photoSrc);
-            dispatch({type: 'photos', payload: newPhotos});
-            dispatch({type: 'photosToDelete', payload: photosToDelete});
-        }
-    }
 
     const handleMainImageChange = (event: React.ChangeEvent<any>) => {
-
         dispatch({type: 'mainImage', payload: event.target.files[0]});
     }
 
     const handleMainImageRemove = () => {
-        const mainImage = state.mainImage;
-        const imagesToDelete = state.imagesToDelete || [];
-        // @ts-ignore
-        imagesToDelete.push(mainImage);
         dispatch({type: 'mainImage', payload: null});
-        dispatch({type: 'imagesToDelete', payload: imagesToDelete});
     }
 
 
@@ -68,7 +49,7 @@ export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
             <Grid item xs={12}>
                 <Typography>Основне зображення</Typography>
                 <ProjectImage
-                    images={state.mainImage ? [state.mainImage.path] : null}
+                    images={projectDto.mainImage ? [projectDto.mainImage.path] : null}
                     title={'Загрузить основное изображения проекта'}
                     isMain={true}
                     required={true}
@@ -84,7 +65,7 @@ export const ImageData: FC<ProjectProps> = ({mode, state, dispatch}) => {
             <Divider/>
             <Grid item xs={12}>
                 <ProjectImage
-                    images={addNew ? null : state.images.map((i: any) => i.path)}
+                    images={addNew ? null : projectDto.images.map((i: any) => i.path)}
                     title={'Загрузить изображения проекта'}
                     required={true}
                     multiple={true}

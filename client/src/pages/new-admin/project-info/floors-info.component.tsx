@@ -2,16 +2,19 @@ import {ProjectProps} from "@/pages/new-admin/project-info/model";
 import React, {FC} from "react";
 import {Grid} from "@mui/material";
 import NumericProperty from "@/pages/Admin/ViewAddEditProject/NumericProperty";
-import FloorRow from "@/pages/Admin/FloorRow";
+import FloorRow from "@/pages/new-admin/project-info/floor-row";
+import {ImageInfo} from "@/api/model";
 
-export const FloorsInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
-    const {floorList} = state
+export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
+    const {floors} = projectDto
+
+    console.log("project Dto ", projectDto);
 
     const handleFloorNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value as unknown as number
-        const floorList = []
+        const floors = []
         for (let i = 0; i < value; i = i + 1) {
-            floorList.push({
+            floors.push({
                 id: i + 1,
                 index: null,
                 area: null,
@@ -21,75 +24,73 @@ export const FloorsInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
                 isBasement: false
             })
         }
-        dispatch({type: 'floorList', payload: floorList});
+        dispatch({type: 'floors', payload: floors});
     }
 
     const handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...state.floorList]
+        const floors = [...projectDto.floors]
         const index = event.target.value
         floors.filter((i) => i.id === floorId).forEach((i) => (i.index = index))
 
-        dispatch({type: 'floorList', payload: floors});
+        dispatch({type: 'floors', payload: floors});
     }
 
     const handleFloorAtticChange = (floorId: number) => {
-        const floors = [...state.floorList]
-        floors.filter((i) => i.id === floorId).forEach((i) => (i.isAttic = !i.isAttic))
+        const floors = [...projectDto.floors]
+        floors.filter((i) => i.id === floorId)
+            .forEach((i) => {
+                i.isAttic = !i.isAttic;
+                i.index = i.isAttic ? null : 0;
+                i.isBasement = i.isAttic ? false : i.isBasement;
+            });
 
-        dispatch({type: 'floorList', payload: floors});
+        dispatch({type: 'floors', payload: floors});
+    }
+
+    const handleFloorImageChange = (floorId: number, image: ImageInfo) => {
+        const floors = [...projectDto.floors]
+        // update image info
+        floors.find((i) => i.id === floorId).image = image;
+
+        console.log('floors', floors);
+
+        dispatch({type: 'floors', payload: floors});
     }
 
     const handleFloorBasementChange = (floorId: number) => {
-        const floors = [...state.floorList]
-        floors.filter((i) => i.id === floorId).forEach((i) => (i.isBasement = !i.isBasement))
+        const floors = [...projectDto.floors]
+        floors.filter((i) => i.id === floorId).forEach((i) => {
+            i.isBasement = !i.isBasement;
+            i.index = i.isBasement ? null : 0;
+            i.isAttic = i.isBasement ? false : i.isAttic;
+        })
 
-        dispatch({type: 'floorList', payload: floors});
+        console.log('floors', floors)
+
+        dispatch({type: 'floors', payload: floors});
     }
 
     const handleFloorAreaChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...state.floorList]
+        const floors = [...projectDto.floors]
         const area = event.target.value
         floors.filter((i) => i.id === floorId).forEach((i) => (i.area = area))
 
-        dispatch({type: 'floorList', payload: floors});
+        dispatch({type: 'floors', payload: floors});
     }
 
     const handleFloorHeightChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...state.floorList]
+        const floors = [...projectDto.floors]
         const height = event.target.value
         floors.filter((i) => i.id === floorId).forEach((i) => (i.height = height))
 
-        dispatch({type: 'floorList', payload: floors});
+        dispatch({type: 'floors', payload: floors});
     }
 
-    const handleFloorImageChange = (event: React.ChangeEvent<any>, floorId: number) => {
-        const floors = [...state.floorList]
-        const image = event.target.files[0]
-        floors.filter((i) => i.id === floorId).forEach((i) => (i.planningImage = image))
-
-        dispatch({type: 'floorList', payload: floors});
-    }
-
-    const handleFloorImageRemove = (floorId: number | null) => {
-        const floors = [...state.floorList]
-        const floor = floors.find((i) => i.id === floorId)
-
-        if (!floor) {
-            return
-        }
-        const imagesToDelete = state.imagesToDelete || []
-        const floorImageToDelete = floor.planningImage
-        imagesToDelete.push(floorImageToDelete)
-        floor.planningImage = null
-
-        dispatch({type: 'floorList', payload: floors});
-        dispatch({type: 'imagesToDelete', payload: imagesToDelete});
-    }
 
     const handleDeleteFloorClick = (floorId: number | null) => {
-        const newFloors = state.floorList.filter((f) => f.id !== floorId)
+        const newFloors = projectDto.floors.filter((f) => f.id !== floorId)
 
-        dispatch({type: 'floorList', payload: newFloors});
+        dispatch({type: 'floors', payload: newFloors});
     }
 
     const view = mode === 'view';
@@ -97,22 +98,22 @@ export const FloorsInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
         <Grid item xs={12}>
             <NumericProperty
                 title={'Количество этажей (включая мансарду и подвал)'}
-                value={state.floorList.length}
+                value={projectDto.floors.length}
                 required={true}
                 disabled={view}
                 handleProperty={handleFloorNumberChange}
             />
         </Grid>
 
-        {floorList.map((floor, index) => (
-            <Grid item xs={12}>
+        {floors.map((floor, index) => (
+            <Grid item xs={12} key={'floor-key-' + floor.id}>
                 <FloorRow
                     view={view}
                     id={floor.id || index + 1}
                     index={floor.index}
                     area={floor.area}
                     height={floor.height}
-                    planningImage={view ? floor.planningImage : null}
+                    planningImage={floor.image}
                     isAttic={floor.isAttic}
                     isBasement={floor.isBasement}
                     handleFloorIndexChange={handleFloorIndexChange}
@@ -121,7 +122,6 @@ export const FloorsInfo: FC<ProjectProps> = ({state, dispatch, mode}) => {
                     handleFloorAreaChange={handleFloorAreaChange}
                     handleFloorHeightChange={handleFloorHeightChange}
                     handleFloorImageChange={handleFloorImageChange}
-                    handleFloorImageRemove={handleFloorImageRemove}
                     handleDeleteFloorClick={handleDeleteFloorClick}
                 />
             </Grid>

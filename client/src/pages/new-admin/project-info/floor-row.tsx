@@ -1,8 +1,11 @@
-import React from 'react'
-import {Button, Grid, Paper} from '@mui/material'
-import NumericProperty from '../ViewAddEditProject/NumericProperty'
-import CheckProperty from '../ViewAddEditProject/CheckProperty'
-import ProjectImage from '../ViewAddEditProject/ProjectImages'
+import React, {useEffect} from 'react'
+import {Button, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Paper} from '@mui/material'
+import NumericProperty from '../../Admin/ViewAddEditProject/NumericProperty'
+import CheckProperty from '../../Admin/ViewAddEditProject/CheckProperty'
+import {ImageInfo} from "@/api/model";
+import {useSaveImages} from "@/api/useSaveImages";
+import FileProperty from "@/pages/Admin/ViewAddEditProject/FileProperty";
+import delete_icon from "@/assets/img/admin/delete.svg";
 
 interface PropsType {
     view: boolean;
@@ -10,7 +13,7 @@ interface PropsType {
     index: number | null;
     area: number | null;
     height: number | null;
-    planningImage: string | null;
+    planningImage: ImageInfo | null;
     isAttic: boolean | null;
     isBasement: boolean | null;
     handleFloorIndexChange: (event: React.ChangeEvent<any>, floorId: number) => void;
@@ -18,8 +21,7 @@ interface PropsType {
     handleFloorBasementChange: (floorId: number) => void;
     handleFloorAreaChange: (event: React.ChangeEvent<any>, floorId: number) => void;
     handleFloorHeightChange: (event: React.ChangeEvent<any>, floorId: number) => void;
-    handleFloorImageChange: (event: React.ChangeEvent<any>, floorId: number) => void;
-    handleFloorImageRemove: (floorId: number) => void;
+    handleFloorImageChange: (floorId: number, image:ImageInfo) => void;
     handleDeleteFloorClick: (floorId: number) => void;
 }
 
@@ -38,20 +40,39 @@ const FloorRow: React.FC<PropsType> = ({
                                            handleFloorAreaChange,
                                            handleFloorHeightChange,
                                            handleFloorImageChange,
-                                           handleFloorImageRemove,
                                            handleDeleteFloorClick
                                        }) => {
+
+    const {mutate: saveImages, data: imagesPreview} = useSaveImages();
+
+    useEffect(() => {
+        if (imagesPreview) {
+            const floorImage = imagesPreview[0];
+            handleFloorImageChange(id, floorImage);
+        }
+    }, [imagesPreview]);
+
+
     const isFloorIndexDisabled = () => {
-        return isAttic || isBasement;
+        // return isAttic || isBasement;
+        return false;
     };
 
     const isFloorAtticDisabled = () => {
-        return !!index || isBasement;
+        // return !!index || isBasement;
+        return false;
     };
 
     const isFloorBasementDisabled = () => {
-        return !!index || isAttic;
+        // return !!index || isAttic;
+        return false;
     };
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        saveImages({images: event.target.files})
+    }
+
+
 
     return (
         <Paper sx={{p: 2}}>
@@ -103,12 +124,12 @@ const FloorRow: React.FC<PropsType> = ({
                 </Grid>
 
                 <Grid item xs={6}>
-                    <ProjectImage
-                        images={planningImage ? [planningImage] : null}
+                    <FloorImage
+                        images={planningImage ? [planningImage.path] : null}
                         title={'Загрузить планировку'}
                         disabled={view}
-                        handleAddImage={(event: React.ChangeEvent<any>) => handleFloorImageChange(event, id)}
-                        handleRemoveImage={() => handleFloorImageRemove(id)}
+                        handleAddImage={handleImageUpload}
+                        handleRemoveImage={() => handleFloorImageChange(id, null)}
                     />
                 </Grid>
             </Grid>
@@ -117,3 +138,75 @@ const FloorRow: React.FC<PropsType> = ({
 };
 
 export default FloorRow;
+
+
+
+interface Props {
+    images: string[] | null | undefined;
+    title: string;
+    required?: boolean;
+    disabled?: boolean;
+    isMain?: boolean;
+
+    handleAddImage(event: React.ChangeEvent<any>): void;
+
+    handleRemoveImage(id: string | number): void;
+}
+
+const FloorImage = ({
+                          images,
+                          title,
+                          required,
+                          disabled,
+                          isMain,
+                          handleAddImage,
+                          handleRemoveImage
+                      }: Props) => {
+    if (images && isMain) {
+        return ListImage(images, disabled, handleRemoveImage)
+    }
+    return (
+        <>
+            <FileProperty
+                title={title}
+                required={required}
+                disabled={disabled}
+                handleProperty={handleAddImage}
+            />
+            {images && ListImage(images, disabled, handleRemoveImage)}
+
+        </>
+    )
+}
+
+
+export const ListImage = (
+    images: string[],
+    disabled: boolean | undefined,
+    handleRemoveImage: (id: string | number) => void
+) => {
+    return (
+        <ImageList cols={3}>
+            {images.map((item, index) => (
+                <ImageListItem key={item + index}>
+                    <img src={item} alt={item} loading='lazy'/>
+                    {!disabled && (
+                        <ImageListItemBar
+                            position='top'
+                            actionIcon={
+                                <IconButton
+                                    style={{width: 40, height: 40}}
+                                    disabled={disabled}
+                                    onClick={() => handleRemoveImage(item)}
+                                >
+                                    <img src={delete_icon}/>
+                                </IconButton>
+                            }
+                            actionPosition='left'
+                        />
+                    )}
+                </ImageListItem>
+            ))}
+        </ImageList>
+    )
+}
