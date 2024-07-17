@@ -119,6 +119,12 @@ public class Project {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
+    @Column(name = "show_on_main")
+    private Boolean showOnMain;
+
+    @Column(name = "is_finished")
+    private Boolean isFinished;
+
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     private List<Image> images;
 

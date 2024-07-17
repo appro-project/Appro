@@ -39,6 +39,8 @@ public class ProjectDto {
     private Boolean isGaragePresent;
     private Integer bedroomCount;
     private ImageInfo mainImage;
+    private Boolean showOnMain;
+    private Boolean isFinished;
     private List<ImageInfo> images;
     private List<ImageInfo> photos;
     private List<FloorDto> floors;

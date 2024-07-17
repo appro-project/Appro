@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -401,6 +402,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         assertNotNull(projectBeforeUpdate);
 
         ProjectDto updateProjectRequestBody = createProject();
+        updateProjectRequestBody.setShowOnMain(true);
+        updateProjectRequestBody.setIsFinished(true);
 
         String projectJson = objectMapper.writeValueAsString(updateProjectRequestBody);
 
@@ -427,7 +430,9 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .andExpect(jsonPath("$.width").value(updateProjectRequestBody.getWidth()))
                 .andExpect(jsonPath("$.style").value(updateProjectRequestBody.getStyle()))
                 .andExpect(jsonPath("$.isGaragePresent").value(updateProjectRequestBody.getIsGaragePresent()))
-                .andExpect(jsonPath("$.bedroomCount").value(updateProjectRequestBody.getBedroomCount()));
+                .andExpect(jsonPath("$.bedroomCount").value(updateProjectRequestBody.getBedroomCount()))
+                .andExpect(jsonPath("$.showOnMain", is(true)))
+                .andExpect(jsonPath("$.isFinished", is(true)));
 
         Project projectAfterUpdate = projectRepository.findById(FIRST_PROJECT_ID).orElse(null);
         assertNotNull(projectAfterUpdate);
@@ -769,11 +774,6 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
             int actualProjectsSizeAfterCreating = actualProjects.size();
             // Projects count after creating
             assertEquals(expectedProjectsSizeAfterCreating, actualProjectsSizeAfterCreating);
-
-//            assertThat(actualProject)
-//                    .usingRecursiveComparison()
-//                    .ignoringFields("id", "images", "photos", "floors")
-//                    .isEqualTo(expectedProject);
 
             assertTrue(actualProject.getFloors().isEmpty());
             assertTrue(actualProject.getImages().isEmpty());
