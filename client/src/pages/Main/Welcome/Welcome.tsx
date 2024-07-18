@@ -8,9 +8,10 @@ import { ProjectItem } from './ProjectItem/ProjectItem'
 import { ReactComponent as SliderPrev } from '@/assets/img/main/welcome/slider-prev.svg'
 import { ReactComponent as SliderNext } from '@/assets/img/main/welcome/slider-next.svg'
 import { Link } from 'react-router-dom'
+import {ProjectDto} from "@/api/model";
 
 interface PropsType {
-  mockProjects: Project[];
+  mockProjects: ProjectDto[];
 }
 
 export const Welcome = ({ mockProjects }: PropsType) => {
@@ -39,7 +40,6 @@ export const Welcome = ({ mockProjects }: PropsType) => {
     <section className={classes.welcome}>
       <Carousel renderArrowNext={renderArrowNext} renderArrowPrev={renderArrowPrev} infiniteLoop interval={4000}>
         {mockProjects
-          .filter((project) => project.showOnMain)
           .map((project, index) => (
             <ProjectItem key={index} project={project} />
           ))}

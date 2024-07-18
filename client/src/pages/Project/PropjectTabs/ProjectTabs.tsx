@@ -10,9 +10,10 @@ import { Project } from '@/entity/Project'
 import { IProjectTubsName, tubsArray } from '../interfaces'
 import classes from '@/components/UI/Tabs/Tabs.module.scss'
 import { Tab } from '@/components/UI/Tabs/Tab/Tab'
+import {ProjectDto} from "@/api/model";
 
 interface Props {
-	project: Project;
+	project: ProjectDto;
 }
 
 export const ProjectTabs = ({ project }: Props) => {
@@ -38,7 +39,7 @@ export const ProjectTabs = ({ project }: Props) => {
 								generalArea={project.generalArea}
 								projectPrice={project.projectPrice}
 								timeToCreate={project.timeToCreate}
-								images={project.images}
+								images={project.images.map((image) => image.path)}
 							/>
 							<ProjectLayout project={project} />
 							<ProjectStructure project={project} />

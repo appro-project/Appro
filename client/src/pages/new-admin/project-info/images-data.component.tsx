@@ -11,14 +11,22 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
     const view = mode === 'view';
     const addNew = false;
 
-    const {mutate: saveImages, data: imagesPreview} = useSaveImages();
+    const {mutate: saveImages, data: savedImages} = useSaveImages();
+    const {mutate: saveMainImage, data: savedMainImage} = useSaveImages();
+    const {mutate: savePhotos, data: savedPhotos} = useSaveImages();
 
     useEffect(() => {
-        if (imagesPreview) {
+        if (savedImages) {
             const {images} = projectDto;
-            dispatch({type: 'images', payload: images ? [...images, ...imagesPreview] : imagesPreview});
+            dispatch({type: 'images', payload: images ? [...images, ...savedImages] : savedImages});
         }
-    }, [imagesPreview]);
+    }, [savedImages]);
+
+    useEffect(() => {
+        if (savedMainImage) {
+            dispatch({type: 'mainImage', payload: savedMainImage[0]});
+        }
+    }, [saveMainImage]);
 
     const handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         saveImages({images: event.target.files})
@@ -35,8 +43,8 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
     }
 
 
-    const handleMainImageChange = (event: React.ChangeEvent<any>) => {
-        dispatch({type: 'mainImage', payload: event.target.files[0]});
+    const handleMainImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      saveMainImage({images: event.target.files})
     }
 
     const handleMainImageRemove = () => {
@@ -143,7 +151,7 @@ export const ListImage = (
     return (
         <ImageList cols={3}>
             {images.map((item, index) => (
-                <ImageListItem key={item + index}>
+                <ImageListItem key={item + index} >
                     <img src={item} alt={item} loading='lazy'/>
                     {!disabled && (
                         <ImageListItemBar

@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import classes from './FilterList.module.scss'
 import { FilterType, RangeOption, SingleOption } from '@/constants/filterData/catalogueFiltersInfo'
-import { useLocation } from 'react-router'
+import {useLocation, useNavigate} from 'react-router'
 import { getSearchUri } from '@/services/data'
 import { RangeFilterBlock } from './RangeFilter/RangeFilterBlock'
 import { CheckboxFilterBlock } from './CheckboxFilterBlock/CheckboxFilterBlock'
 import { getValidRangeSearchParam } from '@/services/util'
+
+import {  } from "react-router-dom";
 
 interface SearchOption {
   id: string;
@@ -19,7 +21,7 @@ interface StateProps {
 
 export const FilterList = ({ applyFilter }: StateProps) => {
   const location = useLocation();
-  // const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const urlFilters = new URLSearchParams(location.search);
@@ -43,11 +45,11 @@ export const FilterList = ({ applyFilter }: StateProps) => {
     );
 
     // FIXME: fix me
-    // history.push({
-    //   search: decodeURIComponent(searchUri.toString()),
-    //   pathname: location.pathname,
-    // });
-    // applyFilter(searchUri);
+    navigate({
+      search: decodeURIComponent(searchUri.toString()),
+      pathname: location.pathname,
+    });
+    applyFilter(searchUri);
   };
 
   const rangeOptionClicked = (filterId: string, option: RangeOption) => {
@@ -61,10 +63,10 @@ export const FilterList = ({ applyFilter }: StateProps) => {
     );
 
     // FIXME: Fix!!
-    // history.push({
-    //   search: decodeURIComponent(search.toString()),
-    //   pathname: location.pathname,
-    // });
+    navigate({
+      search: decodeURIComponent(search.toString()),
+      pathname: location.pathname,
+    });
 
     applyFilter(search);
   };

@@ -50,7 +50,7 @@ export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
     const handleFloorImageChange = (floorId: number, image: ImageInfo) => {
         const floors = [...projectDto.floors]
         // update image info
-        floors.find((i) => i.id === floorId).image = image;
+        floors.find((i) => i.id === floorId).planningImage = image;
 
         console.log('floors', floors);
 
@@ -113,7 +113,7 @@ export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
                     index={floor.index}
                     area={floor.area}
                     height={floor.height}
-                    planningImage={floor.image}
+                    planningImage={floor.planningImage}
                     isAttic={floor.isAttic}
                     isBasement={floor.isBasement}
                     handleFloorIndexChange={handleFloorIndexChange}

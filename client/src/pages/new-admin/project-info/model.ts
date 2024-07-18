@@ -47,4 +47,6 @@ export const initialState:ProjectDto = {
     description: '',
     mainImage: undefined,
     floors: [],
+    showOnMain: false,
+    isFinished: false
 }

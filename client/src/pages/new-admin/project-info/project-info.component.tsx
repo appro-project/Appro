@@ -15,7 +15,7 @@ import {CustomSnackbar} from "@/pages/new-admin/custom-snackbar.component";
 export const ProjectInfo: FC = () => {
     const {projectId} = useParams();
 
-    const [openSnackbar, setOpenSnackbar] = useState(true);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
 
     const {mutate: saveProject, isPending} = useSaveProject(() => {

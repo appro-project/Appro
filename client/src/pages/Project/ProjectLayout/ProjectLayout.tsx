@@ -4,19 +4,20 @@ import { ImageCarousel } from '../ImageCarousel/ImageCarousel'
 import { Project } from '@/entity/Project'
 import { NumericFormat } from 'react-number-format'
 import '../Additional/Additional.scss'
+import {ProjectDto} from "@/api/model";
 
 interface Props {
-  project: Project;
+  project: ProjectDto;
 }
 
 export const ProjectLayout = (props: Props) => {
   const project = props.project;
 
-  const floorImages = props.project.floorList
+  const floorImages = props.project.floors
     .filter((f) => f.planningImage !== null)
-    .map((f) => f.planningImage) as string[];
+    .map((f) => f.planningImage.path);
 
-  const floors = project.floorList.filter((f) => !(f.isBasement || f.isAttic));
+  const floors = project.floors.filter((f) => !(f.isBasement || f.isAttic));
 
   return (
     <section className={classes.ProjectLayout}>

@@ -5,9 +5,10 @@ import sketch_image from '@/assets/img/project_page/sketch.svg'
 import draw_image from '@/assets/img/project_page/draw.svg'
 import { Project } from '@/entity/Project'
 import { InfoCard } from '../GeneralInfo/InfoCard'
+import {ProjectDto} from "@/api/model";
 
 interface Props {
-  project: Project;
+  project: ProjectDto;
 }
 
 export const ProjectStructure = ({ project }: Props) => {

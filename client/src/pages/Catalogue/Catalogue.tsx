@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import { getProjectsByFilters, sortProjectsByParams } from '@/services/data'
 import catalogueSortInfo, {
 	defaultSortDetails,
@@ -7,9 +7,8 @@ import catalogueSortInfo, {
 } from '@/constants/sortData/catalogueSortInfo'
 import { Project } from '@/entity/Project'
 import CatalogueItem from './CatalogueItem/CatalogueItem'
-import { useSelector } from 'react-redux'
-import { getProjects, getProjectsLoading } from '@/redux/selectors'
 import { useLocation } from 'react-router'
+import {useGetAllProjects} from "@/api/useGetAllProjects";
 
 const projectsPerPage = 8;
 
@@ -17,8 +16,13 @@ export const Catalogue = () => {
   const [state, setState] = useState({ projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1 });
   const location = useLocation();
 
-  const projectsLoading = useSelector(getProjectsLoading);
-  const projects = useSelector(getProjects);
+  const {data:projects} = useGetAllProjects();
+
+  useEffect(() => {
+    setState({ ...state, projects });
+  }, [projects]);
+
+  if(!projects) return <div>Loading...</div>
 
   const applyFilter = (searchParams: URLSearchParams) => {
     const filteredProjects = getProjectsByFilters(state.projects, searchParams);

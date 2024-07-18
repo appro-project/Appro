@@ -10,13 +10,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProjects } from '@/redux/selectors'
 import { getProjectInLocalStorage, setProjectInLocalStorage } from '@/services/util/localStorage'
 import { setViewProject } from '@/redux/actions'
+import {useGetAllProjects} from "@/api/useGetAllProjects";
+import {ProjectDto} from "@/api/model";
 
 type RouteProps = { projectId: string };
 
 export const ProjectPage = () => {
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<ProjectDto | null>(null);
   const { projectId } = useParams<RouteProps>();
-  const projects = useSelector(getProjects);
+  const {data:projects} = useGetAllProjects();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +36,8 @@ export const ProjectPage = () => {
       dispatch(setViewProject(project));
     }
   }, [project]);
+
+  if(!projects) return <div>Loading...</div>
 
   if (!project) {
     return <div>Not found</div>;

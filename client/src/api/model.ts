@@ -24,6 +24,8 @@ export interface ProjectDto {
     images: ImageInfo[];
     photos: ImageInfo[];
     floors: FloorDto[];
+    showOnMain: boolean;
+    isFinished: boolean;
 }
 
 export interface FloorDto {
@@ -31,7 +33,7 @@ export interface FloorDto {
     index: number | null;
     area: number | null;
     height: number | null;
-    image: ImageInfo | null;
+    planningImage: ImageInfo | null;
     isAttic: boolean | null;
     isBasement: boolean | null;
 }

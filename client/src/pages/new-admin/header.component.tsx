@@ -13,7 +13,9 @@ export const Header = () => {
                 <Toolbar>
                     <Box display={'flex'} alignItems={'center'} ml={-3}>
                         <Box width={95} mr={3}>
-                            <Logo/>
+                            <Link to={'/'}>
+                                <Logo/>
+                            </Link>
                         </Box>
                         <Button component={Link} to={'/new-admin'} color="inherit">Всі проекти</Button>
                         <Button component={Link} to={'/new-admin/project/new'} color="inherit">Додати новий</Button>

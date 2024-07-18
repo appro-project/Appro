@@ -18,7 +18,7 @@ export const ProjectDetails = memo(({ projectData }: Props) => {
     <Link onClick={onClick} to={`/catalogue/${projectData.id}`} className={classes['project-details']}>
       <div className={classes['project-details__content']}>
         <div className={classes['project-details__img']}>
-          <img src={projectData.mainImage} alt={projectData.id + ''} />
+          <img src={projectData.mainImage?.path} alt={projectData.id + ''} />
         </div>
         <div className={classes['project-details__info']}>
           {/*<span>{ projectData.title }</span>*/}

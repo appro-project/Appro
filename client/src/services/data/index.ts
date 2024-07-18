@@ -1,6 +1,6 @@
 import { FilterType, RangeOption, SearchOption } from '@/constants/filterData/catalogueFiltersInfo'
 import { SortDirection } from '@/constants/sortData/catalogueSortInfo'
-import { Project } from '@/entity/Project'
+import {ProjectDto} from "@/api/model";
 
 const getSearchUri = (
   searchOption: SearchOption,
@@ -50,7 +50,7 @@ const getSortUri = (id: string, direction: SortDirection, currentSearchParams: U
   return currentSearchParams;
 };
 
-const getProjectsByFilters = (projects: Project[], filters: URLSearchParams): Project[] => {
+const getProjectsByFilters = (projects: ProjectDto[], filters: URLSearchParams): ProjectDto[] => {
   let currentProjects = [...projects];
   filters.forEach((value, key) => {
     if (key.includes('_sort')) {
@@ -99,22 +99,25 @@ const getProjectsByFilters = (projects: Project[], filters: URLSearchParams): Pr
   return currentProjects;
 };
 
-const floorFilter = (value: string, project: Project) => {
+const floorFilter = (value: string, project: ProjectDto) => {
+  const floorCount = value.split('-floor')
+      .map(v=> v.replace(",", ""))
+      .filter(v=> v !== "").map(Number);
+
   if (value.includes('all')) {
     return true;
   }
   if (value.includes('attic')) {
-    return !!project.floorList.find((fl) => fl.isAttic);
+    return !!project.floors.find((fl) => fl.isAttic);
   }
   if (value.includes('basement')) {
-    return !!project.floorList.find((fl) => fl.isBasement);
+    return !!project.floors.find((fl) => fl.isBasement);
   }
-  const floorCount = value.split('-')[0];
 
-  return Number(floorCount) === project.floorList.length;
+  return floorCount.includes(project.floors.length);
 };
 
-const filterBedroom = (value: string, pr: Project) => {
+const filterBedroom = (value: string, pr: ProjectDto) => {
   if (value.includes('all')) {
     return true;
   }
@@ -125,7 +128,7 @@ const filterBedroom = (value: string, pr: Project) => {
   return Number(pr.bedroomCount) === Number(value);
 };
 
-const filterGarage = (value: string, pr: Project) => {
+const filterGarage = (value: string, pr: ProjectDto) => {
   if (value === 'all') {
     return true;
   }
@@ -139,7 +142,7 @@ const filterGarage = (value: string, pr: Project) => {
   return pr.isGaragePresent;
 };
 
-const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams): Project[] => {
+const sortProjectsByParams = (projects: ProjectDto[], searchParams: URLSearchParams): ProjectDto[] => {
   let currentProjects = projects;
   searchParams.forEach((value, key) => {
     if (!key.includes('sort')) {
@@ -164,7 +167,7 @@ const sortProjectsByParams = (projects: Project[], searchParams: URLSearchParams
   return projects;
 };
 
-const compareProjects = (project1: Project, project2: Project, order: string, field: string) => {
+const compareProjects = (project1: ProjectDto, project2: ProjectDto, order: string, field: string) => {
   // @ts-ignore
   if (+project1[field] < +project2[field]) {
     return order === 'asc' ? -1 : 1;

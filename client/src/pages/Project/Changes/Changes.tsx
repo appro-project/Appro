@@ -8,9 +8,10 @@ import { Controller, useForm } from 'react-hook-form'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { axiosPostFeedback } from '@/services/server-data'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
+import {ProjectDto} from "@/api/model";
 
 interface IChangesProps {
-	project: Project;
+	project: ProjectDto;
 }
 
 export const Changes = ({ project }: IChangesProps) => {

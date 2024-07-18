@@ -26,16 +26,24 @@ export const BasicInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
             />
         </Grid>
 
+        <Grid item xs={3}>
+            <CheckProperty
+                title={'На главной'}
+                checked={projectDto.showOnMain}
+                disabled={view}
+                handleProperty={checked => dispatch({type: 'showOnMain', payload: checked})}
+            />
+        </Grid>
 
-{/*        <Grid item xs={2}>*/}
-{/*            <CheckProperty*/}
-{/*                title={'Стиль'}*/}
-{/*checked={state.}*/}
-{/*                required={true}*/}
-{/*                disabled={view}*/}
-{/*                handleProperty={e => dispatch({type: 'style', payload: e.target.value})}*/}
-{/*            />*/}
-{/*        </Grid>*/}
+        <Grid item xs={3}>
+            <CheckProperty
+                title={'Законченный'}
+                checked={projectDto.isFinished}
+                disabled={view}
+                handleProperty={checked => dispatch({type: 'isFinished', payload: checked})}
+            />
+        </Grid>
+
         <Grid item xs={3}>
             <NumericProperty
                 title={'Подготовка проекта, дн'}
