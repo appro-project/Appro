@@ -81,10 +81,8 @@ public interface ProjectMapper {
     default void updateFloors(Project project, List<Floor> floors) {
         List<Floor> existingFloors = project.getFloors() == null ? List.of() : project.getFloors();
 
-        if (existingFloors.isEmpty()) {
-            existingFloors = new ArrayList<>();
-            project.setFloors(existingFloors);
-        } else {
+
+        if (floors != null) {
             Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
             existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
         }
@@ -97,65 +95,6 @@ public interface ProjectMapper {
             existingFloors.add(floor);
         }
     }
-//default void updateFloors(Project project, List<Floor> floors) {
-//    List<Floor> existingFloors = project.getFloors() == null ? new ArrayList<>() : new ArrayList<>(project.getFloors());
-//
-//    if (floors == null) {
-//        // Якщо floors == null, відв'язуємо всі поверхи та їх зображення
-//        for (Floor floor : existingFloors) {
-//            floor.setProject(null);
-//            if (floor.getPlanningImage() != null) {
-//                floor.getPlanningImage().setProject(null);
-//            }
-//        }
-//        existingFloors.clear();
-//    } else {
-//        Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
-//
-//        // Видаляємо поверхи, яких немає в новому списку
-//        existingFloors.removeIf(floor -> {
-//            boolean toRemove = !floorsIds.contains(floor.getId());
-//            if (toRemove) {
-//                floor.setProject(null);
-//                if (floor.getPlanningImage() != null) {
-//                    floor.getPlanningImage().setProject(null);
-//                }
-//            }
-//            return toRemove;
-//        });
-//
-//        // Оновлюємо або додаємо нові поверхи
-//        for (Floor newFloor : floors) {
-//            Optional<Floor> existingFloorOpt = existingFloors.stream()
-//                    .filter(floor -> floor.getId().equals(newFloor.getId()))
-//                    .findFirst();
-//
-//            if (existingFloorOpt.isPresent()) {
-//                Floor existingFloor = existingFloorOpt.get();
-//                existingFloor.setArea(newFloor.getArea());
-//                existingFloor.setHeight(newFloor.getHeight());
-//                existingFloor.setIndex(newFloor.getIndex());
-//                existingFloor.setIsAttic(newFloor.getIsAttic());
-//                existingFloor.setIsBasement(newFloor.getIsBasement());
-//                existingFloor.setPlanningImage(newFloor.getPlanningImage());
-//
-//                if (existingFloor.getPlanningImage() != null) {
-//                    existingFloor.getPlanningImage().setProject(project);
-//                }
-//            } else {
-//                newFloor.setProject(project);
-//                if (newFloor.getPlanningImage() != null) {
-//                    newFloor.getPlanningImage().setProject(project);
-//                }
-//                existingFloors.add(newFloor);
-//            }
-//        }
-//    }
-//
-//    project.setFloors(existingFloors);
-//}
-
-
 
     @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")
     @Mapping(target = "insulation", source = "project.insulation", qualifiedByName = "optionInsulationToString")
