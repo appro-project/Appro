@@ -219,10 +219,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/classes/static</outputDirectory>
+                            <outputDirectory>appro-back/target/classes/static</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>client/build</directory>
+                                    <directory>../client/build</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
