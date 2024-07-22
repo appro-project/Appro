@@ -80,11 +80,20 @@ public interface ProjectMapper {
 
     default void updateFloors(Project project, List<Floor> floors) {
         List<Floor> existingFloors = project.getFloors() == null ? List.of() : project.getFloors();
+//        List<Image> projectImages = project.getImages() == null ? new ArrayList<>() : project.getImages();
 
-
+//        if (floors != null) {
+//            Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
+//            existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
+//        }
+        List<Floor> floorsToRemove = new ArrayList<>();
         if (floors != null) {
             Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
-            existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
+            floorsToRemove = existingFloors.stream()
+                    .filter(floor -> !floorsIds.contains(floor.getId()))
+                    .collect(Collectors.toList());
+            existingFloors.removeAll(floorsToRemove);
+//            floorsToRemove.forEach(floor -> floor.getPlanningImage().setProject(null));
         }
 
         for (Floor floor : floors) {
@@ -95,6 +104,38 @@ public interface ProjectMapper {
             existingFloors.add(floor);
         }
     }
+//default void updateFloors(Project project, List<Floor> floors) {
+//    List<Floor> existingFloors = project.getFloors() == null ? new ArrayList<>() : project.getFloors();
+//    List<Image> projectImages = project.getImages() == null ? new ArrayList<>() : project.getImages();
+//
+//    if (floors != null) {
+//        Set<Integer> floorsIds = floors.stream().map(Floor::getId).collect(Collectors.toSet());
+//        existingFloors.removeIf(floor -> !floorsIds.contains(floor.getId()));
+//    }
+//
+//    for (Floor floor : floors) {
+//        floor.setProject(project);
+//        Image planningImage = floor.getPlanningImage();
+//        if (planningImage != null) {
+//            planningImage.setProject(project);
+//
+////            // Перевіряємо, чи існує зображення в проекті, якщо ні - додаємо
+////            if (!projectImages.contains(planningImage)) {
+//                projectImages.add(planningImage);
+//           // }
+//        }
+//        existingFloors.add(floor);
+//    }
+//
+//    // Оновлюємо список зображень проекту, видаляючи ті, що більше не належать жодному поверху
+//    projectImages.removeIf(image -> floors.stream()
+//            .map(Floor::getPlanningImage)
+//            .noneMatch(img -> img != null && img.equals(image)));
+//
+//    project.setFloors(existingFloors);
+//    project.setImages(projectImages);
+//}
+
 
     @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")
     @Mapping(target = "insulation", source = "project.insulation", qualifiedByName = "optionInsulationToString")

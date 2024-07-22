@@ -222,7 +222,7 @@
                             <outputDirectory>target/classes/static</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/../build/client</directory>
+                                    <directory>client/build</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
