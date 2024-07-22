@@ -15,7 +15,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/index.html");
         registry.addViewController("/{x:[\\w\\-]+}").setViewName("forward:/index.html");
-        registry.addViewController("/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}").setViewName("forward:/index.html");
+        registry.addViewController("/{x:^(?!api$).*$}/{y:[\\w\\-]+}").setViewName("forward:/index.html");
     }
 
     @Override
@@ -32,7 +32,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return taskExecutor;
     }
 
+    @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         configurer.setTaskExecutor(mvcTaskExecutor());
     }
 }
+
