@@ -13,6 +13,7 @@ import './AboutUs.scss'
 import { Project } from '@/entity/Project'
 import { ProjectDetails } from '@/containers/ProjectDetails/ProjectDetails'
 import { getViewProjects } from '@/redux/selectors'
+import {ProjectDto} from "@/api/model";
 
 export const AboutUs = () => {
 	const projects = useSelector(getViewProjects)
@@ -108,7 +109,7 @@ export const AboutUs = () => {
 					<div className={classesVisited['visited-projects__items']}>
 						{projects
 							.filter((x, index) => index < 3)
-							.map((project: Project, idx: number) => (
+							.map((project: ProjectDto, idx: number) => (
 								<div className={classes.VisitedProjects_ProjectWrapper} key={idx}>
 									<ProjectDetails projectData={project} />
 								</div>

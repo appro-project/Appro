@@ -9,11 +9,12 @@ import { Project } from '@/entity/Project'
 import CatalogueItem from './CatalogueItem/CatalogueItem'
 import { useLocation } from 'react-router'
 import {useGetAllProjects} from "@/api/useGetAllProjects";
+import {ProjectDto} from "@/api/model";
 
 const projectsPerPage = 8;
 
 export const Catalogue = () => {
-  const [state, setState] = useState({ projects: [] as Project[], currentProjects: [] as Project[], currentPage: 1 });
+  const [state, setState] = useState({ projects: [] as ProjectDto[], currentProjects: [] as ProjectDto[], currentPage: 1 });
   const location = useLocation();
 
   const {data:projects} = useGetAllProjects();

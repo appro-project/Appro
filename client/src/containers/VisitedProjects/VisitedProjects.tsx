@@ -3,9 +3,13 @@ import { Project } from '@/entity/Project'
 import { ProjectDetails } from '../ProjectDetails/ProjectDetails'
 import { useSelector } from 'react-redux'
 import { getViewProjects } from '@/redux/selectors'
+import {useGetAllProjects} from "@/api/useGetAllProjects";
+import {ProjectDto} from "@/api/model";
 
 export const VisitedProjects = () => {
-	const projects = useSelector(getViewProjects)
+	const {data:projects} = useGetAllProjects();
+
+	if(!projects) return <div>Loading...</div>
 
 	return (
 		<section>
@@ -16,7 +20,7 @@ export const VisitedProjects = () => {
 					<div className={classes['visited-projects__items']}>
 						{projects
 							.filter((x, index) => index < 3)
-							.map((project: Project, idx: number) => (
+							.map((project: ProjectDto, idx: number) => (
 								<div className={classes.VisitedProjects_ProjectWrapper} key={idx}>
 									<ProjectDetails projectData={project} />
 								</div>

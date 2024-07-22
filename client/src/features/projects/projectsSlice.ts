@@ -19,6 +19,7 @@ import beautyImage from '@/assets/img/main/principles/beauty.jpg'
 import { ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers'
 import { DataService } from '@/services/server-data'
+import {ProjectDto} from "@/api/model";
 
 export interface ProjectsSliceState {
 	// all projects
@@ -29,7 +30,7 @@ export interface ProjectsSliceState {
 	projectSaving: boolean;
 	projectsLoading: boolean;
 	// visited projects
-	viewProjects: Project[];
+	viewProjects: ProjectDto[];
 }
 
 const initialState: ProjectsSliceState = {
@@ -91,64 +92,9 @@ const projectsSlice = createSlice({
 				// state.principlesData.push(action.payload);
 			})
 
-		// .addCase(saveProject.pending, (state: RootState) => {
-		//   state.projectSaving = true;
-		// })
-		// .addCase(saveProject.rejected, (state: RootState) => {
-		//   state.projectSaving = false;
-		// })
-		.addCase(getProjectsFromDb.pending, (state: ProjectsSliceState) => {
-		  state.projectsLoading = true;
-		})
-		.addCase(getProjectsFromDb.fulfilled, (state: ProjectsSliceState, action: PayloadAction<Project[]>) => {
-		  state.projects = action.payload;
-		  state.projectsLoading = false;
-		})
-		.addCase(getProjectsFromDb.rejected, (state: ProjectsSliceState) => {
-		  state.projectsLoading = false;
-		})
-		// .addCase(setViewProject.type, (state: RootState, action: PayloadAction<Project>) => {
-		//   const projects = state.viewProjects.filter((proj) => action.payload.id !== proj.id);
-		//   state.viewProjects = [action.payload, ...projects];
-		// })
-		// .addCase(setViewAllProjects.type, (state: RootState, action: PayloadAction<Project[]>) => {
-		//   state.viewProjects = action.payload;
-		// });
+
 	}
 })
-
-
-
-export const getProjectsFromDb = createAsyncThunk('projects/getAll', async (arg, thunk) => {
-	try {
-		return await DataService.axiosGetProjects()
-	} catch (e) {
-		return thunk.rejectWithValue('Unable to get projects')
-	}
-})
-
-
-
-export const updateProject = createAsyncThunk(
-	'projects/update',
-	async (project: Project) => await DataService.axiosUpdateProject(project)
-)
-
-export const deleteProject = createAsyncThunk(
-	'projects/delete',
-	async (projectId: number) => await DataService.axiosDeleteProject(projectId)
-)
-
-export const deleteImages = createAsyncThunk(
-	'projects/delete-images',
-	async (images: string[]) => await DataService.axiosDeleteImages(images)
-)
-
-export const deletePhotos = createAsyncThunk(
-	'projects/delete-photos',
-	async (photos: string[]) => await DataService.axiosDeletePhotos(photos)
-)
-
 
 export const toggleIsShowOnMain = createAsyncThunk(
 	'projects/toggleShowOnMain',

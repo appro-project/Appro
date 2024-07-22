@@ -1,6 +1,5 @@
 import { Project } from '@/entity/Project'
 import axios, { AxiosResponse } from 'axios'
-import { Floor } from '@/entity/Floor'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 
 export const currentHost = import.meta.env.DEV ? 'http://13.60.38.144' : ''
@@ -108,52 +107,17 @@ const axiosDeleteProject = (projectId: number) => {
 	})
 }
 
-const axiosGetProjects = async (): Promise<Project[]> => {
-	return await axiosWithSetting
-		.get('project')
-		.then((response) => response.data)
-		.then((data) => mapResponseDataToProjects(data))
-}
-
-export const axiosGetProjectById = async (id: number) => {
-	return await axiosWithSetting
-		.get(`project/${id}`)
-		.then((res) => res.data)
-		.then((data) => mapResponseDataToProject(data))
-}
 
 export const axiosPostFeedback = async (value: IFeedbackForm) => {
 	return await axiosWithSetting.post(`feedback`, value)
 }
 
 
-
-const mapResponseDataToFloorList = (floorListResponse: any): Floor[] => {
-	const floors: Floor[] = []
-	if (!floorListResponse) {
-		return floors
-	}
-	for (const floor of floorListResponse) {
-		floors.push({
-			id: floor.floorId,
-			index: floor.index,
-			area: floor.area,
-			height: floor.height,
-			isAttic: floor.isAttic,
-			isBasement: floor.isBasement,
-			planningImage: floor.planningImage
-		})
-	}
-
-	return floors
-}
-
 export const DataService = {
 	axiosSaveProject,
 	axiosUpdateProject,
 	axiosUpdateProjectConfig,
 	axiosDeleteProject,
-	axiosGetProjects,
 	axiosDeleteImages,
 	axiosDeletePhotos
 }

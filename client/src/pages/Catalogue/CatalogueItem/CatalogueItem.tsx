@@ -10,13 +10,14 @@ import { VisitedProjects } from '@/containers/VisitedProjects/VisitedProjects'
 import { Project } from '@/entity/Project'
 import { SortDetails } from '@/constants/sortData/catalogueSortInfo'
 import { Button } from '@/components/UI/Button/Button'
+import {ProjectDto} from "@/api/model";
 
 interface PropsType {
   applyFilter: (searchParams: URLSearchParams) => void;
-  currentProjects: Project[];
+  currentProjects: ProjectDto[];
   sortDetails: SortDetails | undefined;
   applySort: (searchParams: URLSearchParams) => void;
-  currentProjectsPaged: Project[];
+  currentProjectsPaged: ProjectDto[];
   currentPage: number;
   projectsPerPage: number;
   handlePageChange: (nextPage: number) => void;

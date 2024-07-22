@@ -4,9 +4,10 @@ import { Project } from '@/entity/Project'
 import  {Button, ButtonType } from '@/components/UI/Button/Button'
 import { Link } from 'react-router-dom'
 import { memo } from 'react'
+import {ProjectDto} from "@/api/model";
 
 interface Props {
-  projectData: Project;
+  projectData: ProjectDto;
 }
 
 export const ProjectDetails = memo(({ projectData }: Props) => {
