@@ -14,12 +14,8 @@ import {useAppDispatch} from '@/redux/configure-store'
 import {ProjectsList} from "@/pages/new-admin/projects-list/projects-list.page";
 import {ProjectInfo} from "@/pages/new-admin/project-info/project-info.component";
 import {AdminLayout} from "@/pages/new-admin/admin-layout.component";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useGetAllProjects} from "@/api/useGetAllProjects";
 
-
-// Create a client
-const queryClient = new QueryClient()
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -35,7 +31,7 @@ export const App = () => {
     }, [projects])
 
     return (
-        <QueryClientProvider client={queryClient}>
+
             <Routes>
                 <Route element={<AdminLayout/>}>
                     <Route path={'/new-admin/project/new'} element={<ProjectInfo/>}/>
@@ -58,7 +54,7 @@ export const App = () => {
                     <Route path={'/about'} element={<AboutUs/>}/>
                 </Route>
             </Routes>
-        </QueryClientProvider>)
+       )
 
 }
 
