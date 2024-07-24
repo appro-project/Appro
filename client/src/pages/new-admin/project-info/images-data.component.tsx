@@ -26,10 +26,10 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
         if (savedMainImage) {
             dispatch({type: 'mainImage', payload: savedMainImage[0]});
         }
-    }, [saveMainImage]);
+    }, [savedMainImage]);
 
     const handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        saveImages({images: event.target.files})
+        saveImages({images: event.target.files , type: 'image'})
     }
 
 
@@ -44,7 +44,7 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
 
 
     const handleMainImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      saveMainImage({images: event.target.files})
+      saveMainImage({images: event.target.files, type: 'main'})
     }
 
     const handleMainImageRemove = () => {

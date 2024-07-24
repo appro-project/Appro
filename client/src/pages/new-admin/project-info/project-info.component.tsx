@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useReducer, useState} from "react";
-import {useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {Box, Button, Paper, Tab, Tabs} from "@mui/material";
 import {initialState, ProjectPropAction} from "@/pages/new-admin/project-info/model";
 import {BasicInfo} from "@/pages/new-admin/project-info/basic-info.component";
 import {ImageData} from "@/pages/new-admin/project-info/images-data.component";
 import {AdditionalInfo} from "@/pages/new-admin/project-info/additional-info.component";
 import {FloorsInfo} from "@/pages/new-admin/project-info/floors-info.component";
-import {useSaveProject} from "@/api/useSaveProject";
+import {useCreateProject, useSaveProject} from "@/api/useSaveProject";
 import {ProjectDto} from "@/api/model";
 import {useGetProjectById} from "@/api/useGetProjectById";
 import {CustomSnackbar} from "@/pages/new-admin/custom-snackbar.component";
@@ -15,12 +15,27 @@ import {CustomSnackbar} from "@/pages/new-admin/custom-snackbar.component";
 export const ProjectInfo: FC = () => {
     const {projectId} = useParams();
 
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
+    const isNew = location.pathname === '/admin/project/new';
 
-    const {mutate: saveProject, isPending} = useSaveProject(() => {
-       setOpenSnackbar(true)
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
+
+    const {mutate: saveProject, isPending: isSavePending} = useSaveProject(() => {
+        setOpenSuccessSnackbar(true)
+    }, () => {
+        setOpenErrorSnackbar(true)
     });
+
+    const {data:savedProject, mutate: createProject, isPending: isCreatePending} = useCreateProject(() => {
+        setOpenSuccessSnackbar(true)
+    }, () => {
+        setOpenErrorSnackbar(true)
+    });
+
+    const isPending = isSavePending || isCreatePending;
 
     const [tabIndex, setTabIndex] = React.useState(0);
 
@@ -30,7 +45,6 @@ export const ProjectInfo: FC = () => {
 
 
     const {data: project} = useGetProjectById(Number(projectId));
-
 
     const [currentProject, localDispatch] = useReducer((prevState: ProjectDto, action: ProjectPropAction) => {
 
@@ -48,8 +62,13 @@ export const ProjectInfo: FC = () => {
 
     useEffect(() => {
         if (!project) return;
-        localDispatch({type: 'id', payload: 1, initState: {...project, newImages: project.images || []}})
+        localDispatch({type: 'id', payload: 1, initState: {...project}})
     }, [project])
+
+    useEffect(() => {
+        if (!savedProject) return;
+        navigate(`/admin/project/${savedProject.id}`)
+    }, [savedProject]);
 
     if (!currentProject) {
         return <div>Loading...</div>
@@ -59,8 +78,11 @@ export const ProjectInfo: FC = () => {
         console.log('currentProject', currentProject)
         const basicProjectProperties = _objectWithoutProperties(currentProject, ['edit', 'add', 'imagesToDelete', 'photosToDelete', 'imagesToAdd', 'photosToAdd',])
         console.log('basicProjectProperties =>>>>>>', basicProjectProperties)
-
-        saveProject(basicProjectProperties as ProjectDto)
+        if (isNew) {
+            createProject(basicProjectProperties as ProjectDto)
+        } else {
+            saveProject(basicProjectProperties as ProjectDto)
+        }
     }
 
     return (
@@ -72,8 +94,14 @@ export const ProjectInfo: FC = () => {
             </Box>
 
             <CustomSnackbar title={"Проект збережено"}
-                            open={openSnackbar}
-                            handleClose={() => setOpenSnackbar(false)}
+                            open={openSuccessSnackbar}
+                            handleClose={() => setOpenSuccessSnackbar(false)}
+            />
+
+            <CustomSnackbar title={"Помилка. Перевірте чи всі данні заповнені"}
+                            open={openErrorSnackbar}
+                            severity={'error'}
+                            handleClose={() => setOpenErrorSnackbar(false)}
             />
 
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>

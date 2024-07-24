@@ -1,31 +1,12 @@
 import {ProjectProps} from "@/pages/new-admin/project-info/model";
 import React, {FC} from "react";
-import {Grid} from "@mui/material";
-import NumericProperty from "@/pages/Admin/ViewAddEditProject/NumericProperty";
+import {Button, Grid} from "@mui/material";
 import FloorRow from "@/pages/new-admin/project-info/floor-row";
 import {ImageInfo} from "@/api/model";
 
 export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
     const {floors} = projectDto
 
-    console.log("project Dto ", projectDto);
-
-    const handleFloorNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value as unknown as number
-        const floors = []
-        for (let i = 0; i < value; i = i + 1) {
-            floors.push({
-                id: i + 1,
-                index: null,
-                area: null,
-                height: null,
-                planningImage: null,
-                isAttic: false,
-                isBasement: false
-            })
-        }
-        dispatch({type: 'floors', payload: floors});
-    }
 
     const handleFloorIndexChange = (event: React.ChangeEvent<any>, floorId: number) => {
         const floors = [...projectDto.floors]
@@ -94,15 +75,22 @@ export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
     }
 
     const view = mode === 'view';
+
     return (<Grid container spacing={2}>
         <Grid item xs={12}>
-            <NumericProperty
-                title={'Количество этажей (включая мансарду и подвал)'}
-                value={projectDto.floors.length}
-                required={true}
-                disabled={view}
-                handleProperty={handleFloorNumberChange}
-            />
+            <Button variant="contained" color="primary" onClick={() => {
+                const newFloors = [...floors];
+                newFloors.unshift({
+                    id: Math.max(...floors.map(f => f.id)) + 1,
+                    index: null,
+                    area: null,
+                    height: null,
+                    planningImage: null,
+                    isAttic: false,
+                    isBasement: false
+                })
+                dispatch({type: 'floors', payload: newFloors});
+            }}>Додати поверх</Button>
         </Grid>
 
         {floors.map((floor, index) => (

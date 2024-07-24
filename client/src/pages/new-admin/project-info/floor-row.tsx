@@ -69,7 +69,7 @@ const FloorRow: React.FC<PropsType> = ({
     };
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        saveImages({images: event.target.files})
+        saveImages({images: event.target.files, type: 'image'})
     }
 
 

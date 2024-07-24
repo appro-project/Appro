@@ -1,5 +1,5 @@
 export interface ProjectDto {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     generalArea: number;

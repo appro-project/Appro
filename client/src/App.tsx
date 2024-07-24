@@ -34,9 +34,9 @@ export const App = () => {
 
             <Routes>
                 <Route element={<AdminLayout/>}>
-                    <Route path={'/new-admin/project/new'} element={<ProjectInfo/>}/>
-                    <Route path={'/new-admin/project/:projectId'} element={<ProjectInfo/>}/>
-                    <Route path={'/new-admin'} element={<ProjectsList/>}/>
+                    <Route path={'/admin/project/new'} element={<ProjectInfo/>}/>
+                    <Route path={'/admin/project/:projectId'} element={<ProjectInfo/>}/>
+                    <Route path={'/admin'} element={<ProjectsList/>}/>
                 </Route>
 
                 <Route element={<Layout/>}>

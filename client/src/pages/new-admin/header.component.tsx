@@ -17,8 +17,8 @@ export const Header = () => {
                                 <Logo/>
                             </Link>
                         </Box>
-                        <Button component={Link} to={'/new-admin'} color="inherit">Всі проекти</Button>
-                        <Button component={Link} to={'/new-admin/project/new'} color="inherit">Додати новий</Button>
+                        <Button component={Link} to={'/admin'} color="inherit">Всі проекти</Button>
+                        <Button component={Link} to={'/admin/project/new'} color="inherit">Додати новий</Button>
                     </Box>
                 </Toolbar>
             </Container>

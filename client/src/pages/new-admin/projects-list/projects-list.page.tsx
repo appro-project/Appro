@@ -5,12 +5,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {Box} from "@mui/material";
 import {useGetAllProjects} from "@/api/useGetAllProjects";
 
-const rows: GridRowsProp = [
-    {id: 1, col1: 'Hello', col2: 'World'},
-    {id: 2, col1: 'DataGridPro', col2: 'is Awesome'},
-    {id: 3, col1: 'MUI', col2: 'is Amazing'},
-];
-
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', width: 70,},
     {field: 'title', headerName: 'Назва', width: 500},
@@ -34,9 +28,6 @@ const columns: GridColDef[] = [
 export const ProjectsList = () => {
 
     const {data: projects, isLoading} = useGetAllProjects();
-
-    console.log("projects", projects);
-    console.log("isLoading", isLoading);
 
     if(!projects) {
         return null;
