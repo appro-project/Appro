@@ -18,12 +18,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("indexView");
         registry.addViewController("/new-admin").setViewName("indexView");
+        registry.addViewController("/new-admin/project/**").setViewName("indexView");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**")
-                .addResourceLocations("classpath:/static/assets/", "file:target/classes/static/assets/");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/", "file:target/classes/static/");
     }
