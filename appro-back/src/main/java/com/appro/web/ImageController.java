@@ -39,7 +39,7 @@ public class ImageController {
     }
 
     private void validateImageType(String type) {
-        if (!type.equals("image") && !type.equals("photo")) {
+        if (!type.equals("image") && !type.equals("photo") && !type.equals("main")) {
             throw new InvalidImageTypeException(type);
         }
     }
