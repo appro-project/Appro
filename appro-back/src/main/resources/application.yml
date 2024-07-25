@@ -10,9 +10,9 @@ spring:
     active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${APPRO_DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${APPRO_DB_URL:"jdbc:postgresql://localhost:5432/appro"}
+    username: ${DB_USERNAME:"a"}
+    password: ${DB_PASSWORD:"b"}
 
   servlet:
     multipart:
