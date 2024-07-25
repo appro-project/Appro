@@ -16,9 +16,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("indexView");
-        registry.addViewController("/new-admin").setViewName("indexView");
-        registry.addViewController("/new-admin/project/**").setViewName("indexView");
+        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.addViewController("/{x:[\\w\\-]+}").setViewName("forward:/index.html");
+        registry.addViewController("/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}").setViewName("forward:/index.html");
     }
 
     @Override
@@ -32,12 +32,6 @@ public class WebConfiguration implements WebMvcConfigurer {
         return new BeanNameViewResolver();
     }
 
-    @Bean
-    public InternalResourceView indexView() {
-        InternalResourceView view = new InternalResourceView();
-        view.setUrl("/index.html");
-        return view;
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
