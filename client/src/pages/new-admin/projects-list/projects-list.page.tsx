@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
         sortable: false,
         renderCell: (params) => {
 
-            return <Link to={`/new-admin/project/${params.row.id}`}>
+            return <Link to={`/admin/project/${params.row.id}`}>
                 <Box display={'flex'} height={'100%'} justifyContent={'center'} alignItems={'center'}><VisibilityIcon
                     color={'primary'}/></Box>
             </Link>;
