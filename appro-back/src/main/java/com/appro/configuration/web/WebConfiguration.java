@@ -14,11 +14,18 @@ import org.springframework.web.servlet.view.InternalResourceView;
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
 
+    @Bean
+    public InternalResourceView indexView() {
+        InternalResourceView view = new InternalResourceView();
+        view.setUrl("/index.html");
+        return view;
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.html");
-        registry.addViewController("/{x:[\\w\\-]+}").setViewName("forward:/index.html");
-        registry.addViewController("/{x:^(?!api$).*$}/*/{y:[\\w\\-]+}").setViewName("forward:/index.html");
+        registry.addViewController("/").setViewName("indexView");
+        registry.addViewController("/{x:[\\w\\-]+}").setViewName("indexView");
+        registry.addViewController("/{x:^(?!api$).*$}/*/{y:[\\w\\-]+}").setViewName("indexView");
     }
 
     @Override
