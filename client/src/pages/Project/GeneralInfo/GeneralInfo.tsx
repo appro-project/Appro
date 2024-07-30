@@ -4,6 +4,7 @@ import { InfoCard, InfoCardProps } from './InfoCard'
 
 interface Props extends InfoCardProps {
 	images: string[];
+	description: string;
 }
 
 export const GeneralInfo = (props: Props) => {
@@ -24,6 +25,7 @@ export const GeneralInfo = (props: Props) => {
 				Приобретая проект дома в Архитектурном бюро, вы получаете комплект чертежей - 2 экземпляра, необходимый для
 				проведения строительных работ и беспрепятственного получения разрешения на строительство.
 			</p>
+			<p className={classes.GeneralInfo_Text}>{props.description}</p>
 		</section>
 	)
 }

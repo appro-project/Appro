@@ -32,8 +32,7 @@ export const ProjectDetails = memo(({ projectData }: Props) => {
           </div>
 
           <div className={classes['project-details__info-text']}>
-            {/*TODO: livingArea or buildingArea??*/}
-            {projectData.buildingArea} м<sup>2</sup>
+            {projectData.generalArea} м<sup>2</sup>
             <span>
               <br />
               площадь

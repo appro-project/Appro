@@ -80,6 +80,25 @@ export const Additional = () => {
 						<li>Відомості опорядження приміщень (вказана площа матеріалів)</li>
 					</ol>
 				</div>
+				<div className='illustrated-list project-additional__list'>
+					<div className='illustrated-list__top'>
+						<div className='illustrated-list__img'>
+							<img src={main_plan} alt='' />
+						</div>
+						<div className='illustrated-list__title'>
+							Наміри забудови
+							<br />
+							(для отримання будівельного паспорту)
+						</div>
+					</div>
+					<ol className='illustrated-list__content project-additional__list'>
+						<li>Схема намірів забудови земельної ділянки</li>
+						<li>Планування поверхів</li>
+						<li>Фасади</li>
+						<li>3D - зображення</li>
+					</ol>
+					<div className='illustrated-list__price'>Вартість від 5000 грн</div>
+				</div>
 			</div>
 		</section>
 	)

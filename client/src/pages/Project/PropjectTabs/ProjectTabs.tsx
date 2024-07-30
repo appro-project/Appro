@@ -40,6 +40,7 @@ export const ProjectTabs = ({ project }: Props) => {
 								projectPrice={project.projectPrice}
 								timeToCreate={project.timeToCreate}
 								images={project.images.map((image) => image.path)}
+								description={project.description}
 							/>
 							<ProjectLayout project={project} />
 							<ProjectStructure project={project} />

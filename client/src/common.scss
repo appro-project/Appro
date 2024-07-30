@@ -120,6 +120,19 @@
     }
   }
 
+  &__price {
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.23;
+    text-align: center;
+    margin-top: 60px;
+
+    @media screen and (max-width: 575px) {
+      font-size: 20px;
+      margin-top: 30px;
+    }
+  }
+
   &__img {
     display: flex;
     align-items: center;
