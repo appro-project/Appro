@@ -1,6 +1,6 @@
 package com.appro.web;
 
-import com.appro.dto.*;
+import com.appro.dto.ProjectDto;
 import com.appro.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

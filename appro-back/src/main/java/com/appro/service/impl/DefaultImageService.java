@@ -2,11 +2,11 @@ package com.appro.service.impl;
 
 import com.appro.dto.ImageInfo;
 import com.appro.entity.Image;
-import com.appro.exception.ImageNotFoundException;
 import com.appro.mapper.ImageMapper;
 import com.appro.repository.ImageRepository;
 import com.appro.service.ImageService;
 import com.appro.service.S3BucketService;
+import com.appro.service.WatermarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ import java.util.List;
 public class DefaultImageService implements ImageService {
 
     private final S3BucketService s3Service;
+    private final WatermarkService watermarkService;
 
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
-
     @Override
     @Transactional
     public List<ImageInfo> saveImages(List<MultipartFile> files, String type) {
@@ -34,7 +34,11 @@ public class DefaultImageService implements ImageService {
         files.forEach(file -> {
             try {
                 Image savedImageWithId = imageRepository.save(new Image(type));
-                String url = s3Service.upload(file, savedImageWithId);
+
+                MultipartFile imageWithWatermark = watermarkService.addWatermark(file);
+                log.info("Watermark added to: {}.", imageWithWatermark.getOriginalFilename());
+
+                String url = s3Service.upload(imageWithWatermark, savedImageWithId);
                 savedImageWithId.setPath(url);
                 images.add(savedImageWithId);
                 imageRepository.save(savedImageWithId);
@@ -60,7 +64,6 @@ public class DefaultImageService implements ImageService {
 
     @Override
     public void removeImages(List<Image> images) {
-       // List<Image> imageList = imageInfos.stream().map(imageMapper::toImage).toList();
         log.info("Starting to delete images from S3 storage.");
         images.forEach(s3Service::delete);
         log.info("Images successfully deleted from S3. Proceeding to delete images from database.");

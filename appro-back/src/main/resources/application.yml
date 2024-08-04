@@ -44,3 +44,12 @@ aws:
   access:
     key: ${AWS_ACCESS_KEY}
     secret-key: ${AWS_ACCESS_SECRET_KEY}
+
+watermark:
+  transparency :
+    factor: 0.7f
+  padding: 25
+  path: /static/watermark.png
+  image:
+    result:
+      format: png
