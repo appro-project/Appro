@@ -3,6 +3,9 @@ import main_plan from '@/assets/img/project_page/main-plan.svg'
 import pen from '@/assets/img/project_page/pen.svg'
 import paint from '@/assets/img/project_page/paint.svg'
 import { Link } from 'react-router-dom'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography'
 
 export const Additional = () => {
 	return (
@@ -87,9 +90,11 @@ export const Additional = () => {
 						</div>
 						<div className='illustrated-list__title'>
 							Наміри забудови
-							<br />
-							(для отримання будівельного паспорту)
 						</div>
+						<Tooltip 
+							title={<Typography fontSize={15}>Для отримання будівельного паспорту</Typography>} arrow>
+							<HelpOutlineIcon fontSize="large" />
+						</Tooltip>
 					</div>
 					<ol className='illustrated-list__content project-additional__list'>
 						<li>Схема намірів забудови земельної ділянки</li>

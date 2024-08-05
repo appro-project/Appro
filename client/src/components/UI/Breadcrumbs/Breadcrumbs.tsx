@@ -1,31 +1,35 @@
 import useBreadcrumbs from 'use-react-router-breadcrumbs'
 import classes from './Breadcrumbs.module.scss'
-import {menuLinks} from '@/constants'
-import {useSelector} from 'react-redux'
-import {getProjects} from '@/redux/selectors'
-import {Link} from 'react-router-dom'
+import { menuLinks } from '@/constants'
+import { Link } from 'react-router-dom'
 import arrow from '@/assets/img/breadcrumbs/arrow.svg'
-import {useGetAllProjects} from "@/api/useGetAllProjects";
+import { FC } from 'react'
 
-const DynamicProjectBreadcrumb = ({match}: any) => {
-    const {data:projects} = useGetAllProjects();
-    const findProject = projects.find((x) => x.id === +match.params.projectId)
-    return <span>{findProject?.title}</span>
+const createRoutes = (title: string) => {
+	return [
+		...menuLinks.map(x => ({ breadcrumb: x.name, path: x.path })),
+		{
+			element: <span>{title}</span>,
+			path: '/catalogue/:projectId',
+			breadcrumb: title
+		}
+	]
 }
 
-const routes = [
-    ...menuLinks.map((x) => ({breadcrumb: x.name, path: x.path})),
-    {breadcrumb: DynamicProjectBreadcrumb, path: '/catalogue/:projectId'}
-]
+interface BreadcrumbsProps {
+	title?: string
+}
 
-export const Breadcrumbs = () => {
-    const breadcrumbs = useBreadcrumbs(routes)
-    return (<div className={classes.Breadcrumbs}>
-        {breadcrumbs.map(({match, breadcrumb}: any) => (
-            <span key={match.url}>
-		    	<Link to={match.pathname}>{breadcrumb}</Link>
-		    <img src={arrow}/>
-		  </span>
-        ))}
-    </div>)
+export const Breadcrumbs: FC<BreadcrumbsProps> = ({ title }) => {
+	const breadcrumbs = useBreadcrumbs(createRoutes(title))
+	return (
+		<div className={classes.Breadcrumbs}>
+			{breadcrumbs.map(({ match, breadcrumb }: any) => (
+				<span key={match.url}>
+					<Link to={match.pathname}>{breadcrumb}</Link>
+					<img src={arrow} />
+				</span>
+			))}
+		</div>
+	)
 }

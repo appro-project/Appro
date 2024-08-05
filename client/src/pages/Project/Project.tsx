@@ -1,32 +1,21 @@
-import { useEffect, useState } from 'react'
 import { Breadcrumbs } from '@/components/UI/Breadcrumbs/Breadcrumbs'
-import { ProjectTabs } from './PropjectTabs/ProjectTabs'
-import { useParams } from 'react-router'
 import { Container } from '@/containers/hoc/Container/Container'
-import { Project } from '@/entity/Project'
+import { useEffect } from 'react'
+import { useParams } from 'react-router'
+import { ProjectTabs } from './PropjectTabs/ProjectTabs'
 
-import classes from './Project.module.scss'
-import { useDispatch, useSelector } from 'react-redux'
-import { getProjects } from '@/redux/selectors'
-import { getProjectInLocalStorage, setProjectInLocalStorage } from '@/services/util/localStorage'
+import { useGetProjectById } from '@/api/useGetProjectById'
 import { setViewProject } from '@/redux/actions'
-import {useGetAllProjects} from "@/api/useGetAllProjects";
-import {ProjectDto} from "@/api/model";
+import { getProjectInLocalStorage, setProjectInLocalStorage } from '@/services/util/localStorage'
+import { useDispatch } from 'react-redux'
+import classes from './Project.module.scss'
 
 type RouteProps = { projectId: string };
 
 export const ProjectPage = () => {
-  const [project, setProject] = useState<ProjectDto | null>(null);
   const { projectId } = useParams<RouteProps>();
-  const {data:projects} = useGetAllProjects();
+  const {data:project} = useGetProjectById(+projectId);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const findProject = projects.find((element) => element.id === +projectId);
-    if (findProject) {
-      setProject(findProject);
-    }
-  }, [projectId, projects]);
 
   useEffect(() => {
     const projectInLocalStorage: number[] = getProjectInLocalStorage();
@@ -37,8 +26,6 @@ export const ProjectPage = () => {
     }
   }, [project]);
 
-  if(!projects) return <div>Loading...</div>
-
   if (!project) {
     return <div>Not found</div>;
   }
@@ -47,7 +34,7 @@ export const ProjectPage = () => {
     <section className={classes.Project}>
       <Container>
         <div className={classes.Project_Breadcrumbs}>
-          <Breadcrumbs />
+          <Breadcrumbs title={project.title} />
         </div>
         <h1 className={classes.Project_Title}>{project.title}</h1>
         <div className={classes.Project_Body}>{project && <ProjectTabs project={project} />}</div>
