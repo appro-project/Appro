@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -36,6 +37,7 @@ public class DefaultS3BucketService implements S3BucketService {
             log.error("Error uploading file to S3 for image ID: {}", image.getId(), e);
             throw new S3OperationException("Failed upload image to S3", e);
         }
+        deleteTemporaryFile(localFile);
         String url = getPublicUrl(imageKey);
         log.info("Successfully uploaded image ID: {} to S3 with URL: {}", image.getId(), url);
         return url;
@@ -72,5 +74,14 @@ public class DefaultS3BucketService implements S3BucketService {
             throw new S3OperationException("Error converting file for upload", e);
         }
         return convertedFile;
+    }
+
+    void deleteTemporaryFile(File localFile) {
+        try {
+            Files.delete(localFile.toPath());
+            log.info("Temporary file deleted: {}", localFile.getAbsolutePath());
+        } catch (IOException e) {
+            log.warn("Failed to delete temporary file: {}", localFile.getAbsolutePath(), e);
+        }
     }
 }

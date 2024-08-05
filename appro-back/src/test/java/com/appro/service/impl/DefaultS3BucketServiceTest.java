@@ -28,8 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doThrow;
 
 @Slf4j
@@ -70,13 +71,15 @@ class DefaultS3BucketServiceTest {
         given(multipartFile.getInputStream()).willReturn(mock(InputStream.class));
         given(awsClientConfig.getBucketName()).willReturn(BUCKET_NAME);
         given(amazonS3.getUrl(BUCKET_NAME, IMAGE_KEY)).willReturn(new URL(URL));
+        DefaultS3BucketService spyService = spy(s3BucketService);
 
         // when
-        String actualUrl = s3BucketService.upload(multipartFile, image);
+        String actualUrl = spyService.upload(multipartFile, image);
 
         // then
         assertEquals(URL, actualUrl);
         verify(amazonS3).putObject(any(PutObjectRequest.class));
+        verify(spyService).deleteTemporaryFile(any());
     }
 
     @Test
