@@ -3,6 +3,9 @@ import main_plan from '@/assets/img/project_page/main-plan.svg'
 import pen from '@/assets/img/project_page/pen.svg'
 import paint from '@/assets/img/project_page/paint.svg'
 import { Link } from 'react-router-dom'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography'
 
 export const Additional = () => {
 	return (
@@ -79,6 +82,27 @@ export const Additional = () => {
 						<li>Розгортки приміщень</li>
 						<li>Відомості опорядження приміщень (вказана площа матеріалів)</li>
 					</ol>
+				</div>
+				<div className='illustrated-list project-additional__list'>
+					<div className='illustrated-list__top'>
+						<div className='illustrated-list__img'>
+							<img src={main_plan} alt='' />
+						</div>
+						<div className='illustrated-list__title'>
+							Наміри забудови
+						</div>
+						<Tooltip 
+							title={<Typography fontSize={15}>Для отримання будівельного паспорту</Typography>} arrow>
+							<HelpOutlineIcon fontSize="large" />
+						</Tooltip>
+					</div>
+					<ol className='illustrated-list__content project-additional__list'>
+						<li>Схема намірів забудови земельної ділянки</li>
+						<li>Планування поверхів</li>
+						<li>Фасади</li>
+						<li>3D - зображення</li>
+					</ol>
+					<div className='illustrated-list__price'>Вартість від 5000 грн</div>
 				</div>
 			</div>
 		</section>

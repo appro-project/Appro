@@ -3,14 +3,14 @@ import classes from './ProjectDetails.module.scss'
 import { Project } from '@/entity/Project'
 import  {Button, ButtonType } from '@/components/UI/Button/Button'
 import { Link } from 'react-router-dom'
-import { memo } from 'react'
+import { FC, memo } from 'react'
 import {ProjectDto} from "@/api/model";
 
-interface Props {
+interface ProjectDetailsProps {
   projectData: ProjectDto;
 }
 
-export const ProjectDetails = memo(({ projectData }: Props) => {
+export const ProjectDetails: FC<ProjectDetailsProps> = memo(({projectData}) => {
   const onClick = () => {
     window.scrollTo(0, 200);
   };
@@ -32,8 +32,7 @@ export const ProjectDetails = memo(({ projectData }: Props) => {
           </div>
 
           <div className={classes['project-details__info-text']}>
-            {/*TODO: livingArea or buildingArea??*/}
-            {projectData.buildingArea} м<sup>2</sup>
+            {projectData.generalArea} м<sup>2</sup>
             <span>
               <br />
               площадь

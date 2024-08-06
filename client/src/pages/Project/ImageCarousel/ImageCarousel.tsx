@@ -1,8 +1,6 @@
 import { ReactElement } from 'react'
 import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/scss/image-gallery.scss'
-
-import './override.css'
 import classes from './index.module.scss'
 
 interface Props {

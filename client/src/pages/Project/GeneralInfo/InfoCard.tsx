@@ -19,6 +19,7 @@ export interface InfoCardProps {
 export const InfoCard = (props: InfoCardProps) => {
   const [type, setType] = useState<TypeOfHouse>(TypeOfHouse.Mirrored);
   const [openModal, setOpenModal] = useState(false);
+  const [buildingIntention, setBuildingIntention] = useState(false);
 
   const handleChangeType = (e: ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value as TypeOfHouse);
@@ -27,6 +28,10 @@ export const InfoCard = (props: InfoCardProps) => {
   const handleOpenModal = () => {
     setOpenModal(true);
   };
+
+  const handleChangeBuildingIntention = (e: ChangeEvent<HTMLInputElement>) => {
+    setBuildingIntention(e.target.checked);
+  }
 
   return (
     <>
@@ -78,6 +83,13 @@ export const InfoCard = (props: InfoCardProps) => {
                 <NumericFormat value={props.projectPrice} displayType={'text'} thousandSeparator={' '} suffix={' грн'} />
               </div>
             </div>
+          </div>
+
+          <div className={classes.GeneralInfo_InfoRows}>
+            <input type="checkbox" id={'buildingIntention'} checked={buildingIntention} onChange={handleChangeBuildingIntention}/>
+            <label htmlFor={'buildingIntention'}>
+              Додати наміри забудови
+            </label>
           </div>
 
           <div className={classes.GeneralInfo_Button}>
