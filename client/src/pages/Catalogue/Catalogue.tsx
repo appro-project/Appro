@@ -5,7 +5,6 @@ import catalogueSortInfo, {
 	SortDetails,
 	SortDirection
 } from '@/constants/sortData/catalogueSortInfo'
-import { Project } from '@/entity/Project'
 import CatalogueItem from './CatalogueItem/CatalogueItem'
 import { useLocation } from 'react-router'
 import {useGetAllProjects} from "@/api/useGetAllProjects";
@@ -20,8 +19,10 @@ export const Catalogue = () => {
   const {data:projects} = useGetAllProjects();
 
   useEffect(() => {
-    setState({ ...state, projects });
-  }, [projects]);
+    if (projects) {
+      setState((prevState) => ({ ...prevState, projects }));
+    }
+  }, [projects, ]);
 
   if(!projects) return <div>Loading...</div>
 

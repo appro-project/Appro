@@ -50,88 +50,87 @@ const getSortUri = (id: string, direction: SortDirection, currentSearchParams: U
   return currentSearchParams;
 };
 
-const getProjectsByFilters = (projects: ProjectDto[], filters: URLSearchParams): ProjectDto[] => {
-  let currentProjects = [...projects];
+type FilterFunction = (value: string, project: ProjectDto) => boolean;
+
+const filterFunctions: Record<string, FilterFunction> = {
+  area: (value, project) => filterRange(value, project, project.buildingArea),
+  floor: (value, project) => floorFilter(value, project),
+  bedroom: (value, project) => filterBedroom(value, project),
+  garage: (value, project) => filterGarage(value, project),
+  projectPrice: (value, project) => filterRange(value, project, project.projectPrice),
+  buildingPrice: (value, project) => filterRange(value, project, project.buildingPrice),
+  style: (value, project) => filterStyle(value, project)
+};
+
+const applyFilters = (project: ProjectDto, filters: URLSearchParams): boolean => {
+  let isMatch = true;
+
   filters.forEach((value, key) => {
+    const filterFunction = filterFunctions[key];
     if (key.includes('_sort')) {
       return;
     }
-    currentProjects = currentProjects.filter((pr) => {
-      if (key === 'area') {
-        const range = value.split('-');
-
-        return pr.buildingArea >= Number(range[0]) && pr.buildingArea <= Number(range[1]);
-      }
-      if (key === 'floor') {
-        return floorFilter(value, pr);
-      }
-      if (key === 'bedroom') {
-        return filterBedroom(value, pr);
-      }
-      if (key === 'garage') {
-        return filterGarage(value, pr);
-      }
-      if (key === 'projectPrice') {
-        const range = value.split('-');
-
-        return pr.projectPrice >= Number(range[0]) && pr.projectPrice <= Number(range[1]);
-      }
-      if (key === 'buildingPrice') {
-        const range = value.split('-');
-
-        return pr.buildingPrice >= Number(range[0]) && pr.buildingPrice <= Number(range[1]);
-      }
-      if (key === 'style') {
-        if (value === 'all') {
-          return true;
-        }
-
-        return (
-          (pr.style === 'классический' && value.includes('classic')) ||
-          (pr.style === 'современный' && value.includes('modern'))
-        );
-      }
-
-      return false;
-    });
+    if (!filterFunction(value, project)) {
+      isMatch = false;
+      return;
+    }
   });
 
-  return currentProjects;
+  return isMatch;
+}
+
+const getProjectsByFilters = (projects: ProjectDto[], filters: URLSearchParams): ProjectDto[] => {
+  let currentProjects = [...projects];
+  
+  if (!filters.keys().next().value) return currentProjects;
+  
+  return currentProjects.filter((pr) => applyFilters(pr, filters));
+
 };
 
-const floorFilter = (value: string, project: ProjectDto) => {
-  const floorCount = value.split('-floor')
-      .map(v=> v.replace(",", ""))
-      .filter(v=> v !== "").map(Number);
+const filterRange = (value: string, project: ProjectDto, field: number): boolean => {
+  const [min, max] = value.split('-').map(Number);
+  return field >= min && field <= max;
+}
 
+const filterStyle = (value: string, project: ProjectDto): boolean => {
+  if (value === 'all') return true;
+    return (
+      (project.style === 'классический' && value.includes('classic')) ||
+      (project.style === 'современный' && value.includes('modern'))
+    );
+}
+
+const floorFilter = (value: string, project: ProjectDto): boolean => {
+  isAllValue(value);
+
+  const floorSuffix = '-floor';
+  const floors = value.split(',')
+    .map(v => {
+      if (v.includes(floorSuffix)) {
+        return v.replace(floorSuffix, '');
+      }
+      return v;
+    });
+
+  return floors.includes(String(project.floors.length)) 
+    || floors.includes('attic') && project.floors.find((fl) => fl.isAttic)
+    || floors.includes('basement') && project.floors.find((fl) => fl.isBasement) ? true : false;
+};
+
+const filterBedroom = (value: string, pr: ProjectDto): boolean => {
   if (value.includes('all')) {
     return true;
   }
-  if (value.includes('attic')) {
-    return !!project.floors.find((fl) => fl.isAttic);
-  }
-  if (value.includes('basement')) {
-    return !!project.floors.find((fl) => fl.isBasement);
-  }
-
-  return floorCount.includes(project.floors.length);
+    
+  const bedrooms = value.split(",");
+  return bedrooms.includes(String(pr.bedroomCount)) || 
+    Number(pr.bedroomCount) >= 4 && bedrooms.includes('>4');
 };
 
-const filterBedroom = (value: string, pr: ProjectDto) => {
-  if (value.includes('all')) {
-    return true;
-  }
-  if (value.includes('>4')) {
-    return Number(pr.bedroomCount) >= 4;
-  }
+const filterGarage = (value: string, pr: ProjectDto): boolean => {
+  isAllValue(value);
 
-  return Number(pr.bedroomCount) === Number(value);
-};
-
-const filterGarage = (value: string, pr: ProjectDto) => {
-  if (value === 'all') {
-    return true;
-  }
   if (value === 'true') {
     return pr.isGaragePresent;
   }
@@ -180,5 +179,7 @@ const compareProjects = (project1: ProjectDto, project2: ProjectDto, order: stri
 
   return 0;
 };
+
+const isAllValue = (value: string) => value.includes('all')
 
 export { getSearchUri, getSortUri, getProjectsByFilters, sortProjectsByParams };
