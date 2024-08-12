@@ -54,8 +54,8 @@ jobs:
           cd /home/ubuntu/appro/app/client
           # echo "Running npm install --legacy-peer-deps --force "
           # npm install --no-optional --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
-          echo "Running yarn install --legacy-peer-deps --force "
-          yarn install --no-optional --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
+          echo "Running yarn install "
+          yarn install > /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
     # - name: Install additional types & types/jest
