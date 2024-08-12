@@ -13,26 +13,20 @@ import {ProjectDto} from "@/api/model";
 const projectsPerPage = 8;
 
 export const Catalogue = () => {
-  const [state, setState] = useState({ projects: [] as ProjectDto[], currentProjects: [] as ProjectDto[], currentPage: 1 });
+  const [state, setState] = useState({ currentProjects: [] as ProjectDto[], currentPage: 1 });
   const location = useLocation();
 
   const {data:projects} = useGetAllProjects();
 
-  useEffect(() => {
-    if (projects) {
-      setState((prevState) => ({ ...prevState, projects }));
-    }
-  }, [projects, ]);
-
   if(!projects) return <div>Loading...</div>
 
   const applyFilter = (searchParams: URLSearchParams) => {
-    const filteredProjects = getProjectsByFilters(state.projects, searchParams);
+    const filteredProjects = getProjectsByFilters(projects, searchParams);
     setState({ ...state, currentProjects: filteredProjects });
   };
 
   const applySort = (searchParams: URLSearchParams) => {
-    const sortedProjects = sortProjectsByParams(state.projects, searchParams);
+    const sortedProjects = sortProjectsByParams(projects, searchParams);
     setState({ ...state, currentProjects: sortedProjects });
   };
 
