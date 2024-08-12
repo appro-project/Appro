@@ -56,12 +56,13 @@ jobs:
           npm install --no-optional --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
-    - name: Install additional types
+    - name: Install additional types & types/jest
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
           echo "Running npm install @types/node --legacy-peer-deps"
           npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+          npm install --save-dev @types/jest --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
     - name: Build client
@@ -116,130 +117,3 @@ jobs:
           sudo nohup java -jar target/appro-back.jar > /home/ubuntu/appro/server.log 2>&1 &
           echo "Backend is running successfully."
         EOF
-
-
-# name: Deploy to Chexie
-
-# on: [ workflow_dispatch ]
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout repository
-#       uses: actions/checkout@v2
-
-#     - name: Set up SSH
-#       run: |
-#         mkdir -p ~/.ssh
-#         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-#         chmod 600 ~/.ssh/id_rsa
-
-#     - name: Test SSH connection
-#       run: |
-#         # ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
-
-#     - name: Clean directory on EC2
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/app/*"
-
-#     - name: Copy files to EC2
-#       run: |
-#         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
-
-#     - name: Prepare application.yml on EC2
-#       run: |
-#          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-#            cd /home/ubuntu/appro/app/appro-back/src/main/resources
-#            sed -i "s/\${SERVER_PORT}/${{ secrets.SERVER_PORT }}/g" application.yml
-#            sed -i "s|\${APPRO_DB_URL}|${{ secrets.APPRO_DB_URL }}|g" application.yml
-#            sed -i "s/\${DB_USERNAME}/${{ secrets.DB_USERNAME }}/g" application.yml
-#            sed -i "s/\${DB_PASSWORD}/${{ secrets.DB_PASSWORD }}/g" application.yml
-#            sed -i "s/\${HUSKY_EMAIL}/${{ secrets.HUSKY_EMAIL }}/g" application.yml
-#            sed -i "s/\${HUSKY_EMAIL_API_KEY}/${{ secrets.HUSKY_EMAIL_API_KEY }}/g" application.yml
-#            sed -i "s/\${AWS_BUCKET_NAME}/${{ secrets.AWS_BUCKET_NAME }}/g" application.yml
-#            sed -i "s/\${AWS_ACCESS_KEY}/${{ secrets.AWS_ACCESS_KEY }}/g" application.yml
-#            sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml
-#          EOF
-
-#     - name: Check and free port 80 & 3000
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-          
-#           PID=$(sudo lsof -t -i:80)
-#           if [ -n "$PID" ]; then
-#             echo "Port 80 is occupied by process $PID. Terminating process."
-#             sudo kill -9 $PID
-#           else
-#             echo "Port 80 is free."
-#           fi
-
-#           PID=$(sudo lsof -t -i:3000)
-#           if [ -n "$PID" ]; then
-#             echo "Port 3000 is occupied by process $PID. Terminating process."
-#             sudo kill -9 $PID
-#           else
-#             echo "Port 3000 is free."
-#           fi
-#         EOF
-    
-#     - name: Build and run backend on EC2
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-#           cd /home/ubuntu/appro/app/appro-back
-          
-#           # export SERVER_PORT="${{ secrets.SERVER_PORT }}"
-#           export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
-#           export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-#           export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-#           # export HUSKY_EMAIL="${{ secrets.HUSKY_EMAIL }}"
-#           # export HUSKY_EMAIL_API_KEY="${{ secrets.HUSKY_EMAIL_API_KEY }}"
-          
-#           export MAVEN_HOME=/home/ubuntu/appro/mvn
-#           export PATH=$MAVEN_HOME/bin:$PATH
-
-#           # Надання виконуваних дозволів для mvnw
-#           chmod +x mvnw
-
-#           # Діагностика Flyway
-#           echo "Running Flyway migrations with the following configuration:"
-#           cat src/main/resources/application.yml
-          
-#           cd /home/ubuntu/appro/app/appro-back
-#           ./mvnw flyway:migrate -Dflyway.url=${APPRO_DB_URL} -Dflyway.user=${DB_USERNAME} -Dflyway.password=${DB_PASSWORD}
-          
-#           mvn clean package -DskipTests
-#           if [ $? -ne 0 ]; then
-#             echo "Error: mvn package failed."
-#             exit 1
-#           fi
-          
-#           sudo nohup java -jar target/appro-back.jar > /home/ubuntu/appro/server.log 2>&1 &
-#           echo "Backend is running successfully."
-#         EOF
-
-#     - name: Install client dependencies
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-#           cd /home/ubuntu/appro/app/client
-#           echo "Running npm install --legacy-peer-deps --force "
-#           npm install --no-optional --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
-#         EOF
-
-#     - name: Install additional types
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-#           cd /home/ubuntu/appro/app/client
-#           echo "Running npm install @types/node --legacy-peer-deps"
-#           npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
-#         EOF
-
-#     - name: Run client
-#       run: |
-#         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
-#           echo "Starting client"
-#           cd /home/ubuntu/appro/app/client
-#           nohup npm start -- --host 0.0.0.0 > /home/ubuntu/appro/client_start.log 2>&1 &         
-#         EOF
