@@ -12,4 +12,8 @@ public class WatermarkException extends RuntimeException {
     public WatermarkException() {
         super(NULL_MESSAGE);
     }
+
+    public WatermarkException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
 }

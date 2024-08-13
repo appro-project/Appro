@@ -48,8 +48,8 @@ aws:
 watermark:
   transparency :
     factor: 0.7f
-  padding: 25
-  path: /static/watermark.png
+  scale: 0.25
+  path: /static/logo.png
   image:
     result:
       format: png
