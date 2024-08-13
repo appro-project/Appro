@@ -64,7 +64,7 @@ jobs:
           cd /home/ubuntu/appro/app/client
           echo "Running npm install @types/node --legacy-peer-deps"
           # npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
-          npm install --save-dev @types/jest --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+          yarn -D add @types/jest >> /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
     - name: Build client
