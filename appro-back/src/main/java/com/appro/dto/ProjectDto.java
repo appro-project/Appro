@@ -25,6 +25,7 @@ public class ProjectDto {
     private BigDecimal projectPrice;
     private Double livingArea;
     private Double buildingArea;
+    private Double terraceArea;
     private String wallMaterial;
     private BigDecimal wallThickness;
     private String foundation;

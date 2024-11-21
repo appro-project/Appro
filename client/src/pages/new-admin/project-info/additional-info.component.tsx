@@ -37,6 +37,15 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
                 />
             </Grid>
             <Grid item xs={2.4}>
+                <NumericProperty
+                    title={'Площадь терассы, кв.м.'}
+                    value={projectDto.terraceArea}
+                    required={true}
+                    disabled={view}
+                    handleProperty={e => dispatch({type: 'terraceArea', payload: e.target.value})}
+                />
+            </Grid>
+            <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Фундамент'}
                     value={projectDto.foundation}

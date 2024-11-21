@@ -62,6 +62,9 @@ public class Project {
     @Column(name = "building_area")
     private Double buildingArea;
 
+    @Column(name = "terrace_area")
+    private Double terraceArea;
+
     @Column(name = "time_to_create")
     private Integer timeToCreate;
 

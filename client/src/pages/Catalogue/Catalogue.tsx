@@ -38,6 +38,7 @@ export const Catalogue = () => {
 
   const handlePageChange = (nextPage: number) => {
     setState({ ...state, currentPage: nextPage });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function getSortDetailsByUrl(urlParams: URLSearchParams): SortDetails | undefined {
