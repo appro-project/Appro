@@ -26,6 +26,7 @@ public class DefaultWatermarkServiceTest {
 	private static final String ORIGINAL_FILE_NAME = "sourceImage";
 	private static final String WATERMARK_PATH = "/static/watermark/watermark.png";
 	private static final String IMAGE_FORMAT = "png";
+	private static final float SCALE = 0.25f;
 
 	@InjectMocks
 	private DefaultWatermarkService watermarkService;
@@ -34,6 +35,7 @@ public class DefaultWatermarkServiceTest {
 	void setup() {
 		ReflectionTestUtils.setField(watermarkService, "watermarkPath", WATERMARK_PATH);
 		ReflectionTestUtils.setField(watermarkService, "imageFormat", IMAGE_FORMAT);
+		ReflectionTestUtils.setField(watermarkService, "watermarkScale", SCALE);
 	}
 
 	@Test

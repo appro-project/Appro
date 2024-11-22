@@ -81,7 +81,7 @@ export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
             <Button variant="contained" color="primary" onClick={() => {
                 const newFloors = [...floors];
                 newFloors.unshift({
-                    id: Math.max(...floors.map(f => f.id)) + 1,
+                    id: (floors?.length ? Math.max(...floors.map(f => f.id)) : 0) + 1,
                     index: null,
                     area: null,
                     height: null,

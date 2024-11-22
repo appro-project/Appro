@@ -32,6 +32,7 @@ export const initialState:ProjectDto = {
     projectPrice: 0,
     livingArea: 0,
     buildingArea: 0,
+    terraceArea: 0,
     wallMaterial: WallMaterialOptions.AeratedConcreteBlock,
     wallThickness: 0,
     foundation: FoundationOptions.Pile,

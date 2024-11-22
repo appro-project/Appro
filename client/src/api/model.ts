@@ -7,6 +7,7 @@ export interface ProjectDto {
     projectPrice: number;
     livingArea: number;
     buildingArea: number;
+    terraceArea: number;
     wallMaterial: WallMaterialOptions;
     wallThickness: number;
     foundation: FoundationOptions;

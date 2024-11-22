@@ -52,6 +52,12 @@ export const ProjectLayout = (props: Props) => {
               <span>площадь застройки</span>
               <b>{project.buildingArea} м2</b>
             </li>
+            {project.terraceArea && project.terraceArea > 0 && 
+              <li className={classes.ProjectLayout_InfoItem}>
+                <span>площадь терассы</span>
+                <b>{project.terraceArea} м2</b>
+              </li>
+            }
             <li className={classes.ProjectLayout_InfoItem}>
               <span>габариты</span>
               <b>

@@ -1,0 +1,1 @@
+ALTER TABLE project ADD COLUMN terrace_area numeric;
