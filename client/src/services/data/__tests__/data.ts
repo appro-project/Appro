@@ -29,6 +29,7 @@ const defaultProject: ProjectDto = {
 	projectPrice: 10000,
 	livingArea: 0,
 	buildingArea: 100,
+	terraceArea: 0,
 	wallMaterial: WallMaterialOptions.Brick,
 	wallThickness: 0,
 	foundation: FoundationOptions.Strip,
