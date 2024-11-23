@@ -25,7 +25,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("indexView");
         registry.addViewController("/{x:[\\w\\-]+}").setViewName("indexView");
-        registry.addViewController("/{x:^(?!api$).*$}/*/{y:[\\w\\-]+}").setViewName("indexView");
+        registry.addViewController("/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}").setViewName("indexView");
     }
 
     @Override
