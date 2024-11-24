@@ -2,11 +2,8 @@ package com.appro.configuration.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.InternalResourceView;
 
@@ -19,6 +16,11 @@ public class WebConfiguration implements WebMvcConfigurer {
         InternalResourceView view = new InternalResourceView();
         view.setUrl("/index.html");
         return view;
+    }
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setPathMatcher(new AntPathMatcher());
     }
 
     @Override
