@@ -6,10 +6,13 @@ import { ButtonType, Button } from '@/components/UI/Button/Button'
 import MenuIcon from '@/components/Header/MenuIcon/MenuIcon'
 import { Menu } from './Menu/Menu'
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from './language-switcher.component'
 
 export const Header = () => {
 	const [isOpened, setIsOpened] = useState(false)
 	const location = useLocation()
+	const { t } = useTranslation()
 
 	const headerClasses = [classes['header']]
 	// if main page header should be transparent
@@ -31,13 +34,11 @@ export const Header = () => {
 							+38 (066) 39-53-654
 						</a>
 
-						<a className={createHeaderTopItemClass('header__top-item-lang')} href='#'>
-							RU
-						</a>
+						<LanguageSwitcher style={createHeaderTopItemClass('header__top-item-lang')}/>
 
 						<div className={createHeaderTopItemClass('header__top-item-contact')}>
 							<a href='#'>
-								<Button title={'Обратная связь'} buttonType={ButtonType.TRANSPARENT} />
+								<Button title={t('feedback')} buttonType={ButtonType.TRANSPARENT} />
 							</a>
 						</div>
 						<div className={createHeaderTopItemClass('header__top-item-menu')} onClick={() => setIsOpened(true)}>

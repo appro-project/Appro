@@ -7,6 +7,7 @@ import {Provider} from 'react-redux'
 import {store} from './redux/configure-store'
 import {BrowserRouter} from 'react-router-dom'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import '@/i18n/config'
 
 
 // Create a client
