@@ -27,7 +27,9 @@ export const ProjectTabs = ({ project }: Props) => {
 		<>
 			<div id='scroll-to-top' className={classes.Tabs}>
 				<ol className={classes.TabsList}>
-					{tubsArray.map((element, index) => {
+					{tubsArray
+						.filter(element => project.isFinished || element !== IProjectTubsName.PROJECT_IN_PROGRESS)
+						.map((element, index) => {
 						return <Tab activeTab={activeTab === element} key={index} label={element} onClick={onClickTabItem} />
 					})}
 				</ol>
@@ -46,7 +48,7 @@ export const ProjectTabs = ({ project }: Props) => {
 							<ProjectStructure project={project} />
 							<Changes project={project} />
 							<Additional />
-							<Gallery />
+							{project.isFinished && <Gallery photos={project.photos} />}
 						</>
 					)}
 					{activeTab === IProjectTubsName.LAYAOUT && <ProjectLayout project={project} />}
@@ -54,7 +56,7 @@ export const ProjectTabs = ({ project }: Props) => {
 					{activeTab === IProjectTubsName.ADDITIONAL_SERVICES && <Additional />}
 					{activeTab === IProjectTubsName.COMPOSITION_OF_PROJECT && <ProjectStructure project={project} />}
 					{activeTab === IProjectTubsName.ALTERNATIVE && <Changes project={project} />}
-					{activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery />}
+					{project.isFinished && activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery photos={project.photos} />}
 				</div>
 				<VisitedProjects />
 			</div>
