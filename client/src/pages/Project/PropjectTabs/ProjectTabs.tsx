@@ -4,9 +4,7 @@ import { ProjectLayout } from '../ProjectLayout/ProjectLayout'
 import { ProjectStructure } from '../ProjectStructure/ProjectStructure'
 import { Changes } from '../Changes/Changes'
 import { Additional } from '../Additional/Additional'
-import { Gallery } from '../Gallery/Gallery'
 import { VisitedProjects } from '@/containers/VisitedProjects/VisitedProjects'
-import { Project } from '@/entity/Project'
 import { IProjectTubsName, tubsArray } from '../interfaces'
 import classes from '@/components/UI/Tabs/Tabs.module.scss'
 import { Tab } from '@/components/UI/Tabs/Tab/Tab'
@@ -48,7 +46,16 @@ export const ProjectTabs = ({ project }: Props) => {
 							<ProjectStructure project={project} />
 							<Changes project={project} />
 							<Additional />
-							{project.isFinished && <Gallery photos={project.photos} />}
+							{project.isFinished && 
+								<GeneralInfo
+									title={project.title}
+									generalArea={project.generalArea}
+									projectPrice={project.projectPrice}
+									timeToCreate={project.timeToCreate}
+									images={project.photos.map((image) => image.path)}
+									description={project.description}
+								/>
+							}
 						</>
 					)}
 					{activeTab === IProjectTubsName.LAYAOUT && <ProjectLayout project={project} />}
@@ -56,7 +63,14 @@ export const ProjectTabs = ({ project }: Props) => {
 					{activeTab === IProjectTubsName.ADDITIONAL_SERVICES && <Additional />}
 					{activeTab === IProjectTubsName.COMPOSITION_OF_PROJECT && <ProjectStructure project={project} />}
 					{activeTab === IProjectTubsName.ALTERNATIVE && <Changes project={project} />}
-					{project.isFinished && activeTab === IProjectTubsName.PROJECT_IN_PROGRESS && <Gallery photos={project.photos} />}
+					{project.isFinished && activeTab === IProjectTubsName.PROJECT_IN_PROGRESS 
+						&& <GeneralInfo
+							title={project.title}
+							generalArea={project.generalArea}
+							projectPrice={project.projectPrice}
+							timeToCreate={project.timeToCreate}
+							images={project.photos.map((photo) => photo.path)}
+						/>}
 				</div>
 				<VisitedProjects />
 			</div>
