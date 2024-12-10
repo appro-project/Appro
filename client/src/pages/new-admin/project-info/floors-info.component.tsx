@@ -78,14 +78,7 @@ export const FloorsInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
 
     return (<Grid container spacing={2}>
         <Grid item xs={12}>
-            <Button 
-                variant="contained" 
-                sx={{
-                backgroundColor: '#ffb000', 
-                '&:hover': {
-                    backgroundColor: '#ffcf42'}
-                }} 
-                onClick={() => {
+            <Button variant="contained" color="primary" onClick={() => {
                 const newFloors = [...floors];
                 newFloors.unshift({
                     id: (floors?.length ? Math.max(...floors.map(f => f.id)) : 0) + 1,

@@ -4,7 +4,7 @@ import FormControl from '@mui/material/FormControl'
 import { Box, Button, CircularProgress, FormLabel } from '@mui/material'
 
 interface FilePropertyProps {
-	title: string
+	title?: string
 	required?: boolean
 	multiple?: boolean
 	disabled?: boolean
@@ -13,7 +13,7 @@ interface FilePropertyProps {
 }
 
 const FileProperty: FC<FilePropertyProps> = ({
-	title,
+	title = 'Завантажити',
 	required,
 	multiple,
 	disabled,
@@ -29,11 +29,10 @@ const FileProperty: FC<FilePropertyProps> = ({
 	}
 
 	return (
-		<Box sx={{ my: 4 }}>
+		<Box sx={{ my: 2 }}>
 			<FormControl>
 				<Input
 					type='file'
-					title={title}
 					id={`${title}-label`}
 					onChange={handleProperty}
 					inputProps={{ multiple }}
@@ -42,15 +41,11 @@ const FileProperty: FC<FilePropertyProps> = ({
 					inputRef={hiddenFileInput}
 					style={{ display: 'none' }}
 				/>
-				<Button
-					onClick={handleClick}
+				<Button 
+					onClick={handleClick} 
 					variant='contained'
 					sx={{
-            minWidth: '150px',
-						backgroundColor: '#ffb000',
-						'&:hover': {
-							backgroundColor: '#ffcf42'
-						}
+						minWidth: '150px'
 					}}
 				>
 					{isLoading ? (

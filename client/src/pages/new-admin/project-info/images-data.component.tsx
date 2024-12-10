@@ -77,10 +77,9 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography variant={'h5'}>Основне зображення</Typography>
                 <ProjectImage
                     images={projectDto.mainImage ? [projectDto.mainImage.path] : null}
-                    title={'Завантажити'}
+                    title={'Основне зображення'}
                     isMain={true}
                     required={true}
                     disabled={view}
@@ -88,13 +87,12 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
                     handleRemoveImage={handleMainImageRemove}
                     isLoading={mainImageLoading}
                 />
+                <Divider sx={{ mt: 2 }}/>
             </Grid>
-            {/* <Divider/> */}
             <Grid item xs={12}>
-                <Typography variant={'h5'}>Зображення проекту</Typography>
                 <ProjectImage
                     images={addNew ? null : projectDto.images.map((i: any) => i.path)}
-                    title={'Завантажити'}
+                    title={'Зображення проекту'}
                     required={true}
                     multiple={true}
                     disabled={view}
@@ -102,15 +100,15 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
                     handleRemoveImage={handleImageRemove}
                     isLoading={imagesLoading}
                 />
+                <Divider sx={{ mt: 2 }}/>
             </Grid>
             {projectDto.isFinished && (
                 <>
                     <Divider />
                     <Grid item xs={12}>
-                        <Typography variant={'h5'} >Фото готового проекту</Typography>
                         <ProjectImage
                             images={addNew ? null : projectDto.photos.map((i: any) => i.path)}
-                            title={'Завантажити'}
+                            title={'Фото готового проекту'}
                             required={false}
                             multiple={true}
                             disabled={view}
@@ -128,6 +126,7 @@ export const ImageData: FC<ProjectProps> = ({mode, projectDto, dispatch}) => {
 interface ProjectImageProps {
     images: string[] | null | undefined;
     title: string;
+    buttonTitle?: string;
     required?: boolean;
     multiple?: boolean;
     disabled?: boolean;
@@ -154,18 +153,26 @@ const ProjectImage: FC<ProjectImageProps> = ({
         return ListImage(images, disabled, handleRemoveImage)
     }
     return (
-        <>
-            <FileProperty
-                title={title}
-                required={required}
-                disabled={disabled}
-                multiple={multiple}
-                handleProperty={handleAddImage}
-                isLoading={isLoading}
-            />
-            {images && ListImage(images, disabled, handleRemoveImage)}
-
-        </>
+        <Grid container alignItems="center" justifyContent="start">
+            <Grid item xs={4}>
+                <Typography variant={'h5'}>{title}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <FileProperty
+                    required={required}
+                    disabled={disabled}
+                    multiple={multiple}
+                    handleProperty={handleAddImage}
+                    isLoading={isLoading}
+                />
+            </Grid>
+            {images && 
+                <Grid>
+                    {
+                        ListImage(images, disabled, handleRemoveImage)
+                    }
+                </Grid>}
+        </Grid>
     )
 }
 
