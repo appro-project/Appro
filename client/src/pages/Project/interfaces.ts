@@ -15,5 +15,4 @@ export const tubsArray: IProjectTubsName[] = [
   IProjectTubsName.ALTERNATIVE,
   IProjectTubsName.ADDITIONAL_SERVICES,
   IProjectTubsName.PROJECT_IN_PROGRESS,
-  IProjectTubsName.SIMILAR_PROJECTS,
 ];

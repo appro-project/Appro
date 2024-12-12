@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import {Layout} from './containers/hoc/Layout/Layout'
 import {Main} from './pages/Main/Main'
 import {Catalogue} from './pages/Catalogue/Catalogue'
 import {IndividualProject} from './pages/IndividualProject/IndividualProject'
 
-import {Route, Routes} from 'react-router-dom'
+import {Route, Routes, useLocation} from 'react-router-dom'
 import {ProjectPage} from './pages/Project/Project'
 import {AdditionalOptions} from './pages/AdditionalOptions/AdditionalOptions'
 import {AboutUs} from './pages/AboutUs/AboutUs'
@@ -20,6 +20,7 @@ import {useGetAllProjects} from "@/api/useGetAllProjects";
 export const App = () => {
     const dispatch = useAppDispatch()
     const {data: projects} = useGetAllProjects()
+    const location = useLocation();
 
     useEffect(() => {
         if (!projects) return;
@@ -34,8 +35,8 @@ export const App = () => {
 
             <Routes>
                 <Route element={<AdminLayout/>}>
-                    <Route path={'/admin/project/new'} element={<ProjectInfo/>}/>
-                    <Route path={'/admin/project/:projectId'} element={<ProjectInfo/>}/>
+                    <Route path={'/admin/project/new'} element={<ProjectInfo key={location.pathname}/>}/>
+                    <Route path={'/admin/project/:projectId'} element={<ProjectInfo key={location.pathname}/>}/>
                     <Route path={'/admin'} element={<ProjectsList/>}/>
                 </Route>
 

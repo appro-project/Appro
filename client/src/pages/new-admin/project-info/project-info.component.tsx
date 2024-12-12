@@ -10,6 +10,8 @@ import {useCreateProject, useSaveProject} from "@/api/useSaveProject";
 import {ProjectDto} from "@/api/model";
 import {useGetProjectById} from "@/api/useGetProjectById";
 import {CustomSnackbar} from "@/pages/new-admin/custom-snackbar.component";
+import {AlertDialog} from "../dialog.component";
+import {useDeleteProject} from "@/api/useDeleteProject";
 
 
 export const ProjectInfo: FC = () => {
@@ -33,6 +35,16 @@ export const ProjectInfo: FC = () => {
         setOpenSuccessSnackbar(true)
     }, () => {
         setOpenErrorSnackbar(true)
+    });
+
+    const [openSuccessDeleteSnackbar, setOpenSuccessDeleteSnackbar] = useState(false);
+    const [openErrorDeleteSnackbar, setOpenErrorDeleteSnackbar] = useState(false);
+
+    const {mutate: deleteProject} = useDeleteProject(Number(projectId), () => {
+        setOpenSuccessDeleteSnackbar(true);
+        navigate('/admin');
+    }, () =>{
+        setOpenErrorDeleteSnackbar(true);
     });
 
     const isPending = isSavePending || isCreatePending;
@@ -85,9 +97,19 @@ export const ProjectInfo: FC = () => {
         }
     }
 
+    const deleteProjectHandler = () => {
+        setOpenSuccessDeleteSnackbar(true);
+        deleteProject(Number(projectId));
+    }
+
     return (
         <Box>
-            <Box display={'flex'} justifyContent={'flex-end'} zIndex={100000000000}>
+            <Box display={'flex'} justifyContent={'flex-end'} gap={2} zIndex={100000000000}>
+                <AlertDialog 
+                    triggerButtonTitle='Видалити проект'
+                    text='Ви впевнені, що хочете видалити проект?' 
+                    handler={deleteProjectHandler} 
+                />
                 <Button color={'success'} variant={'contained'}
                         disabled={isPending}
                         onClick={saveProjectHandler}>Зберегти зміни</Button>
@@ -102,6 +124,20 @@ export const ProjectInfo: FC = () => {
                             open={openErrorSnackbar}
                             severity={'error'}
                             handleClose={() => setOpenErrorSnackbar(false)}
+            />
+
+            <CustomSnackbar title={"Проект видалений"}
+                            open={openSuccessDeleteSnackbar}
+                            handleClose={() => {
+                                setOpenSuccessDeleteSnackbar(false)
+                                navigate('/admin')
+                            }}
+            />
+
+            <CustomSnackbar title={"Помилка при видаленні проекту"}
+                            open={openErrorDeleteSnackbar}
+                            severity={'error'}
+                            handleClose={() => setOpenErrorDeleteSnackbar(false)}
             />
 
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>

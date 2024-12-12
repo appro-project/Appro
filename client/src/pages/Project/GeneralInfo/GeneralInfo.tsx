@@ -5,7 +5,7 @@ import { FC } from 'react'
 
 interface GeneralInfoProps extends InfoCardProps {
 	images: string[]
-	description: string
+	description?: string
 }
 
 export const GeneralInfo: FC<GeneralInfoProps> = ({
@@ -29,12 +29,16 @@ export const GeneralInfo: FC<GeneralInfoProps> = ({
 					projectPrice={projectPrice}
 				/>
 			</div>
-			<p className={classes.GeneralInfo_Text}>
-				Приобретая проект дома в Архитектурном бюро, вы получаете комплект
-				чертежей - 2 экземпляра, необходимый для проведения строительных работ и
-				беспрепятственного получения разрешения на строительство.
-			</p>
-			<p className={classes.GeneralInfo_Text}>{description}</p>
+			{description && (
+				<>
+					<p className={classes.GeneralInfo_Text}>
+						Приобретая проект дома в Архитектурном бюро, вы получаете комплект
+						чертежей - 2 экземпляра, необходимый для проведения строительных
+						работ и беспрепятственного получения разрешения на строительство.
+					</p>
+					<p className={classes.GeneralInfo_Text}>{description}</p>
+				</>
+			)}
 		</section>
 	)
 }
