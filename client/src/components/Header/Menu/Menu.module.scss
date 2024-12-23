@@ -118,7 +118,7 @@
   }
 }
 
-@media (min-width: $tablet-width) {
+@media (min-width: $desktop-width) {
   .menu {
     width: 100%;
     position: static;
@@ -128,6 +128,7 @@
     justify-content: flex-end;
     background-color: transparent;
     overflow: hidden;
+    transition: none;
   }
 
   .menu__header,

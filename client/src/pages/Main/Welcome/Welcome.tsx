@@ -37,18 +37,26 @@ export const Welcome = ({ mockProjects }: PropsType) => {
   };
 
   return (
-    <section className={classes.welcome}>
-      <Carousel renderArrowNext={renderArrowNext} renderArrowPrev={renderArrowPrev} infiniteLoop interval={4000}>
-        {mockProjects
-          .map((project, index) => (
-            <ProjectItem key={index} project={project} />
-          ))}
-      </Carousel>
-      <Link to="/#popular-category">
-        <div aria-label="to bottom" className={['slider-control__bottom', 'control-arrow'].join(' ')}>
-          <SliderNext />
-        </div>
-      </Link>
-    </section>
-  );
+		<section className={classes.welcome}>
+			<Carousel
+				renderArrowNext={renderArrowNext}
+				renderArrowPrev={renderArrowPrev}
+				infiniteLoop
+				interval={4000}
+				showThumbs={false}
+			>
+				{mockProjects.map((project, index) => (
+					<ProjectItem key={index} project={project} />
+				))}
+			</Carousel>
+			<Link to='/#popular-category'>
+				<div
+					aria-label='to bottom'
+					className={['slider-control__bottom', 'control-arrow'].join(' ')}
+				>
+					<SliderNext />
+				</div>
+			</Link>
+		</section>
+	)
 };

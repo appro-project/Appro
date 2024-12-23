@@ -6,6 +6,7 @@ import ua from './locales/ua/translation.json';
 i18n.use(LanguageDetector)
     .use(initReactI18next)
     .init({
+        lng: 'ru',
         fallbackLng: 'ru',
         resources: {
             ru: {
