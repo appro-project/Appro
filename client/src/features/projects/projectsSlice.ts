@@ -48,37 +48,37 @@ const initialState: ProjectsSliceState = {
 		},
 		{
 			image: oneFloorImg,
-			title: 'Одноэтажные дома',
+			title: 'main.popular_categories.category2',
 			link: '/catalogue?floor=1-floor'
 		},
 		{
 			image: twoFloorImg,
-			title: 'Двухэтажные дома',
+			title: 'main.popular_categories.category3',
 			link: '/catalogue?floor=2-floor'
 		},
 		{
 			image: modernImage,
-			title: 'Cовременные дома',
+			title: 'main.popular_categories.category4',
 			link: '/catalogue?style=modern'
 		},
 		{
 			image: classicImage,
-			title: 'Классические дома',
+			title: 'main.popular_categories.category5',
 			link: '/catalogue?style=classic'
 		},
 		{
 			image: smallImage,
-			title: 'Дома до 150 м',
+			title: 'main.popular_categories.category6',
 			link: '/catalogue?&area=20-150'
 		},
 		{
 			image: mediumImage,
-			title: 'Дома от 150 до 250м',
+			title: 'main.popular_categories.category7',
 			link: '/catalogue?&area=150-250'
 		},
 		{
 			image: largeImage,
-			title: 'Дома от 250 м',
+			title: 'main.popular_categories.category8',
 			link: '/catalogue?&area=250-500'
 		}
 	],

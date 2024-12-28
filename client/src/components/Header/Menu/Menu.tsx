@@ -27,7 +27,7 @@ export const Menu = (props: Props) => {
 			<nav className={classes['menu__body']}>
 				<ul className={classes['menu__list']}>
 					{menuLinks.map((link, index) => (
-						<MenuItem key={index} name={link.name} path={link.path} />
+						<MenuItem key={index} name={t(link.name)} path={link.path} />
 					))}
 				</ul>
 			</nav>

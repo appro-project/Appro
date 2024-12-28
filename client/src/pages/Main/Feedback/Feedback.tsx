@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import classes from './Feedback.module.scss'
 import { Container } from '@/containers/hoc/Container/Container'
@@ -48,21 +49,32 @@ export const Feedback = () => {
 		reset()
 	}
 
+	const {t} = useTranslation();
+
 	return (
 		<section id={'feedback-form'} className={classes['feedback']}>
 			<Container>
-				<div className={classes['feedback__header']}>Остались вопросы? Напишите нам!</div>
+				<div className={classes['feedback__header']}>
+					{t('main.feedback.title')}
+				</div>
 
 				<div className={classes['feedback__body']}>
-					<form onSubmit={handleSubmit(onSubmit)} className={classes['feedback__form']}>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className={classes['feedback__form']}
+					>
 						<div className={classes['feedback__input']}>
 							<Controller
 								name='name'
 								control={control}
 								defaultValue={''}
 								rules={{ required: true }}
-								render={(props) => (
-									<TextInput error={!!errors.name} {...props} placeholder='Имя' />
+								render={props => (
+									<TextInput
+										error={!!errors.name}
+										{...props}
+										placeholder={t('main.feedback.name')}
+									/>
 								)}
 							/>
 						</div>
@@ -76,7 +88,7 @@ export const Feedback = () => {
 									pattern:
 										/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 								}}
-								render={(props) => (
+								render={props => (
 									<TextInput
 										{...props}
 										error={!!errors.email}
@@ -91,11 +103,11 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{}}
-								render={(props) => (
+								render={props => (
 									<TextInput
 										error={!!errors.phone}
 										{...props}
-										placeholder='Номер телефона (необязательно)'
+										placeholder={t('main.feedback.phone')}
 									/>
 								)}
 							/>
@@ -108,16 +120,20 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{}}
-								render={(props) => (
+								render={props => (
 									<TextInput
 										error={!!errors.feedback}
 										{...props}
-										placeholder='Ваше сообщение'
+										placeholder={t('main.feedback.message')}
 									/>
 								)}
 							/>
 						</div>
-						<Button disabled={loading} buttonType={ButtonType.BIG} title='Отправить сообщение' />
+						<Button
+							disabled={loading}
+							buttonType={ButtonType.BIG}
+							title={t('main.feedback.button')}
+						/>
 					</form>
 				</div>
 			</Container>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import classes from '../pages/Main/Feedback/Feedback.module.scss'
 import { Controller, useForm } from 'react-hook-form'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
@@ -13,6 +14,7 @@ interface OrderModalProps {
 }
 
 const OrderModal = ({ onClose, project }: OrderModalProps) => {
+	const {t} = useTranslation();
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [anytime, setAnytime] = useState(false)
@@ -58,17 +60,28 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 		<div className={'modal-wrapper'}>
 			<span onClick={onClose}>x</span>
 			<div className={'modal-content'}>
-				<h3 className={'modal__text--big modal__margin--small'}>ваши данные для заказа</h3>
-				<p className={'modal__text--grey modal__margin--normal'}>Мы не используем ваши данные для рассылки спама.</p>
-				<form onSubmit={handleSubmit(onSubmit)} className={classes['feedback__form']}>
+				<h3 className={'modal__text--big modal__margin--small'}>
+					{t('modal.order_data')}
+				</h3>
+				<p className={'modal__text--grey modal__margin--normal'}>
+					{t('modal.no_spam')}
+				</p>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className={classes['feedback__form']}
+				>
 					<div className={classes['feedback__input']}>
 						<Controller
 							name='name'
 							control={control}
 							defaultValue={''}
 							rules={{ required: true }}
-							render={(props) => (
-								<TextInput error={!!errors.name} {...props} placeholder='Имя' />
+							render={props => (
+								<TextInput
+									error={!!errors.name}
+									{...props}
+									placeholder={t('modal.name')}
+								/>
 							)}
 						/>
 					</div>
@@ -82,8 +95,12 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 								pattern:
 									/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 							}}
-							render={(props) => (
-								<TextInput  {...props} error={!!errors.email}  placeholder='E-mail' />
+							render={props => (
+								<TextInput
+									{...props}
+									error={!!errors.email}
+									placeholder='E-mail'
+								/>
 							)}
 						/>
 					</div>
@@ -95,29 +112,34 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							rules={{
 								required: true
 							}}
-							render={(props) => (
+							render={props => (
 								<TextInput
 									error={!!errors.phone}
 									{...props}
 									mask={'+380 999999999'}
-									placeholder='Номер телефона'
+									placeholder={t('modal.phone')}
 								/>
 							)}
 						/>
 					</div>
-					<h3 className={'modal__text--big modal__margin--normal'}>Удобное время для связи</h3>
+					<h3 className={'modal__text--big modal__margin--normal'}>
+						{t('modal.contact_time')}
+					</h3>
 					<div className={'model__button-wrapper'}>
 						<Controller
 							name='data'
 							control={control}
 							defaultValue={''}
-							rules={{ pattern: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/ }}
-							render={(props) => (
+							rules={{
+								pattern:
+									/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/
+							}}
+							render={props => (
 								<TextInput
 									mask={'99.99.9999'}
 									error={error || !!errors.data}
 									{...props}
-									placeholder='Дата'
+									placeholder={t('modal.date')}
 								/>
 							)}
 						/>
@@ -126,19 +148,19 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							control={control}
 							defaultValue={''}
 							rules={{ pattern: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/ }}
-							render={(props) => (
+							render={props => (
 								<TextInput
 									mask={'99:99'}
 									error={error || !!errors.time}
 									{...props}
-									placeholder='Время'
+									placeholder={t('modal.time')}
 								/>
 							)}
 						/>
 					</div>
 					<div className={classes['feedback__input']}>
 						<Checkbox
-							labelName={'звоните в любое время'}
+							labelName={t('modal.anytime_call')}
 							htmlFor={'anytime'}
 							// @ts-ignore
 							onClick={() => {
@@ -148,7 +170,9 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							id={'anytime'}
 						/>
 					</div>
-					<h3 className={'modal__text--big modal__margin--normal'}>Комментарий</h3>
+					<h3 className={'modal__text--big modal__margin--normal'}>
+						{t('modal.comment')}
+					</h3>
 					{/*TODO: Where is form?!??!!?!?!?*/}
 					<div className={classes['feedback__input']}>
 						<Controller
@@ -156,23 +180,26 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							control={control}
 							defaultValue={''}
 							rules={{}}
-							render={(props) => (
-								<TextInput  {...props} placeholder='Ваше  собщение (необязательно)' />
+							render={props => (
+								<TextInput {...props} placeholder={t('modal.message')} />
 							)}
 						/>
 					</div>
-					<p className={'modal__text--black'}>
-						Нажимая кнопку Отправить, вы соглащаетесь с условиями использования и обработки персональных данных
-					</p>
+					<p className={'modal__text--black'}>{t('modal.agree_terms')}</p>
 					<div className={'model__button-wrapper'}>
-						<Button width={'100%'} disabled={loading} buttonType={ButtonType.EXTENDED} title='Отправить сообщение' />
+						<Button
+							width={'100%'}
+							disabled={loading}
+							buttonType={ButtonType.EXTENDED}
+							title={t('modal.submit_button')}
+						/>
 						<Button
 							width={'100%'}
 							disabled={loading}
 							actionHandler={onClose}
 							buttonType={ButtonType.EXTENDED_TRANSPARENT}
 							color={'#202020'}
-							title='отменить'
+							title={t('modal.cancel_button')}
 						/>
 					</div>
 				</form>

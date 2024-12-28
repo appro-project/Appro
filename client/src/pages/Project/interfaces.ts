@@ -3,7 +3,7 @@ export enum IProjectTubsName {
   LAYAOUT = 'Планировка',
   COMPOSITION_OF_PROJECT = 'Состав проекта',
   ALTERNATIVE = 'Внесение изменений',
-  ADDITIONAL_SERVICES = 'Долнительные услуги',
+  ADDITIONAL_SERVICES = 'Дополнительные услуги',
   PROJECT_IN_PROGRESS = 'Проект в реализации',
   SIMILAR_PROJECTS = 'Похожие проекты',
 }

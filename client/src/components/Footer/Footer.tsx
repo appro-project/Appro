@@ -23,7 +23,7 @@ export const Footer = () => {
 					<nav className={classes.footer__nav}>
 						<ul className={classes['footer__menu-list']}>
 							{menuLinks.map((link, index) => (
-								<MenuItem key={index} name={link.name} path={link.path} />
+								<MenuItem key={index} name={t(link.name)} path={link.path} />
 							))}
 						</ul>
 					</nav>
