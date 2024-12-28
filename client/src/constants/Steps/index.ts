@@ -4,22 +4,20 @@ export interface StepInfo {
 }
 
 export const steps: StepInfo[] = [
-  {
-    title: 'Предпроектное предложение',
-    description:
-      'этап для определения планировки дома и основных технико-экономических ' +
-      'показателей, его внешнего вида,размещения на участке',
-  },
-  {
-    title: 'Проект',
-    description: 'утверждаемая часть рабочего проекта или',
-  },
-  {
-    title: 'Рабочая документация',
-    description: 'комплект документов для производства строительных и' + 'монтажных работ',
-  },
-  {
-    title: 'Дизайн проект интерьера',
-    description: 'обязательная стадия для комплексного подхода в' + 'проектировании жилого дома',
-  },
-];
+	{
+		title: 'individual.steps.item1.title',
+		description: 'individual.steps.item1.description'
+	},
+	{
+		title: 'individual.steps.item2.title',
+		description: 'individual.steps.item2.description'
+	},
+	{
+		title: 'individual.steps.item3.title',
+		description: 'individual.steps.item3.description'
+	},
+	{
+		title: 'individual.steps.item4.title',
+		description: 'individual.steps.item4.description'
+	}
+]

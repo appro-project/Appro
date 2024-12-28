@@ -19,7 +19,7 @@ export const menuLinks: MenuLinkInfo[] = [
 ];
 
 export const contactInfo: ContactInfo = {
-  address: 'г. Ирпень, ул. Героев Сталинграда, 13',
-  phone: '+38 (066) 39-53-654',
-  copyright: '© 2023 Архитектурное Бюро.',
-};
+	address: 'footer.address_link',
+	phone: '+38 (066) 39-53-654',
+	copyright: 'footer.copyright'
+}

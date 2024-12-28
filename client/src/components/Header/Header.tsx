@@ -30,18 +30,31 @@ export const Header = () => {
 							<Logo className={classes['header__logo-img']} />
 						</Link>
 
-						<a className={createHeaderTopItemClass('header__top-item-phone')} href='tel:+38 (066) 39-53-654'>
+						<a
+							className={createHeaderTopItemClass('header__top-item-phone')}
+							href='tel:+38 (066) 39-53-654'
+						>
 							+38 (066) 39-53-654
 						</a>
 
-						<LanguageSwitcher style={createHeaderTopItemClass('header__top-item-lang')}/>
+						<LanguageSwitcher
+							style={createHeaderTopItemClass('header__top-item-lang')}
+						/>
 
-						<div className={createHeaderTopItemClass('header__top-item-contact')}>
+						<div
+							className={createHeaderTopItemClass('header__top-item-contact')}
+						>
 							<a href='#'>
-								<Button title={t('feedback')} buttonType={ButtonType.TRANSPARENT} />
+								<Button
+									title={t('header.feedback_button')}
+									buttonType={ButtonType.TRANSPARENT}
+								/>
 							</a>
 						</div>
-						<div className={createHeaderTopItemClass('header__top-item-menu')} onClick={() => setIsOpened(true)}>
+						<div
+							className={createHeaderTopItemClass('header__top-item-menu')}
+							onClick={() => setIsOpened(true)}
+						>
 							<MenuIcon />
 						</div>
 					</div>

@@ -1,4 +1,5 @@
 import { useState, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import classes from './CheckboxFilterBlock.module.scss'
 import catalogueFiltersInfo, { SingleOption } from '@/constants/filterData/catalogueFiltersInfo'
@@ -52,15 +53,17 @@ export const CheckboxFilterBlock = memo(({ filterId, initialOptions, applyFilter
     applyFilter(clickedOption);
   };
 
+  const {t} = useTranslation();
+
   return (
     <div className={classes.CheckboxFilterBlock}>
-      <h3 className={classes.CheckboxFilterBlock_header}>{filterInfo.name}</h3>
+      <h3 className={classes.CheckboxFilterBlock_header}>{t(filterInfo.name)}</h3>
       <ul className={classes.CheckboxFilterBlock_list}>
         {(filterInfo.options as SingleOption[]).map((filterOption, idx) => {
           return (
             <li key={idx} className={classes.CheckboxFilterBlock_item}>
               <Checkbox
-                labelName={filterOption.name}
+                labelName={t(filterOption.name)}
                 htmlFor={filterOption.name}
                 onClick={() => optionOnClick(filterOption)}
                 checked={options.includes(filterOption.id)}
