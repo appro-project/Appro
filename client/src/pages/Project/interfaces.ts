@@ -1,11 +1,11 @@
 export enum IProjectTubsName {
-  All_ABOUT_PROJECT = 'Всё о проекте',
-  LAYAOUT = 'Планировка',
-  COMPOSITION_OF_PROJECT = 'Состав проекта',
-  ALTERNATIVE = 'Внесение изменений',
-  ADDITIONAL_SERVICES = 'Дополнительные услуги',
-  PROJECT_IN_PROGRESS = 'Проект в реализации',
-  SIMILAR_PROJECTS = 'Похожие проекты',
+	All_ABOUT_PROJECT = 'project.project_all_details',
+	LAYAOUT = 'project.layout.title',
+	COMPOSITION_OF_PROJECT = 'project.composition.title',
+	ALTERNATIVE = 'catalogue.changes.title',
+	ADDITIONAL_SERVICES = 'header.additional_link',
+	PROJECT_IN_PROGRESS = 'project.project_in_progress',
+	SIMILAR_PROJECTS = 'about_us.similar_projects.title'
 }
 
 export const tubsArray: IProjectTubsName[] = [

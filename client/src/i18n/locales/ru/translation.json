@@ -253,6 +253,7 @@
 	},
 	"project": {
 		"project_in_progress": "Проект в реализации",
+		"project_all_details": "Всё о проекте",
 		"description": {
 			"type1": "Оригинальный",
 			"type2": "Зеркальный",
