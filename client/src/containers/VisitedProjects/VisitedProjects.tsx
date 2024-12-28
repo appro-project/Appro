@@ -9,10 +9,10 @@ import { useTranslation } from 'react-i18next'
 
 export const VisitedProjects = () => {
 	const {data:projects} = useGetAllProjects();
+    const {t} = useTranslation();
 
 	if(!projects) return <div>Loading...</div>
 
-    const {t} = useTranslation();
 
 	return (
 		<section>
