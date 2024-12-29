@@ -7,4 +7,6 @@ import org.springframework.context.annotation.Profile;
 public interface FeedBackService {
 
     void sendEmail(FeedbackRequest request) throws MessagingException;
+
+    void sendTelegramNotification(FeedbackRequest request);
 }

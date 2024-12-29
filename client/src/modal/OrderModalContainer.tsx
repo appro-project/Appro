@@ -4,10 +4,11 @@ import './modal.scss'
 
 interface OrderModalContainerProps {
 	setOpen: Dispatch<boolean>;
-	project: string;
+	project?: string;
+	title?: string
 }
 
-export const OrderModalContainer = ({ setOpen, project }: OrderModalContainerProps) => {
+export const OrderModalContainer = ({ setOpen, project, title }: OrderModalContainerProps) => {
 	const handleCloseModal = () => {
 		setOpen(false)
 	}
@@ -21,7 +22,11 @@ export const OrderModalContainer = ({ setOpen, project }: OrderModalContainerPro
 
 	return (
 		<div className={`modal-container`}>
-			<OrderModal project={project} onClose={handleCloseModal} />
+			<OrderModal 
+				title={title}
+				project={project} 
+				onClose={handleCloseModal} 
+			/>
 		</div>
 	)
 }

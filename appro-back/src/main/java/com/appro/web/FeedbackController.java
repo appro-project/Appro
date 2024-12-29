@@ -23,4 +23,10 @@ public class FeedbackController {
     public void sendFeedback(@RequestBody FeedbackRequest request) throws MessagingException {
         feedBackService.sendEmail(request);
     }
+
+    @Operation(summary = "Send telegram notification")
+    @PostMapping("/feedback/telegram")
+    public void sendTelegramNotification(@RequestBody FeedbackRequest request) {
+        feedBackService.sendTelegramNotification(request);
+    }
 }

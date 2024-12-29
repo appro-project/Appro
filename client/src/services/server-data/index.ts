@@ -112,6 +112,9 @@ export const axiosPostFeedback = async (value: IFeedbackForm) => {
 	return await axiosWithSetting.post(`feedback`, value)
 }
 
+export const axiosPostTelegramFeedback = async (value: IFeedbackForm) => {
+	return await axiosWithSetting.post(`feedback/telegram`, value)
+}
 
 export const DataService = {
 	axiosSaveProject,
