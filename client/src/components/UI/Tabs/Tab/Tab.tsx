@@ -2,10 +2,10 @@ import classes from './Tab.module.scss'
 import { IProjectTubsName } from '@/pages/Project/interfaces'
 
 interface Props {
-  label: IProjectTubsName;
+  label: string;
   activeTab: boolean;
 
-  onClick(label: IProjectTubsName): void;
+  onClick(label: string): void;
 }
 
 export const Tab = ({ label, onClick, activeTab }: Props) => {

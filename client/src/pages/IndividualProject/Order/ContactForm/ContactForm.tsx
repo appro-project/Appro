@@ -2,9 +2,8 @@ import classes from '../Order.module.scss'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { TextArea } from '@/components/UI/TextArea/TabArea'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
-import { FC, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FC, memo, useState } from 'react'
+import { FC, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
@@ -72,7 +71,7 @@ export const ContactForm: FC = () => {
 					render={({ field, fieldState: { error } }) => (
 						<TextArea
 							{...field}
-							placeholder=placeholder={t('individual.contact_form.message')}
+							placeholder={t('individual.contact_form.message')}
 							error={!!error}
 						/>
 					)}
