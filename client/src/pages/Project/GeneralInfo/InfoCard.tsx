@@ -97,7 +97,11 @@ export const InfoCard = (props: InfoCardProps) => {
           </div>
         </form>
       </div>
-      {openModal && <OrderModalContainer project={props.title} setOpen={setOpenModal} />}
+      {openModal && <OrderModalContainer 
+        project={props.title} 
+        setOpen={setOpenModal} 
+        title='ваши данные для заказа'
+      />}
     </>
   );
 };

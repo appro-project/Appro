@@ -5,17 +5,17 @@ import { Container } from '@/containers/hoc/Container/Container'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { axiosPostFeedback } from '@/services/server-data'
+import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 
 export interface IFeedbackForm {
 	name: string;
 	email?: string;
 	phone: string;
-	feedback: string;
+	content?: string;
 	project?: string;
-	data?: string;
+	date?: string;
 	time?: string;
-	anytime?: boolean;
+	anyTime?: boolean;
 }
 
 export const Feedback = () => {
@@ -26,7 +26,7 @@ export const Feedback = () => {
 			name: '',
 			email: '',
 			phone: '',
-			feedback: ''
+			content: ''
 		},
 		mode: 'all',
 		reValidateMode: 'onChange'
@@ -38,6 +38,7 @@ export const Feedback = () => {
 			setLoading(true)
 
 			await axiosPostFeedback(value)
+			await axiosPostTelegramFeedback(value)
 
 			setLoading(false)
 		} catch (e) {
@@ -100,17 +101,16 @@ export const Feedback = () => {
 								)}
 							/>
 						</div>
-
-						{/*TODO: Where is form?!??!!?!?!?*/}
+						
 						<div className={classes['feedback__input']}>
 							<Controller
-								name='feedback'
+								name='content'
 								control={control}
 								defaultValue={''}
 								rules={{}}
 								render={(props) => (
 									<TextInput
-										error={!!errors.feedback}
+										error={!!errors.content}
 										{...props}
 										placeholder='Ваше сообщение'
 									/>
