@@ -8,8 +8,11 @@ import { Menu } from './Menu/Menu'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from './language-switcher.component'
+import { OrderModalContainer } from '@/modal/OrderModalContainer'
 
 export const Header = () => {
+
+	const [openModal, setOpenModal] = useState(false);
 	const [isOpened, setIsOpened] = useState(false)
 	const location = useLocation()
 	const { t } = useTranslation()
@@ -37,9 +40,11 @@ export const Header = () => {
 						<LanguageSwitcher style={createHeaderTopItemClass('header__top-item-lang')}/>
 
 						<div className={createHeaderTopItemClass('header__top-item-contact')}>
-							<a href='#'>
-								<Button title={t('feedback')} buttonType={ButtonType.TRANSPARENT} />
-							</a>
+							<Button 
+								title={t('feedback')} 
+								actionHandler={() => setOpenModal(true)}
+								buttonType={ButtonType.TRANSPARENT}
+								/>
 						</div>
 						<div className={createHeaderTopItemClass('header__top-item-menu')} onClick={() => setIsOpened(true)}>
 							<MenuIcon />
@@ -47,6 +52,8 @@ export const Header = () => {
 					</div>
 
 					<Menu isOpened={isOpened} closeMenu={() => setIsOpened(false)} />
+
+					{openModal && <OrderModalContainer setOpen={setOpenModal} title='ваши данные для связи' />}
 				</div>
 			</Container>
 		</header>

@@ -3,26 +3,27 @@ import classes from '../pages/Main/Feedback/Feedback.module.scss'
 import { Controller, useForm } from 'react-hook-form'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
-import { axiosPostFeedback } from '@/services/server-data'
+import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { Checkbox } from '@/components/UI/Checkbox/Checkbox'
 
 interface OrderModalProps {
 	onClose: () => void;
 	project: string;
+	title: string
 }
 
-const OrderModal = ({ onClose, project }: OrderModalProps) => {
+const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const [anytime, setAnytime] = useState(false)
+	const [anyTime, setAnyTime] = useState(false)
 	const { handleSubmit, formState:{errors}, control, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
 			name: '',
 			email: '',
 			phone: '',
-			feedback: '',
-			data: '',
+			content: '',
+			date: '',
 			time: ''
 		}
 	})
@@ -31,18 +32,18 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 		try {
 			setError(false)
 			setLoading(true)
-			console.log('value', value)
 
-			const date:Date = value.data && value.data.length > 0 ? new Date(value.data) : new Date()
+			const requestedDate:Date = value.date && value.date.length > 0 ? new Date(value.date) : new Date()
 
-			if (date.getDate() < Date.now()) {
+			if (requestedDate.getDate() < Date.now()) {
 				setError(true)
 				setLoading(false)
-			} else if ((!value.data && value.time) || (value.data && !value.time)) {
+			} else if ((!value.date && value.time) || (value.date && !value.time)) {
 				setError(true)
 				setLoading(false)
 			} else {
-				await axiosPostFeedback({ ...value, anytime, project })
+				await axiosPostFeedback({ ...value, anyTime, project })
+				await axiosPostTelegramFeedback({ ...value, anyTime, project })
 				setLoading(false)
 				reset()
 				onClose()
@@ -58,7 +59,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 		<div className={'modal-wrapper'}>
 			<span onClick={onClose}>x</span>
 			<div className={'modal-content'}>
-				<h3 className={'modal__text--big modal__margin--small'}>ваши данные для заказа</h3>
+				<h3 className={'modal__text--big modal__margin--small'}>{title}</h3>
 				<p className={'modal__text--grey modal__margin--normal'}>Мы не используем ваши данные для рассылки спама.</p>
 				<form onSubmit={handleSubmit(onSubmit)} className={classes['feedback__form']}>
 					<div className={classes['feedback__input']}>
@@ -67,8 +68,8 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							control={control}
 							defaultValue={''}
 							rules={{ required: true }}
-							render={(props) => (
-								<TextInput error={!!errors.name} {...props} placeholder='Имя' />
+							render={({ field, fieldState: { error } }) => (
+								<TextInput {...field} placeholder='Имя' error={!!error} />
 							)}
 						/>
 					</div>
@@ -82,8 +83,8 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 								pattern:
 									/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 							}}
-							render={(props) => (
-								<TextInput  {...props} error={!!errors.email}  placeholder='E-mail' />
+							render={({ field, fieldState: { error } }) => (
+								<TextInput  {...field} error={!!errors.email}  placeholder='E-mail' />
 							)}
 						/>
 					</div>
@@ -95,7 +96,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							rules={{
 								required: true
 							}}
-							render={(props) => (
+							render={({ field: props }) => (
 								<TextInput
 									error={!!errors.phone}
 									{...props}
@@ -108,14 +109,14 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 					<h3 className={'modal__text--big modal__margin--normal'}>Удобное время для связи</h3>
 					<div className={'model__button-wrapper'}>
 						<Controller
-							name='data'
+							name='date'
 							control={control}
 							defaultValue={''}
 							rules={{ pattern: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/ }}
-							render={(props) => (
+							render={({ field: props }) => (
 								<TextInput
-									mask={'99.99.9999'}
-									error={error || !!errors.data}
+									mask={'99/99/9999'}
+									error={error || !!errors.date}
 									{...props}
 									placeholder='Дата'
 								/>
@@ -126,7 +127,7 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							control={control}
 							defaultValue={''}
 							rules={{ pattern: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/ }}
-							render={(props) => (
+							render={({ field: props }) => (
 								<TextInput
 									mask={'99:99'}
 									error={error || !!errors.time}
@@ -142,9 +143,9 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 							htmlFor={'anytime'}
 							// @ts-ignore
 							onClick={() => {
-								setAnytime(!anytime)
+								setAnyTime(!anyTime)
 							}}
-							checked={anytime}
+							checked={anyTime}
 							id={'anytime'}
 						/>
 					</div>
@@ -152,11 +153,11 @@ const OrderModal = ({ onClose, project }: OrderModalProps) => {
 					{/*TODO: Where is form?!??!!?!?!?*/}
 					<div className={classes['feedback__input']}>
 						<Controller
-							name='feedback'
+							name='content'
 							control={control}
 							defaultValue={''}
 							rules={{}}
-							render={(props) => (
+							render={({ field: props }) => (
 								<TextInput  {...props} placeholder='Ваше  собщение (необязательно)' />
 							)}
 						/>
