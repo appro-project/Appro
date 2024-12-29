@@ -1,4 +1,5 @@
 import {FC, memo, useEffect, useState} from 'react'
+import { useTranslation } from 'react-i18next'
 import classes from '../Catalogue.module.scss'
 import {Container} from '@/containers/hoc/Container/Container'
 import {Breadcrumbs} from '@/components/UI/Breadcrumbs/Breadcrumbs'
@@ -44,44 +45,57 @@ const CatalogueItem: FC<PropsType> = memo(
             }
         }, [document.documentElement.clientWidth]);
 
-        return (
-            <div className={classes.Catalogue}>
-                <Container>
-                    <div className={classes.Catalogue_Breadcrumbs}>
-                        <Breadcrumbs/>
-                    </div>
-                    <div>
-                        <h1 className={classes['catalogue__title']}>КАТАЛОГ ДОМОВ</h1>
-                    </div>
-                    <div className={classes['catalogue-main']}>
-                        <div className={classes['filter-wrapper']}>
-                            <div className={classes['filter-button']}>
-                                <Button actionHandler={() => setOpenFilter(true)} title={'Фильтры'}/>
-                            </div>
-                            <Drawer open={openFilter} onClose={() => setOpenFilter(false)}>
-                                {openFilter && <FilterList applyFilter={applyFilter}/>}
-                            </Drawer>
-                            <Box sx={{display: {xs: 'none', lg: 'block'}}}>
-                                <FilterList applyFilter={applyFilter}/>
-                            </Box>
-                        </div>
-                        <div>
-                            <CatalogueHeader count={currentProjects.length} sortDetails={sortDetails}
-                                             applySort={applySort}/>
-                            <ProjectList projects={currentProjectsPaged}/>
-                            <Pagination
-                                itemsLength={currentProjects.length}
-                                currentPage={currentPage}
-                                itemsPerPage={projectsPerPage}
-                                onPageChange={handlePageChange}
-                            />
-                        </div>
-                    </div>
+        const {t} = useTranslation();
 
-                    <VisitedProjects/>
-                </Container>
-            </div>
-        );
+        return (
+					<div className={classes.Catalogue}>
+						<Container>
+							<div className={classes.Catalogue_Breadcrumbs}>
+								<Breadcrumbs />
+							</div>
+							<div>
+								<h1 className={classes['catalogue__title']}>
+									{t('catalogue.title')}
+								</h1>
+							</div>
+							<div className={classes['catalogue-main']}>
+								<div className={classes['filter-wrapper']}>
+									<div className={classes['filter-button']}>
+										<Button
+											actionHandler={() => setOpenFilter(true)}
+											title={'Фильтры'}
+										/>
+									</div>
+									<Drawer
+										open={openFilter}
+										onClose={() => setOpenFilter(false)}
+									>
+										{openFilter && <FilterList applyFilter={applyFilter} />}
+									</Drawer>
+									<Box sx={{ display: { xs: 'none', lg: 'block' } }}>
+										<FilterList applyFilter={applyFilter} />
+									</Box>
+								</div>
+								<div>
+									<CatalogueHeader
+										count={currentProjects.length}
+										sortDetails={sortDetails}
+										applySort={applySort}
+									/>
+									<ProjectList projects={currentProjectsPaged} />
+									<Pagination
+										itemsLength={currentProjects.length}
+										currentPage={currentPage}
+										itemsPerPage={projectsPerPage}
+										onPageChange={handlePageChange}
+									/>
+								</div>
+							</div>
+
+							<VisitedProjects />
+						</Container>
+					</div>
+				)
     },
 );
 

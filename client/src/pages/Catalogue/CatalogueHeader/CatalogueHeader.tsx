@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import SortOption from './SortOption'
 import { SortDetails, SortDirection } from '@/constants/sortData/catalogueSortInfo'
 import { getSortUri } from '@/services/data'
@@ -71,14 +72,27 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 	const areaClass = getDirectionClass('area_sort')
 	const priceClass = getDirectionClass('projectPrice_sort')
 
+    const {t} = useTranslation();
+
 	return (
 		<div className={classes.CatalogueHeader}>
-			<div className={classes.CatalogueHeader_Found}> Найдено проектов: {count} </div>
+			<div className={classes.CatalogueHeader_Found}>
+				{t('catalogue.found_projects')} {count}{' '}
+			</div>
 			<div className={classes.CatalogueHeader_Sorting}>
-				<span className={classes.CatalogueHeader_Sorting_Title}>Сортировка: </span>
+				<span className={classes.CatalogueHeader_Sorting_Title}>
+					{t('catalogue.sorting.title')}{' '}
+				</span>
 				{openMobileFilter && (
-					<div className={popularityClass} onClick={() => setOpenFilter(!openFilter)}>
-						<SortOption disabled sortInfoId={'popularity_sort'} handleSort={handleSort} />
+					<div
+						className={popularityClass}
+						onClick={() => setOpenFilter(!openFilter)}
+					>
+						<SortOption
+							disabled
+							sortInfoId={'popularity_sort'}
+							handleSort={handleSort}
+						/>
 						<img
 							src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
 							alt=''
@@ -88,7 +102,10 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 				{openFilter && (
 					<ul className={classes.CatalogueHeader_SortingItems}>
 						<li className={popularityClass}>
-							<SortOption sortInfoId={'popularity_sort'} handleSort={handleSort} />
+							<SortOption
+								sortInfoId={'popularity_sort'}
+								handleSort={handleSort}
+							/>
 							<img
 								src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
 								alt=''
@@ -102,7 +119,10 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 							/>
 						</li>
 						<li className={priceClass}>
-							<SortOption sortInfoId={'projectPrice_sort'} handleSort={handleSort} />
+							<SortOption
+								sortInfoId={'projectPrice_sort'}
+								handleSort={handleSort}
+							/>
 							<img
 								src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
 								alt=''

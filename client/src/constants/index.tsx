@@ -10,16 +10,16 @@ export interface ContactInfo {
 }
 
 export const menuLinks: MenuLinkInfo[] = [
-  { name: 'Главная', path: '/' },
-  { name: 'Каталог домов', path: '/catalogue' },
-  { name: 'Индивидуальный проект', path: '/individual-project' },
-  // { name: 'Реализованные проекты', path: '/finished' },
-  { name: 'Дополнительные услуги', path: '/additional' },
-  { name: 'О нас', path: '/about' },
-];
+	{ name: 'header.main_link', path: '/' },
+	{ name: 'header.catalogue_link', path: '/catalogue' },
+	{ name: 'header.individual_project_link', path: '/individual-project' },
+	// { name: 'Реализованные проекты', path: '/finished' },
+	{ name: 'header.additional_link', path: '/additional' },
+	{ name: 'header.about_us_link', path: '/about' }
+]
 
 export const contactInfo: ContactInfo = {
-  address: 'г. Ирпень, ул. Героев Сталинграда, 13',
-  phone: '+38 (066) 39-53-654',
-  copyright: '© 2023 Архитектурное Бюро.',
-};
+	address: 'footer.address_link',
+	phone: '+38 (066) 39-53-654',
+	copyright: 'footer.copyright'
+}

@@ -4,6 +4,8 @@ import classes from './GeneralInfo.module.scss'
 import  { Button,ButtonType } from '@/components/UI/Button/Button'
 import { OrderModalContainer } from '@/modal/OrderModalContainer'
 
+import { useTranslation } from 'react-i18next'
+
 enum TypeOfHouse {
   Original = 'Original',
   Mirrored = 'Mirrored',
@@ -33,6 +35,8 @@ export const InfoCard = (props: InfoCardProps) => {
     setBuildingIntention(e.target.checked);
   }
 
+  const {t} = useTranslation();
+
   return (
     <>
       <div className={classes.GeneralInfo_Body}>
@@ -48,7 +52,7 @@ export const InfoCard = (props: InfoCardProps) => {
                 checked={type === TypeOfHouse.Original}
                 id={'original'}
               />
-              <label htmlFor="original">Оригинальный</label>
+              <label htmlFor='original'>{t('project.description.type1')}</label>
             </div>
 
             <div className={classes.GeneralInfo_Type}>
@@ -60,47 +64,60 @@ export const InfoCard = (props: InfoCardProps) => {
                 onChange={handleChangeType}
                 checked={type === TypeOfHouse.Mirrored}
               />
-              <label htmlFor="mirrored">Зеркальный</label>
+             <label htmlFor='mirrored'>{t('project.description.type2')}</label>
             </div>
           </div>
 
           <div className={classes.GeneralInfo_InfoRows}>
             <div className={classes.GeneralInfo_InfoRow}>
-              <div className={classes.GeneralInfo_InfoKey}>общая площадь</div>
-              <div className={classes.GeneralInfo_InfoValue}>
-                {props.generalArea} м<sup>2</sup>
-              </div>
-            </div>
+							<div className={classes.GeneralInfo_InfoKey}>
+								{t('project.description.area')}
+							</div>
+							<div className={classes.GeneralInfo_InfoValue}>
+								{props.generalArea} м<sup>2</sup>
+							</div>
+						</div>
 
-            <div className={classes.GeneralInfo_InfoRow}>
-              <div className={classes.GeneralInfo_InfoKey}>подготовка проекта</div>
-              <div className={classes.GeneralInfo_InfoValue}>{props.timeToCreate} дней</div>
-            </div>
+						<div className={classes.GeneralInfo_InfoRow}>
+							<div className={classes.GeneralInfo_InfoKey}>
+								{t('project.description.time_to_create')}
+							</div>
+							<div className={classes.GeneralInfo_InfoValue}>
+								{props.timeToCreate} {t('project.description.days')}
+							</div>
+						</div>
 
-            <div className={classes.GeneralInfo_InfoRow}>
-              <div className={classes.GeneralInfo_InfoKey}>цена проекта</div>
-              <div className={classes.GeneralInfo_InfoValue}>
-                <NumericFormat value={props.projectPrice} displayType={'text'} thousandSeparator={' '} suffix={' грн'} />
-              </div>
-            </div>
+						<div className={classes.GeneralInfo_InfoRow}>
+							<div className={classes.GeneralInfo_InfoKey}>
+								{t('project.description.price')}
+							</div>
+							<div className={classes.GeneralInfo_InfoValue}>
+								<NumericFormat
+									value={props.projectPrice}
+									displayType={'text'}
+									thousandSeparator={' '}
+									suffix={' грн'}
+								/>
+							</div>
+						</div>
           </div>
 
           <div className={classes.GeneralInfo_InfoRows}>
             <input type="checkbox" id={'buildingIntention'} checked={buildingIntention} onChange={handleChangeBuildingIntention}/>
             <label htmlFor={'buildingIntention'}>
-              Додати наміри забудови
+              	{t('project.description.add_building_intention')}
             </label>
           </div>
 
           <div className={classes.GeneralInfo_Button}>
-            <Button actionHandler={handleOpenModal} isButton title={'Заказать'} buttonType={ButtonType.EXTENDED} />
+            <Button actionHandler={handleOpenModal} isButton title={t('project.description.order_button')} buttonType={ButtonType.EXTENDED} />
           </div>
         </form>
       </div>
       {openModal && <OrderModalContainer 
         project={props.title} 
         setOpen={setOpenModal} 
-        title='ваши данные для заказа'
+        title={t('project.description.order_button')}
       />}
     </>
   );

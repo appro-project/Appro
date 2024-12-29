@@ -9,6 +9,7 @@ import { IProjectTubsName, tubsArray } from '../interfaces'
 import classes from '@/components/UI/Tabs/Tabs.module.scss'
 import { Tab } from '@/components/UI/Tabs/Tab/Tab'
 import {ProjectDto} from "@/api/model";
+import { useTranslation } from 'react-i18next'
 
 interface Props {
 	project: ProjectDto;
@@ -21,6 +22,8 @@ export const ProjectTabs = ({ project }: Props) => {
 		setActiveTab(value)
 	}
 
+	const {t} = useTranslation();
+
 	return (
 		<>
 			<div id='scroll-to-top' className={classes.Tabs}>
@@ -28,7 +31,7 @@ export const ProjectTabs = ({ project }: Props) => {
 					{tubsArray
 						.filter(element => project.isFinished || element !== IProjectTubsName.PROJECT_IN_PROGRESS)
 						.map((element, index) => {
-						return <Tab activeTab={activeTab === element} key={index} label={element} onClick={onClickTabItem} />
+						return <Tab activeTab={activeTab === element} key={index} label={t(element)} onClick={onClickTabItem} />
 					})}
 				</ol>
 				<div className='tab-content'>

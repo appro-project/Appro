@@ -5,17 +5,20 @@ import { useSelector } from 'react-redux'
 import { getViewProjects } from '@/redux/selectors'
 import {useGetAllProjects} from "@/api/useGetAllProjects";
 import {ProjectDto} from "@/api/model";
+import { useTranslation } from 'react-i18next'
 
 export const VisitedProjects = () => {
 	const {data:projects} = useGetAllProjects();
+    const {t} = useTranslation();
 
 	if(!projects) return <div>Loading...</div>
+
 
 	return (
 		<section>
 			{projects && (
 				<>
-					<h2 className={classes['visited-projects__title']}>Просмотренные проекты</h2>
+					<h2 className={classes['visited-projects__title']}>{t('individual.visited_projects.title')}</h2>
 
 					<div className={classes['visited-projects__items']}>
 						{projects

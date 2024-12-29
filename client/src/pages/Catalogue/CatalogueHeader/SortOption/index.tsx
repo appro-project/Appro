@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react'
 import catalogueSortInfo, { SortDirection } from '@/constants/sortData/catalogueSortInfo'
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   sortInfoId: string;
@@ -24,9 +25,11 @@ const SortOption = memo(({ sortInfoId, handleSort, disabled }: Props) => {
     setDirection(newDirection);
   };
 
+  const {t} = useTranslation();
+
   return (
     <div>
-      <div onClick={!disabled ? () => sortClicked() : () => null}> {sortInfo.name} </div>
+      <div onClick={!disabled ? () => sortClicked() : () => null}> {t(sortInfo.name)} </div>
     </div>
   );
 });

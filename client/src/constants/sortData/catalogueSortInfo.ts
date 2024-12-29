@@ -11,22 +11,22 @@ export interface SortDetails {
 
 const catalogueSortInfo: Map<string, SortDetails> = new Map();
 catalogueSortInfo.set('popularity_sort', {
-  id: 'popularity_sort',
-  name: 'По популярности',
-});
+	id: 'popularity_sort',
+	name: 'catalogue.sorting.popular'
+})
 catalogueSortInfo.set('area_sort', {
-  id: 'area_sort',
-  name: 'По площади',
-});
+	id: 'area_sort',
+	name: 'catalogue.sorting.area'
+})
 catalogueSortInfo.set('projectPrice_sort', {
-  id: 'projectPrice_sort',
-  name: 'По цене',
-});
+	id: 'projectPrice_sort',
+	name: 'catalogue.sorting.price'
+})
 
 export const defaultSortDetails = {
-  id: 'popularity_sort',
-  name: 'По популярности',
-  direction: SortDirection.DESC,
-};
+	id: 'popularity_sort',
+	name: 'catalogue.sorting.popular',
+	direction: SortDirection.DESC
+}
 
 export default catalogueSortInfo;

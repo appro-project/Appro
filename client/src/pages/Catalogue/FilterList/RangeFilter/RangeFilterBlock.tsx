@@ -1,5 +1,6 @@
 import { Fragment, memo, useState } from 'react'
 import { Range } from 'react-range'
+import { useTranslation } from 'react-i18next'
 
 import classes from './RangeFilterBlock.module.scss'
 import catalogueFiltersInfo, { RangeOption } from '@/constants/filterData/catalogueFiltersInfo'
@@ -63,9 +64,11 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 		applyFilter(validRange)
 	}
 
+	const {t} = useTranslation();
+
 	return (
 		<div className={classes.RangeFilterBlock}>
-			<h3 className={classes.RangeFilterBlock_Header}>{filterInfo.name}</h3>
+			<h3 className={classes.RangeFilterBlock_Header}>{t(filterInfo.name)}</h3>
 			<div className={classes.RangeFilterBlock_Range}>
 				<input onChange={(e) => setFrom(e.target.value)} value={from} />-
 				<input onChange={(e) => setTo(e.target.value)} value={to} />

@@ -1,13 +1,16 @@
 import classes from './PopularCategory.module.scss'
 import { Overlay } from '@/components/UI/Overlay/Overlay'
 import { PopularCategoryData } from '@/entity/PopularCategoryData'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 interface Props {
-	categoryData: PopularCategoryData;
+	categoryData: PopularCategoryData
 }
 
 export const PopularCategory = ({ categoryData }: Props) => {
+	const { t } = useTranslation()
+
 	return (
 		<Link to={categoryData.link} className={classes['popular-category']}>
 			<div className={classes['popular-category__body']}>
@@ -15,9 +18,10 @@ export const PopularCategory = ({ categoryData }: Props) => {
 					<img src={categoryData.image} alt='' />
 					<Overlay />
 				</div>
-				<div className={classes['popular-category__title']}>{categoryData.title}</div>
+				<div className={classes['popular-category__title']}>
+					{t(categoryData.title)}
+				</div>
 			</div>
 		</Link>
 	)
 }
-

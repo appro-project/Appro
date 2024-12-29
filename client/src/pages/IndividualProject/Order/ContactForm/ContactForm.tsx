@@ -2,12 +2,15 @@ import classes from '../Order.module.scss'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { TextArea } from '@/components/UI/TextArea/TabArea'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
+import { FC, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FC, memo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 
-export const ContactForm: FC = memo(() => {
+export const ContactForm: FC = () => {
+  	const {t} = useTranslation();
 	const [loading, setLoading] = useState(false)
 	const { control, handleSubmit, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
@@ -31,7 +34,6 @@ export const ContactForm: FC = memo(() => {
 			setLoading(true)
 		}
 	}
-
 	return (
 		<form className={classes['order__form']} onSubmit={handleSubmit(onSubmit)}>
 			<div className={classes['order__input']}>
@@ -40,7 +42,7 @@ export const ContactForm: FC = memo(() => {
 					control={control}
 					rules={{ required: 'Имя обязательно' }}
 					render={({ field, fieldState: { error } }) => (
-						<TextInput {...field} placeholder='Имя' error={!!error} />
+						<TextInput {...field} placeholder={t('individual.contact_form.name')} error={!!error} />
 					)}
 				/>
 			</div>
@@ -57,7 +59,7 @@ export const ContactForm: FC = memo(() => {
 							error={!!error}
 							{...field}
 							mask={'+380 999999999'}
-							placeholder='Номер телефона'
+							placeholder={t('individual.contact_form.phone')}
 						/>
 					)}
 				/>
@@ -70,7 +72,7 @@ export const ContactForm: FC = memo(() => {
 					render={({ field, fieldState: { error } }) => (
 						<TextArea
 							{...field}
-							placeholder='Сообщение (необязательно)'
+							placeholder=placeholder={t('individual.contact_form.message')}
 							error={!!error}
 						/>
 					)}
@@ -78,8 +80,8 @@ export const ContactForm: FC = memo(() => {
 			</div>
 
 			<div className={classes['order__submit']}>
-				<Button disabled={loading} title='Отправить сообщение' buttonType={ButtonType.BIG} />
+				<Button disabled={loading} title={t('individual.contact_form.button')} buttonType={ButtonType.BIG} />
 			</div>
 		</form>
 	)
-})
+}

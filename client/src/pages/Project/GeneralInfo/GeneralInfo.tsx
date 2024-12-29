@@ -3,6 +3,8 @@ import { ImageCarousel } from '../ImageCarousel/ImageCarousel'
 import { InfoCard, InfoCardProps } from './InfoCard'
 import { FC } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 interface GeneralInfoProps extends InfoCardProps {
 	images: string[]
 	description?: string
@@ -16,6 +18,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = ({
 	timeToCreate,
 	projectPrice
 }) => {
+	const {t} = useTranslation();
+
 	return (
 		<section>
 			<div className={classes.GeneralInfo_Wrapper}>
@@ -32,9 +36,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = ({
 			{description && (
 				<>
 					<p className={classes.GeneralInfo_Text}>
-						Приобретая проект дома в Архитектурном бюро, вы получаете комплект
-						чертежей - 2 экземпляра, необходимый для проведения строительных
-						работ и беспрепятственного получения разрешения на строительство.
+						{t('project.composition.description1')}
 					</p>
 					<p className={classes.GeneralInfo_Text}>{description}</p>
 				</>
