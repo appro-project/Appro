@@ -15,7 +15,8 @@ export const menuLinks: MenuLinkInfo[] = [
 	{ name: 'header.individual_project_link', path: '/individual-project' },
 	// { name: 'Реализованные проекты', path: '/finished' },
 	{ name: 'header.additional_link', path: '/additional' },
-	{ name: 'header.about_us_link', path: '/about' }
+	{ name: 'header.about_us_link', path: '/about' },
+	{ name: 'Пример проекта', path: '/example-project' }
 ]
 
 export const contactInfo: ContactInfo = {
