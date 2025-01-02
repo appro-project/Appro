@@ -57,6 +57,7 @@ export const BasicInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
         <Grid item xs={3}>
             <SelectProperty
                 title={'Стиль'}
+                label="style"
                 value={projectDto.style}
                 options={styleOptions}
                 required={true}
@@ -67,17 +68,29 @@ export const BasicInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
 
         <Grid item xs={6}>
             <TextField
-                label={'Описание'}
-                name={'Описание'}
-                value={projectDto.description}
-                onChange={e => dispatch({type: 'description', payload: e.target.value})}
+                label={'Описание (ru)'}
+                name={'Описание (ru)'}
+                value={projectDto.descriptionRU}
+                onChange={e => dispatch({type: 'descriptionRU', payload: e.target.value})}
                 required={true}
                 disabled={view}
                 variant={'outlined'}
                 fullWidth
                 multiline={true}
             />
-
+        </Grid>
+        <Grid item xs={6}>
+            <TextField
+                label={'Описание (ua)'}
+                name={'Описание (ua)'}
+                value={projectDto.descriptionUA}
+                onChange={e => dispatch({type: 'descriptionUA', payload: e.target.value})}
+                required={true}
+                disabled={view}
+                variant={'outlined'}
+                fullWidth
+                multiline={true}
+            />
         </Grid>
 
 

@@ -48,6 +48,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Фундамент'}
+                    label={'foundation'}
                     value={projectDto.foundation}
                     options={foundationOptions}
                     required={true}
@@ -58,6 +59,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Перекрытия'}
+                    label={'ceiling'}
                     value={projectDto.ceiling}
                     options={ceilingOptions}
                     required={true}

@@ -14,7 +14,7 @@ public enum FoundationOptions {
     PILE("свайный"),
     COMBINED("комбинированный (свайно-плитный)"),
     COLUMNAR("столбчатый"),
-    MONOLITH_STRIP("монолитный ленточный");
+    MONOLITHIC_STRIP("монолитный ленточный");
 
     private final String foundation;
 

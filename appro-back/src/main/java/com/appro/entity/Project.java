@@ -47,8 +47,11 @@ public class Project {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description_ua")
+    private String descriptionUA;
+
+    @Column(name = "description_ru")
+    private String descriptionRU;
 
     @Column(name = "popularity")
     private Integer popularity;

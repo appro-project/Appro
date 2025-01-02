@@ -1,6 +1,6 @@
 
 -- First project:
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)
@@ -20,7 +20,7 @@ VALUES ('http://127.0.0.1:51774/my-s3-bucket/2',
         'main', 1);
 
 -- Second Project:
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)

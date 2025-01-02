@@ -1,5 +1,6 @@
 package com.appro.dto;
 
+import com.appro.dto.project_options.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Builder;
@@ -18,7 +19,8 @@ import java.util.List;
 public class ProjectDto {
     private Integer id;
     private String title;
-    private String description;
+    private String descriptionUA;
+    private String descriptionRU;
     private Integer popularity;
     private Double generalArea;
     private Integer timeToCreate;
@@ -26,17 +28,17 @@ public class ProjectDto {
     private Double livingArea;
     private Double buildingArea;
     private Double terraceArea;
-    private String wallMaterial;
+    private WallMaterialDto wallMaterial;
     private BigDecimal wallThickness;
-    private String foundation;
-    private String ceiling;
-    private String roof;
+    private FoundationDto foundation;
+    private CeilingDto ceiling;
+    private RoofDto roof;
     private BigDecimal buildingPrice;
-    private String insulation;
+    private InsulationDto insulation;
     private Double insulationThickness;
     private Double length;
     private Double width;
-    private String style;
+    private StyleDto style;
     private Boolean isGaragePresent;
     private Integer bedroomCount;
     private ImageInfo mainImage;

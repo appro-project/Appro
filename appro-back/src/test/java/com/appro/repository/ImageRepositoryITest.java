@@ -72,7 +72,8 @@ class ImageRepositoryITest extends AbstractBaseJpaITest {
     private Project createProject() {
         return Project.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)

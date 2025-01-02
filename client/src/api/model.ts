@@ -1,7 +1,8 @@
 export interface ProjectDto {
     id?: number;
     title: string;
-    description: string;
+    descriptionRU: string;
+    descriptionUA: string;
     generalArea: number;
     timeToCreate: number;
     projectPrice: number;
@@ -52,24 +53,24 @@ interface ProjectConfig {
 
 
 export enum StyleOptions {
-    Classic = 'классический',
-    Modern = 'современный'
+    Classic = 'CLASSIC',
+    Modern = 'MODERN'
 }
 
 export enum FoundationOptions {
-    Strip = 'ленточный',
-    Slab = 'плитный',
-    Pile = 'свайный',
-    CombinedPileSlab = 'комбинированный (свайно-плитный)',
-    Columnar = 'столбчатый',
-    MonolithicStrip = 'монолитный ленточный'
+    Strip = 'STRIP',
+    Slab = 'SLAB',
+    Pile = 'PILE',
+    CombinedPileSlab = 'COMBINED',
+    Columnar = 'COLUMNAR',
+    MonolithicStrip = 'MONOLITHIC_STRIP'
 }
 
 export enum CeilingOptions {
-    MonolithicConcreteSlab = 'монолитная ж/б плита',
-    PrecastConcreteSlab = 'сборное ж/б из плит',
-    Wood = 'дерево',
-    Combined = 'комбинированная'
+    MonolithicConcreteSlab = 'MONOLITHIC',
+    PrecastConcreteSlab = 'IRON_CONCRETE',
+    Wood = 'WOOD',
+    Combined = 'COMBINED'
 }
 
 export enum RoofOptions {

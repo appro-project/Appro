@@ -1,11 +1,10 @@
 import { Button } from '@/components/UI/Button/Button'
-
 import classes from './ProjectDetails.module.scss'
-import { Project } from '@/entity/Project'
 import { Link } from 'react-router-dom'
 import {ProjectDto} from "@/api/model";
 import {FC} from "react";
 import { useTranslation } from 'react-i18next';
+import { getDescription } from '@/pages/Project/utils';
 
 interface Props {
   project: ProjectDto;
@@ -28,7 +27,7 @@ export const ProjectDetails:FC<Props> = ({project}) => {
 				</div>
 			</div>
 			<div className={classes['project-details__description']}>
-				{project.description}
+				{getDescription(project)}
 			</div>
 
 			<div className={classes['project-details__footer']}>

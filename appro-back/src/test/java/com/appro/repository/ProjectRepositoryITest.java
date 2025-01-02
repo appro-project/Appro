@@ -51,7 +51,8 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
 
         Assertions.assertEquals(PROJECT_ID, actualProject.getId());
         Assertions.assertEquals(expectedProject.getTitle(), actualProject.getTitle());
-        Assertions.assertEquals(expectedProject.getDescription(), actualProject.getDescription());
+        Assertions.assertEquals(expectedProject.getDescriptionRU(), actualProject.getDescriptionRU());
+        Assertions.assertEquals(expectedProject.getDescriptionUA(), actualProject.getDescriptionUA());
         Assertions.assertEquals(expectedProject.getPopularity(), actualProject.getPopularity());
         Assertions.assertEquals(expectedProject.getGeneralArea(), actualProject.getGeneralArea());
         Assertions.assertEquals(expectedProject.getTimeToCreate(), actualProject.getTimeToCreate());
@@ -162,7 +163,8 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
     private Project createProject() {
         return Project.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)

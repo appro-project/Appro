@@ -90,11 +90,11 @@ export const ProjectLayout = (props: Props) => {
 						</li>
 						<li className={classes.ProjectLayout_InfoItem}>
 							<span>{t('project.layout.foundation')}</span>
-							<b>{project.foundation}</b>
+							<b>{t(`options.foundation.${String(project.foundation).toLowerCase()}`)}</b>
 						</li>
 						<li className={classes.ProjectLayout_InfoItem}>
 							<span>{t('project.layout.ceilings')}</span>
-							<b>{project.ceiling}</b>
+							<b>{t(`options.ceiling.${String(project.ceiling).toLowerCase()}`)}</b>
 						</li>
 						<li className={classes.ProjectLayout_InfoItem}>
 							<span>{t('project.layout.roof')}</span>
