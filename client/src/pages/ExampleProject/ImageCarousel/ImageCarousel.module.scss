@@ -1,0 +1,33 @@
+@import "~/variables";
+
+.example-project__image {
+  width: 100%;
+  height: auto;
+  max-height: 1500px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;      
+  padding: 10px;       
+  max-width: 100%;     
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.example-project__image img{
+  max-width: 80%;
+  height: auto; 
+  object-fit: contain;
+}
+
+@media (max-width: $tablet-width) {
+  .example-project__image img {
+    max-height: 600px; 
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .example-project__image img {
+    max-height: 900px;  
+  }
+}

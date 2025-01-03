@@ -1,0 +1,39 @@
+@import "~/common";
+@import "~/variables";
+
+.example-project__header{
+  @extend ._main-title;
+  @extend .title-underscore;
+  margin-top: 44px;
+  margin-bottom: 26px;
+}
+
+.example-project__title{
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 29px;
+  color: $text-dark;
+  margin-bottom: 25px;
+}
+
+.example-project__plan{
+    margin-bottom: 45px;
+}
+
+@media (min-width: $tablet-width) {
+  .example-project__header{
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .example-project__header{
+    margin-top: 38px;
+    margin-bottom: 47px;
+    font-size: 48px;
+  }
+  .example-project__title {
+    margin-bottom: 44px;
+    font-size: 24px;
+  }
+}
