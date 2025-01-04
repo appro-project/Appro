@@ -1,111 +1,158 @@
-@import "~/variables";
+@import '~/variables';
 
-.carousel .control-dots {
-  bottom: 130px;
+.carousel-container--white .carousel .control-dots {
+	bottom: 130px;
+}
+.carousel-container--black .carousel .control-dots {
+	bottom: -10px;
+}
+
+.carousel-container--white .control-dots .dot {
+	background-color: #fff;
+}
+
+.carousel-container--black .control-dots .dot {
+	background-color: $black;
 }
 
 .control-arrow {
-  display: none;
+	display: none;
 }
 
 @media (min-width: $tablet-width) {
-  .carousel .control-dots {
-    display: none;
-  }
+	.carousel .control-dots {
+		display: none;
+	}
 
-  .carousel.carousel-slider .control-arrow {
-    display: block;
-    background: none;
-    opacity: 1;
-    top: 100px;
-    z-index: 1;
+	.carousel.carousel-slider .control-arrow {
+		display: block;
+		background: none;
+		opacity: 1;
+		top: 100px;
+		z-index: 1;
 
-    &:hover,
-    &:focus {
-      background: none;
-    }
+		&:hover,
+		&:focus {
+			background: none;
+		}
 
-    &:before {
-      display: none;
-    }
+		&:before {
+			display: none;
+		}
 
-    svg {
-      color: #fff;
-      height: 42px;
-      width: 42px;
+		svg {
+			height: 42px;
+			width: 42px;
 
-      path {
-        stroke: #ffffff;
-        transition: stroke 0.25s ease-in-out;
-      }
+			path {
+				transition: stroke 0.25s ease-in-out;
+			}
 
-      circle {
-        fill: none;
-        transition: all 0.25s ease-in-out;
-      }
+			circle {
+				fill: none;
+				transition: all 0.25s ease-in-out;
+			}
 
-      &:hover {
-        circle {
-          fill: #ffffff;
-          transition: fill 0.25s ease-in-out;
-        }
+			&:hover {
+				circle {
+					fill: currentColor;
+					transition: fill 0.25s ease-in-out;
+				}
 
-        path {
-          stroke: #e5e5e5;
-          transition: stroke 0.25s ease-in-out;
-        }
-      }
+				path {
+					transition: stroke 0.25s ease-in-out;
+				}
+			}
 
-      &:active {
-        path {
-          stroke: #ffffff;
-          transition: stroke 0.25s ease-in-out;
-        }
+			&:active {
+				path {
+					stroke: currentColor;
+					transition: stroke 0.25s ease-in-out;
+				}
 
-        circle {
-          stroke: $main-orange;
-          fill: $main-orange;
-          transition: all 0.25s ease-in-out;
-        }
-      }
-    }
-  }
+				circle {
+					stroke: $main-orange;
+					fill: $main-orange;
+					transition: all 0.25s ease-in-out;
+				}
+			}
+		}
+	}
 
-  .slider-control__prev {
-    top: 80px;
-    left: 8px;
-  }
+	.carousel-container--white {
+		.control-arrow {
+			color: #fff;
 
-  .slider-control__next {
-    top: 80px;
-    right: 8px;
-  }
+			svg {
+				path {
+					stroke: #fff;
+				}
+				&:hover {
+					path {
+						stroke: #e5e5e5;
+					}
+				}
+			}
+		}
+	}
 
-  .slider-control__bottom {
-    position: absolute;
-    z-index: 1000;
-    top: 85%;
-    right: 50%;
-    height: 40px;
-    width: 40px;
-    transform: rotate(90deg);
-    display: block;
-  }
+	.carousel-container--black {
+		.control-arrow {
+			color: $black;
+
+			svg {
+				path {
+					stroke: $black;
+				}
+
+				&:hover {
+					path {
+						stroke: $dark-grey;
+					}
+				}
+
+				circle {
+					stroke: $black;
+				}
+			}
+		}
+	}
+
+	.slider-control__prev {
+		top: 80px;
+		left: 8px;
+	}
+
+	.slider-control__next {
+		top: 80px;
+		right: 8px;
+	}
+
+	.slider-control__bottom {
+		position: absolute;
+		z-index: 1000;
+		top: 85%;
+		right: 50%;
+		height: 40px;
+		width: 40px;
+		transform: rotate(90deg);
+		display: block;
+	}
 }
 
 @media (min-width: $desktop-width) {
-  .carousel.carousel-slider .control-arrow {
-    svg {
-      height: 50px;
-      width: 50px;
-    }
-  }
+	.carousel.carousel-slider .control-arrow {
+		svg {
+			height: 50px;
+			width: 50px;
+		}
+	}
 
-  .slider-control__next {
-    right: 1.5%;
-  }
+	.slider-control__next {
+		right: 1.5%;
+	}
 
-  .slider-control__prev {
-    left: 1.5%;
-  }
+	.slider-control__prev {
+		left: 1.5%;
+	}
 }

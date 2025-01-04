@@ -34,19 +34,22 @@ const renderArrowNext = (clickHandler: () => void) => {
 }
 
 	return (
-		<Carousel
-			showThumbs={false}
-			showStatus={false}
-			renderArrowNext={renderArrowNext}
-			renderArrowPrev={renderArrowPrev}
-			infiniteLoop
-			interval={4000}>
-			{images.map((image, index) => (
-				<div className={classes['example-project__image']} key={index}>
-					<img src={image} alt={`Page ${index + 1}`} />
-				</div>
-			))}
-		</Carousel>
+		<div className={'carousel-container carousel-container--black'}>
+			<Carousel
+				showThumbs={false}
+				showStatus={false}
+				renderArrowNext={renderArrowNext}
+				renderArrowPrev={renderArrowPrev}
+				infiniteLoop
+				interval={4000}
+			>
+				{images.map((image, index) => (
+					<div className={classes['example-project__image']} key={index}>
+						<img src={image} alt={`Page ${index + 1}`} />
+					</div>
+				))}
+			</Carousel>
+		</div>
 	)
 }
 
