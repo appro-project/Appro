@@ -4,7 +4,6 @@ import com.appro.AbstractAmazonS3ITest;
 import com.appro.dto.FloorDto;
 import com.appro.dto.ImageInfo;
 import com.appro.dto.ProjectDto;
-import com.appro.dto.project_options.*;
 import com.appro.entity.Floor;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
@@ -26,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -420,17 +418,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .andExpect(jsonPath("$.generalArea").value(updateProjectRequestBody.getGeneralArea()))
                 .andExpect(jsonPath("$.timeToCreate").value(updateProjectRequestBody.getTimeToCreate()))
                 .andExpect(jsonPath("$.livingArea").value(updateProjectRequestBody.getLivingArea()))
-                .andExpect(jsonPath("$.wallMaterial").value(updateProjectRequestBody.getWallMaterial().name()))
+                .andExpect(jsonPath("$.wallMaterial").value(updateProjectRequestBody.getWallMaterial()))
                 .andExpect(jsonPath("$.wallThickness").value(updateProjectRequestBody.getWallThickness()))
-                .andExpect(jsonPath("$.foundation").value(updateProjectRequestBody.getFoundation().name()))
-                .andExpect(jsonPath("$.ceiling").value(updateProjectRequestBody.getCeiling().name()))
-                .andExpect(jsonPath("$.roof").value(updateProjectRequestBody.getRoof().name()))
+                .andExpect(jsonPath("$.foundation").value(updateProjectRequestBody.getFoundation()))
+                .andExpect(jsonPath("$.ceiling").value(updateProjectRequestBody.getCeiling()))
+                .andExpect(jsonPath("$.roof").value(updateProjectRequestBody.getRoof()))
                 .andExpect(jsonPath("$.buildingPrice").value(updateProjectRequestBody.getBuildingPrice()))
-                .andExpect(jsonPath("$.insulation").value(updateProjectRequestBody.getInsulation().name()))
+                .andExpect(jsonPath("$.insulation").value(updateProjectRequestBody.getInsulation()))
                 .andExpect(jsonPath("$.insulationThickness").value(updateProjectRequestBody.getInsulationThickness()))
                 .andExpect(jsonPath("$.length").value(updateProjectRequestBody.getLength()))
                 .andExpect(jsonPath("$.width").value(updateProjectRequestBody.getWidth()))
-                .andExpect(jsonPath("$.style").value(updateProjectRequestBody.getStyle().name()))
+                .andExpect(jsonPath("$.style").value(updateProjectRequestBody.getStyle()))
                 .andExpect(jsonPath("$.isGaragePresent").value(updateProjectRequestBody.getIsGaragePresent()))
                 .andExpect(jsonPath("$.bedroomCount").value(updateProjectRequestBody.getBedroomCount()))
                 .andExpect(jsonPath("$.showOnMain", is(true)))
@@ -447,17 +445,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
         assertNotEquals(projectBeforeUpdate.getGeneralArea(), projectAfterUpdate.getGeneralArea());
         assertNotEquals(projectBeforeUpdate.getTimeToCreate(), projectAfterUpdate.getTimeToCreate());
         assertNotEquals(projectBeforeUpdate.getLivingArea(), projectAfterUpdate.getLivingArea());
-        assertNotEquals(projectBeforeUpdate.getWallMaterial().toValue(), projectAfterUpdate.getWallMaterial().toValue());
+        assertNotEquals(projectBeforeUpdate.getWallMaterial(), projectAfterUpdate.getWallMaterial());
         assertNotEquals(projectBeforeUpdate.getWallThickness(), projectAfterUpdate.getWallThickness());
-        assertNotEquals(projectBeforeUpdate.getFoundation().toValue(), projectAfterUpdate.getFoundation().toValue());
-        assertNotEquals(projectBeforeUpdate.getCeiling().toValue(), projectAfterUpdate.getCeiling().toValue());
-        assertNotEquals(projectBeforeUpdate.getRoof().toValue(), projectAfterUpdate.getRoof().toValue());
+        assertNotEquals(projectBeforeUpdate.getFoundation(), projectAfterUpdate.getFoundation());
+        assertNotEquals(projectBeforeUpdate.getCeiling(), projectAfterUpdate.getCeiling());
+        assertNotEquals(projectBeforeUpdate.getRoof(), projectAfterUpdate.getRoof());
         assertNotEquals(projectBeforeUpdate.getBuildingPrice(), projectAfterUpdate.getBuildingPrice());
-        assertNotEquals(projectBeforeUpdate.getInsulation().toValue(), projectAfterUpdate.getInsulation().toValue());
+        assertNotEquals(projectBeforeUpdate.getInsulation(), projectAfterUpdate.getInsulation());
         assertNotEquals(projectBeforeUpdate.getInsulationThickness(), projectAfterUpdate.getInsulationThickness());
         assertNotEquals(projectBeforeUpdate.getLength(), projectAfterUpdate.getLength());
         assertNotEquals(projectBeforeUpdate.getWidth(), projectAfterUpdate.getWidth());
-        assertNotEquals(projectBeforeUpdate.getStyle().toValue(), projectAfterUpdate.getStyle().toValue());
+        assertNotEquals(projectBeforeUpdate.getStyle(), projectAfterUpdate.getStyle());
         assertNotEquals(projectBeforeUpdate.getIsGaragePresent(), projectAfterUpdate.getIsGaragePresent());
         assertNotEquals(projectBeforeUpdate.getBedroomCount(), projectAfterUpdate.getBedroomCount());
     }
@@ -661,12 +659,12 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(projectJson))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.wallMaterial").value(expectedProject.getWallMaterial().name()))
-                    .andExpect(jsonPath("$.foundation").value(expectedProject.getFoundation().name()))
-                    .andExpect(jsonPath("$.ceiling").value(expectedProject.getCeiling().name()))
-                    .andExpect(jsonPath("$.roof").value(expectedProject.getRoof().name()))
-                    .andExpect(jsonPath("$.insulation").value(expectedProject.getInsulation().name()))
-                    .andExpect(jsonPath("$.style").value(expectedProject.getStyle().name()));
+                    .andExpect(jsonPath("$.wallMaterial").value(expectedProject.getWallMaterial()))
+                    .andExpect(jsonPath("$.foundation").value(expectedProject.getFoundation()))
+                    .andExpect(jsonPath("$.ceiling").value(expectedProject.getCeiling()))
+                    .andExpect(jsonPath("$.roof").value(expectedProject.getRoof()))
+                    .andExpect(jsonPath("$.insulation").value(expectedProject.getInsulation()))
+                    .andExpect(jsonPath("$.style").value(expectedProject.getStyle()));
 
             int expectedProjectsSizeAfterCreating = 1;
             int actualProjectsSizeAfterCreating = projectRepository.findAll().size();
@@ -807,17 +805,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial(WallMaterialDto.BRICK)
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation(FoundationDto.STRIP)
-                .ceiling(CeilingDto.COMBINED)
-                .roof(RoofDto.BITUMEN_TILE)
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation(InsulationDto.MINERAL_WOOL)
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style(StyleDto.MODERN)
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .mainImage(mainImage)
@@ -837,17 +835,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial(WallMaterialDto.BRICK)
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation(FoundationDto.STRIP)
-                .ceiling(CeilingDto.COMBINED)
-                .roof(RoofDto.BITUMEN_TILE)
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation(InsulationDto.MINERAL_WOOL)
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style(StyleDto.MODERN)
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .mainImage(createMainImageInfo())
@@ -867,17 +865,17 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial(WallMaterialDto.BRICK)
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation(FoundationDto.STRIP)
-                .ceiling(CeilingDto.COMBINED)
-                .roof(RoofDto.BITUMEN_TILE)
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation(InsulationDto.MINERAL_WOOL)
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style(StyleDto.MODERN)
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .build();

@@ -1,6 +1,6 @@
 import { FilterType, RangeOption, SearchOption } from '@/constants/filterData/catalogueFiltersInfo'
 import { SortDirection } from '@/constants/sortData/catalogueSortInfo'
-import {ProjectDto, StyleOptions} from "@/api/model";
+import {ProjectDto} from "@/api/model";
 
 const getSearchUri = (
   searchOption: SearchOption,
@@ -96,8 +96,8 @@ const filterRange = (value: string, project: ProjectDto, field: number): boolean
 const filterStyle = (value: string, project: ProjectDto): boolean => {
   if (value === 'all') return true;
     return (
-      (project.style === StyleOptions.Classic && value.includes(StyleOptions.Classic)) ||
-      (project.style === StyleOptions.Modern && value.includes(StyleOptions.Modern))
+      (project.style === "classic" && value.includes("classic")) ||
+      (project.style === "modern" && value.includes("modern"))
     );
 }
 

@@ -1,14 +1,11 @@
 package com.appro.entity;
 
-import com.appro.entity.project_options.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.PrePersist;
@@ -74,31 +71,22 @@ public class Project {
     @Column(name = "project_price")
     private BigDecimal projectPrice;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "wall_material")
-    private WallMaterialOptions wallMaterial;
+    private String wallMaterial;
 
     @Column(name = "wall_thickness")
     private BigDecimal wallThickness;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "foundation")
-    private FoundationOptions foundation;
+    private String foundation;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ceiling")
-    private CeilingOptions ceiling;
+    private String ceiling;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "roof")
-    private RoofOptions roof;
+    private String roof;
 
     @Column(name = "building_price")
     private BigDecimal buildingPrice;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "insulation")
-    private InsulationOptions insulation;
+    private String insulation;
 
     @Column(name = "insulation_thickness")
     private Double insulationThickness;
@@ -109,9 +97,7 @@ public class Project {
     @Column(name = "width")
     private Double width;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "style")
-    private StyleOptions style;
+    private String style;
 
     @Column(name = "is_garage_present")
     private Boolean isGaragePresent;

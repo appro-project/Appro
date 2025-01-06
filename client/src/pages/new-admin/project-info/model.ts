@@ -1,13 +1,4 @@
-import {
-    CeilingOptions,
-    FloorDto,
-    FoundationOptions,
-    ImageInfo,
-    InsulationOptions,
-    ProjectDto, RoofOptions,
-    StyleOptions,
-    WallMaterialOptions
-} from "@/api/model";
+import { ProjectDto } from "@/api/model";
 
 export interface ProjectProps {
     projectDto: ProjectDto;
@@ -24,7 +15,7 @@ export interface ProjectPropAction {
 export const initialState:ProjectDto = {
     id: 0,
     title: '',
-    style: StyleOptions.Classic,
+    style: "classic",
     timeToCreate: 0,
     images: [],
     photos: [],
@@ -33,13 +24,13 @@ export const initialState:ProjectDto = {
     livingArea: 0,
     buildingArea: 0,
     terraceArea: 0,
-    wallMaterial: WallMaterialOptions.AeratedConcreteBlock,
+    wallMaterial: "gas_block",
     wallThickness: 0,
-    foundation: FoundationOptions.Pile,
-    ceiling: CeilingOptions.Combined,
-    roof: RoofOptions.Flat,
+    foundation: "pile",
+    ceiling: 'combined',
+    roof: "flat",
     buildingPrice: 0,
-    insulation: InsulationOptions.MineralWool,
+    insulation: "mineral_wool",
     insulationThickness: 0,
     length: 0,
     width: 0,

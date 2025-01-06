@@ -4,14 +4,14 @@ import {Grid} from "@mui/material";
 import NumericProperty from "@/pages/Admin/ViewAddEditProject/NumericProperty";
 import CheckProperty from "@/pages/Admin/ViewAddEditProject/CheckProperty";
 import SelectProperty from "@/pages/Admin/ViewAddEditProject/SelectProperty";
-import {
-    ceilingOptions,
-    foundationOptions,
-    insulationOptions,
-    roofOptions,
-    wallMaterialOptions
-} from "@/pages/Admin/constants";
 import InputLabel from "@mui/material/InputLabel";
+import { 
+    ceilingOptions, 
+    foundationOptions, 
+    insulationOptions, 
+    roofOptions, 
+    wallMaterialOptions 
+} from "@/api/model";
 
 
 export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
@@ -70,6 +70,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Кровля'}
+                    label={"roof"}
                     value={projectDto.roof}
                     options={roofOptions}
                     required={true}
@@ -154,8 +155,6 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
                     handleProperty={checked => dispatch({type: 'isGaragePresent', payload: checked})}
                 />
             </Grid>
-
-
         </Grid>
     )
 }

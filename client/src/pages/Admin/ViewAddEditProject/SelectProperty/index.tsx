@@ -19,7 +19,7 @@ const getSelectOptions = (options: ReadonlyArray<string>, label: string, t: any)
   options.forEach((option: string | number, idx: number) =>
     renderOptions.push(
       <MenuItem key={`${option}${idx}`} value={option}>
-        {t(`options.${label}.${String(option).toLowerCase()}`)}
+        {t(`options.${label}.${option}`)}
       </MenuItem>,
     ),
   );
@@ -34,7 +34,7 @@ const SelectProperty = ({ title, value, required, disabled, options, label, hand
     <TextField
         required={required} disabled={disabled}
         fullWidth
-        variant={'outlined'} label={title} value={value}
+        variant={'outlined'} label={title} value={value.toLowerCase()}
                select
                onChange={handleProperty}>
       {getSelectOptions(options,label, t)}

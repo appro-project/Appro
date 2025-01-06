@@ -12,19 +12,13 @@ import org.mapstruct.Named;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {ProjectOptionsMapper.class, ImageMapper.class, FloorMapper.class})
+@Mapper(componentModel = "spring", uses = {ImageMapper.class, FloorMapper.class})
 public interface ProjectMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "floors", ignore = true)
-//    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "stringToWallMaterialOptions")
-//    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "stringToFoundationOptions")
-//    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "stringToCeilingOptions")
-//    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "stringToInsulationOptions")
-//    @Mapping(target = "roof", source = "roof", qualifiedByName = "stringToRoofOptions")
-//    @Mapping(target = "style", source = "style", qualifiedByName = "stringToStyleOptions")
     @Mapping(target = "images", ignore = true)
     void updateProjectFromDto(@MappingTarget Project project, ProjectDto projectDto);
 
@@ -106,12 +100,6 @@ public interface ProjectMapper {
         project.setFloors(existingFloors);
     }
 
-//    @Mapping(target = "wallMaterial", source = "project.wallMaterial", qualifiedByName = "optionWallMaterialToString")
-//    @Mapping(target = "insulation", source = "project.insulation", qualifiedByName = "optionInsulationToString")
-//    @Mapping(target = "foundation", source = "project.foundation", qualifiedByName = "optionFoundationToString")
-//    @Mapping(target = "ceiling", source = "project.ceiling", qualifiedByName = "optionCeilingToString")
-//    @Mapping(target = "roof", source = "project.roof", qualifiedByName = "optionRoofToString")
-//    @Mapping(target = "style", source = "project.style", qualifiedByName = "optionStyleToString")
     @Mapping(target = "id", source = "project.id")
     @Mapping(target = "mainImage", source = "images", qualifiedByName = "findMainImage")
     @Mapping(target = "images", source = "images", qualifiedByName = "toImageInfoListFilterByTypeImage")
@@ -128,12 +116,6 @@ public interface ProjectMapper {
                 .orElse(null);
     }
 
-//    @Mapping(target = "wallMaterial", source = "wallMaterial", qualifiedByName = "optionWallMaterialToString")
-//    @Mapping(target = "insulation", source = "insulation", qualifiedByName = "optionInsulationToString")
-//    @Mapping(target = "foundation", source = "foundation", qualifiedByName = "optionFoundationToString")
-//    @Mapping(target = "ceiling", source = "ceiling", qualifiedByName = "optionCeilingToString")
-//    @Mapping(target = "roof", source = "roof", qualifiedByName = "optionRoofToString")
-//    @Mapping(target = "style", source = "style", qualifiedByName = "optionStyleToString")
     List<ProjectDto> toProjectsDto(List<Project> projects);
 
 }

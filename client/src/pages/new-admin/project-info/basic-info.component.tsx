@@ -1,19 +1,15 @@
 import {Grid, TextField} from "@mui/material";
 import TextProperty from "@/pages/Admin/ViewAddEditProject/TextProperty";
 import SelectProperty from "@/pages/Admin/ViewAddEditProject/SelectProperty";
-import {styleOptions} from "@/pages/Admin/constants";
 import NumericProperty from "@/pages/Admin/ViewAddEditProject/NumericProperty";
 import React, {FC} from "react";
 import {ProjectProps} from "@/pages/new-admin/project-info/model";
 import CheckProperty from "@/pages/Admin/ViewAddEditProject/CheckProperty";
+import { styleOptions } from "@/api/model";
 
 
 export const BasicInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
     const view = mode === 'view';
-
-    console.log("state.style", projectDto.style);
-
-    console.log(styleOptions.includes(projectDto.style));
 
     return (<Grid item xs={12} container spacing={5}>
         <Grid item xs={6}>
