@@ -347,6 +347,13 @@
 		"address_link": "г. Ирпень, ул. Ярославская,3",
 		"copyright": "© 2025 Архитектурное Бюро."
 	},
+	"example-project": {
+		"header": "Пример проекта",
+		"section1_title": "Архитектура и конструкции",
+		"section2_title": "Вода и канализация",
+		"section3_title": "Отопление и вентиляция",
+		"section4_title": "Электрика"
+	},
 	"options": {
 		"style": {
 			"classic": "классический",

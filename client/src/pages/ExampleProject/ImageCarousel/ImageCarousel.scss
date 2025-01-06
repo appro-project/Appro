@@ -1,11 +1,31 @@
 @import '~/variables';
 
-.welcome-carousel .carousel-container .carousel .control-dots {
-	bottom: 130px;
+.image-carousel__image {
+	width: 100%;
+	height: auto;
+	max-height: 1500px;
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 10px;
+	max-width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		height: auto;
+		object-fit: contain;
+		max-height: 500px;
+	}
 }
 
-.welcome-carousel .carousel-container .control-dots .dot {
-	background-color: #fff;
+.image-carousel .carousel .control-dots {
+	bottom: -10px;
+}
+
+.image-carousel .control-dots .dot {
+	background-color: $black;
 }
 
 .control-arrow {
@@ -13,11 +33,17 @@
 }
 
 @media (min-width: $tablet-width) {
+	.image-carousel__image img {
+		max-width: 90%;
+		max-height: 600px;
+	}
+
 	.carousel .control-dots {
 		display: none;
 	}
 
-	.welcome-carousel .carousel.carousel-slider .control-arrow {
+	.image-carousel .carousel.carousel-slider .control-arrow {
+		color: $black;
 		display: block;
 		background: none;
 		opacity: 1;
@@ -34,35 +60,35 @@
 		}
 
 		svg {
-			color: #fff;
 			height: 42px;
 			width: 42px;
 
 			path {
-				stroke: #ffffff;
+				stroke: $black;
 				transition: stroke 0.25s ease-in-out;
 			}
 
 			circle {
 				fill: none;
+				stroke: $black;
+				color: $black;
 				transition: all 0.25s ease-in-out;
 			}
 
 			&:hover {
 				circle {
-					fill: #ffffff;
+					fill: $black;
 					transition: fill 0.25s ease-in-out;
 				}
-
 				path {
-					stroke: #e5e5e5;
+					stroke: #ffffff;
 					transition: stroke 0.25s ease-in-out;
 				}
 			}
 
 			&:active {
 				path {
-					stroke: #ffffff;
+					stroke: $black;
 					transition: stroke 0.25s ease-in-out;
 				}
 
@@ -98,7 +124,11 @@
 }
 
 @media (min-width: $desktop-width) {
-	.welcome-carousel .carousel.carousel-slider .control-arrow {
+	.image-carousel__image img {
+		max-height: 800px;
+	}
+
+	.image-carousel .carousel.carousel-slider .control-arrow {
 		svg {
 			height: 50px;
 			width: 50px;
