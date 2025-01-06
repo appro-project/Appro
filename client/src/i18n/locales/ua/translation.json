@@ -325,7 +325,8 @@
 		"catalogue_link": "Каталог будинків",
 		"individual_project_link": "Індивідуальний проект",
 		"additional_link": "Додаткові послуги",
-		"about_us_link": "Про нас"
+		"about_us_link": "Про нас",
+		"example_project_link": "Приклад проекту"
 	},
 	"modal": {
 		"order_data": "ваші дані для замовлення",
@@ -346,5 +347,12 @@
 		"slogan": "користь, міцність, краса",
 		"address_link": "м. Ірпінь, вул. Ярославська,3",
 		"copyright": "© 2025 Архітектурне Бюро."
+	},
+	"example-project": {
+		"header": "Приклад проекту",
+		"section1_title": "Архітектура та конструкції",
+		"section2_title": "Вода та каналізація",
+		"section3_title": "Опалення та вентиляція",
+		"section4_title": "Електрика"
 	}
 }

@@ -325,7 +325,8 @@
 		"catalogue_link": "Каталог домов",
 		"individual_project_link": "Индивидуальный проект",
 		"additional_link": "Дополнительные услуги",
-		"about_us_link": "О нас"
+		"about_us_link": "О нас",
+		"example_project_link": "Пример проекта"
 	},
 	"modal": {
 		"order_data": "ваши данные для заказа",
@@ -346,5 +347,12 @@
 		"slogan": "польза, крепость, красота",
 		"address_link": "г. Ирпень, ул. Ярославская,3",
 		"copyright": "© 2025 Архитектурное Бюро."
+	},
+	"example-project": {
+		"header": "Пример проекта",
+		"section1_title": "Архитектура и конструкции",
+		"section2_title": "Вода и канализация",
+		"section3_title": "Отопление и вентиляция",
+		"section4_title": "Электрика"
 	}
 }

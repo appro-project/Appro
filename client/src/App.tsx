@@ -15,6 +15,7 @@ import {ProjectsList} from "@/pages/new-admin/projects-list/projects-list.page";
 import {ProjectInfo} from "@/pages/new-admin/project-info/project-info.component";
 import {AdminLayout} from "@/pages/new-admin/admin-layout.component";
 import {useGetAllProjects} from "@/api/useGetAllProjects";
+import { ExampleProject } from './pages/ExampleProject/ExampleProject'
 
 
 export const App = () => {
@@ -53,6 +54,8 @@ export const App = () => {
                     <Route path={'/additional'} element={<AdditionalOptions/>}/>
 
                     <Route path={'/about'} element={<AboutUs/>}/>
+
+                    <Route path={'/example-project'} element={<ExampleProject />}/>
                 </Route>
             </Routes>
        )

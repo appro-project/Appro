@@ -38,17 +38,19 @@ export const Welcome = ({ mockProjects }: PropsType) => {
 
   return (
 		<section className={classes.welcome}>
-			<Carousel
-				renderArrowNext={renderArrowNext}
-				renderArrowPrev={renderArrowPrev}
-				infiniteLoop
-				interval={4000}
-				showThumbs={false}
-			>
-				{mockProjects.map((project, index) => (
-					<ProjectItem key={index} project={project} />
-				))}
-			</Carousel>
+			<div className={'welcome-carousel'}>
+				<Carousel
+					renderArrowNext={renderArrowNext}
+					renderArrowPrev={renderArrowPrev}
+					infiniteLoop
+					interval={4000}
+					showThumbs={false}
+				>
+					{mockProjects.map((project, index) => (
+						<ProjectItem key={index} project={project} />
+					))}
+				</Carousel>
+			</div>
 			<Link to='/#popular-category'>
 				<div
 					aria-label='to bottom'
