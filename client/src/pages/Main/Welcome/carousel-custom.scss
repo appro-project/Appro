@@ -105,15 +105,17 @@
 					stroke: $black;
 				}
 
+				circle {
+					stroke: $black;
+					color: $black;
+				}
+
 				&:hover {
 					path {
-						stroke: $dark-grey;
+						stroke: $white;
 					}
 				}
 
-				circle {
-					stroke: $black;
-				}
 			}
 		}
 	}
