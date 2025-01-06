@@ -38,7 +38,7 @@ export const Welcome = ({ mockProjects }: PropsType) => {
 
   return (
 		<section className={classes.welcome}>
-			<div className={'carousel-container carousel-container--white'}>
+			<div className={'welcome-carousel'}>
 				<Carousel
 					renderArrowNext={renderArrowNext}
 					renderArrowPrev={renderArrowPrev}
