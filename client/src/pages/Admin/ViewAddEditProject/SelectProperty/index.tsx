@@ -34,7 +34,7 @@ const SelectProperty = ({ title, value, required, disabled, options, label, hand
     <TextField
         required={required} disabled={disabled}
         fullWidth
-        variant={'outlined'} label={title} value={value.toLowerCase()}
+        variant={'outlined'} label={title} value={value}
                select
                onChange={handleProperty}>
       {getSelectOptions(options,label, t)}
