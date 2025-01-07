@@ -1,24 +1,25 @@
 export interface ProjectDto {
     id?: number;
     title: string;
-    description: string;
+    descriptionRU: string;
+    descriptionUA: string;
     generalArea: number;
     timeToCreate: number;
     projectPrice: number;
     livingArea: number;
     buildingArea: number;
     terraceArea: number;
-    wallMaterial: WallMaterialOptions;
+    wallMaterial: WallMaterial;
     wallThickness: number;
-    foundation: FoundationOptions;
-    ceiling: CeilingOptions;
-    roof: RoofOptions;
+    foundation: Foundation;
+    ceiling: Ceiling;
+    roof: Roof;
     buildingPrice: number;
-    insulation: InsulationOptions;
+    insulation: Insulation;
     insulationThickness: number;
     length: number;
     width: number;
-    style: StyleOptions;
+    style: Style;
     isGaragePresent: boolean;
     bedroomCount: number;
     mainImage:ImageInfo;
@@ -50,48 +51,54 @@ interface ProjectConfig {
     isFinished?: boolean;
 }
 
+export const styleOptions = ['classic', 'modern'] as const;
 
-export enum StyleOptions {
-    Classic = 'классический',
-    Modern = 'современный'
-}
+type Style = typeof styleOptions[number];
 
-export enum FoundationOptions {
-    Strip = 'ленточный',
-    Slab = 'плитный',
-    Pile = 'свайный',
-    CombinedPileSlab = 'комбинированный (свайно-плитный)',
-    Columnar = 'столбчатый',
-    MonolithicStrip = 'монолитный ленточный'
-}
+export const foundationOptions = [
+    'strip', 
+    'slab', 
+    'pile', 
+    'combined', 
+    'columnar', 
+    'monolithic_strip'] as const;
+type Foundation = typeof foundationOptions[number];
 
-export enum CeilingOptions {
-    MonolithicConcreteSlab = 'монолитная ж/б плита',
-    PrecastConcreteSlab = 'сборное ж/б из плит',
-    Wood = 'дерево',
-    Combined = 'комбинированная'
-}
+export const ceilingOptions = [
+    'monolithic',
+    'iron_concrete',
+    'wood',
+    'combined',
+  ] as const;
 
-export enum RoofOptions {
-    BituminousShingles = 'битумная черепица',
-    MetalShingles = 'металлочерепица',
-    CorrugatedSheet = 'профнастил',
-    Seam = 'фальцевая',
-    Flat = 'плоская',
-    Tiles = 'черепица',
-    Slate = 'сланцевая'
-}
+type Ceiling = typeof ceilingOptions[number];
 
-export enum WallMaterialOptions {
-    Brick = 'кирпич',
-    AeratedConcreteBlock = 'газоблок',
-    FoamConcreteBlock = 'пеноблок',
-    CeramicBlock = 'керамоблок'
-}
+export const roofOptions = [
+    'bitumen_tile',
+    'metal_tile',
+    'profiled_sheeting',
+    'rebate',
+    'flat',
+    'tile',
+    'slate',
+  ] as const;
+  
+  type Roof = typeof roofOptions[number];
 
-export enum InsulationOptions {
-    MineralWool = 'минеральная вата',
-    PolystyreneFoam = 'пенополистерол',
-    Fiberboard = 'фибролит',
-    FoamPlastic = 'пенопласт'
-}
+  export const wallMaterialOptions = [
+    'brick',
+    'gas_block',
+    'foam_block',
+    'ceramic_block',
+  ] as const;
+  
+  type WallMaterial = typeof wallMaterialOptions[number];
+
+  export const insulationOptions = [
+    'mineral_wool',
+    'expanded_polystyrene',
+    'fibreboard',
+    'foam_plastic',
+  ] as const;
+  
+  type Insulation = typeof insulationOptions[number];

@@ -1,8 +1,8 @@
-const styleOptions: ReadonlyArray<string> = ['классический', 'современный']
+const styleOptions: ReadonlyArray<string> = ['CLASSIC', 'MODERN']
 
-const foundationOptions: ReadonlyArray<string> = ['ленточный', 'плитный', 'свайный', 'комбинированный (свайно-плитный)', 'столбчатый', 'монолитный ленточный']
+const foundationOptions: ReadonlyArray<string> = ['STRIP', 'SLAB', 'PILE', 'COMBINED', 'PILL', 'MONOLITHIC_STRIP'];
 
-const ceilingOptions: ReadonlyArray<string> = ['монолитная ж/б плита', 'сборное ж/б из плит', 'дерево', 'комбинированная']
+const ceilingOptions: ReadonlyArray<string> = ['MONOLITHIC', 'IRON_CONCRETE', 'WOOD', 'COMBINED']
 
 const roofOptions: ReadonlyArray<string> = [
 	'битумная черепица',

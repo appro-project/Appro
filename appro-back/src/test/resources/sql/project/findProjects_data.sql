@@ -1,4 +1,4 @@
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)
@@ -7,7 +7,7 @@ VALUES ('Будинок із привидами', 'Рухлять минулог
         true, 8, now(), false, false, false);
 
 
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)
@@ -15,7 +15,7 @@ VALUES ('Будинок на пагорбі', 'По сценарію тут по
         'PILE', 'IRON_CONCRETE', 'TILE', 1990099, 'FIBREBOARD', 0.15, 24.2, 32.5, 'MODERN',
         true, 8, now(), false, false, false);
 
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)
@@ -24,7 +24,7 @@ VALUES ('Будинок із привидами', 'Рухлять минулог
         true, 8, now(), false, false, false);
 
 
-INSERT INTO project (title, description, popularity, general_area, time_to_create, project_price,
+INSERT INTO project (title, description_ua, popularity, general_area, time_to_create, project_price,
                      living_area, building_area, wall_material, wall_thickness, foundation, ceiling,
                      roof, building_price, insulation, insulation_thickness, length, width, style,
                      is_garage_present, bedroom_count, created_at, is_deleted, show_on_main, is_finished)

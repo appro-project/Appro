@@ -25,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -413,7 +412,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(projectBeforeUpdate.getId()))
                 .andExpect(jsonPath("$.title").value(updateProjectRequestBody.getTitle()))
-                .andExpect(jsonPath("$.description").value(updateProjectRequestBody.getDescription()))
+                .andExpect(jsonPath("$.descriptionRU").value(updateProjectRequestBody.getDescriptionRU()))
+                .andExpect(jsonPath("$.descriptionUA").value(updateProjectRequestBody.getDescriptionUA()))
                 .andExpect(jsonPath("$.popularity").value(updateProjectRequestBody.getPopularity()))
                 .andExpect(jsonPath("$.generalArea").value(updateProjectRequestBody.getGeneralArea()))
                 .andExpect(jsonPath("$.timeToCreate").value(updateProjectRequestBody.getTimeToCreate()))
@@ -439,22 +439,23 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
 
         // Assert attributes are updated
         assertNotEquals(projectBeforeUpdate.getTitle(), projectAfterUpdate.getTitle());
-        assertNotEquals(projectBeforeUpdate.getDescription(), projectAfterUpdate.getDescription());
+        assertNotEquals(projectBeforeUpdate.getDescriptionRU(), projectAfterUpdate.getDescriptionRU());
+        assertNotEquals(projectBeforeUpdate.getDescriptionUA(), projectAfterUpdate.getDescriptionUA());
         assertNotEquals(projectBeforeUpdate.getPopularity(), projectAfterUpdate.getPopularity());
         assertNotEquals(projectBeforeUpdate.getGeneralArea(), projectAfterUpdate.getGeneralArea());
         assertNotEquals(projectBeforeUpdate.getTimeToCreate(), projectAfterUpdate.getTimeToCreate());
         assertNotEquals(projectBeforeUpdate.getLivingArea(), projectAfterUpdate.getLivingArea());
-        assertNotEquals(projectBeforeUpdate.getWallMaterial().toValue(), projectAfterUpdate.getWallMaterial().toValue());
+        assertNotEquals(projectBeforeUpdate.getWallMaterial(), projectAfterUpdate.getWallMaterial());
         assertNotEquals(projectBeforeUpdate.getWallThickness(), projectAfterUpdate.getWallThickness());
-        assertNotEquals(projectBeforeUpdate.getFoundation().toValue(), projectAfterUpdate.getFoundation().toValue());
-        assertNotEquals(projectBeforeUpdate.getCeiling().toValue(), projectAfterUpdate.getCeiling().toValue());
-        assertNotEquals(projectBeforeUpdate.getRoof().toValue(), projectAfterUpdate.getRoof().toValue());
+        assertNotEquals(projectBeforeUpdate.getFoundation(), projectAfterUpdate.getFoundation());
+        assertNotEquals(projectBeforeUpdate.getCeiling(), projectAfterUpdate.getCeiling());
+        assertNotEquals(projectBeforeUpdate.getRoof(), projectAfterUpdate.getRoof());
         assertNotEquals(projectBeforeUpdate.getBuildingPrice(), projectAfterUpdate.getBuildingPrice());
-        assertNotEquals(projectBeforeUpdate.getInsulation().toValue(), projectAfterUpdate.getInsulation().toValue());
+        assertNotEquals(projectBeforeUpdate.getInsulation(), projectAfterUpdate.getInsulation());
         assertNotEquals(projectBeforeUpdate.getInsulationThickness(), projectAfterUpdate.getInsulationThickness());
         assertNotEquals(projectBeforeUpdate.getLength(), projectAfterUpdate.getLength());
         assertNotEquals(projectBeforeUpdate.getWidth(), projectAfterUpdate.getWidth());
-        assertNotEquals(projectBeforeUpdate.getStyle().toValue(), projectAfterUpdate.getStyle().toValue());
+        assertNotEquals(projectBeforeUpdate.getStyle(), projectAfterUpdate.getStyle());
         assertNotEquals(projectBeforeUpdate.getIsGaragePresent(), projectAfterUpdate.getIsGaragePresent());
         assertNotEquals(projectBeforeUpdate.getBedroomCount(), projectAfterUpdate.getBedroomCount());
     }
@@ -616,7 +617,8 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(FIRST_PROJECT_ID))
                     .andExpect(jsonPath("$.title").value(expectedProject.getTitle()))
-                    .andExpect(jsonPath("$.description").value(expectedProject.getDescription()))
+                    .andExpect(jsonPath("$.descriptionRU").value(expectedProject.getDescriptionRU()))
+                    .andExpect(jsonPath("$.descriptionUA").value(expectedProject.getDescriptionUA()))
                     .andExpect(jsonPath("$.popularity").value(expectedProject.getPopularity()))
                     .andExpect(jsonPath("$.generalArea").value(expectedProject.getGeneralArea()))
                     .andExpect(jsonPath("$.timeToCreate").value(expectedProject.getTimeToCreate()))
@@ -795,24 +797,25 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private ProjectDto createFullProject(ImageInfo mainImage, List<ImageInfo> images, List<FloorDto> floors) {
         return ProjectDto.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial("кирпич")
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation("ленточный")
-                .ceiling("комбинированная")
-                .roof("битумная черепица")
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation("минеральная вата")
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style("современный")
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .mainImage(mainImage)
@@ -824,24 +827,25 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private ProjectDto createProject() {
         return ProjectDto.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial("кирпич")
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation("ленточный")
-                .ceiling("комбинированная")
-                .roof("битумная черепица")
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation("минеральная вата")
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style("современный")
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .mainImage(createMainImageInfo())
@@ -853,24 +857,25 @@ public class ProjectControllerITest extends AbstractAmazonS3ITest {
     private ProjectDto createProjectWithOutDetachedEntities() {
         return ProjectDto.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial("кирпич")
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation("ленточный")
-                .ceiling("комбинированная")
-                .roof("битумная черепица")
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation("минеральная вата")
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style("современный")
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .build();

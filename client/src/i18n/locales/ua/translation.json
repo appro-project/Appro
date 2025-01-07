@@ -354,5 +354,25 @@
 		"section2_title": "Вода та каналізація",
 		"section3_title": "Опалення та вентиляція",
 		"section4_title": "Електрика"
+	},
+	"options": {
+		"style": {
+			"classic": "класичний",
+			"modern": "сучасний"
+		},
+		"foundation": {
+			"strip": "стрічковий",
+			"slab": "плитний",
+			"pile": "свайний",
+			"combined": "комбінований (свайно-плитний)",
+			"columnar": "стовпчастий",
+			"monolithic_strip": "монолітний стрічковий"
+		},
+		"ceiling": {
+			"monolithic": "монолітна ж/б плита",
+			"iron_concrete": "збірне ж/б з плит",
+			"wood": "дерево",
+			"combined": "комбінована"
+		}
 	}
 }

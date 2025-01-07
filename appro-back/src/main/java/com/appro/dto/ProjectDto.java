@@ -18,7 +18,8 @@ import java.util.List;
 public class ProjectDto {
     private Integer id;
     private String title;
-    private String description;
+    private String descriptionUA;
+    private String descriptionRU;
     private Integer popularity;
     private Double generalArea;
     private Integer timeToCreate;

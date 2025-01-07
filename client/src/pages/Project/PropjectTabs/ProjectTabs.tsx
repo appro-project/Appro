@@ -10,6 +10,7 @@ import classes from '@/components/UI/Tabs/Tabs.module.scss'
 import { Tab } from '@/components/UI/Tabs/Tab/Tab'
 import {ProjectDto} from "@/api/model";
 import { useTranslation } from 'react-i18next'
+import { getDescription } from '../utils'
 
 interface Props {
 	project: ProjectDto;
@@ -31,8 +32,11 @@ export const ProjectTabs = ({ project }: Props) => {
 					{tubsArray
 						.filter(element => project.isFinished || element !== IProjectTubsName.PROJECT_IN_PROGRESS)
 						.map((element, index) => {
-						return <Tab activeTab={activeTab === element} key={index} label={t(element)} onClick={onClickTabItem} />
-					})}
+						return <Tab 
+									activeTab={activeTab === element} 
+									key={index} 
+									label={t(element)} 
+									onClick={() => onClickTabItem(element)} />})}
 				</ol>
 				<div className='tab-content'>
 					{activeTab === IProjectTubsName.All_ABOUT_PROJECT && (
@@ -43,7 +47,7 @@ export const ProjectTabs = ({ project }: Props) => {
 								projectPrice={project.projectPrice}
 								timeToCreate={project.timeToCreate}
 								images={[project.mainImage?.path, ...project.images.map((image) => image.path)]}
-								description={project.description}
+								description={getDescription(project)}
 							/>
 							<ProjectLayout project={project} />
 							<ProjectStructure project={project} />
@@ -56,7 +60,6 @@ export const ProjectTabs = ({ project }: Props) => {
 									projectPrice={project.projectPrice}
 									timeToCreate={project.timeToCreate}
 									images={project.photos.map((image) => image.path)}
-									description={project.description}
 								/>
 							}
 						</>

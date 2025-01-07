@@ -96,8 +96,8 @@ const filterRange = (value: string, project: ProjectDto, field: number): boolean
 const filterStyle = (value: string, project: ProjectDto): boolean => {
   if (value === 'all') return true;
     return (
-      (project.style === 'классический' && value.includes('classic')) ||
-      (project.style === 'современный' && value.includes('modern'))
+      (project.style === "classic" && value.includes("classic")) ||
+      (project.style === "modern" && value.includes("modern"))
     );
 }
 

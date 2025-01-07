@@ -1,13 +1,4 @@
-import {
-	ProjectDto,
-	WallMaterialOptions,
-	FoundationOptions,
-	CeilingOptions,
-	RoofOptions,
-	InsulationOptions,
-	StyleOptions,
-	FloorDto
-} from '@/api/model'
+import { ProjectDto, FloorDto } from '@/api/model'
 
 const defaultFloor: FloorDto = {
 	id: 1,
@@ -23,24 +14,25 @@ const defaultProject: ProjectDto = {
 	id: 0,
 	title: '',
 	bedroomCount: 0,
-	description: '',
+	descriptionRU: '',
+	descriptionUA: '',
 	generalArea: 50,
 	timeToCreate: 0,
 	projectPrice: 10000,
 	livingArea: 0,
 	buildingArea: 100,
 	terraceArea: 0,
-	wallMaterial: WallMaterialOptions.Brick,
+	wallMaterial: "brick",
 	wallThickness: 0,
-	foundation: FoundationOptions.Strip,
-	ceiling: CeilingOptions.MonolithicConcreteSlab,
-	roof: RoofOptions.BituminousShingles,
+	foundation: "pile",
+	ceiling: 'monolithic',
+	roof: "bitumen_tile",
 	buildingPrice: 1000000,
-	insulation: InsulationOptions.MineralWool,
+	insulation: "mineral_wool",
 	insulationThickness: 0,
 	length: 0,
 	width: 0,
-	style: StyleOptions.Classic,
+	style: "classic",
 	isGaragePresent: false,
 	mainImage: undefined,
 	images: [],
@@ -56,7 +48,7 @@ export const projects: ProjectDto[] = [
 		id: 1,
 		title: 'A-01',
 		bedroomCount: 1,
-		style: StyleOptions.Modern,
+		style: "modern",
 		buildingArea: 150
 	},
 	{
@@ -73,7 +65,7 @@ export const projects: ProjectDto[] = [
 		title: 'A-03',
 		bedroomCount: 3,
 		floors: [defaultFloor, defaultFloor],
-		style: StyleOptions.Modern,
+		style: "modern",
 		buildingArea: 300
 	},
 	{

@@ -4,7 +4,6 @@ import com.appro.AbstractBaseJpaITest;
 import com.appro.entity.Floor;
 import com.appro.entity.Image;
 import com.appro.entity.Project;
-import com.appro.entity.project_options.*;
 import org.junit.jupiter.api.*;
 import org.springframework.test.context.TestPropertySource;
 
@@ -51,7 +50,8 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
 
         Assertions.assertEquals(PROJECT_ID, actualProject.getId());
         Assertions.assertEquals(expectedProject.getTitle(), actualProject.getTitle());
-        Assertions.assertEquals(expectedProject.getDescription(), actualProject.getDescription());
+        Assertions.assertEquals(expectedProject.getDescriptionRU(), actualProject.getDescriptionRU());
+        Assertions.assertEquals(expectedProject.getDescriptionUA(), actualProject.getDescriptionUA());
         Assertions.assertEquals(expectedProject.getPopularity(), actualProject.getPopularity());
         Assertions.assertEquals(expectedProject.getGeneralArea(), actualProject.getGeneralArea());
         Assertions.assertEquals(expectedProject.getTimeToCreate(), actualProject.getTimeToCreate());
@@ -162,24 +162,25 @@ class ProjectRepositoryITest extends AbstractBaseJpaITest {
     private Project createProject() {
         return Project.builder()
                 .title("Білий дім")
-                .description("Тут живе Байден")
+                .descriptionRU("Тут живет Байден")
+                .descriptionUA("Тут живе Байден")
                 .popularity(3)
                 .generalArea(768.5)
                 .timeToCreate(62)
                 .projectPrice(BigDecimal.valueOf(120000.0))
                 .livingArea(650.0)
                 .buildingArea(598.5)
-                .wallMaterial(WallMaterialOptions.fromValue("кирпич"))
+                .wallMaterial("bric")
                 .wallThickness(BigDecimal.valueOf(0.5))
-                .foundation(FoundationOptions.fromValue("ленточный"))
-                .ceiling(CeilingOptions.fromValue("комбинированная"))
-                .roof(RoofOptions.fromValue("битумная черепица"))
+                .foundation("strip")
+                .ceiling("combined")
+                .roof("bitumen_tile")
                 .buildingPrice(BigDecimal.valueOf(55998889.0))
-                .insulation(InsulationOptions.fromValue("минеральная вата"))
+                .insulation("mineral_wool")
                 .insulationThickness(0.3)
                 .length(55.8)
                 .width(64.7)
-                .style(StyleOptions.fromValue("современный"))
+                .style("modern")
                 .isGaragePresent(false)
                 .bedroomCount(24)
                 .images(createImages())
