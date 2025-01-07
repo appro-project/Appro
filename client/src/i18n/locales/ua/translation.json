@@ -276,14 +276,6 @@
 			"floor_height": "висота {{index}}-го поверху",
 			"walls": "стіни",
 			"foundation": "фундамент",
-			"foundation_type": {
-				"strip": "стрічковий",
-				"slab": "плитний",
-				"pile": "пальовий",
-				"combined": "комбінований (пальово-плитний)",
-				"columnar": "стовпчастий",
-				"monolithic_strip": "монолітний стрічковий"
-			},
 			"ceilings": "перекриття",
 			"roof": "дах",
 			"construction_price": "ціна будівництва"
@@ -373,6 +365,27 @@
 			"iron_concrete": "збірне ж/б з плит",
 			"wood": "дерево",
 			"combined": "комбінована"
+		},
+		"roof": {
+			"bitumen_tile": "бітумна черепиця",
+			"metal_tile": "металочерепиця",
+			"profiled_sheeting": "профнастил",
+			"rebate": "фальцева",
+			"flat": "плоска",
+			"tile": "черепиця",
+			"slate": "сланцева"
+		},
+		"wall-material": {
+			"brick": "цегла",
+			"gas_block": "газоблок",
+			"foam_block": "піноблок",
+			"ceramic_block": "керамоблок"
+		},
+		"insulation": {
+			"mineral_wool": "мінеральна вата",
+			"expanded_polystyrene": "пінополістирол",
+			"fibreboard": "фіброліт",
+			"foam_plastic": "пінопласт"
 		}
 	}
 }
