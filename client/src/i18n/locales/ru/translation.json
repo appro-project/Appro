@@ -325,7 +325,8 @@
 		"catalogue_link": "Каталог домов",
 		"individual_project_link": "Индивидуальный проект",
 		"additional_link": "Дополнительные услуги",
-		"about_us_link": "О нас"
+		"about_us_link": "О нас",
+		"example_project_link": "Пример проекта"
 	},
 	"modal": {
 		"order_data": "ваши данные для заказа",

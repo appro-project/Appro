@@ -5,6 +5,8 @@ import  { Button,ButtonType } from '@/components/UI/Button/Button'
 import { OrderModalContainer } from '@/modal/OrderModalContainer'
 
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
+import { currentHost } from '@/services/server-data';
 
 enum TypeOfHouse {
   Original = 'Original',
@@ -36,6 +38,9 @@ export const InfoCard = (props: InfoCardProps) => {
   }
 
   const {t} = useTranslation();
+
+  const location = useLocation();
+  const projectLink = currentHost + location.pathname;
 
   return (
     <>
@@ -115,7 +120,7 @@ export const InfoCard = (props: InfoCardProps) => {
         </form>
       </div>
       {openModal && <OrderModalContainer 
-        project={props.title} 
+        project={projectLink} 
         setOpen={setOpenModal} 
         title={t('project.description.order_button')}
       />}
