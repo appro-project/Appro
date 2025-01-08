@@ -1,4 +1,4 @@
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import classes from './Feedback.module.scss'
@@ -70,13 +70,13 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{ required: true }}
-								render={props => (
+								render={({ field }) => (
 									<TextInput
-										error={!!errors.name}
-										{...props}
-										placeholder={t('main.feedback.name')}
+									   {...field}
+									   error={!!errors.name}
+									   placeholder={t('main.feedback.name')}
 									/>
-								)}
+								 )}
 							/>
 						</div>
 						<div className={classes['feedback__input']}>
@@ -89,9 +89,9 @@ export const Feedback = () => {
 									pattern:
 										/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 								}}
-								render={props => (
+								render={({ field }) => (
 									<TextInput
-										{...props}
+										{...field}
 										error={!!errors.email}
 										placeholder='E-mail'
 									/>
@@ -104,10 +104,11 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{}}
-								render={props => (
+								render={({ field }) => (
 									<TextInput
-										error={!!errors.phone}
-										{...props}
+										error={!!error}
+										{...field}
+										mask={'+380 999999999'}
 										placeholder={t('main.feedback.phone')}
 									/>
 								)}
@@ -120,10 +121,10 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{}}
-								render={props => (
+								render={({ field }) => (
 									<TextInput
 										error={!!errors.content}
-										{...props}
+										{...field}
 										placeholder={t('main.feedback.message')}
 									/>
 								)}

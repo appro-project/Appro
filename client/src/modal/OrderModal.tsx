@@ -7,6 +7,7 @@ import { Button, ButtonType } from '@/components/UI/Button/Button'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { Checkbox } from '@/components/UI/Checkbox/Checkbox'
+import { parseDate } from '@/services/util'
 
 interface OrderModalProps {
 	onClose: () => void;
@@ -27,17 +28,20 @@ const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
 			content: '',
 			date: '',
 			time: ''
-		}
+		},
+		reValidateMode: 'onChange'
 	})
 
 	const onSubmit = async (value: IFeedbackForm) => {
 		try {
 			setError(false)
 			setLoading(true)
+					
+			const requestedDate:Date = value.date && value.date.length > 0 
+				? parseDate(value.date)
+				: new Date()
 
-			const requestedDate:Date = value.date && value.date.length > 0 ? new Date(value.date) : new Date()
-
-			if (requestedDate.getDate() < Date.now()) {
+			if (requestedDate.getTime() < Date.now()) {
 				setError(true)
 				setLoading(false)
 			} else if ((!value.date && value.time) || (value.date && !value.time)) {
@@ -125,7 +129,12 @@ const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
 							control={control}
 							defaultValue={''}
 
-							rules={{ pattern: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/ }}
+							rules={{
+								validate: (value) => 
+									!value || /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/.test(value)
+									? true
+									: false,
+							}}
 							render={({ field: props }) => (
 								<TextInput
 									mask={'99/99/9999'}

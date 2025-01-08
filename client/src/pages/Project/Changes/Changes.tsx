@@ -5,6 +5,8 @@ import project_modification from '@/assets/img/project_page/project-modification
 import { Button, ButtonType } from '@/components/UI/Button/Button'
 import { ProjectDto } from '@/api/model'
 import { OrderModalContainer } from '@/modal/OrderModalContainer'
+import { useLocation } from 'react-router-dom'
+import { currentHost } from '@/services/server-data'
 
 interface IChangesProps {
 	project: ProjectDto
@@ -14,6 +16,9 @@ export const Changes = ({ project }: IChangesProps) => {
   	const { t } = useTranslation()
 	
 	const [openModal, setOpenModal] = useState(false);
+
+	const location = useLocation();
+  	const projectLink = currentHost + location.pathname;
 	
 	return (
 		<section className='project-section project-modification'>
@@ -53,7 +58,10 @@ export const Changes = ({ project }: IChangesProps) => {
 				<p>{t('catalogue.changes.contact_info')}</p>
 			
 				<Button buttonType={ButtonType.BIG} title='Заполнить заявку' actionHandler={() => setOpenModal(true)} />
-				{openModal && <OrderModalContainer setOpen={setOpenModal} title='ваши данные для связи' />}
+				{openModal && <OrderModalContainer 
+									project={projectLink}
+									setOpen={setOpenModal} 
+									title='ваши данные для связи' />}
 			</div>
 		</section>
 	)
