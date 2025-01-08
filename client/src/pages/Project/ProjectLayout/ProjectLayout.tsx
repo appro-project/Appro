@@ -84,8 +84,8 @@ export const ProjectLayout = (props: Props) => {
 						<li className={classes.ProjectLayout_InfoItem}>
 							<span>{t('project.layout.walls')}</span>
 							<b>
-								{t(`options.wall-material.${project.wallMaterial.toLowerCase()}`)} {project.wallThickness} мм +
-								{t(`options.insulation.${project.insulation.toLowerCase()}`)} {project.insulationThickness} мм
+								{t(`options.wall-material.${project.wallMaterial}`)} {project.wallThickness} мм +
+								{t(`options.insulation.${project.insulation}`)} {project.insulationThickness} мм
 							</b>
 						</li>
 						<li className={classes.ProjectLayout_InfoItem}>
@@ -100,7 +100,7 @@ export const ProjectLayout = (props: Props) => {
 						</li>
 						<li className={classes.ProjectLayout_InfoItem}>
 							<span>{t('project.layout.roof')}</span>
-							<b>{t(`options.roof.${project.roof.toLowerCase()}`)}</b>
+							<b>{t(`options.roof.${project.roof}`)}</b>
 						</li>
 						<li
 							className={[
