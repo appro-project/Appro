@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -47,7 +46,7 @@ public class FeedbackFormatter {
     public static String format(FeedbackRequest feedback) {
         return FIELD_MAPPERS.entrySet().stream()
                 .map(entry -> new SimpleEntry<>(entry.getKey(), entry.getValue().apply(feedback)))
-                .filter(entry -> entry.getValue() != null)
+                .filter(entry -> StringUtils.isNoneBlank(entry.getValue()))
                 .map(entry -> entry.getKey() + ": " + entry.getValue())
                 .collect(Collectors.joining(StringUtils.LF));
     }

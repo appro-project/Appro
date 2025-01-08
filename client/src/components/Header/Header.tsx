@@ -46,9 +46,10 @@ export const Header = () => {
 
 						<div className={createHeaderTopItemClass('header__top-item-contact')}>
 							<Button
-									title={t('header.feedback_button')}
-									buttonType={ButtonType.TRANSPARENT}
-								/>
+								title={t('header.feedback_button')}
+								actionHandler={() => setOpenModal(true)}
+								buttonType={ButtonType.TRANSPARENT}
+							/>
 						</div>
 						<div
 							className={createHeaderTopItemClass('header__top-item-menu')}
