@@ -56,8 +56,7 @@ export const Changes = ({ project }: IChangesProps) => {
 					<a href='tel:+380672343636'>+38 (067) 23436 36</a>
 				</p>
 				<p>{t('catalogue.changes.contact_info')}</p>
-			
-				<Button buttonType={ButtonType.BIG} title='Заполнить заявку' actionHandler={() => setOpenModal(true)} />
+				<Button buttonType={ButtonType.BIG} title={t('catalogue.changes.button_title')} actionHandler={() => setOpenModal(true)} />
 				{openModal && <OrderModalContainer 
 									project={projectLink}
 									setOpen={setOpenModal} 
