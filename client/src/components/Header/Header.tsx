@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ReactComponent as Logo } from '@/assets/img/logo.svg'
 import classes from './Header.module.scss'
 import { Container } from '@/containers/hoc/Container/Container'
@@ -8,11 +8,10 @@ import { Menu } from './Menu/Menu'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from './language-switcher.component'
-import { OrderModalContainer } from '@/modal/OrderModalContainer'
+import { useModalStore } from '@/modal/order-modal-cantainer.strore'
 
 export const Header = () => {
 
-	const [openModal, setOpenModal] = useState(false);
 	const [isOpened, setIsOpened] = useState(false)
 	const location = useLocation()
 	const { t } = useTranslation()
@@ -23,6 +22,11 @@ export const Header = () => {
 	if ('/' === location.pathname) {
 		headerClasses.push(classes['header--transparent'])
 	}
+
+	const { openModal } = useModalStore();
+	const handleOpenModal = () => {
+		openModal(null, t('modal.title_contact'));
+	};
 
 	return (
 		<header className={headerClasses.join(' ')}>
@@ -47,7 +51,7 @@ export const Header = () => {
 						<div className={createHeaderTopItemClass('header__top-item-contact')}>
 							<Button
 								title={t('header.feedback_button')}
-								actionHandler={() => setOpenModal(true)}
+								actionHandler={handleOpenModal}
 								buttonType={ButtonType.TRANSPARENT}
 							/>
 						</div>
@@ -61,7 +65,6 @@ export const Header = () => {
 
 					<Menu isOpened={isOpened} closeMenu={() => setIsOpened(false)} />
 
-					{openModal && <OrderModalContainer setOpen={setOpenModal} title='ваши данные для связи' />}
 				</div>
 			</Container>
 		</header>
