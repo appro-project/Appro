@@ -67,7 +67,7 @@ const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
 			<div className={'modal-content'}>
 
 				<h3 className={'modal__text--big modal__margin--small'}>
-					{t('modal.order_data')}
+					{title}
 				</h3>
 				<p className={'modal__text--grey modal__margin--normal'}>
 					{t('modal.no_spam')}

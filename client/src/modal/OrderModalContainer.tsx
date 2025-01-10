@@ -1,32 +1,32 @@
-import { Dispatch, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import OrderModal from './OrderModal'
 import './modal.scss'
+import { useModalStore } from './order-modal-cantainer.strore';
 
-interface OrderModalContainerProps {
-	setOpen: Dispatch<boolean>;
-	project?: string;
-	title?: string
-}
-
-export const OrderModalContainer = ({ setOpen, project, title }: OrderModalContainerProps) => {
-	const handleCloseModal = () => {
-		setOpen(false)
-	}
+export const OrderModalContainer: FC = () => {
+	const { isOpen, project, title, closeModal } = useModalStore();
 
 	useEffect(() => {
-		document.body.style.overflow = 'hidden'
-		return () => {
-			document.body.style.overflow = 'auto'
+		if (isOpen) {
+		  document.body.style.overflow = 'hidden';
+		} else {
+		  document.body.style.overflow = 'auto';
 		}
-	}, [])
+	
+		return () => {
+		  document.body.style.overflow = 'auto';
+		};
+	  }, [isOpen]);
+	
+	  if (!isOpen) return null;
 
-	return (
-		<div className={`modal-container`}>
-			<OrderModal 
-				title={title}
-				project={project} 
-				onClose={handleCloseModal} 
-			/>
+	  return (
+		<div className="modal-container">
+		  <OrderModal
+			title={title || ''}
+			project={project || ''}
+			onClose={closeModal}
+		  />
 		</div>
-	)
+	  );
 }

@@ -7,9 +7,16 @@ import { Link } from 'react-router-dom'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import { useModalStore } from '@/modal/order-modal-cantainer.strore'
 
 export const Additional = () => {
 	const { t } = useTranslation();
+
+	const { openModal } = useModalStore();
+	const handleOpenModal = () => {
+		openModal(null, t('modal.title_contact'));
+	};
+	
 	return (
 		<section className='project-section project-additional'>
 			<h3 className='project-section__title project-additional__title'>
@@ -19,12 +26,9 @@ export const Additional = () => {
 				<p>{t('additional.description')}</p>
 				<p>
 					{t('additional.for_more_info')}{' '}
-					<Link
-						to='/#feedback-form'
-						className='project-section__link-to-feedback'
-					>
+					<span  onClick={handleOpenModal} className='project-section__link-to-feedback'>
 						{t('additional.or_fill_form')}
-					</Link>{' '}
+					</span>{' '}
 					{t('additional.we_contact_you')}
 				</p>
 			</div>

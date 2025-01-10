@@ -2,11 +2,11 @@ import { ChangeEvent, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 import classes from './GeneralInfo.module.scss'
 import  { Button,ButtonType } from '@/components/UI/Button/Button'
-import { OrderModalContainer } from '@/modal/OrderModalContainer'
 
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { currentHost } from '@/services/server-data';
+import { useModalStore } from '@/modal/order-modal-cantainer.strore'
 
 enum TypeOfHouse {
   Original = 'Original',
@@ -22,15 +22,10 @@ export interface InfoCardProps {
 
 export const InfoCard = (props: InfoCardProps) => {
   const [type, setType] = useState<TypeOfHouse>(TypeOfHouse.Mirrored);
-  const [openModal, setOpenModal] = useState(false);
   const [buildingIntention, setBuildingIntention] = useState(false);
 
   const handleChangeType = (e: ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value as TypeOfHouse);
-  };
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
   };
 
   const handleChangeBuildingIntention = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +36,11 @@ export const InfoCard = (props: InfoCardProps) => {
 
   const location = useLocation();
   const projectLink = currentHost + location.pathname;
+
+  const { openModal } = useModalStore();
+	const handleOpenModal = () => {
+		openModal(projectLink, t('modal.title_order'));
+	};
 
   return (
     <>
@@ -119,11 +119,6 @@ export const InfoCard = (props: InfoCardProps) => {
           </div>
         </form>
       </div>
-      {openModal && <OrderModalContainer 
-        project={projectLink} 
-        setOpen={setOpenModal} 
-        title={t('project.description.order_button')}
-      />}
     </>
   );
 };
