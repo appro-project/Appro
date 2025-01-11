@@ -89,7 +89,8 @@ jobs:
            sed -i "s/\${AWS_BUCKET_NAME}/${{ secrets.AWS_BUCKET_NAME }}/g" application.yml
            sed -i "s/\${AWS_ACCESS_KEY}/${{ secrets.AWS_ACCESS_KEY }}/g" application.yml
            sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml
-           sed -i "s/\${TELEGRAM_URI}/${{ secrets.TELEGRAM_URI }}/g" application.yml
+           # sed -i "s/\${TELEGRAM_URI}/${{ secrets.TELEGRAM_URI }}/g" application.yml
+           sed -i "s|\${TELEGRAM_URI}|${{ secrets.TELEGRAM_URI }}|g" application.yml
            sed -i "s/\${TELEGRAM_CHAT_ID}/${{ secrets.TELEGRAM_CHAT_ID }}/g" application.yml
          EOF
     
