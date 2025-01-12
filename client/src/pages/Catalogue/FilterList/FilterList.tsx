@@ -16,115 +16,143 @@ interface SearchOption {
 }
 
 interface StateProps {
-  applyFilter(searchParams: URLSearchParams): void;
+	applyFilter(searchParams: URLSearchParams): void
+	closeDrawer?: () => void
 }
 
-export const FilterList = ({ applyFilter }: StateProps) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+export const FilterList = ({ applyFilter, closeDrawer }: StateProps) => {
+	const location = useLocation()
+	const navigate = useNavigate()
 
-  useEffect(() => {
-    const urlFilters = new URLSearchParams(location.search);
-    applyFilter(urlFilters);
-  }, []);
+	useEffect(() => {
+		const urlFilters = new URLSearchParams(location.search)
+		applyFilter(urlFilters)
+	}, [])
 
-  const getUri = (searchOption: SearchOption, isChecked: boolean) => {
-    const searchParams = new URLSearchParams(location.search);
+	const getUri = (searchOption: SearchOption, isChecked: boolean) => {
+		const searchParams = new URLSearchParams(location.search)
 
-    return getSearchUri(searchOption, isChecked, searchParams);
-  };
+		return getSearchUri(searchOption, isChecked, searchParams)
+	}
 
-  const singleOptionClicked = (filterId: string, filterType: FilterType, option: SingleOption) => {
-    const searchUri = getUri(
-      {
-        id: filterId,
-        value: option.id,
-        type: filterType,
-      },
-      option.isSelected,
-    );
+	const singleOptionClicked = (
+		filterId: string,
+		filterType: FilterType,
+		option: SingleOption
+	) => {
+		const searchUri = getUri(
+			{
+				id: filterId,
+				value: option.id,
+				type: filterType
+			},
+			option.isSelected
+		)
 
-    // FIXME: fix me
-    navigate({
-      search: decodeURIComponent(searchUri.toString()),
-      pathname: location.pathname,
-    });
-    applyFilter(searchUri);
-  };
+		// FIXME: fix me
+		navigate({
+			search: decodeURIComponent(searchUri.toString()),
+			pathname: location.pathname
+		})
+		applyFilter(searchUri)
+	}
 
-  const rangeOptionClicked = (filterId: string, option: RangeOption) => {
-    const search = getUri(
-      {
-        id: filterId,
-        value: option,
-        type: FilterType.RANGE,
-      },
-      true,
-    );
+	const rangeOptionClicked = (filterId: string, option: RangeOption) => {
+		const search = getUri(
+			{
+				id: filterId,
+				value: option,
+				type: FilterType.RANGE
+			},
+			true
+		)
 
-    // FIXME: Fix!!
-    navigate({
-      search: decodeURIComponent(search.toString()),
-      pathname: location.pathname,
-    });
+		// FIXME: Fix!!
+		navigate({
+			search: decodeURIComponent(search.toString()),
+			pathname: location.pathname
+		})
 
-    applyFilter(search);
-  };
+		applyFilter(search)
+	}
 
-  const urlFilters = new URLSearchParams(location.search);
-  // todo: ids to enum!
-  const floorInitFilter = urlFilters.get('floor');
-  const bedroomInitFilter = urlFilters.get('bedroom');
-  const styleInitFilter = urlFilters.get('style');
+	const urlFilters = new URLSearchParams(location.search)
+	// todo: ids to enum!
+	const floorInitFilter = urlFilters.get('floor')
+	const bedroomInitFilter = urlFilters.get('bedroom')
+	const styleInitFilter = urlFilters.get('style')
 
-  const garageInitFilter = urlFilters.get('garage');
+	const garageInitFilter = urlFilters.get('garage')
 
-  const areaInitRange = getValidRangeSearchParam(urlFilters.get('area'));
-  const projectPriceInitRange = getValidRangeSearchParam(urlFilters.get('projectPrice'));
-  const buildingPriceInitRange = getValidRangeSearchParam(urlFilters.get('buildingPrice'));
+	const areaInitRange = getValidRangeSearchParam(urlFilters.get('area'))
+	const projectPriceInitRange = getValidRangeSearchParam(
+		urlFilters.get('projectPrice')
+	)
+	const buildingPriceInitRange = getValidRangeSearchParam(
+		urlFilters.get('buildingPrice')
+	)
 
-  return (
-    <div>
-      <div className={classes['filters-list__items']}>
-        <RangeFilterBlock
-          filterId={'area'}
-          initialRange={areaInitRange ? areaInitRange : undefined}
-          applyFilter={(option) => rangeOptionClicked('area', option)}
-        />
-        <CheckboxFilterBlock
-          filterId={'floor'}
-          initialOptions={floorInitFilter ? floorInitFilter.split(',') : undefined}
-          applyFilter={(option) => singleOptionClicked('floor', FilterType.CHECKBOX, option)}
-        />
-        <CheckboxFilterBlock
-          filterId={'bedroom'}
-          initialOptions={bedroomInitFilter ? bedroomInitFilter.split(',') : undefined}
-          applyFilter={(option) => singleOptionClicked('bedroom', FilterType.CHECKBOX, option)}
-        />
-        <CheckboxFilterBlock
-          filterId={'garage'}
-          initialOptions={garageInitFilter ? [garageInitFilter] : undefined}
-          applyFilter={(option) => singleOptionClicked('garage', FilterType.CHECKBOX, option)}
-        />
-        <RangeFilterBlock
-          filterId={'projectPrice'}
-          initialRange={projectPriceInitRange ? projectPriceInitRange : undefined}
-          applyFilter={(option) => rangeOptionClicked('projectPrice', option)}
-        />
+	return (
+		<div>
+			<div className={classes['filters-list__items']}>
+				<div className={classes['filters__close']} onClick={closeDrawer} />
+				<RangeFilterBlock
+					filterId={'area'}
+					initialRange={areaInitRange ? areaInitRange : undefined}
+					applyFilter={option => rangeOptionClicked('area', option)}
+				/>
+				<CheckboxFilterBlock
+					filterId={'floor'}
+					initialOptions={
+						floorInitFilter ? floorInitFilter.split(',') : undefined
+					}
+					applyFilter={option =>
+						singleOptionClicked('floor', FilterType.CHECKBOX, option)
+					}
+				/>
+				<CheckboxFilterBlock
+					filterId={'bedroom'}
+					initialOptions={
+						bedroomInitFilter ? bedroomInitFilter.split(',') : undefined
+					}
+					applyFilter={option =>
+						singleOptionClicked('bedroom', FilterType.CHECKBOX, option)
+					}
+				/>
+				<CheckboxFilterBlock
+					filterId={'garage'}
+					initialOptions={garageInitFilter ? [garageInitFilter] : undefined}
+					applyFilter={option =>
+						singleOptionClicked('garage', FilterType.CHECKBOX, option)
+					}
+				/>
+				<RangeFilterBlock
+					filterId={'projectPrice'}
+					initialRange={
+						projectPriceInitRange ? projectPriceInitRange : undefined
+					}
+					applyFilter={option => rangeOptionClicked('projectPrice', option)}
+				/>
 
-        <RangeFilterBlock
-          filterId={'buildingPrice'}
-          initialRange={buildingPriceInitRange ? buildingPriceInitRange : undefined}
-          applyFilter={(option) => rangeOptionClicked('buildingPrice', option)}
-        />
+				<RangeFilterBlock
+					filterId={'buildingPrice'}
+					initialRange={
+						buildingPriceInitRange ? buildingPriceInitRange : undefined
+					}
+					applyFilter={option => rangeOptionClicked('buildingPrice', option)}
+				/>
 
-        <CheckboxFilterBlock
-          filterId={'style'}
-          initialOptions={styleInitFilter ? styleInitFilter.split(',') : undefined}
-          applyFilter={(option) => singleOptionClicked('style', FilterType.CHECKBOX, option)}
-        />
-      </div>
-    </div>
-  );
-};
+				<CheckboxFilterBlock
+					filterId={'style'}
+					initialOptions={
+						styleInitFilter ? styleInitFilter.split(',') : undefined
+					}
+					applyFilter={option =>
+						singleOptionClicked('style', FilterType.CHECKBOX, option)
+					}
+				/>
+			</div>
+		</div>
+	)
+}
 
