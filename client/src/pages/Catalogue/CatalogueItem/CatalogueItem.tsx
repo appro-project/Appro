@@ -63,7 +63,7 @@ const CatalogueItem: FC<PropsType> = memo(
 									<div className={classes['filter-button']}>
 										<Button
 											actionHandler={() => setOpenFilter(true)}
-											title={'Фильтры'}
+											title={t('catalogue.filters.title')}
 										/>
 									</div>
 									<Drawer

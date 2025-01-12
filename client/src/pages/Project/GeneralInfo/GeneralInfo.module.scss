@@ -23,7 +23,9 @@
 
 .GeneralInfo_Body form {
   display: flex;
-  align-items: center;
+  gap: 15px;
+  align-items: start;
+  flex-direction: column;
   justify-content: flex-end;
 }
 
@@ -101,6 +103,7 @@
 
 .GeneralInfo_InfoRows {
   display: flex;
+  margin-right: 20px;
 }
 
 .GeneralInfo_InfoRow {
@@ -135,7 +138,7 @@
   font-family: Montserrat, serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 17px;
   color: #202020;
   white-space: nowrap;
@@ -165,6 +168,12 @@
     padding: 19px 24px;
     box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
   }
+
+  .GeneralInfo_Body form {
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+}
 
   .GeneralInfo_Title {
     display: block;
@@ -222,6 +231,7 @@
   .GeneralInfo_Types {
     margin-top: 28px;
     display: flex;
+    gap: 10px;
   }
 
   .GeneralInfo_InfoRows {
@@ -234,6 +244,7 @@
   .GeneralInfo_InfoRow {
     margin-right: 0;
     margin-bottom: 10px;
+    gap: 10px;
 
     &:nth-child(2) {
       display: flex;

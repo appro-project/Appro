@@ -29,7 +29,7 @@
     min-height: 43px;
     border-radius: 10px;
     position: absolute;
-    bottom: -128px;
+    bottom: -132px;
     align-items: center;
     z-index: 1000;
     right: 0;
@@ -98,7 +98,7 @@
   &__ActiveDesc {
     border: 2px solid $yellow;
     border-radius: 4px;
-    padding: 9px 20px 10px 20px;
+    padding: 12px 20px 12px 20px;
     background-color: transparent;
 
     img {
