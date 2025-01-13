@@ -15,12 +15,12 @@ export const menuLinks: MenuLinkInfo[] = [
 	{ name: 'header.individual_project_link', path: '/individual-project' },
 	// { name: 'Реализованные проекты', path: '/finished' },
 	{ name: 'header.additional_link', path: '/additional' },
-	{ name: 'header.about_us_link', path: '/about' },
-	{ name: 'header.example_project_link', path: '/example-project' }
+	{ name: 'header.example_project_link', path: '/example-project' },
+	{ name: 'header.about_us_link', path: '/about' }
 ]
 
 export const contactInfo: ContactInfo = {
 	address: 'footer.address_link',
-	phone: '+38 (066) 39-53-654',
+	phone: '+38 (050) 26-84-926',
 	copyright: 'footer.copyright'
 }
