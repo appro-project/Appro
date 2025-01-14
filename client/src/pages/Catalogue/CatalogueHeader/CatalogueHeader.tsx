@@ -89,7 +89,6 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 						onClick={() => setOpenFilter(!openFilter)}
 					>
 						<SortOption
-							disabled
 							sortInfoId={'popularity_sort'}
 							handleSort={handleSort}
 						/>

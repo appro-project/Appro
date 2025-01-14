@@ -13,10 +13,10 @@ export const Order = memo(() => {
 				<p>{t('individual.order.description1')}</p>
 
 				<p className={classes['order__phone']}>
-					<a href='tel:+38 (044) 221 36 36'>+38 (044) 221 36 36</a>
+					<a href='tel:+38 (050) 268 49 26'>+38 (050) 268 49 26</a>
 				</p>
 				<p className={classes['order__phone']}>
-					<a href='tel:+38 (067) 234 36 36'>+38 (067) 234 36 36</a>
+					<a href='tel:+38 (095) 268 49 26'>+38 (095) 268 49 26</a>
 				</p>
 
 				<p>{t('individual.order.description2')}</p>
