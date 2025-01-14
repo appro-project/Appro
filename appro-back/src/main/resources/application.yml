@@ -60,3 +60,10 @@ watermark:
 telegram:
   uri: ${TELEGRAM_URI}
   chat_id: ${TELEGRAM_CHAT_ID}
+
+auth:
+  token:
+    cookie-name: JWT
+    secret-key: ${AUTH_TOKEN_SECRET_KEY}
+    ttl: 86400000
+  password: ${AUTH_PASSWORD}

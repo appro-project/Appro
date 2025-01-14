@@ -16,6 +16,7 @@ import {ProjectInfo} from "@/pages/new-admin/project-info/project-info.component
 import {AdminLayout} from "@/pages/new-admin/admin-layout.component";
 import {useGetAllProjects} from "@/api/useGetAllProjects";
 import { ExampleProject } from './pages/ExampleProject/ExampleProject'
+import Login from './pages/new-admin/login.component'
 
 
 export const App = () => {
@@ -39,11 +40,11 @@ export const App = () => {
                     <Route path={'/admin/project/new'} element={<ProjectInfo key={location.pathname}/>}/>
                     <Route path={'/admin/project/:projectId'} element={<ProjectInfo key={location.pathname}/>}/>
                     <Route path={'/admin'} element={<ProjectsList/>}/>
+                    <Route path={'/admin/login'} element={<Login />} />
                 </Route>
 
                 <Route element={<Layout/>}>
                     <Route path={'/'} element={<Main/>}/>
-
 
                     <Route path={'/individual-project'} element={<IndividualProject/>}/>
 
