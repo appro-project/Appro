@@ -27,9 +27,10 @@
     flex-direction: column;
     background: $grey;
     min-height: 43px;
-    border-radius: 10px;
+    border: 2px solid $yellow;
+    border-radius: 0px 0px 10px 10px;
     position: absolute;
-    bottom: -131px;
+    bottom: -83px;
     align-items: center;
     z-index: 1000;
     left: 114px;
@@ -52,21 +53,19 @@
 .CatalogueHeader_SortingItems {
   display: flex;
   min-height: 43px;
+  min-width: 209px;
   align-items: center;
 }
 
 .CatalogueHeader_SortingItem {
-
-  @media (max-width: $desktop-width) {
-    margin-left: 0;
-  }
   margin-left: 20px;
+  min-width: 209px;
   cursor: pointer;
   line-height: 20px;
-  padding: 9px 20px 10px 20px;
+  padding: 12px 20px 12px 20px;
   border: 2px solid transparent;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 
   img {
     margin-left: 10px;
@@ -74,7 +73,7 @@
   }
   &:hover {
     border: 2px solid $yellow;
-    border-radius: 4px;
+    border-radius: 7px;
     img {
       opacity: 1;
     }
@@ -96,17 +95,31 @@
 
   &__ActiveDesc {
     border: 2px solid $yellow;
-    border-radius: 4px;
+    border-radius: 7px;
     padding: 12px 20px 12px 20px;
     background-color: transparent;
-
-    img {
-      transform: rotate(180deg);
-      opacity: 1;
-    }
 
     &:hover {
       background-color: $yellow;
     }
   }
+
+  @media (max-width: $desktop-width) {
+    margin-left: 0;
+    padding: 10px 20px 10px 20px;
+
+    &__ActiveDesc {
+      background-color: $yellow;
+
+    img {
+      transform: rotate(180deg);
+      opacity: 1;
+    }
+  } 
+
+    &:first-child:hover{
+    border: 2px solid $yellow;
+    border-radius: 0px 0px 7px 7px;
+  }
+}
 }
