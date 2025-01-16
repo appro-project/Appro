@@ -74,6 +74,8 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 
     const {t} = useTranslation();
 
+	const [isArrowRotated, setIsArrowRotated] = useState(false)
+
 	return (
 		<div className={classes.CatalogueHeader}>
 			<div className={classes.CatalogueHeader_Found}>
@@ -86,13 +88,17 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 				{openMobileFilter && (
 					<div
 						className={popularityClass}
-						onClick={() => setOpenFilter(!openFilter)}
+						onClick={() => {
+							setOpenFilter(!openFilter)
+							setIsArrowRotated(prev => !prev)
+						}}
 					>
 						<SortOption
 							sortInfoId={'popularity_sort'}
 							handleSort={handleSort}
 						/>
 						<img
+							className={isArrowRotated ? classes.rotated : ''}
 							src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
 							alt=''
 						/>
@@ -101,12 +107,12 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 				{openFilter && (
 					<ul className={classes.CatalogueHeader_SortingItems}>
 						{!openMobileFilter && (
-						<li className={popularityClass}>
-							<SortOption
-								sortInfoId={'popularity_sort'}
-								handleSort={handleSort}
-							/>
-						</li>
+							<li className={popularityClass}>
+								<SortOption
+									sortInfoId={'popularity_sort'}
+									handleSort={handleSort}
+								/>
+							</li>
 						)}
 						<li className={areaClass}>
 							<SortOption sortInfoId={'area_sort'} handleSort={handleSort} />

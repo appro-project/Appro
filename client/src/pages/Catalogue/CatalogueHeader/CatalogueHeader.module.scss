@@ -115,6 +115,10 @@
       transform: rotate(180deg);
       opacity: 1;
     }
+
+    .rotated {
+      transform: rotate(0deg);
+    }
   } 
 
     &:first-child:hover{

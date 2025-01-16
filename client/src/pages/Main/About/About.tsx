@@ -5,6 +5,8 @@ import classes from './About.module.scss'
 import Lightbox from 'react-image-lightbox'
 import 'react-image-lightbox/style.css'
 
+import { Link } from 'react-router-dom'
+
 import team_photo from '@/assets/img/aboutUs/about-main-1.jpg'
 import certificate from '@/assets/img/main/about/certificate.jpg'
 import { Container } from '@/containers/hoc/Container/Container'
@@ -45,7 +47,12 @@ export const About = () => {
 							<p>{t('main.about_us.description5')}</p>
 						</div>
 						<div className={classes['about__description-details']}>
-							<Button title={t('main.about_us.details')} />
+							<Link
+								to='/about'
+								onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+							>
+								<Button title={t('main.about_us.details')} />
+							</Link>
 						</div>
 					</div>
 				</div>
