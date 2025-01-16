@@ -49,7 +49,7 @@ export const About = () => {
 						<div className={classes['about__description-details']}>
 							<Link
 								to='/about'
-								onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+								onClick={() => window.scrollTo({ top: 0 })}
 							>
 								<Button title={t('main.about_us.details')} />
 							</Link>
