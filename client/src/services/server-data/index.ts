@@ -5,10 +5,22 @@ import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 export const currentHost = import.meta.env.DEV ? 'http://13.60.38.144' : ''
 
 const defaultOptions = {
-	baseURL: import.meta.env.PROD ? '/api/v1' : `${currentHost}/api/v1`
+	baseURL: import.meta.env.PROD ? '/api/v1' : `${currentHost}/api/v1`,
+	withCredentials: true
 }
 
 export const axiosWithSetting = axios.create(defaultOptions)
+
+axiosWithSetting.interceptors.response.use(
+	(response) => response,
+    (error) => {
+      if (error.response && error.response.status === 403) {
+        const currentUrl = window.location.pathname + window.location.search;
+      	window.location.href = `/admin/login?redirect=${encodeURIComponent(currentUrl)}`;
+      }
+      return Promise.reject(error);
+    }
+  );
 
 const uploadFloorImages = (response: AxiosResponse, project: any) => {
 	const { floorId, floorIndex, projectId } = response.data
@@ -114,6 +126,10 @@ export const axiosPostFeedback = async (value: IFeedbackForm) => {
 
 export const axiosPostTelegramFeedback = async (value: IFeedbackForm) => {
 	return await axiosWithSetting.post(`feedback/telegram`, value)
+}
+
+export const axiosPostLogin = async (password: string) => {
+	return await axiosWithSetting.post(`login`, { password })
 }
 
 export const DataService = {
