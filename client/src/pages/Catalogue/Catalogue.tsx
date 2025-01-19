@@ -28,12 +28,12 @@ export const Catalogue = () => {
 
   const applyFilter = (searchParams: URLSearchParams) => {
     const filteredProjects = getProjectsByFilters(state.projects, searchParams);
-    setState({ ...state, currentProjects: filteredProjects });
+    setState({ ...state, currentProjects: filteredProjects, currentPage: 1 });
   };
 
   const applySort = (searchParams: URLSearchParams) => {
     const sortedProjects = sortProjectsByParams(state.projects, searchParams);
-    setState({ ...state, currentProjects: sortedProjects });
+    setState({ ...state, currentProjects: sortedProjects, currentPage: 1 });
   };
 
   const handlePageChange = (nextPage: number) => {

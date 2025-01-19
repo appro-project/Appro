@@ -39,9 +39,9 @@ export const Header = () => {
 
 						<a
 							className={createHeaderTopItemClass('header__top-item-phone')}
-							href='tel:+38 (066) 39-53-654'
+							href='tel:+38 (050) 26-84-926'
 						>
-							+38 (066) 39-53-654
+							+38 (050) 26-84-926
 						</a>
 
 						<LanguageSwitcher

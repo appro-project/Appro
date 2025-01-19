@@ -3,8 +3,12 @@ import OrderModal from './OrderModal'
 import './modal.scss'
 import { useModalStore } from './order-modal-cantainer.strore';
 
-export const OrderModalContainer: FC = () => {
-	const { isOpen, project, title, closeModal } = useModalStore();
+interface OrderModalContainerProps {
+	onFormSubmit: () => void 
+}
+
+export const OrderModalContainer: FC<OrderModalContainerProps> = ({ onFormSubmit }) => {
+    const { isOpen, project, title, closeModal } = useModalStore()
 
 	useEffect(() => {
 		if (isOpen) {
@@ -26,7 +30,8 @@ export const OrderModalContainer: FC = () => {
 			title={title || ''}
 			project={project || ''}
 			onClose={closeModal}
-		  />
+			onFormSubmit={onFormSubmit}
+          />
 		</div>
 	  );
 }

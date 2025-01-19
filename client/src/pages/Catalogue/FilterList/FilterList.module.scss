@@ -1,9 +1,54 @@
+@import "~/variables";
+
+.filters__close{
+  position: relative;
+  width: 60px;
+  height: 60px;
+  right: -240px;
+}
+
+.filters__close:before,
+.filters__close:after {
+  top: 50%;
+  right: calc(50% - 17px);
+  content: '';
+  display: block;
+  height: 4px;
+  width: 34px;
+  position: absolute;
+  background-color: $brown;
+}
+
+.filters__close:before {
+  transform: rotate(45deg);
+}
+
+.filters__close:after {
+  transform: rotate(-45deg);
+}
+
+
+@media (min-width: $desktop-width){
+  .filters__close {
+    display: none;
+  }
+}
+
 .filters-list__items {
   background-color: #F5F5F5;
   border: 1px solid #E9E9E9;
-  width: 365px;
+  width: 335px;
   max-width: 100%;
   padding: 20px 20px;
+}
+
+@media (min-width: $tablet-width){
+  .filters-list__items {
+    width: 365px;
+  }
+  .filters__close {
+    right: -266px;
+  }
 }
 
 .filters-list__item:not(:last-child) {

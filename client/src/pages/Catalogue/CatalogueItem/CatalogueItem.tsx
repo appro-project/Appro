@@ -14,14 +14,14 @@ import {ProjectDto} from "@/api/model";
 import {Box, Drawer} from "@mui/material";
 
 interface PropsType {
-    applyFilter: (searchParams: URLSearchParams) => void;
-    currentProjects: ProjectDto[];
-    sortDetails: SortDetails | undefined;
-    applySort: (searchParams: URLSearchParams) => void;
-    currentProjectsPaged: ProjectDto[];
-    currentPage: number;
-    projectsPerPage: number;
-    handlePageChange: (nextPage: number) => void;
+	applyFilter: (searchParams: URLSearchParams) => void
+	currentProjects: ProjectDto[]
+	sortDetails: SortDetails | undefined
+	applySort: (searchParams: URLSearchParams) => void
+	currentProjectsPaged: ProjectDto[]
+	currentPage: number
+	projectsPerPage: number
+	handlePageChange: (nextPage: number) => void
 }
 
 const CatalogueItem: FC<PropsType> = memo(
@@ -63,14 +63,19 @@ const CatalogueItem: FC<PropsType> = memo(
 									<div className={classes['filter-button']}>
 										<Button
 											actionHandler={() => setOpenFilter(true)}
-											title={'Фильтры'}
+											title={t('catalogue.filters.title')}
 										/>
 									</div>
 									<Drawer
 										open={openFilter}
 										onClose={() => setOpenFilter(false)}
 									>
-										{openFilter && <FilterList applyFilter={applyFilter} />}
+										{openFilter && (
+											<FilterList
+												applyFilter={applyFilter}
+												closeDrawer={() => setOpenFilter(false)}
+											/>
+										)}
 									</Drawer>
 									<Box sx={{ display: { xs: 'none', lg: 'block' } }}>
 										<FilterList applyFilter={applyFilter} />

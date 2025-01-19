@@ -80,6 +80,8 @@
 }
 
 .about-team {
+  margin-bottom: 60px;
+
   &__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

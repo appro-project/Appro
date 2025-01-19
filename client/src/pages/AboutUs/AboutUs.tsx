@@ -3,21 +3,14 @@ import { useTranslation } from 'react-i18next'
 
 import { Container } from '@/containers/hoc/Container/Container'
 import about_main_1 from '@/assets/img/aboutUs/about-main-1.jpg'
-import classesVisited from '@/containers/VisitedProjects/VisitedProjects.module.scss'
-import classes from '@/containers/VisitedProjects/VisitedProjects.module.scss'
 import about_main_2 from '@/assets/img/aboutUs/about-main-2.jpg'
 import member_1 from '@/assets/img/aboutUs/member-1.jpg'
 import member_2 from '@/assets/img/aboutUs/member-2.jpg'
 import member_3 from '@/assets/img/aboutUs/member-3.jpg'
 import member_4 from '@/assets/img/aboutUs/member-4.jpg'
 import './AboutUs.scss'
-import { Project } from '@/entity/Project'
-import { ProjectDetails } from '@/containers/ProjectDetails/ProjectDetails'
-import { getViewProjects } from '@/redux/selectors'
-import { ProjectDto } from '@/api/model'
 
 export const AboutUs = () => {
-	const projects = useSelector(getViewProjects)
 	const { t } = useTranslation()
 
 	return (
@@ -107,24 +100,6 @@ export const AboutUs = () => {
 								{t('about_us.team.member4.description')}
 							</div>
 						</div>
-					</div>
-				</section>
-
-				<section className='project-section project-more'>
-					<h3 className='project-section__title'>
-						{t('about_us.similar_projects.title')}
-					</h3>
-					<div className={classesVisited['visited-projects__items']}>
-						{projects
-							.filter((x, index) => index < 3)
-							.map((project: ProjectDto, idx: number) => (
-								<div
-									className={classes.VisitedProjects_ProjectWrapper}
-									key={idx}
-								>
-									<ProjectDetails projectData={project} />
-								</div>
-							))}
 					</div>
 				</section>
 			</Container>

@@ -51,14 +51,14 @@ export const Welcome = ({ mockProjects }: PropsType) => {
 					))}
 				</Carousel>
 			</div>
-			<Link to='/#popular-category'>
+			<a href='/#popular-category'>
 				<div
 					aria-label='to bottom'
 					className={['slider-control__bottom', 'control-arrow'].join(' ')}
 				>
 					<SliderNext />
 				</div>
-			</Link>
+			</a>
 		</section>
 	)
 };

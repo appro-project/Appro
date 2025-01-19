@@ -13,9 +13,10 @@ interface OrderModalProps {
 	onClose: () => void;
 	project: string;
 	title: string
+	onFormSubmit: () => void
 }
 
-const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
+const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) => {
   const {t} = useTranslation();
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
@@ -53,6 +54,7 @@ const OrderModal = ({ onClose, project, title }: OrderModalProps) => {
 				setLoading(false)
 				reset()
 				onClose()
+				onFormSubmit()
 			}
 		} catch (e) {
 			console.log(e)
