@@ -57,10 +57,6 @@ watermark:
     result:
       format: png
 
-telegram:
-  uri: ${TELEGRAM_URI}
-  chat_id: ${TELEGRAM_CHAT_ID}
-
 auth:
   token:
     cookie-name: JWT
