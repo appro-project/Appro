@@ -1,4 +1,4 @@
-name: Deploy to Chexie
+name: Deploy to Appro
 
 on: [workflow_dispatch]
 
@@ -18,19 +18,19 @@ jobs:
 
     - name: Test SSH connection
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "echo 'SSH connection successful'"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} "echo 'SSH connection successful'"
 
     - name: Clean directory on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} "rm -rf /home/ubuntu/appro/app/*"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} "rm -rf /home/ubuntu/appro/app/*"
 
     - name: Copy files to EC2
       run: |
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.CHEXIE_IP }}:/home/ubuntu/appro/app
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.Appro_IP }}:/home/ubuntu/appro/app
 
     - name: Check and free port 80
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
           PID=$(sudo lsof -t -i:80)
           if [ -n "$PID" ]; then
             echo "Port 80 is occupied by process $PID. Terminating process."
@@ -50,7 +50,7 @@ jobs:
 
     - name: Install client dependencies
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
           # echo "Running npm install --legacy-peer-deps --force "
           # npm install --no-optional --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
@@ -60,7 +60,7 @@ jobs:
 
     - name: Install additional types & types/jest
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
           echo "Running npm install @types/node --legacy-peer-deps"
           # npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
@@ -69,7 +69,7 @@ jobs:
 
     - name: Build client
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/client
 
           echo "Building client"
@@ -78,7 +78,7 @@ jobs:
 
     - name: Prepare application.yml on EC2
       run: |
-         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
            cd /home/ubuntu/appro/app/appro-back/src/main/resources
            sed -i "s/\${SERVER_PORT}/${{ secrets.SERVER_PORT }}/g" application.yml
            sed -i "s|\${APPRO_DB_URL}|${{ secrets.APPRO_DB_URL }}|g" application.yml
@@ -95,7 +95,7 @@ jobs:
     
     - name: Build and run backend on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.CHEXIE_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
           cd /home/ubuntu/appro/app/appro-back
           
           export APPRO_DB_URL="${{ secrets.APPRO_DB_URL }}"
