@@ -84,8 +84,8 @@ jobs:
            sed -i "s|\${APPRO_DB_URL}|${{ secrets.APPRO_DB_URL }}|g" application.yml
            sed -i "s/\${DB_USERNAME}/${{ secrets.DB_USERNAME }}/g" application.yml
            sed -i "s/\${DB_PASSWORD}/${{ secrets.DB_PASSWORD }}/g" application.yml
-           sed -i "s/\${HUSKY_EMAIL}/${{ secrets.HUSKY_EMAIL }}/g" application.yml
-           sed -i "s/\${HUSKY_EMAIL_API_KEY}/${{ secrets.HUSKY_EMAIL_API_KEY }}/g" application.yml
+           sed -i "s/\${APPRO_EMAIL}/${{ secrets.APPRO_EMAIL }}/g" application.yml
+           sed -i "s/\${APPRO_EMAIL_API_KEY}/${{ secrets.APPRO_EMAIL_API_KEY }}/g" application.yml
            sed -i "s/\${AWS_BUCKET_NAME}/${{ secrets.AWS_BUCKET_NAME }}/g" application.yml
            sed -i "s/\${AWS_ACCESS_KEY}/${{ secrets.AWS_ACCESS_KEY }}/g" application.yml
            sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml

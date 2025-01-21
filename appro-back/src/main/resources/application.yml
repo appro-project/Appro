@@ -34,9 +34,9 @@ springdoc:
 
 feedback:
   email:
-    to: ${HUSKY_EMAIL}
-    from: ${HUSKY_EMAIL}
-    api-key: ${HUSKY_EMAIL_API_KEY}
+    to: ${APPRO_EMAIL}
+    from: ${APPRO_EMAIL}
+    api-key: ${APPRO_EMAIL_API_KEY}
   telegram:
     uri: ${TELEGRAM_URI}
     chat_id: ${TELEGRAM_CHAT_ID}
