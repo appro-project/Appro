@@ -88,9 +88,9 @@ jobs:
            sed -i "s/\${APPRO_EMAIL_API_KEY}/${{ secrets.APPRO_EMAIL_API_KEY }}/g" application.yml
            sed -i "s/\${AWS_BUCKET_NAME}/${{ secrets.AWS_BUCKET_NAME }}/g" application.yml
            sed -i "s/\${AWS_ACCESS_KEY}/${{ secrets.AWS_ACCESS_KEY }}/g" application.yml
-           sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml
+           sed -i "s|\${AWS_ACCESS_SECRET_KEY}|${{ secrets.AWS_ACCESS_SECRET_KEY }}|g" application.yml
            sed -i "s/\${AUTH_TOKEN_SECRET_KEY}/${{ secrets.AUTH_TOKEN_SECRET_KEY }}/g" application.yml
-           sed -i "s/\${AUTH_PASSWORD}/${{ secrets.AUTH_PASSWORD }}/g" application.yml
+           sed -i "s|\${AUTH_PASSWORD}|${{ secrets.AUTH_PASSWORD }}|g" application.yml
            sed -i "s|\${TELEGRAM_URI}|${{ secrets.TELEGRAM_URI }}|g" application.yml
            sed -i "s/\${TELEGRAM_CHAT_ID}/${{ secrets.TELEGRAM_CHAT_ID }}/g" application.yml
          EOF
