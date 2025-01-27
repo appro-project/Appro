@@ -111,7 +111,7 @@ jobs:
 
           echo "Running Flyway migrations with the following configuration:"
           cat src/main/resources/application.yml
-          echo "url=${APPRO_DB_URL} user=${DB_USERNAME} password=${DB_PASSWORD}"
+        
           ./mvnw flyway:migrate -Dflyway.url=${APPRO_DB_URL} -Dflyway.user=${DB_USERNAME} -Dflyway.password=${DB_PASSWORD}
           
           mvn clean package -DskipTests
