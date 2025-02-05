@@ -12,6 +12,15 @@
 	display: none;
 }
 
+@media (max-width: $tablet-width) {
+	.welcome-carousel .carousel.carousel-slider {
+		background-color: #3C3C3C;
+	}
+	.welcome-carousel .carousel.carousel-slider .control-dots {
+		bottom: -7px;
+	}
+}
+
 @media (min-width: $tablet-width) {
 	.carousel .control-dots {
 		display: none;

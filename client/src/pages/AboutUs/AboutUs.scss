@@ -84,8 +84,9 @@
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
+    grid-template-columns: repeat(2, 0.3fr);
+    justify-content: center;
+    grid-gap: 30px;
 
     margin-top: 57px;
 

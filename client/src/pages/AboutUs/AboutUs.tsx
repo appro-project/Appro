@@ -6,8 +6,6 @@ import about_main_1 from '@/assets/img/aboutUs/about-main-1.jpg'
 import about_main_2 from '@/assets/img/aboutUs/about-main-2.jpg'
 import member_1 from '@/assets/img/aboutUs/member-1.jpg'
 import member_2 from '@/assets/img/aboutUs/member-2.jpg'
-import member_3 from '@/assets/img/aboutUs/member-3.jpg'
-import member_4 from '@/assets/img/aboutUs/member-4.jpg'
 import './AboutUs.scss'
 
 export const AboutUs = () => {
@@ -70,34 +68,6 @@ export const AboutUs = () => {
 							</div>
 							<div className='team-member__description'>
 								{t('about_us.team.member2.description')}
-							</div>
-						</div>
-						<div className='team-member'>
-							<div className='team-member__image'>
-								<img src={member_3} alt='' />
-							</div>
-							<div className='team-member__name'>
-								{t('about_us.team.member3.name')}
-							</div>
-							<div className='team-member__position'>
-								{t('about_us.team.member3.position')}
-							</div>
-							<div className='team-member__description'>
-								{t('about_us.team.member3.description')}
-							</div>
-						</div>
-						<div className='team-member'>
-							<div className='team-member__image'>
-								<img src={member_4} alt='' />
-							</div>
-							<div className='team-member__name'>
-								{t('about_us.team.member4.name')}
-							</div>
-							<div className='team-member__position'>
-								{t('about_us.team.member4.position')}
-							</div>
-							<div className='team-member__description'>
-								{t('about_us.team.member4.description')}
 							</div>
 						</div>
 					</div>
