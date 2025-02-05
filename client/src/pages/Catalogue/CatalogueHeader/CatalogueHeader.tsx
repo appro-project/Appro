@@ -85,6 +85,7 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 				<span className={classes.CatalogueHeader_Sorting_Title}>
 					{t('catalogue.sorting.title')}{' '}
 				</span>
+			    <div className={classes.CatalogueHeader_Sorting_Wrapper}> 
 				{openMobileFilter && (
 					<div
 						className={popularityClass}
@@ -125,7 +126,8 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 						</li>
 					</ul>
 				)}
-			</div>
+			    </div>
+		    </div>
 		</div>
 	)
 }
