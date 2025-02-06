@@ -1,8 +1,14 @@
 @import '~/variables';
 
+.welcome-carousel {
+	background-color: $dark-grey;
+	padding-bottom: 5px;
+}
+
 .welcome-carousel .carousel-container .carousel .control-dots {
 	bottom: 130px;
 }
+
 
 .welcome-carousel .carousel-container .control-dots .dot {
 	background-color: #fff;
@@ -22,6 +28,10 @@
 }
 
 @media (min-width: $tablet-width) {
+	.welcome-carousel {
+	   background: none;
+    }
+	
 	.carousel .control-dots {
 		display: none;
 	}

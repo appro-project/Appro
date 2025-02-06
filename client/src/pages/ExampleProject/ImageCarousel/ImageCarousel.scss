@@ -3,6 +3,7 @@
 .image-carousel {
 	background-color: $dark-grey;
 	border-radius: 5px;
+	padding-bottom: 10px;
 }
 
 .image-carousel .carousel.carousel-slider .slider-wrapper {
@@ -40,6 +41,7 @@
 @media (min-width: $tablet-width) {
    .image-carousel {
 	  background-color: $white;
+	  padding: 0px;
     }
 
 	.image-carousel .carousel.carousel-slider .slider-wrapper {
