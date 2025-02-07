@@ -7,11 +7,13 @@ import { useTranslation } from 'react-i18next'
 
 interface GeneralInfoProps extends InfoCardProps {
 	images: string[]
+	videoUrl?: string
 	description?: string
 }
 
 export const GeneralInfo: FC<GeneralInfoProps> = ({
 	images,
+	videoUrl,
 	description,
 	title,
 	generalArea,
@@ -24,7 +26,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = ({
 		<section>
 			<div className={classes.GeneralInfo_Wrapper}>
 				<div className={classes.GeneralInfo_Images}>
-					<ImageCarousel images={images} />
+					<ImageCarousel images={images} videoUrl={videoUrl}/>
 				</div>
 				<InfoCard
 					title={title}

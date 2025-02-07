@@ -35,6 +35,7 @@ const defaultProject: ProjectDto = {
 	style: "classic",
 	isGaragePresent: false,
 	mainImage: undefined,
+	videoUrl: '',
 	images: [],
 	photos: [],
 	floors: [defaultFloor],
