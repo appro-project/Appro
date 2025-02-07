@@ -12,6 +12,7 @@ import {
     roofOptions, 
     wallMaterialOptions 
 } from "@/api/model";
+import TextProperty from "@/pages/Admin/ViewAddEditProject/TextProperty";
 
 
 export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) => {
@@ -153,6 +154,18 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
                     checked={projectDto.isGaragePresent}
                     disabled={view}
                     handleProperty={checked => dispatch({type: 'isGaragePresent', payload: checked})}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <InputLabel>YouTube видео</InputLabel>
+            </Grid>
+            <Grid item xs={12}>
+                <TextProperty
+                    title={'Ссылка на видео'}
+                    value={projectDto.videoUrl}
+                    handleProperty={e => dispatch({type: 'videoUrl', payload: e.target.value})}
+                    required={true}
+                    disabled={view}
                 />
             </Grid>
         </Grid>

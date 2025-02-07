@@ -39,6 +39,7 @@ export const initialState:ProjectDto = {
     descriptionRU: '',
     descriptionUA: '',
     mainImage: undefined,
+    videoUrl: '',
     floors: [],
     showOnMain: false,
     isFinished: false

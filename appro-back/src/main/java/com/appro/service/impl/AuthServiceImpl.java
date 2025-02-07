@@ -4,6 +4,7 @@ import com.appro.service.AuthService;
 import com.appro.service.JwtService;
 import com.appro.web.request.AuthRequest;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,5 +45,12 @@ public class AuthServiceImpl implements AuthService {
         cookie.setPath("/");
         cookie.setMaxAge(ttl);
         response.addCookie(cookie);
+    }
+
+    @Override
+    public boolean checkToken(HttpServletRequest request) {
+        return Optional.ofNullable(jwtService.getJwtFromCookies(request))
+                .map(jwtService::isTokenValid)
+                .orElse(false);
     }
 }

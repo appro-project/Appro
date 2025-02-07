@@ -4,18 +4,25 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
 
     private final String ADMIN = "ADMIN";
+
+    @Value("${auth.token.cookie-name}")
+    private String cookieName;
 
     @Value("${auth.token.ttl}")
     private int ttl;
@@ -35,6 +42,15 @@ public class JwtService {
 
     public boolean isTokenValid(String token) {
         return !isTokenExpired(token) && extractRole(token).equals(ADMIN);
+    }
+
+    public String getJwtFromCookies(HttpServletRequest request) {
+        return Optional.ofNullable(request.getCookies())
+                .flatMap(cookies -> Arrays.stream(cookies)
+                        .filter(cookie -> cookieName.equals(cookie.getName()))
+                        .map(Cookie::getValue)
+                        .findFirst())
+                .orElse(null);
     }
 
     private boolean isTokenExpired(String token) {

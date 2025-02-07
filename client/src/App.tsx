@@ -17,6 +17,8 @@ import {AdminLayout} from "@/pages/new-admin/admin-layout.component";
 import {useGetAllProjects} from "@/api/useGetAllProjects";
 import { ExampleProject } from './pages/ExampleProject/ExampleProject'
 import Login from './pages/new-admin/login.component'
+import AdminGuard from './pages/new-admin/admin-guard.component'
+import { LoginLayout } from './pages/new-admin/login-layout.component'
 
 
 export const App = () => {
@@ -36,11 +38,17 @@ export const App = () => {
     return (
 
             <Routes>
-                <Route element={<AdminLayout/>}>
-                    <Route path={'/admin/project/new'} element={<ProjectInfo key={location.pathname}/>}/>
-                    <Route path={'/admin/project/:projectId'} element={<ProjectInfo key={location.pathname}/>}/>
-                    <Route path={'/admin'} element={<ProjectsList/>}/>
-                    <Route path={'/admin/login'} element={<Login />} />
+
+                <Route element={<AdminGuard />}>
+                    <Route element={<AdminLayout/>}>
+                        <Route path={'/admin/project/new'} element={<ProjectInfo key={location.pathname}/>}/>
+                        <Route path={'/admin/project/:projectId'} element={<ProjectInfo key={location.pathname}/>}/>
+                        <Route path={'/admin'} element={<ProjectsList/>}/>
+                    </Route>
+                </Route>
+
+                <Route element={<LoginLayout />}>
+                    <Route path={'/login'} element={<Login />} />
                 </Route>
 
                 <Route element={<Layout/>}>

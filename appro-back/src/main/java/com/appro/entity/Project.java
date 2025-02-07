@@ -117,6 +117,9 @@ public class Project {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
+    @Column(name = "video_url")
+    private String videoUrl;
+
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     private List<Image> images;
 

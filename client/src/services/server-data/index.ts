@@ -129,7 +129,11 @@ export const axiosPostTelegramFeedback = async (value: IFeedbackForm) => {
 }
 
 export const axiosPostLogin = async (password: string) => {
-	return await axiosWithSetting.post(`login`, { password })
+	return await axiosWithSetting.post(`auth/login`, { password })
+}
+
+export const axiosCheckToken = async () => {
+	return await axiosWithSetting.get(`auth/check`)
 }
 
 export const DataService = {

@@ -3,11 +3,9 @@ package com.appro.configuration.security.filter;
 import com.appro.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,18 +15,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
-    @Value("${auth.token.cookie-name}")
-    private String cookieName;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -40,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            String token = getJwtFromCookies(request);
+            String token = jwtService.getJwtFromCookies(request);
 
             if (token != null && jwtService.isTokenValid(token)) {
                 String username = jwtService.extractUsername(token);
@@ -56,15 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    public String getJwtFromCookies(HttpServletRequest request) {
-        return Optional.ofNullable(request.getCookies())
-                .flatMap(cookies -> Arrays.stream(cookies)
-                        .filter(cookie -> cookieName.equals(cookie.getName()))
-                        .map(Cookie::getValue)
-                        .findFirst())
-                .orElse(null);
     }
 
 }
