@@ -30,6 +30,12 @@
   }
 }
 
+@media screen and (max-width: $desktop-width) {
+.feedback__body button {
+  font-size: 16px;
+}
+}
+
 @media (min-width: $desktop-width) {
   .feedback {
     background-image: url("@/assets/img/main/feedback/letter-desktop.png");

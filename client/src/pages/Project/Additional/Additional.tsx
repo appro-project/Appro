@@ -97,6 +97,7 @@ export const Additional = () => {
 							{t('additional.services.building_intentions.title')}
 						</div>
 						<Tooltip
+						className={'tooltip'}
 							title={
 								<Typography fontSize={15}>
 									{t('additional.services.building_intentions.passport')}

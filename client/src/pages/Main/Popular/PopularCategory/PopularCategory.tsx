@@ -12,7 +12,7 @@ export const PopularCategory = ({ categoryData }: Props) => {
 	const { t } = useTranslation()
 
 	return (
-		<Link to={categoryData.link} className={classes['popular-category']}>
+		<Link to={categoryData.link} className={classes['popular-category']} onClick={() => window.scrollTo({ top: 0 })}>
 			<div className={classes['popular-category__body']}>
 				<div className={classes['popular-category__img-wrapper']}>
 					<img src={categoryData.image} alt='' />

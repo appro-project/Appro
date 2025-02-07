@@ -32,3 +32,9 @@
   }
 
 }
+
+@media screen and (max-width: $desktop-width) {
+   .order__submit button{
+     font-size: 16px;
+  }
+}

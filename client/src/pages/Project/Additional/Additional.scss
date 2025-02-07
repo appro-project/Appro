@@ -18,4 +18,10 @@
   &__list {
     list-style: decimal;
   }
+
+  @media screen and (max-width: $desktop-width) {
+  .tooltip {
+    display: none;
+  }
+}
 }
