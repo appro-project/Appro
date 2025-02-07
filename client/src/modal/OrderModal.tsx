@@ -65,9 +65,8 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 
 	return (
 		<div className={'modal-wrapper'}>
-			<span onClick={onClose}>x</span>
+			<div className={'close-modal-icon'} onClick={onClose} />
 			<div className={'modal-content'}>
-
 				<h3 className={'modal__text--big modal__margin--small'}>
 					{title}
 				</h3>

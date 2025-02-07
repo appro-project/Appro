@@ -53,14 +53,14 @@ export const Changes = ({ project }: IChangesProps) => {
 				</div>
 				<p>{t('catalogue.changes.price_info')}</p>
 				<p>
-					<a href='tel:+380442213636'>+38 (044) 221 36 36</a>
+					<a href='tel:+380502684926'>+38 (050) 268 49 26</a>
 					<br />
-					<a href='tel:+380672343636'>+38 (067) 23436 36</a>
+					<a href='tel:+380952684926'>+38 (095) 268 49 26</a>
 				</p>
 				<p>{t('catalogue.changes.contact_info')}</p>
-				<Button 
-					buttonType={ButtonType.BIG} 
-					title={t('catalogue.changes.button_title')} 
+				<Button
+					buttonType={ButtonType.BIG}
+					title={t('catalogue.changes.button_title')}
 					actionHandler={handleOpenModal}
 				/>
 			</div>
