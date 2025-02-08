@@ -3,12 +3,10 @@ import './Additional.scss'
 import main_plan from '@/assets/img/project_page/main-plan.svg'
 import pen from '@/assets/img/project_page/pen.svg'
 import paint from '@/assets/img/project_page/paint.svg'
-import { Link } from 'react-router-dom'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { useModalStore } from '@/modal/order-modal-cantainer.strore'
-import ReactPlayer from 'react-player'
 
 export const Additional = () => {
 	const { t } = useTranslation();
@@ -24,7 +22,6 @@ export const Additional = () => {
 				{t('additional.title')}
 			</h3>
 			<div className='project-section__text'>
-				<ReactPlayer url='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
 				<p>{t('additional.description')}</p>
 				<p>
 					{t('additional.for_more_info')}{' '}
