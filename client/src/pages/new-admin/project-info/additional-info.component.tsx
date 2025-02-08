@@ -91,6 +91,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Материал стен'}
+                    label={'wall-material'}
                     value={projectDto.wallMaterial}
                     options={wallMaterialOptions}
                     required={true}
@@ -110,6 +111,7 @@ export const AdditionalInfo: FC<ProjectProps> = ({projectDto, dispatch, mode}) =
             <Grid item xs={2.4}>
                 <SelectProperty
                     title={'Материал утеплителя'}
+                    label={'insulation'}
                     value={projectDto.insulation}
                     options={insulationOptions}
                     required={true}

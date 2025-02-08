@@ -35,33 +35,32 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 
 	const onSubmit = async (value: IFeedbackForm) => {
 		try {
-			setError(false)
-			setLoading(true)
-					
-			const requestedDate:Date = value.date && value.date.length > 0 
-				? parseDate(value.date)
-				: new Date()
-
-			if (requestedDate.getTime() < Date.now()) {
-				setError(true)
-				setLoading(false)
-			} else if ((!value.date && value.time) || (value.date && !value.time)) {
-				setError(true)
-				setLoading(false)
-			} else {
-				await axiosPostFeedback({ ...value, anyTime, project })
-				await axiosPostTelegramFeedback({ ...value, anyTime, project })
-				setLoading(false)
-				reset()
-				onClose()
-				onFormSubmit()
-			}
+		  setError(false);
+		  setLoading(true);
+	  
+		  const hasDate = Boolean(value.date?.length);
+		  const hasTime = Boolean(value.time?.length);
+		  
+		  if (hasDate !== hasTime) throw new Error();
+	  
+		  const requestedDate = hasDate && hasTime ? parseDate(value.date!, value.time!) : new Date();
+		  if (requestedDate.getTime() < Date.now()) throw new Error();
+	  
+		  await Promise.all([
+			axiosPostFeedback({ ...value, anyTime, project }),
+			axiosPostTelegramFeedback({ ...value, anyTime, project }),
+		  ]);
+	  
+		  reset();
+		  onClose();
+		  onFormSubmit();
 		} catch (e) {
-			console.log(e)
-			setError(true)
-			setLoading(false)
+		  console.error(e);
+		  setError(true);
+		} finally {
+		  setLoading(false);
 		}
-	}
+	  };
 
 	return (
 		<div className={'modal-wrapper'}>
