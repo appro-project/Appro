@@ -14,9 +14,6 @@ export interface IFeedbackForm {
 	phone: string;
 	content?: string;
 	project?: string;
-	date?: string;
-	time?: string;
-	anyTime?: boolean;
 }
 
 export const Feedback = () => {
@@ -38,8 +35,10 @@ export const Feedback = () => {
 			setError(false)
 			setLoading(true)
 
-			await axiosPostFeedback(value)
-			await axiosPostTelegramFeedback(value)
+			await Promise.all([
+				axiosPostFeedback({ ...value }),
+				axiosPostTelegramFeedback({ ...value }),
+			]);
 
 			setLoading(false)
 		} catch (e) {
@@ -68,15 +67,17 @@ export const Feedback = () => {
 							<Controller
 								name='name'
 								control={control}
-								defaultValue={''}
-								rules={{ required: true }}
-								render={({ field }) => (
-									<TextInput
-									   {...field}
-									   error={!!errors.name}
-									   placeholder={t('main.feedback.name')}
-									/>
-								 )}
+								rules={{
+									required: t('form_error_messages.not_empty'),
+									validate: (value) =>
+									value.trim().length > 0 || t('form_error_messages.without_tabulation'),
+								}}
+								render={({ field, fieldState: { error } }) => (
+									<>
+										<TextInput {...field} placeholder={t('modal.name')} error={!!error} />
+										{error && <span className={classes['feedback__error']}>{error.message}</span>}
+									</>
+								)}
 							/>
 						</div>
 						<div className={classes['feedback__input']}>
@@ -85,16 +86,18 @@ export const Feedback = () => {
 								control={control}
 								defaultValue={''}
 								rules={{
-									required: true,
-									pattern:
-										/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+									required: t('form_error_messages.not_empty'),
+									pattern: {
+										value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+										message: t('form_error_messages.email')
+									} 
 								}}
-								render={({ field }) => (
-									<TextInput
-										{...field}
-										error={!!errors.email}
-										placeholder='E-mail'
-									/>
+
+								render={({ field, fieldState: { error } }) => (
+									<>
+										<TextInput  {...field} error={!!errors.email}  placeholder='E-mail' />
+										{error && <span className={classes['feedback__error']}>{error.message}</span>}
+									</>
 								)}
 							/>
 						</div>
@@ -103,14 +106,22 @@ export const Feedback = () => {
 								name='phone'
 								control={control}
 								defaultValue={''}
-								rules={{}}
-								render={({ field }) => (
-									<TextInput
-										error={!!error}
-										{...field}
-										mask={'+380 999999999'}
-										placeholder={t('main.feedback.phone')}
-									/>
+								rules={{
+									pattern: {
+										value: /^\+380 \d{9}$/,
+										message: t('form_error_messages.phone'),
+									},
+								}}
+								render={({ field, fieldState: { error } }) => (
+									<>
+										<TextInput
+											error={!!error}
+											{...field}
+											mask={'+380 999999999'}
+											placeholder={t('main.feedback.phone')}
+										/>
+										{error && <span className={classes['feedback__error']}>{error.message}</span>}
+									</>
 								)}
 							/>
 						</div>
@@ -120,13 +131,20 @@ export const Feedback = () => {
 								name='content'
 								control={control}
 								defaultValue={''}
-								rules={{}}
-								render={({ field }) => (
-									<TextInput
-										error={!!errors.content}
-										{...field}
-										placeholder={t('main.feedback.message')}
-									/>
+								rules={{
+									required: t('form_error_messages.not_empty'),
+									validate: (value) =>
+									value.trim().length > 0 || t('form_error_messages.without_tabulation'),
+								}}
+								render={({ field, fieldState: { error } }) => (
+									<>
+										<TextInput
+											error={!!error}
+											{...field}
+											placeholder={t('main.feedback.message')}
+										/>
+										{error && <span className={classes['feedback__error']}>{error.message}</span>}
+									</>
 								)}
 							/>
 						</div>
