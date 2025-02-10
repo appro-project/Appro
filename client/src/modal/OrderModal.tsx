@@ -6,8 +6,6 @@ import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
-import { Checkbox } from '@/components/UI/Checkbox/Checkbox'
-import { parseDate } from '@/services/util'
 
 interface OrderModalProps {
 	onClose: () => void;
@@ -20,15 +18,12 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
   const {t} = useTranslation();
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const [anyTime, setAnyTime] = useState(false)
 	const { handleSubmit, formState:{errors}, control, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
 			name: '',
 			email: '',
 			phone: '',
-			content: '',
-			date: '',
-			time: ''
+			content: ''
 		},
 		reValidateMode: 'onChange'
 	})
@@ -38,17 +33,9 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 		  setError(false);
 		  setLoading(true);
 	  
-		  const hasDate = Boolean(value.date?.length);
-		  const hasTime = Boolean(value.time?.length);
-		  
-		  if (hasDate !== hasTime) throw new Error();
-	  
-		  const requestedDate = hasDate && hasTime ? parseDate(value.date!, value.time!) : new Date();
-		  if (requestedDate.getTime() < Date.now()) throw new Error();
-	  
 		  await Promise.all([
-			axiosPostFeedback({ ...value, anyTime, project }),
-			axiosPostTelegramFeedback({ ...value, anyTime, project }),
+			axiosPostFeedback({ ...value, project }),
+			axiosPostTelegramFeedback({ ...value, project }),
 		  ]);
 	  
 		  reset();
@@ -78,10 +65,16 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 						<Controller
 							name='name'
 							control={control}
-							defaultValue={''}
-							rules={{ required: true }}
+							rules={{
+								required: t('form_error_messages.not_empty'),
+								validate: (value) =>
+									value.trim().length > 0 || t('form_error_messages.without_tabulation'),
+							  }}
 							render={({ field, fieldState: { error } }) => (
-								<TextInput {...field} placeholder={t('modal.name')} error={!!error} />
+								<>
+									<TextInput {...field} placeholder={t('modal.name')} error={!!error} />
+									{error && <span className={classes['feedback__error']}>{error.message}</span>}
+								</>
 							)}
 						/>
 					</div>
@@ -91,14 +84,18 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 							control={control}
 							defaultValue={''}
 							rules={{
-								required: true,
-								pattern:
-									/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+								required: t('form_error_messages.not_empty'),
+								pattern: {
+									value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+									message: t('form_error_messages.email')
+								} 
 							}}
 
 							render={({ field, fieldState: { error } }) => (
-								<TextInput  {...field} error={!!errors.email}  placeholder='E-mail' />
-
+								<>
+									<TextInput  {...field} error={!!errors.email}  placeholder='E-mail' />
+									{error && <span className={classes['feedback__error']}>{error.message}</span>}
+								</>
 							)}
 						/>
 					</div>
@@ -108,68 +105,23 @@ const OrderModal = ({ onClose, project, title, onFormSubmit }: OrderModalProps) 
 							control={control}
 							defaultValue={''}
 							rules={{
-								required: true
-							}}
-							render={({ field: props }) => (
-								<TextInput
-									error={!!errors.phone}
-									{...props}
-									mask={'+380 999999999'}
-									placeholder={t('modal.phone')}
-								/>
+								required: t('form_error_messages.not_empty'),
+								pattern: {
+								  value: /^\+380 \d{9}$/,
+								  message: t('form_error_messages.phone'),
+								},
+							  }}
+							render={({ field: props, fieldState: { error }  }) => (
+								<>
+									<TextInput
+										error={!!errors.phone}
+										{...props}
+										mask={'+380 999999999'}
+										placeholder={t('modal.phone')}
+									/>
+									{error && <span className={classes['feedback__error']}>{error.message}</span>}
+								</>
 							)}
-						/>
-					</div>
-					<h3 className={'modal__text--big modal__margin--normal'}>
-						{t('modal.contact_time')}
-					</h3>
-					<div className={'model__button-wrapper'}>
-						<Controller
-							name='date'
-							control={control}
-							defaultValue={''}
-
-							rules={{
-								validate: (value) => 
-									!value || /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/.test(value)
-									? true
-									: false,
-							}}
-							render={({ field: props }) => (
-								<TextInput
-									mask={'99/99/9999'}
-									error={error || !!errors.date}
-									{...props}
-									placeholder={t('modal.date')}
-								/>
-							)}
-						/>
-						<Controller
-							name='time'
-							control={control}
-							defaultValue={''}
-							rules={{ pattern: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/ }}
-
-							render={({ field: props }) => (
-								<TextInput
-									mask={'99:99'}
-									error={error || !!errors.time}
-									{...props}
-									placeholder={t('modal.time')}
-								/>
-							)}
-						/>
-					</div>
-					<div className={classes['feedback__input']}>
-						<Checkbox
-							labelName={t('modal.anytime_call')}
-							htmlFor={'anytime'}
-							// @ts-ignore
-							onClick={() => {
-								setAnyTime(!anyTime)
-							}}
-							checked={anyTime}
-							id={'anytime'}
 						/>
 					</div>
 					<h3 className={'modal__text--big modal__margin--normal'}>
