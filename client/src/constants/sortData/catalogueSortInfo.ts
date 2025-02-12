@@ -24,8 +24,8 @@ catalogueSortInfo.set('projectPrice_sort', {
 })
 
 export const defaultSortDetails = {
-	id: 'popularity_sort',
-	name: 'catalogue.sorting.popular',
+	id: 'area_sort',
+	name: 'catalogue.sorting.area',
 	direction: SortDirection.DESC
 }
 

@@ -88,14 +88,14 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 			    <div className={classes.CatalogueHeader_Sorting_Wrapper}> 
 				{openMobileFilter && (
 					<div
-						className={popularityClass}
+						className={areaClass}
 						onClick={() => {
 							setOpenFilter(!openFilter)
 							setIsArrowRotated(prev => !prev)
 						}}
 					>
 						<SortOption
-							sortInfoId={'popularity_sort'}
+							sortInfoId={'area_sort'}
 							handleSort={handleSort}
 						/>
 						<img
@@ -108,16 +108,10 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 				{openFilter && (
 					<ul className={classes.CatalogueHeader_SortingItems}>
 						{!openMobileFilter && (
-							<li className={popularityClass}>
-								<SortOption
-									sortInfoId={'popularity_sort'}
-									handleSort={handleSort}
-								/>
-							</li>
-						)}
-						<li className={areaClass}>
+							<li className={areaClass}>
 							<SortOption sortInfoId={'area_sort'} handleSort={handleSort} />
 						</li>
+						)}
 						<li className={priceClass}>
 							<SortOption
 								sortInfoId={'projectPrice_sort'}

@@ -5,6 +5,7 @@ import classes from './Feedback.module.scss'
 import { Container } from '@/containers/hoc/Container/Container'
 import { TextInput } from '@/components/UI/TextInput/TextInput'
 import { Button, ButtonType } from '@/components/UI/Button/Button'
+import SuccessPopup from '@/components/SuccessPopup/SuccessPopup'
 import { Controller, useForm } from 'react-hook-form'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 
@@ -30,6 +31,14 @@ export const Feedback = () => {
 		reValidateMode: 'onChange'
 	})
 
+	const [successMessageVisible, setSuccessMessageVisible] = useState(false)
+	const showSuccessMessage = () => {
+		setSuccessMessageVisible(true)
+		setTimeout(() => {
+			setSuccessMessageVisible(false)
+		}, 5000)
+	}
+
 	const onSubmit = async (value: IFeedbackForm) => {
 		try {
 			setError(false)
@@ -47,6 +56,7 @@ export const Feedback = () => {
 			setLoading(true)
 		}
 		reset()
+		showSuccessMessage()
 	}
 
 	const {t} = useTranslation();
@@ -155,6 +165,7 @@ export const Feedback = () => {
 						/>
 					</form>
 				</div>
+				{successMessageVisible && <SuccessPopup />}
 			</Container>
 		</section>
 	)

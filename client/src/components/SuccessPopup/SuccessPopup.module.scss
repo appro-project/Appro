@@ -6,8 +6,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
+  padding: 15px;
+  width: 240px;
   color: $white;
   border-radius: 10px;
   z-index: 1000;
+  text-align: center;
+  line-height: 22px;
 }

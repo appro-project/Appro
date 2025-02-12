@@ -14,7 +14,8 @@
 
 @media (max-width: $desktop-width) {
   .CatalogueHeader_Found {
-    display: none;
+    font-size: 16px;
+    padding-top: 10px;
   }
 
   .CatalogueHeader_Sorting_Title {
