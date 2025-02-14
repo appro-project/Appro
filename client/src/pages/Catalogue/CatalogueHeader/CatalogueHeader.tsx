@@ -5,6 +5,7 @@ import { SortDetails, SortDirection } from '@/constants/sortData/catalogueSortIn
 import { getSortUri } from '@/services/data'
 import { useLocation } from 'react-router'
 import classes from './CatalogueHeader.module.scss'
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward'
 
 interface StateProps {
 	count: number;
@@ -14,20 +15,17 @@ interface StateProps {
 }
 
 export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) => {
+	const [rotatedItems, setRotatedItems] = useState<{ [key: string]: boolean }>({})
+
+	const toggleRotation = (sortInfoId: string) => {
+		setRotatedItems(prev => ({
+			...prev,
+			[sortInfoId]: !prev[sortInfoId]
+		}))
+	}
+
 	const location = useLocation()
 	// const history = useHistory()
-	const [openMobileFilter, setOpenMobileFilter] = useState(false)
-	const [openFilter, setOpenFilter] = useState(true)
-
-	useEffect(() => {
-		if (window.screen.width < 1200) {
-			setOpenMobileFilter(true)
-			setOpenFilter(false)
-		} else {
-			setOpenMobileFilter(false)
-			setOpenFilter(true)
-		}
-	}, [document.documentElement.clientWidth])
 
 	const handleSort = (id: string, direction: SortDirection) => {
 		const currentSearchParams = new URLSearchParams(location.search)
@@ -68,13 +66,11 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 		}
 	}
 
-	const popularityClass = getDirectionClass('popularity_sort')
 	const areaClass = getDirectionClass('area_sort')
 	const priceClass = getDirectionClass('projectPrice_sort')
 
     const {t} = useTranslation();
 
-	const [isArrowRotated, setIsArrowRotated] = useState(false)
 
 	return (
 		<div className={classes.CatalogueHeader}>
@@ -86,42 +82,24 @@ export const CatalogueHeader = ({ count, sortDetails, applySort }: StateProps) =
 					{t('catalogue.sorting.title')}{' '}
 				</span>
 			    <div className={classes.CatalogueHeader_Sorting_Wrapper}> 
-				{openMobileFilter && (
-					<div
-						className={areaClass}
-						onClick={() => {
-							setOpenFilter(!openFilter)
-							setIsArrowRotated(prev => !prev)
-						}}
-					>
-						<SortOption
-							sortInfoId={'area_sort'}
-							handleSort={handleSort}
-						/>
-						<img
-							className={isArrowRotated ? classes.rotated : ''}
-							src="data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 7L5 0L10 7H0Z' fill='%23202020'/%3E%3C/svg%3E%0A"
-							alt=''
-						/>
-					</div>
-				)}
-				{openFilter && (
 					<ul className={classes.CatalogueHeader_SortingItems}>
-						{!openMobileFilter && (
-							<li className={areaClass}>
+							<li className={areaClass} onClick={() => toggleRotation("area_sort")}>
 							<SortOption sortInfoId={'area_sort'} handleSort={handleSort} />
+							<ArrowOutwardIcon className={`${classes.icon} ${rotatedItems["area_sort"] ? classes.rotated : ""}`}/>
 						</li>
-						)}
-						<li className={priceClass}>
+						<li className={priceClass} onClick={() => toggleRotation("projectPrice_sort")}>
 							<SortOption
 								sortInfoId={'projectPrice_sort'}
 								handleSort={handleSort}
 							/>
+							<ArrowOutwardIcon className={`${classes.icon} ${rotatedItems["projectPrice_sort"] ? classes.rotated : ""}`}/>
 						</li>
 					</ul>
-				)}
 			    </div>
 		    </div>
+				{count === 0 && (
+					<div className={classes.found_no_projects}>{t('catalogue.found_no_projects')}</div>
+				)}
 		</div>
 	)
 }

@@ -166,6 +166,7 @@
 	},
 	"catalogue": {
 		"found_projects": "Найдено проектов:",
+		"found_no_projects": "Проектов не найдено",
 		"sorting": {
 			"title": "Сортировка:",
 			"price": "По цене",

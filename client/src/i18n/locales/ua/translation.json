@@ -166,6 +166,7 @@
 	},
 	"catalogue": {
 		"found_projects": "Знайдено проектів:",
+		"found_no_projects": "Проектів не знайдено",
 		"sorting": {
 			"title": "Сортування:",
 			"price": "За ціною",

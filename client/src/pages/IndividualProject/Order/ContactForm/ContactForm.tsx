@@ -8,8 +8,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 
-export const ContactForm: FC = () => {
-  	const {t} = useTranslation();
+interface ContactFormProps {
+	onFormSubmit: () => void
+}
+
+export const ContactForm: React.FC<ContactFormProps> = ({ onFormSubmit }) => {
+	const { t } = useTranslation()
 	const [loading, setLoading] = useState(false)
 	const { control, handleSubmit, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
@@ -29,6 +33,7 @@ export const ContactForm: FC = () => {
 			]);
 
 			reset()
+			onFormSubmit()
 			setLoading(false)
 		} catch (e) {
 			console.log(e)
