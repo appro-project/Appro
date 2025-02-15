@@ -85,11 +85,6 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 						const toValue = values[1]
 						setFrom(String(fromValue))
 						setTo(String(toValue))
-						const validRange = {
-							...option,
-							from: fromValue,
-							to: toValue
-						}
 					}}
 					renderTrack={({ props, children }) => (
 						<div
@@ -118,7 +113,9 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 					)}
 					renderThumb={({ props, isDragged }) => (
 						<div
+							key={props.key}
 							{...props}
+
 							style={{
 								...props.style,
 								height: '20px',

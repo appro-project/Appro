@@ -26,8 +26,8 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ title }) => {
 	const breadcrumbs = useBreadcrumbs(createRoutes(title))
 	return (
 		<div className={classes.Breadcrumbs}>
-			{breadcrumbs.map(({ match, breadcrumb }: any) => (
-				<span key={match.url}>
+			{breadcrumbs.map(({ match, breadcrumb, key }: any) => (
+				<span key={key}>
 					<Link to={match.pathname}>{breadcrumb}</Link>
 					<img src={arrow} />
 				</span>

@@ -33,6 +33,7 @@ export const Catalogue = () => {
 
   const applySort = (searchParams: URLSearchParams) => {
     const sortedProjects = sortProjectsByParams(state.projects, searchParams);
+
     setState({ ...state, currentProjects: sortedProjects, currentPage: 1 });
   };
 
@@ -42,11 +43,6 @@ export const Catalogue = () => {
   };
 
   function getSortDetailsByUrl(urlParams: URLSearchParams): SortDetails | undefined {
-    const popularityDirection = urlParams.get('popularity_sort');
-    if (popularityDirection) {
-      return getSortDetails(popularityDirection, 'popularity_sort');
-    }
-
     const areaDirection = urlParams.get('area_sort');
     if (areaDirection) {
       return getSortDetails(areaDirection, 'area_sort');
