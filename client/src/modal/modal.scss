@@ -32,6 +32,13 @@
     }
 }
 
+@media screen and (max-width: $desktop-width) {
+    .model__button-wrapper button {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
 .close-modal-icon {
   height: 30%;
   width: 10px;
