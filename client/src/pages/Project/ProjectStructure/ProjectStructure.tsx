@@ -27,7 +27,7 @@ export const ProjectStructure = ({ project }: Props) => {
 						<p>{t('project.composition.description1')}</p>
 						<p>{t('project.composition.description2')}</p>
 						<a
-							href='#'
+							href='/example-project'
 							className='project-structure__button yellow-button yellow-button_16'
 						>
 							{t('project.composition.view_project_button')}

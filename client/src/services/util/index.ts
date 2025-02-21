@@ -13,9 +13,10 @@ const getValidRangeSearchParam = (rangeSearchParam: string | null) => {
   return { from: splitRange[0], to: splitRange[1] };
 };
 
-const parseDate = (dateString: string) => {
-  const [day, month, year] = dateString.split('/').map(Number); 
-  return new Date(year, month - 1, day);
+const parseDate = (dateString: string, timeString: string) => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  const [hours, minutes] = timeString.split(':').map(Number);
+  return new Date(year, month - 1, day, hours, minutes);
 };
 
 export { getNumberFromString, getValidRangeSearchParam, parseDate };

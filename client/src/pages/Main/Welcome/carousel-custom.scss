@@ -1,8 +1,14 @@
 @import '~/variables';
 
+.welcome-carousel {
+	background-color: $dark-grey;
+	padding-bottom: 5px;
+}
+
 .welcome-carousel .carousel-container .carousel .control-dots {
 	bottom: 130px;
 }
+
 
 .welcome-carousel .carousel-container .control-dots .dot {
 	background-color: #fff;
@@ -12,7 +18,20 @@
 	display: none;
 }
 
+@media (max-width: $tablet-width) {
+	.welcome-carousel .carousel.carousel-slider {
+		background-color: #3C3C3C;
+	}
+	.welcome-carousel .carousel.carousel-slider .control-dots {
+		bottom: -7px;
+	}
+}
+
 @media (min-width: $tablet-width) {
+	.welcome-carousel {
+	   background: none;
+    }
+	
 	.carousel .control-dots {
 		display: none;
 	}

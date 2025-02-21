@@ -23,6 +23,7 @@ export interface ProjectDto {
     isGaragePresent: boolean;
     bedroomCount: number;
     mainImage:ImageInfo;
+    videoUrl: string;
     images: ImageInfo[];
     photos: ImageInfo[];
     floors: FloorDto[];

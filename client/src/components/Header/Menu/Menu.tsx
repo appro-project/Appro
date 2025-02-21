@@ -27,7 +27,9 @@ export const Menu = (props: Props) => {
 			<nav className={classes['menu__body']}>
 				<ul className={classes['menu__list']}>
 					{menuLinks.map((link, index) => (
-						<MenuItem key={index} name={t(link.name)} path={link.path} />
+						<div onClick={props.closeMenu} key={'menu-'+index}>
+							<MenuItem  name={t(link.name)} path={link.path}/>
+						</div>
 					))}
 				</ul>
 			</nav>

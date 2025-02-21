@@ -1,8 +1,7 @@
 @import "~/variables";
 
 .project-details {
-  padding: 10px 15px 20px 15px;
-  background-color: #3C3C3C;
+  padding: 10px 15px 30px 15px;
   color: #fff;
 }
 
@@ -21,13 +20,15 @@
   text-align: left;
 }
 
-.project-details__price{
+.project-details__price {
   font-weight: 700;
 }
 
 .project-details__square {
   min-width: 97px;
-  height: 40px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
   border: 2px solid $main-orange;
   border-radius: 20px;
   line-height: 28px;
@@ -74,7 +75,7 @@
 }
 
 @media (min-width: $desktop-width-extended) {
-  .project-details{
+  .project-details {
     padding: 14px 20px 20px 20px;
   }
 }

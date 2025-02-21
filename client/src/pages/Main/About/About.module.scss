@@ -27,8 +27,9 @@
 }
 
 .about__certificate {
-  display: inline-block;
-  width: auto;
+  display: block;
+  width: max-content;
+  max-width: 210px;
   max-height: 290px;
   cursor: pointer;
   margin-bottom: 42px;

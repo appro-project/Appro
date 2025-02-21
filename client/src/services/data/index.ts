@@ -53,7 +53,7 @@ const getSortUri = (id: string, direction: SortDirection, currentSearchParams: U
 type FilterFunction = (value: string, project: ProjectDto) => boolean;
 
 const filterFunctions: Record<string, FilterFunction> = {
-  area: (value, project) => filterRange(value, project, project.buildingArea),
+  area: (value, project) => filterRange(value, project, project.generalArea),
   floor: (value, project) => floorFilter(value, project),
   bedroom: (value, project) => filterBedroom(value, project),
   garage: (value, project) => filterGarage(value, project),
@@ -151,9 +151,6 @@ const sortProjectsByParams = (projects: ProjectDto[], searchParams: URLSearchPar
     currentProjects = currentProjects.sort((project1, project2) => {
       if (key === 'area_sort') {
         return compareProjects(project1, project2, value, 'generalArea');
-      }
-      if (key === 'popularity_sort') {
-        return compareProjects(project1, project2, value, 'popularity');
       }
       if (key === 'projectPrice_sort') {
         return compareProjects(project1, project2, value, 'projectPrice');

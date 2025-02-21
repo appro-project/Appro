@@ -1,5 +1,15 @@
 @import '~/variables';
 
+.image-carousel {
+	background-color: $dark-grey;
+	border-radius: 5px;
+	padding-bottom: 10px;
+}
+
+.image-carousel .carousel.carousel-slider .slider-wrapper {
+	padding-bottom: 40px;
+}
+
 .image-carousel__image {
 	width: 100%;
 	height: auto;
@@ -24,15 +34,20 @@
 	bottom: -10px;
 }
 
-.image-carousel .control-dots .dot {
-	background-color: $black;
-}
-
 .control-arrow {
 	display: none;
 }
 
 @media (min-width: $tablet-width) {
+   .image-carousel {
+	  background-color: $white;
+	  padding: 0px;
+    }
+
+	.image-carousel .carousel.carousel-slider .slider-wrapper {
+	padding-bottom: 0px;
+    }  
+
 	.image-carousel__image img {
 		max-width: 90%;
 		max-height: 600px;

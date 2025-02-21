@@ -36,7 +36,7 @@ export const ProjectLayout = (props: Props) => {
 				<div className={classes.ProjectLayout_Info}>
 					<div className={classes.ProjectLayout_Attention}>
 						{t('project.layout.change_attention')}{' '}
-						<a href='tel:+380663953654'>+38 (066) 39-53-654</a>
+						<a href='tel:+380502684926'>+38 (050) 268 49 26</a>
 					</div>
 					<ul className={classes.ProjectLayout_InfoList}>
 						<li className={classes.ProjectLayout_InfoItem}>

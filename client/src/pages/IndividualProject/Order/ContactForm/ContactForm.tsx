@@ -8,8 +8,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 import { axiosPostFeedback, axiosPostTelegramFeedback } from '@/services/server-data'
 
-export const ContactForm: FC = () => {
-  	const {t} = useTranslation();
+interface ContactFormProps {
+	onFormSubmit: () => void
+}
+
+export const ContactForm: React.FC<ContactFormProps> = ({ onFormSubmit }) => {
+	const { t } = useTranslation()
 	const [loading, setLoading] = useState(false)
 	const { control, handleSubmit, reset } = useForm<IFeedbackForm>({
 		defaultValues: {
@@ -23,10 +27,13 @@ export const ContactForm: FC = () => {
 		try {
 			setLoading(true)
 
-			await axiosPostFeedback(value)
-			await axiosPostTelegramFeedback(value)
+			await Promise.all([
+				axiosPostFeedback({ ...value }),
+				axiosPostTelegramFeedback({ ...value }),
+			]);
 
 			reset()
+			onFormSubmit()
 			setLoading(false)
 		} catch (e) {
 			console.log(e)
@@ -39,9 +46,16 @@ export const ContactForm: FC = () => {
 				<Controller
 					name='name'
 					control={control}
-					rules={{ required: 'Имя обязательно' }}
+					rules={{
+						required: t('form_error_messages.not_empty'),
+						validate: (value) =>
+							value.trim().length > 0 || t('form_error_messages.without_tabulation'),
+						}}
 					render={({ field, fieldState: { error } }) => (
-						<TextInput {...field} placeholder={t('individual.contact_form.name')} error={!!error} />
+						<>
+							<TextInput {...field} placeholder={t('individual.contact_form.name')} error={!!error} />
+							{error && <span className={classes['order__error']}>{error.message}</span>}
+						</>
 					)}
 				/>
 			</div>
@@ -51,15 +65,22 @@ export const ContactForm: FC = () => {
 					name='phone'
 					control={control}
 					rules={{
-						required: 'Номер телефона обязателен',
-					}}
-					render={({ field, fieldState: { error } }) => (
-						<TextInput
-							error={!!error}
-							{...field}
-							mask={'+380 999999999'}
-							placeholder={t('individual.contact_form.phone')}
-						/>
+						required: t('form_error_messages.not_empty'),
+						pattern: {
+						  value: /^\+380 \d{9}$/,
+						  message: t('form_error_messages.phone'),
+						},
+					  }}
+					render={({ field: props, fieldState: { error }  }) => (
+						<>
+							<TextInput
+								error={ !!error}
+								{...props}
+								mask={'+380 999999999'}
+								placeholder={t('individual.contact_form.phone')}
+							/>
+							{error && <span className={classes['order__error']}>{error.message}</span>}
+						</>
 					)}
 				/>
 			</div>

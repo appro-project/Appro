@@ -43,6 +43,7 @@ public class ProjectDto {
     private ImageInfo mainImage;
     private Boolean showOnMain;
     private Boolean isFinished;
+    private String videoUrl;
     private List<ImageInfo> images;
     private List<ImageInfo> photos;
     private List<FloorDto> floors;

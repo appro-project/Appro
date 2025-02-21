@@ -32,3 +32,16 @@
   }
 
 }
+
+.order__error {
+  margin-top: -12px;
+  margin-bottom: 20px;
+  display: block;
+  color: #f00;
+}
+
+@media screen and (max-width: $desktop-width) {
+   .order__submit button{
+     font-size: 16px;
+  }
+}

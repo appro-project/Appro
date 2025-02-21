@@ -37,14 +37,6 @@ const CatalogueItem: FC<PropsType> = memo(
      }) => {
         const [openFilter, setOpenFilter] = useState(false);
 
-        useEffect(() => {
-            if (window.screen.width < 1200) {
-                setOpenFilter(true);
-            } else {
-                setOpenFilter(false);
-            }
-        }, [document.documentElement.clientWidth]);
-
         const {t} = useTranslation();
 
         return (

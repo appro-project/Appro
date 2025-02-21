@@ -70,8 +70,8 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 		<div className={classes.RangeFilterBlock}>
 			<h3 className={classes.RangeFilterBlock_Header}>{t(filterInfo.name)}</h3>
 			<div className={classes.RangeFilterBlock_Range}>
-				<input onChange={(e) => setFrom(e.target.value)} value={from} />-
-				<input onChange={(e) => setTo(e.target.value)} value={to} />
+				<input onChange={(e) => setFrom(e.target.value)} value={from} onKeyDown={(e) => e.key === 'Enter' && rangeOptionOnClick()}/>-
+				<input onChange={(e) => setTo(e.target.value)} value={to} onKeyDown={(e) => e.key === 'Enter' && rangeOptionOnClick()}/>
 				<Button title={'OK'} buttonType={ButtonType.TRANSPARENT_SMALL} actionHandler={() => rangeOptionOnClick()} />
 			</div>
 
@@ -85,11 +85,6 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 						const toValue = values[1]
 						setFrom(String(fromValue))
 						setTo(String(toValue))
-						const validRange = {
-							...option,
-							from: fromValue,
-							to: toValue
-						}
 					}}
 					renderTrack={({ props, children }) => (
 						<div
@@ -118,7 +113,9 @@ export const RangeFilterBlock = memo(({ filterId, initialRange, applyFilter }: P
 					)}
 					renderThumb={({ props, isDragged }) => (
 						<div
+							key={props.key}
 							{...props}
+
 							style={{
 								...props.style,
 								height: '20px',

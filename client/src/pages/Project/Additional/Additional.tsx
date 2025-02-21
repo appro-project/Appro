@@ -3,7 +3,6 @@ import './Additional.scss'
 import main_plan from '@/assets/img/project_page/main-plan.svg'
 import pen from '@/assets/img/project_page/pen.svg'
 import paint from '@/assets/img/project_page/paint.svg'
-import { Link } from 'react-router-dom'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -97,6 +96,7 @@ export const Additional = () => {
 							{t('additional.services.building_intentions.title')}
 						</div>
 						<Tooltip
+						className={'tooltip'}
 							title={
 								<Typography fontSize={15}>
 									{t('additional.services.building_intentions.passport')}

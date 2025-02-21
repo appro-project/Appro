@@ -11,10 +11,20 @@
 }
 
 
-
 @media (max-width: $desktop-width) {
   .CatalogueHeader_Found {
     display: none;
+  }
+
+  .found_no_projects {
+    font-size: 15px;
+    font-family: Montserrat, serif;
+    font-style: normal;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: $black;
+    text-align: center;
+    padding-top: 30px;
   }
 
   .CatalogueHeader_Sorting_Title {
@@ -22,18 +32,34 @@
     margin-right: 10px;
   }
 
+  .CatalogueHeader_Sorting_Wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
   .CatalogueHeader_SortingItems {
     display: flex;
     flex-direction: column;
-    background: $grey;
     min-height: 43px;
-    border: 2px solid $yellow;
-    border-radius: 0px 0px 10px 10px;
-    position: absolute;
-    bottom: -83px;
+    min-width: max-content;
     align-items: center;
-    z-index: 1000;
-    left: 114px;
+    gap: 7px;
+  }
+}
+
+@media (min-width: $tablet-width){
+  .CatalogueHeader_SortingItems {
+    flex-direction: row;
+  }
+
+  .CatalogueHeader_Sorting{
+    flex-direction: row;
+  }
+}
+
+@media (min-width: $desktop-width){
+  .found_no_projects{
+    display: none;
   }
 }
 
@@ -43,6 +69,8 @@
   margin-top: 24px;
   margin-bottom: 30px;
   display: flex;
+flex-direction: column;
+  align-items: center;
   font-family: Montserrat, serif;
   font-style: normal;
   font-weight: 500;
@@ -52,25 +80,33 @@
 
 .CatalogueHeader_SortingItems {
   display: flex;
+  //flex-direction: row;
   min-height: 43px;
-  min-width: 209px;
+  min-width: 190px;
   align-items: center;
 }
 
 .CatalogueHeader_SortingItem {
   margin-left: 20px;
-  min-width: 209px;
+  min-width: 190px;
   cursor: pointer;
   line-height: 20px;
   padding: 12px 20px 12px 20px;
-  border: 2px solid transparent;
+  border: 2px solid $yellow;
+  border-radius: 7px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 5px;
 
-  img {
-    margin-left: 10px;
-    opacity: 0;
+  .icon {
+    font-size: 22px;
+    transform: rotate(90deg); 
   }
+   .rotated {
+    transform: rotate(0deg); 
+  }
+
   &:hover {
     border: 2px solid $yellow;
     border-radius: 7px;
@@ -84,10 +120,6 @@
     border-radius: 4px;
     padding: 9px 20px 10px 20px;
 
-    img {
-      opacity: 1;
-    }
-
     &:hover {
       background-color: $yellow;
     }
@@ -97,33 +129,16 @@
     border: 2px solid $yellow;
     border-radius: 7px;
     padding: 12px 20px 12px 20px;
-    background-color: transparent;
-
-    &:hover {
-      background-color: $yellow;
-    }
   }
 
   @media (max-width: $desktop-width) {
     margin-left: 0;
     padding: 10px 20px 10px 20px;
+}
 
-    &__ActiveDesc {
+  @media (min-width: $desktop-width){
+    &:hover {
       background-color: $yellow;
-
-    img {
-      transform: rotate(180deg);
-      opacity: 1;
     }
-
-    .rotated {
-      transform: rotate(0deg);
-    }
-  } 
-
-    &:first-child:hover{
-    border: 2px solid $yellow;
-    border-radius: 0px 0px 7px 7px;
-  }
 }
 }
