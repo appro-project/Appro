@@ -28,15 +28,15 @@ jobs:
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ubuntu@${{ secrets.Appro_IP }}:/home/ubuntu/appro/app
 
-    - name: Check and free port 80
+    - name: Check and free port 443 and 3000
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
-          PID=$(sudo lsof -t -i:80)
+          PID=$(sudo lsof -t -i:443)
           if [ -n "$PID" ]; then
-            echo "Port 80 is occupied by process $PID. Terminating process."
+            echo "Port 443 is occupied by process $PID. Terminating process."
             sudo kill -9 $PID
           else
-            echo "Port 80 is free."
+            echo "Port 443 is free."
           fi
 
           PID=$(sudo lsof -t -i:3000)
@@ -91,6 +91,8 @@ jobs:
            sed -i "s/\${AWS_ACCESS_SECRET_KEY}/${{ secrets.AWS_ACCESS_SECRET_KEY }}/g" application.yml
            sed -i "s|\${TELEGRAM_URI}|${{ secrets.TELEGRAM_URI }}|g" application.yml
            sed -i "s/\${TELEGRAM_CHAT_ID}/${{ secrets.TELEGRAM_CHAT_ID }}/g" application.yml
+           sed -i "s|\${KEY_STORE_PATH}|${{ secrets.KEY_STORE_PATH }}|g" application.yml
+           sed -i "s/\${KEY_STORE_PASSWORD}/${{ secrets.KEY_STORE_PASSWORD }}/g" application.yml
          EOF
     
     - name: Build and run backend on EC2
