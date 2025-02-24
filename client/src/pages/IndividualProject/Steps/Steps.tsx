@@ -19,7 +19,7 @@ export const Steps = memo(() => {
 const createStep = (step: StepInfo, stepNumber: number) => {
 	const { t } = useTranslation();
 	return (
-		<div className={classes['steps__step-item']}>
+		<div className={classes['steps__step-item']} key={stepNumber}>
 			<div className={classes['steps__step-number']}>{stepNumber}</div>
 			<div className={classes['steps__step-title']}>{t(step.title)}</div>
 			<div className={classes['steps__step-description']}>

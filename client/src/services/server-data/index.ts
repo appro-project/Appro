@@ -2,7 +2,7 @@ import { Project } from '@/entity/Project'
 import axios, { AxiosResponse } from 'axios'
 import { IFeedbackForm } from '@/pages/Main/Feedback/Feedback'
 
-export const currentHost = import.meta.env.DEV ? 'http://13.60.205.159' : ''
+export const currentHost = import.meta.env.DEV ? 'https://www.appro.com.ua' : ''
 
 const defaultOptions = {
 	baseURL: import.meta.env.PROD ? '/api/v1' : `${currentHost}/api/v1`,

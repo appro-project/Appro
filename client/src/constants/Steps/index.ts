@@ -15,9 +15,5 @@ export const steps: StepInfo[] = [
 	{
 		title: 'individual.steps.item3.title',
 		description: 'individual.steps.item3.description'
-	},
-	{
-		title: 'individual.steps.item4.title',
-		description: 'individual.steps.item4.description'
 	}
 ]
