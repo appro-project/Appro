@@ -23,7 +23,7 @@ export const ProjectDetails:FC<Props> = ({project}) => {
 
 				{/*TODO: Fix square*/}
 				<div className={classes['project-details__square']}>
-					{project.livingArea} м<sup>2</sup>
+					{project.generalArea} м<sup>2</sup>
 				</div>
 			</div>
 			<div className={classes['project-details__description']}>
