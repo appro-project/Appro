@@ -3,11 +3,12 @@ package com.appro.service.impl;
 import com.appro.service.AuthService;
 import com.appro.service.JwtService;
 import com.appro.web.request.AuthRequest;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,12 +40,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void setAuthCookie(HttpServletResponse response, String token) {
-        Cookie cookie = new Cookie(cookieName, token);
-        cookie.setHttpOnly(true);
-        // cookie.setSecure(true); // Enable for HTTPS
-        cookie.setPath("/");
-        cookie.setMaxAge(ttl);
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(cookieName, token)
+                .httpOnly(true)
+                .secure(true) // Enable for HTTPS
+                .sameSite("None")
+                .path("/")
+                .maxAge(ttl)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     @Override

@@ -58,14 +58,14 @@ jobs:
           yarn install --legacy-peer-deps --force > /home/ubuntu/appro/client_install.log 2>&1
         EOF
 
-    - name: Install additional types & types/jest
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
-          cd /home/ubuntu/appro/app/client
-          echo "Running npm install @types/node --legacy-peer-deps"
-          # npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
-          yarn -D add @types/jest >> /home/ubuntu/appro/client_install.log 2>&1
-        EOF
+#    - name: Install additional types & types/jest
+#      run: |
+#        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.Appro_IP }} << 'EOF'
+#          cd /home/ubuntu/appro/app/client
+#          echo "Running npm install @types/node --legacy-peer-deps"
+#          # npm install @types/node --legacy-peer-deps >> /home/ubuntu/appro/client_install.log 2>&1
+#          yarn -D add @types/jest >> /home/ubuntu/appro/client_install.log 2>&1
+#        EOF
 
     - name: Build client
       run: |
