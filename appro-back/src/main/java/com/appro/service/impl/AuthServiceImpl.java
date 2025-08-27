@@ -39,12 +39,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void setAuthCookie(HttpServletResponse response, String token) {
-        Cookie cookie = new Cookie(cookieName, token);
-        cookie.setHttpOnly(true);
-        // cookie.setSecure(true); // Enable for HTTPS
-        cookie.setPath("/");
-        cookie.setMaxAge(ttl);
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(cookieName, token)
+                .httpOnly(true)
+                .secure(true) // Enable for HTTPS
+                .sameSite("None")
+                .path("/")
+                .maxAge(ttl)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     @Override
