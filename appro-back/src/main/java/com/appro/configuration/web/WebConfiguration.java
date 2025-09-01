@@ -1,5 +1,7 @@
 package com.appro.configuration.web;
 
+import com.appro.configuration.web.properties.WebCorsProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
@@ -9,7 +11,9 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebConfiguration implements WebMvcConfigurer {
+    private final WebCorsProperties webConfigProperties;
 
     @Bean
     public InternalResourceView indexView() {
@@ -44,10 +48,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        WebCorsProperties.Cors cors = webConfigProperties.getCors();
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://localhost:3001")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
+                .allowedOrigins(cors.getAllowedOrigins())
+                .allowedMethods(cors.getAllowedMethods())
+                .allowedHeaders(cors.getAllowedHeaders())
+                .exposedHeaders(cors.getExposedHeaders())
                 .allowCredentials(true)
                 .maxAge(3600);
     }
