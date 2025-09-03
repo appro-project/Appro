@@ -72,7 +72,8 @@ auth:
 
 web:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000, http://localhost:3001, https://appro-ua.netlify.app}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000, http://localhost:3001}
+    allowedOriginsPatterns: ${CORS_ALLOWED_ORIGINS_PATTERNS:https://*.netlify.app}
     allowed-methods: ${CORS_ALLOWED_METHODS:GET, POST, PUT, DELETE, OPTIONS}
     allowed-headers: ${CORS_ALLOWED_HEADERS:*}
     exposed-headers: ${CORS_EXPOSED_HEADERS:*}

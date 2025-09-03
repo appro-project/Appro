@@ -21,6 +21,7 @@ public class WebCorsProperties {
     @Data
     public static class Cors {
         private final String[] allowedOrigins;
+        private final String[] allowedOriginsPatterns;
         private final String[] allowedMethods;
         private final String[] allowedHeaders;
         private final String[] exposedHeaders;

@@ -51,6 +51,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         WebCorsProperties.Cors cors = webConfigProperties.getCors();
         registry.addMapping("/**")
                 .allowedOrigins(cors.getAllowedOrigins())
+                .allowedOriginPatterns(cors.getAllowedOriginsPatterns())
                 .allowedMethods(cors.getAllowedMethods())
                 .allowedHeaders(cors.getAllowedHeaders())
                 .exposedHeaders(cors.getExposedHeaders())
